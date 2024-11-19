@@ -339,6 +339,7 @@ position = Vector2(1180, 625)
 
 [node name="Camera" type="Camera2D" parent="Player"]
 position_smoothing_enabled = true
+position_smoothing_speed = 7.0
 
 [node name="TileMaps" type="Node" parent="."]
 

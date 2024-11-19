@@ -1,7 +1,7 @@
 extends CharacterBody2D
 
 
-@export var speed = 250  # Movement speed in pixels per second
+const SPEED = 300  # Movement speed in pixels per second
 @onready var crop_manager = get_node("/root/CropManager")
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -25,6 +25,10 @@ func _input(event: InputEvent) -> void:
     if event.is_action_pressed("interact2"):
         interact2.emit()
 
+    # exit game on esc
+    if event.is_action_pressed("ui_cancel"):
+        get_tree().quit()
+
 
 func set_selected_crop(crop_name: String) -> void:
     selected_crop = crop_name
@@ -32,7 +36,7 @@ func set_selected_crop(crop_name: String) -> void:
 
 func _physics_process(delta: float) -> void:
     var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-    velocity = direction * speed
+    velocity = direction * SPEED
 
     if direction.x > 0:
         looking_direction = "right"
