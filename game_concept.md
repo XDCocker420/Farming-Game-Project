@@ -6,26 +6,26 @@
         - [Arten von Tieren:](#arten-von-tieren)
     - [Lagern](#lagern)
     - [Verkaufen](#verkaufen)
-          - [Marktplatz](#marktplatz)
-          - [Auftragsbrett](#auftragsbrett)
+        - [Marktplatz](#marktplatz)
+        - [Auftragsbrett](#auftragsbrett)
     - [Möglichkeiten mit dem Geld](#möglichkeiten-mit-dem-geld)
-          - [Erweiterungen](#erweiterungen)
-          - [Spielehalle](#spielehalle)
+        - [Erweiterungen](#erweiterungen)
+        - [Spielehalle](#spielehalle)
     - [Produktionsgebäude](#produktionsgebäude)
-          - [!! Tierfuttermühle](#-tierfuttermühle)
-          - [Molkerei](#molkerei)
-          - [Honigschleuder](#honigschleuder)
-          - [Bäckerei](#bäckerei)
-          - [Schlachthof](#schlachthof)
-          - [Grillhaus](#grillhaus)
-          - [Konditorei](#konditorei)
-          - [Schneiderei und Weberei](#schneiderei-und-weberei)
+        - [!! Tierfuttermühle !!](#-tierfuttermühle-)
+        - [Molkerei](#molkerei)
+        - [Honigschleuder](#honigschleuder)
+        - [Bäckerei](#bäckerei)
+        - [Schlachthof](#schlachthof)
+        - [Grillhaus](#grillhaus)
+        - [Konditorei](#konditorei)
+        - [Schneiderei und Weberei](#schneiderei-und-weberei)
 - [Systeme](#systeme)
     - [Levelsystem](#levelsystem)
 - [Story](#story)
     - [Charaktere](#charaktere)
-          - [Großeltern](#großeltern)
-          - [Martha](#martha)
+        - [Großeltern](#großeltern)
+        - [Martha](#martha)
 - [Keymap](#keymap)
         - [W](#w)
         - [A](#a)
@@ -55,21 +55,21 @@ Die Ernte wird automatisch in die Scheune übertragen. Es gibt kein eigenes Spie
 
 ### Verkaufen
 Es gibt einen Marktplatz und ein Auftragsbrett.
-###### Marktplatz
+##### Marktplatz
 Auf dem Marktplatz können Items zu frei wählbaren Preisen verkauft werden. Der minimal Preis beträgt 1 und der maximal Preis beträgt der im ConfigFile angegebene maxPrice z.B. 72. Am Anfang gibt es vier Slots. Die weiteren Slots können mit Gold erkauft werden. Pro Slot kann maximal ein Item-Typ mit einer Anzahl von 1 bis 10 verkauft werden. Der Marktplatz gibt keine Erfahrungspunkte.
 
-###### Auftragsbrett
+##### Auftragsbrett
 Auf diesem werden zufällige Aufträge generiert. Diese geben Geld und Erfahrungspunkte. Die Erfahrungspunkte werden zufällig zwischen bestimmten Werten gebildet aus der Summe der Items aus den ConfigFiles. Diese varieren zufällig. Das Geld verhält sich wie die Erfahungspunkte aber die Waren sind weniger Wert als wenn sie auf dem Marktplatz verkauft wird.
 
 ### Möglichkeiten mit dem Geld
-###### Erweiterungen
+##### Erweiterungen
 Mit voranschreitendem Level schaltet der Spieler neue Elemente des Spieles frei. Diese Elemente z.B. neue Tiere oder Produktionsgebäude kosten einen bestimmten, momentan noch nicht festgelegten, Geldbetrag.
 
-###### Spielehalle
+##### Spielehalle
 In einer Spielehalle, welche sich an der aus Pokémon Diamant orientiert,kann über verschiedene Maschinen seltene Items oder Gold erspielt werden. Es ist nicht möglich mit Echtgeld zu spielen oder dieses zu gewinnen also qualifiziert es sich nicht als Casino.
 
 ### Produktionsgebäude
-###### !! Tierfuttermühle
+##### !! Tierfuttermühle !!
 In diesem Gebäude wird Tierfutter für verschiedene Tiere hergestellt. Jedes Tierart hat ihr eigenes Futter. Tierfutter wird aus verschiedenen Arten von Pflanzen zusammengesetzt.
 
 | Tierfutter    | Pflanzen             |
@@ -78,25 +78,25 @@ In diesem Gebäude wird Tierfutter für verschiedene Tiere hergestellt. Jedes Ti
 | Kuhfutter     | 2x Mais<br>1x Kürbis |
 | Schafsfutter  | 2x Salat<br>1x Mais  |
 
-###### Molkerei
+##### Molkerei
 In der Molkerei kann Milch verarbeitet werden. Milch wird zu Käse, Butter und Schlagobers verarbeitet.
 
-###### Honigschleuder
+##### Honigschleuder
 Aus Honigwaben kann mit dieser Maschine Honig gewonnen werden.
 
-###### Bäckerei
+##### Bäckerei
 In der Bäckerei können verschiedene Arten von Backwaren, wie zum Beispiel Brot, Muffins oder Pizaa, hergestellt werden
 
-###### Schlachthof
+##### Schlachthof
 Tiere werden zum Schlachthof gebracht und nach einer Zeit kann man das Fleisch der Tiere abholen. Es wird auf bildliche Darstellung des Schlachtprozesses und Blut verzichtet.
 
-###### Grillhaus
+##### Grillhaus
 Hier wird Fleisch weiter verarbeitet. Es ist möglich Spiegelei mit Speck, Burger und gebratener Kürbis herzustellen.
 
-###### Konditorei
+##### Konditorei
 In der Konditorei werden verschiedene Kuchenarten hergesellt. Die genauen Arten von Kuchen muss noch festgelegt werden.
 
-###### Schneiderei und Weberei
+##### Schneiderei und Weberei
 Hier wird die Wolle der Schafe weiter verarbeitet. Es können verschiedene Artikel aus wolle hergesllt werden wie zum Beispiel Pullover in verschiedenen Farben und Hauben.
 
 
@@ -109,10 +109,10 @@ Erfahrungspunkte können über Auftrage vom Auftragsbrett oder über das ernten 
 Du erhältst einen Brief. Deine verloren gegelaubten Großeltern haben dir ihren alten Bauernhof in Skibidytown vererbt. Da du gerade arbeitslos bist und dich auf ein neues Arbenteuer freust, beschließt du auf den Bauernhof zu ziehen. Dort erwartet dich Martha. Sie erklärt dir, dass sie eine gute Freundin deiner Oma war. Sie erklärt dir wo deine Scheune liegt, wie du Pflanzen anbaust und wie du deine Bestellungen abschließt. Danach lädt sie dich auf einen Kaffee im Dorf ein. Sie zeigt dir zuerst das Dorf. Dort zeigt sie die Spielehalle, den Marktplatz und zuletzt das Kaffee. Nach einem Kaffee geht sie nach Hause und man sieht sie nie wieder.
 
 ### Charaktere
-###### Großeltern
+##### Großeltern
 Status: Tot <br>
 
-###### Martha
+##### Martha
 Status: lebendig & verheiratet <br>
 
 # Keymap
