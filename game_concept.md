@@ -8,6 +8,7 @@
           - [Auftragsbrett](#auftragsbrett)
           - [Marktplatz](#marktplatz)
 - [Systeme](#systeme)
+    - [Levelsystem](#levelsystem)
   - [Story](#story)
 - [Keymap](#keymap)
         - [W](#w)
@@ -21,23 +22,26 @@
 # Spielkreislauf
 
 ### Pflanzen
-Pflanzen werden angbeaut mit einer Pflanze. Beim abbauen bekommt man entweder 1, 2 oder 3 von der angebauten Pflanze zurück. Wahrscheinlichkeiten: 5% 1 Stück, 85% 2 Stück, 10% 3 Stück. Wenn man die Pflanzen gießt steigt die Wahrscheinlich auf 2 oder 3 Stück.
+Pflanzen werden angbeaut mit einer Pflanze. Beim abbauen bekommt entweder 1, 2 oder 3 Karotten. Wahrscheinlichkeiten: 5% 1 Stück 85% 2 Stück, 10% 3 Stück. Wenn man die Pflanzen gießt steigt die Wahrscheinlich auf 2 oder 3 Stück.
 
 ### Tiere
 Tiere sollen ähnlich wie Pflanzen betreut werden. Damit Tiere ihre Produkte, wie z.B. bei der Kuh die Milch, produzieren können, benötigen sie Tierfutter. Ob Tiere schlachtbar sind ist noch nicht entschieden.
 
 ### Lagern
-Die Ernte wird automatisch in die Scheune übertragen. Es gibt kein eigenes Spielerinventar. Die Scheune wird absteigend sortiert. Wenn es von einem Item 0 gibt wird es nicht angezeigt.
+Die Ernte wird automatisch in die Scheune übertragen. Es gibt kein eigenes Spielerinventar. Die Scheune wir absteigend sortiert. Wenn es von einem Item 0 gibt wird es nicht angezeigt.
 
 ### Verkaufen
 Es gibt einen Marktplatz und ein Auftragsbrett.
 ###### Auftragsbrett
-Auf diesem werden zufällige Aufträge generiert. Diese geben Geld und Erfahrungspunkte. Die Erfahrungspunkte sind random zwischen bestimmten Werten gebildet aus der Summe der Items aus den ConfigFiles. Diese varieren zufällig. Das Geld verhält sich wie die Erfahungspunkte aber sind weniger Wert als wenn sie auf dem Marktplatz verkauft wird. (Clemens warst du hier betrunken?)
+Auf diesem werden zufällige Aufträge generiert. Diese geben Geld und Erfahrungspunkte. Die Erfahrungspunkte werden zufällig zwischen bestimmten Werten gebildet aus der Summe der Items aus den ConfigFiles. Diese varieren zufällig. Das Geld verhält sich wie die Erfahungspunkte aber die Waren sind weniger Wert als wenn sie auf dem Marktplatz verkauft wird.
 
 ###### Marktplatz
-Auf dem Marktplatz können Items zu frei wählbaren Preisen verkauft werden. Der minimal Preis beträgt 1 und der maximal Preis beträgt die im ConfigFile angegeben. Am Anfang gibt es vier Slots. Die weiteren Slots können mit Gold erkauft werden. Pro Slot kann maximal ein Item-Typ mit einer Anzahl von 1 bis 10 verkauft werden. Der Marktplatz gibt keine Erfahrungspunkte.
+Auf dem Marktplatz können Items zu frei wählbaren Preisen verkauft werden. Der minimal Preis beträgt 1 und der maximal Preis beträgt der im ConfigFile angegebene maxPrice. Am Anfang gibt es vier Slots. Die weiteren Slots können mit Gold erkauft werden. Pro Slot kann maximal ein Item-Typ mit einer Anzahl von 1 bis 10 verkauft werden. Der Marktplatz gibt keine Erfahrungspunkte.
 
 # Systeme
+### Levelsystem
+Erfahrungspunkte können über Auftrage vom Auftragsbrett oder über das ernten von Pflanzen und Tieren erhalten werden. In level.cfg wird festgehalten ab welcher Anzahl von Erfahrungspunkten welches Level erreicht wird.
+
 ## Story
 
 # Keymap
@@ -72,6 +76,6 @@ Abbauen, Anbauen, Öffnen von Türen
 
 ##### F
 Name: interact2
-Momentan mit interact2 belegt 
+Momentan mit interact2 belegt
 | Benutzt von:
 - unbenutzt
