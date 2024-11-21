@@ -9,6 +9,7 @@
     - [Signals](#signals)
     - [Groups](#groups)
     - [Configuration](#configuration)
+  - [Jedes Teammitglied muss alles machen](#jedes-teammitglied-muss-alles-machen)
 - [Nice to know](#nice-to-know)
 
 
@@ -35,6 +36,8 @@ Keep it simple! Godot hat für fast alles sehr leichte Funktionen. Wenn es zu ko
 
 ### Configuration
 Für konfiguration von z.B. Timern oder anderen statischen Werten sollen [Config Files](https://docs.godotengine.org/en/stable/classes/class_configfile.html) verwendet werden. Daten welche nicht statisch sind wie z.B. Benutzerkonfiguration von der Lautstärke soll in user:// gespeichert werden. Alle statischen wie [üblich](https://docs.godotengine.org/en/stable/tutorials/scripting/filesystem.html) in res://
+
+## Jedes Teammitglied muss alles machen
 
 # Nice to know
 - [Performance Profiler](https://docs.godotengine.org/en/stable/tutorials/scripting/debug/the_profiler.html)
