@@ -1,7 +1,5 @@
 extends CharacterBody2D
 
-
-const SPEED = 300  # Movement speed in pixels per second
 @onready var crop_manager = get_node("/root/CropManager")
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 
@@ -11,10 +9,16 @@ var looking_direction = "down"
 signal interact
 signal interact2
 
+# Movement speed in pixels per second
+@export var normal_speed: float = 200.0
+@export var sprint_speed: float = 400.0
+var current_speed: float
+
 
 func _ready() -> void:
     # Add the player to the "Player" group for identification
     load_state()
+    current_speed = normal_speed
 
 
 func _input(event: InputEvent) -> void:
@@ -34,9 +38,15 @@ func set_selected_crop(crop_name: String) -> void:
     selected_crop = crop_name
 
 
-func _physics_process(delta: float) -> void:
-    var direction = Input.get_vector("move_left", "move_right", "move_up", "move_down")
-    velocity = direction * SPEED
+func _physics_process(_delta):
+    current_speed = sprint_speed if Input.is_action_pressed("sprint") else normal_speed
+    
+    var direction = Vector2.ZERO
+    direction.x = Input.get_axis("move_left", "move_right")
+    direction.y = Input.get_axis("move_up", "move_down")
+    direction = direction.normalized()
+    
+    velocity = direction * current_speed
 
     if direction.x > 0:
         looking_direction = "right"
