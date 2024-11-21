@@ -22,10 +22,14 @@
         - [Schneiderei und Weberei](#schneiderei-und-weberei)
 - [Systeme](#systeme)
     - [Levelsystem](#levelsystem)
+    - [NPCs](#npcs)
 - [Story](#story)
     - [Charaktere](#charaktere)
         - [Großeltern](#großeltern)
         - [Martha](#martha)
+        - [Michael](#michael)
+        - [Oliver](#oliver)
+        - [Daniel](#daniel)
 - [Keymap](#keymap)
         - [W](#w)
         - [A](#a)
@@ -34,6 +38,10 @@
         - [Left-Shift](#left-shift)
         - [E](#e)
         - [F](#f)
+- [Spielversionen](#spielversionen)
+    - [Testing](#testing)
+    - [Production](#production)
+    - [Tag der offenen Tür 2025](#tag-der-offenen-tür-2025)
 
 
 # Spielkreislauf
@@ -59,7 +67,7 @@ Es gibt einen Marktplatz und ein Auftragsbrett.
 Auf dem Marktplatz können Items zu frei wählbaren Preisen verkauft werden. Der minimal Preis beträgt 1 und der maximal Preis beträgt der im ConfigFile angegebene maxPrice z.B. 72. Am Anfang gibt es vier Slots. Die weiteren Slots können mit Gold erkauft werden. Pro Slot kann maximal ein Item-Typ mit einer Anzahl von 1 bis 10 verkauft werden. Der Marktplatz gibt keine Erfahrungspunkte.
 
 ##### Auftragsbrett
-Auf diesem werden zufällige Aufträge generiert. Diese geben Geld und Erfahrungspunkte. Die Erfahrungspunkte werden zufällig zwischen bestimmten Werten gebildet aus der Summe der Items aus den ConfigFiles. Diese varieren zufällig. Das Geld verhält sich wie die Erfahungspunkte aber die Waren sind weniger Wert als wenn sie auf dem Marktplatz verkauft wird.
+Auf diesem werden zufällige Aufträge generiert welche von Personen aus dem Dorf aufgegeben werden. Diese geben Geld und Erfahrungspunkte. Die Erfahrungspunkte werden zufällig zwischen bestimmten Werten gebildet aus der Summe der Items aus den ConfigFiles. Diese varieren zufällig. Das Geld verhält sich wie die Erfahungspunkte aber die Waren sind weniger Wert als wenn sie auf dem Marktplatz verkauft wird.
 
 ### Möglichkeiten mit dem Geld
 ##### Erweiterungen
@@ -104,9 +112,12 @@ Hier wird die Wolle der Schafe weiter verarbeitet. Es können verschiedene Artik
 ### Levelsystem
 Erfahrungspunkte können über Auftrage vom Auftragsbrett oder über das ernten von Pflanzen und Tieren erhalten werden. In level.cfg wird festgehalten ab welcher Anzahl von Erfahrungspunkten welches Level erreicht wird. Mit den erhaltenen Erfahrungspunkten werden verschiedene Aspekte des Spieles freigeschalten. Dazu zählen zum Beispiel neue Tiere oder neue Pflanzen.
 
+### NPCs
+NPCs sind nicht spielbare Charaktere welche im Dorf leben. Mit ihnen kann man reden und handeln. Mit ihnen kann man Waren in niedriger Anzahl gegen Geld tauschen. Sie können nicht zum Bauernhof gehen da sie nicht wollen.
+
 
 # Story
-Du erhältst einen Brief. Deine verloren gegelaubten Großeltern haben dir ihren alten Bauernhof in Skibidytown vererbt. Da du gerade arbeitslos bist und dich auf ein neues Arbenteuer freust, beschließt du auf den Bauernhof zu ziehen. Dort erwartet dich Martha. Sie erklärt dir, dass sie eine gute Freundin deiner Oma war. Sie erklärt dir wo deine Scheune liegt, wie du Pflanzen anbaust und wie du deine Bestellungen abschließt. Danach lädt sie dich auf einen Kaffee im Dorf ein. Sie zeigt dir zuerst das Dorf. Dort zeigt sie die Spielehalle, den Marktplatz und zuletzt das Kaffee. Nach einem Kaffee geht sie nach Hause und man sieht sie nie wieder.
+Du erhältst einen Brief. Deine verloren gegelaubten Großeltern haben dir ihren alten Bauernhof in Skibidytown vererbt. Da du gerade arbeitslos bist und dich auf ein neues Arbenteuer freust, beschließt du auf den Bauernhof zu ziehen. Dort erwartet dich Martha. Sie erklärt dir, dass sie eine gute Freundin deiner Oma war. Sie erklärt dir wo deine Scheune liegt, wie du Pflanzen anbaust und wie du deine Bestellungen abschließt. Danach lädt sie dich auf einen Kaffee im Dorf ein. Sie zeigt dir zuerst das Dorf. Dort zeigt sie die Spielehalle, den Marktplatz und zuletzt das Kaffee. Nach einem Kaffee geht sie nach Hause und du beginnst deine Arbeit als frisch geborener Farmer.
 
 ### Charaktere
 ##### Großeltern
@@ -114,6 +125,15 @@ Status: Tot <br>
 
 ##### Martha
 Status: lebendig & verheiratet <br>
+
+##### Michael
+Status: lebendig & verheiratet <br>
+
+##### Oliver
+Status: lebendig <br>
+
+##### Daniel
+Status: halbtot <br>
 
 # Keymap
 
@@ -134,7 +154,7 @@ Name: move_right <br>| Benutzt von:
 - Player Movement
 
 ##### Left-Shift
-Name: move_right <br>| Benutzt von:
+Name: sprint <br>| Benutzt von:
 - Player Sprinting
 
 ##### E
@@ -148,3 +168,14 @@ Abbauen, Anbauen, Öffnen von Türen <br>| Benutzt von:
 Name: interact2
 Momentan mit interact2 belegt <br>| Benutzt von:
 - unbenutzt
+
+# Spielversionen
+
+### Testing
+In dieser Version wird die Zeit um 30% reduziert.
+
+### Production
+Diese Version beinhaltet keine sonder Regelungen.
+
+### Tag der offenen Tür 2025
+In dieser Version des Spieles wird die Zeit für das wachsen jeglicher Pflanzen und die Zeit für die Produktion aller Materialen sehr stark reduziert.
