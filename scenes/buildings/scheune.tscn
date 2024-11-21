@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://dj3x34xk3qcne"]
+[gd_scene load_steps=23 format=4 uid="uid://dj3x34xk3qcne"]
 
 [ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_yksl6"]
 [ext_resource type="Script" path="res://scripts/buildings/scheune.gd" id="2_ac5ql"]
@@ -9054,6 +9054,35 @@ animations = [{
 "speed": 2.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_wklcj"]
+atlas = ExtResource("1_yksl6")
+region = Rect2(830, 576, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t0xpc"]
+atlas = ExtResource("1_yksl6")
+region = Rect2(1022, 576, 192, 192)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4m8f5"]
+atlas = ExtResource("1_yksl6")
+region = Rect2(1214, 576, 192, 192)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_jeq2u"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wklcj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t0xpc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4m8f5")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [node name="Scheune" type="TileMapLayer"]
 use_parent_material = true
 position = Vector2(0, -208)
@@ -9084,6 +9113,12 @@ scale = Vector2(2, 2)
 sprite_frames = SubResource("SpriteFrames_wgqvg")
 autoplay = "default"
 frame_progress = 0.628752
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
+z_index = 6
+sprite_frames = SubResource("SpriteFrames_jeq2u")
+autoplay = "default"
+frame_progress = 0.126296
 
 [node name="StorageLabel" type="Label" parent="."]
 offset_left = -55.0
