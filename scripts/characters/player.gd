@@ -63,6 +63,8 @@ func _physics_process(_delta):
 
 func update_animation(direction: Vector2):
     var animation_type = "walk" if direction.length() > 0 else "idle"
+    if Input.is_action_pressed("sprint") and direction.length():
+        animation_type = "sprint"
     var animation_name = animation_type + "_" + looking_direction
     sprite.play(animation_name)
 
