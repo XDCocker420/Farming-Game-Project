@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=4 uid="uid://7401yxdfc7e2"]
+[gd_scene load_steps=15 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
 [ext_resource type="TileSet" uid="uid://co6muqfq0ovmi" path="res://tiles/green_forest.tres" id="2_fx7xb"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://byeg8hl7p8im4" path="res://scenes/buildings/leuchtturm.tscn" id="7_qjv84"]
 [ext_resource type="PackedScene" uid="uid://cdh1cx6td10f0" path="res://scenes/buildings/basic_house_3.tscn" id="8_62kdc"]
 [ext_resource type="PackedScene" uid="uid://cx38brp8xauk7" path="res://scenes/buildings/big_house_1.tscn" id="10_ncu3l"]
+[ext_resource type="PackedScene" uid="uid://dj3x34xk3qcne" path="res://scenes/buildings/scheune.tscn" id="11_8cvap"]
 [ext_resource type="PackedScene" uid="uid://krfi0tvvda7s" path="res://scenes/buildings/basic_house_2.tscn" id="11_8yaaf"]
 [ext_resource type="PackedScene" uid="uid://0y5hanmykn2e" path="res://scenes/farming/field.tscn" id="12_mwiu3"]
 
@@ -389,6 +390,9 @@ position = Vector2(5327, 395)
 
 [node name="Basic_House_2" parent="TileMaps" instance=ExtResource("11_8yaaf")]
 position = Vector2(3814, 304)
+
+[node name="Scheune" parent="TileMaps" instance=ExtResource("11_8cvap")]
+position = Vector2(1920, -320)
 
 [node name="Fields" type="Node" parent="."]
 
