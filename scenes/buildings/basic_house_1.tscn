@@ -4,6 +4,7 @@
 [ext_resource type="Script" path="res://scripts/buildings/basic_house.gd" id="2_tbgy0"]
 [ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="4_yyprq"]
 
+
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_685gh"]
 texture = ExtResource("1_epap2")
 5:0/0 = 0
