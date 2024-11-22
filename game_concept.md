@@ -1,5 +1,4 @@
 # Spielkonzept
-- [Spielkonzept](#spielkonzept)
 - [Spielkreislauf](#spielkreislauf)
     - [Pflanzen](#pflanzen)
     - [Tiere](#tiere)
@@ -8,7 +7,6 @@
     - [Verkaufen](#verkaufen)
         - [Marktplatz](#marktplatz)
         - [Auftragsbrett](#auftragsbrett)
-        - [Beispiel Auftrag:](#beispiel-auftrag)
     - [Möglichkeiten mit dem Geld](#möglichkeiten-mit-dem-geld)
         - [Erweiterungen](#erweiterungen)
         - [Spielehalle](#spielehalle)
@@ -29,8 +27,6 @@
         - [Großeltern](#großeltern)
         - [Martha](#martha)
         - [Michael](#michael)
-        - [Oliver](#oliver)
-        - [Daniel](#daniel)
 - [Erweiterungsmöglichkeiten](#erweiterungsmöglichkeiten)
     - [Editor für die Farm](#editor-für-die-farm)
     - [Hauskauf und personalisierungs System](#hauskauf-und-personalisierungs-system)
@@ -142,12 +138,6 @@ Status: lebendig & verheiratet <br>
 
 ##### Michael
 Status: lebendig & verheiratet <br>
-
-##### Oliver
-Status: lebendig <br>
-
-##### Daniel
-Status: halbtot <br>
 
 # Erweiterungsmöglichkeiten
 Dies sind weitere Ideen zur Erweiterung des Spieles falls das Spiel früher fertig ist als gedacht.
