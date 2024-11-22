@@ -8,6 +8,7 @@
     - [Verkaufen](#verkaufen)
         - [Marktplatz](#marktplatz)
         - [Auftragsbrett](#auftragsbrett)
+        - [Beispiel Auftrag:](#beispiel-auftrag)
     - [Möglichkeiten mit dem Geld](#möglichkeiten-mit-dem-geld)
         - [Erweiterungen](#erweiterungen)
         - [Spielehalle](#spielehalle)
@@ -30,6 +31,11 @@
         - [Michael](#michael)
         - [Oliver](#oliver)
         - [Daniel](#daniel)
+- [Erweiterungsmöglichkeiten](#erweiterungsmöglichkeiten)
+    - [Editor für die Farm](#editor-für-die-farm)
+    - [Hauskauf und personalisierungs System](#hauskauf-und-personalisierungs-system)
+    - [Weiterentwicklung der Story](#weiterentwicklung-der-story)
+    - [Beziehungssystem mit NPCs](#beziehungssystem-mit-npcs)
 - [Keymap](#keymap)
         - [W](#w)
         - [A](#a)
@@ -67,7 +73,15 @@ Es gibt einen Marktplatz und ein Auftragsbrett.
 Auf dem Marktplatz können Items zu frei wählbaren Preisen verkauft werden. Der minimal Preis beträgt 1 und der maximal Preis beträgt der im ConfigFile angegebene maxPrice z.B. 72. Am Anfang gibt es vier Slots. Die weiteren Slots können mit Gold erkauft werden. Pro Slot kann maximal ein Item-Typ mit einer Anzahl von 1 bis 10 verkauft werden. Der Marktplatz gibt keine Erfahrungspunkte.
 
 ##### Auftragsbrett
-Auf diesem werden zufällige Aufträge generiert welche von Personen aus dem Dorf aufgegeben werden. Diese geben Geld und Erfahrungspunkte. Die Erfahrungspunkte werden zufällig zwischen bestimmten Werten gebildet aus der Summe der Items aus den ConfigFiles. Diese varieren zufällig. Das Geld verhält sich wie die Erfahungspunkte aber die Waren sind weniger Wert als wenn sie auf dem Marktplatz verkauft wird.
+Auf diesem werden Aufträge von Personen aus dem Dorf ausgeschrieben. Sie werden zufällig erstellt. Diese geben Geld und Erfahrungspunkte. Die Erfahrungspunkte werden zufällig zwischen bestimmten Werten gebildet aus der Summe der Items aus den ConfigFiles. Diese varieren zufällig. Das Geld verhält sich wie die Erfahungspunkte aber die Waren sind weniger Wert als wenn sie auf dem Marktplatz verkauft wird.
+
+##### Beispiel Auftrag:
+
+| Auftrag von Bertha               |
+|----------------------------------|
+| 12x Weizen                       |
+| 4x Wolle                         |
+| 214 Gold<br>187 Erfahrungspunkte |
 
 ### Möglichkeiten mit dem Geld
 ##### Erweiterungen
@@ -117,7 +131,7 @@ NPCs sind nicht spielbare Charaktere welche im Dorf leben. Mit ihnen kann man re
 
 
 # Story
-Du erhältst einen Brief. Deine verloren gegelaubten Großeltern haben dir ihren alten Bauernhof in Skibidytown vererbt. Da du gerade arbeitslos bist und dich auf ein neues Arbenteuer freust, beschließt du auf den Bauernhof zu ziehen. Dort erwartet dich Martha. Sie erklärt dir, dass sie eine gute Freundin deiner Oma war. Sie erklärt dir wo deine Scheune liegt, wie du Pflanzen anbaust und wie du deine Bestellungen abschließt. Danach lädt sie dich auf einen Kaffee im Dorf ein. Sie zeigt dir zuerst das Dorf. Dort zeigt sie die Spielehalle, den Marktplatz und zuletzt das Kaffee. Nach einem Kaffee geht sie nach Hause und du beginnst deine Arbeit als frisch geborener Farmer.
+Du erhältst einen Brief. Deine verloren gegelaubten Großeltern haben dir ihren alten Bauernhof in St. Catchpole vererbt. Da du gerade arbeitslos bist und dich auf ein neues Arbenteuer freust, beschließt du auf den Bauernhof zu ziehen. Dort erwartet dich Martha. Sie erklärt dir, dass sie eine gute Freundin deiner Oma war. Sie erklärt dir wo deine Scheune liegt, wie du Pflanzen anbaust und wie du deine Bestellungen abschließt. Danach lädt sie dich auf einen Kaffee im Dorf ein. Sie zeigt dir zuerst das Dorf. Dort zeigt sie die Spielehalle, den Marktplatz und zuletzt das Kaffee. Nach einem Kaffee geht sie nach Hause und du beginnst deine Arbeit als frisch geborener Farmer.
 
 ### Charaktere
 ##### Großeltern
@@ -134,6 +148,21 @@ Status: lebendig <br>
 
 ##### Daniel
 Status: halbtot <br>
+
+# Erweiterungsmöglichkeiten
+Dies sind weitere Ideen zur Erweiterung des Spieles falls das Spiel früher fertig ist als gedacht.
+
+### Editor für die Farm
+Über einen sozusagen Editor kann der Spieler seine Farm so personalisieren wie er möchte. Er kann zum Beispiel die Anordnung der Felder verändern oder auf der Farm irgendwo frei platzieren. Dadurch kann sich der Spieler kreativ frei ausleben.
+
+### Hauskauf und personalisierungs System
+Mit dem erspielten Geld kann der Spieler sein eigenes Haus in der Stadt kaufen. Dieses Haus kann er so anpassen wie er will von innen und außen. Damit kann der Spieler dem Spiel seinen individuellen Touch geben.
+
+### Weiterentwicklung der Story
+Die Geschichte des Spiels könnte weiter ausgebaut werden und die NPCs würden somit mehr Relevanz im Spiel erhalten. 
+
+### Beziehungssystem mit NPCs
+Der Spieler kann seine Beziehung mit verschiedenen NPCs verstärken zum Beispiel in dem sie gemeinsam einen Kaffee trinken gehen. Dadurch könnte der Spieler emotionaler mit dem Spiel verbunden sein.
 
 # Keymap
 
