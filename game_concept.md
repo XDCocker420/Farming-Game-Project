@@ -26,7 +26,7 @@
     - [Charaktere](#charaktere)
         - [Großeltern](#großeltern)
         - [Martha](#martha)
-        - [Michael](#michael)
+        - [Adrian](#adrian)
 - [Erweiterungsmöglichkeiten](#erweiterungsmöglichkeiten)
     - [Editor für die Farm](#editor-für-die-farm)
     - [Hauskauf und personalisierungs System](#hauskauf-und-personalisierungs-system)
@@ -136,7 +136,7 @@ Status: Tot <br>
 ##### Martha
 Status: lebendig & verheiratet <br>
 
-##### Michael
+##### Adrian
 Status: lebendig & verheiratet <br>
 
 # Erweiterungsmöglichkeiten
