@@ -6,6 +6,8 @@ GitHub repository for our SYP-Projekt.
 git clone https://github.com/XDCocker420/Projekt-Farming-Game.git
 ```
 
+## [Our GameConcept](game_concept.md)
+
 ## Contributing
 
 Before you make changes, please pull the newest version of this projekt. After you finished your work, please commit and push immediatly.
