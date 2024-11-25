@@ -17,7 +17,7 @@ var current_speed: float
 
 func _ready() -> void:
 	# Add the player to the "Player" group for identification
-	load_state()
+	#load_state()
 	current_speed = normal_speed
 
 
@@ -69,6 +69,7 @@ func update_animation(direction: Vector2):
 	sprite.play(animation_name)
 
 
+"""
 ## SAVE FUNCTIONS
 func save_state() -> void:
 	# Save player's position
@@ -91,3 +92,4 @@ func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
 		# Save player state before the game quits
 		save_state()
+"""

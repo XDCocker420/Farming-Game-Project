@@ -10,7 +10,7 @@
 
 [node name="Game" type="Node2D"]
 
-[node name="Map" type="Node2D" parent="."]
+[node name="Map" type="Node2D" parent="." groups=["Map"]]
 unique_name_in_owner = true
 
 [node name="Player" parent="Map" instance=ExtResource("1_0u3w2")]

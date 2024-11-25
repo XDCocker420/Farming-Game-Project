@@ -27,6 +27,8 @@ project/assembly_name="Project Farming Game"
 [global_group]
 
 Player=""
+Map=""
+game_events=""
 
 [input]
 

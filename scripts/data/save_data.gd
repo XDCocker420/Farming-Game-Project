@@ -5,12 +5,7 @@ extends Resource
 @export var player_level:int
 ## Position of the player
 @export var player_position:Vector2
-## Health of the player
-@export var player_health:float
 ## Saved data for all dynamic parts of the level
-@export var saved_data:Array[DynamicSaves] = []
-## Saved data for buildings
-@export var saved_buildings:Array[StaticSaves] = []
+@export var saved_data:Array[ItemSaves] = []
 ## Player inventory
-@export var crops:Dictionary = {}
-@export var nonCrops:Dictionary = {}
+@export var inventory:Inventory

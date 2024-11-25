@@ -1,7 +1,7 @@
 extends Node
 
 # Dictionary to store game state data
-var data: Dictionary = {'player':{}, 'crops':{}, 'inventory':{}}
+#var data: Dictionary = {'player':{}, 'crops':{}, 'inventory':{}}
 
 # File path for saving and loading
 const SAVE_FILE_PATH: String = "user://savegame.tres"
@@ -9,6 +9,11 @@ const SAVE_FILE_PATH: String = "user://savegame.tres"
 # Auto-save interval in seconds
 const AUTO_SAVE_INTERVAL: float = 60.0  # Save every 60 seconds
 
+var inventory:Inventory
+
+@onready var map = get_tree().get_first_node_in_group("Map")
+@onready var player = get_tree().get_first_node_in_group("Player")
+#@onready var test = %Player
 
 func _ready() -> void:
 	# Start the auto-save timer
@@ -19,8 +24,15 @@ func _ready() -> void:
 
 func save_game() -> void:
 	var save := SavedData.new()
-	save.player_position = %Player.global_position;
-	pass
+	save.player_position = player.global_position
+
+	var saved_data:Array[ItemSaves] = []
+	get_tree().call_group("game_events", "on_save_game", saved_data)
+	
+	save.saved_data = saved_data
+	save.inventory = inventory
+	
+	ResourceSaver.save(save, SAVE_FILE_PATH)
 	"""
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE_READ)
 	if file:
@@ -34,7 +46,20 @@ func save_game() -> void:
 
 
 func load_game() -> void:
-	pass
+	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
+	if saved_game == null:
+		return
+	
+	get_tree().call_group("game_events", "on_before_load_game")
+	inventory = saved_game.inventory
+	player.global_position = saved_game.player_position
+	
+	for item in saved_game.saved_data:
+		var scene := load(item.scene_path) as PackedScene
+		var restored_node = scene.instantiate()
+		map.add_child(restored_node)
+		if restored_node.has_method("on_load_game"):
+			restored_node.on_load_game(item)
 	"""
 	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
 	if file:
@@ -51,6 +76,31 @@ func load_game() -> void:
 		print("No save file found. Starting new game.")
 	"""
 
+func add_to_inventory(item:String) -> void:
+	if inventory == null:
+		inventory = Inventory.new()
+	
+	if inventory.data.has(item):
+		inventory.data[item] += 1
+	else:
+		inventory.data[item] = 1
+		
+func remove_from_inventory(item: String) -> void:
+	if inventory == null or not inventory.data.has(item):
+		return
+	inventory.data[item] -= 1
+	if inventory.data[item] <= 0:
+		inventory.data.erase(item)
+		
+func get_inventory() -> Dictionary:
+	if inventory == null:
+		return {}
+	return inventory.data
+	
+func get_item_count(item:String) -> int:
+	if inventory == null or not inventory.data.has(item):
+		return 0
+	return inventory.data[item]
 
 func start_auto_save_timer() -> void:
 	var timer = Timer.new()
