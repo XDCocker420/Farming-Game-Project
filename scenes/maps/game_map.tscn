@@ -1,10 +1,12 @@
-[gd_scene load_steps=6 format=3 uid="uid://7401yxdfc7e2"]
+[gd_scene load_steps=7 format=3 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
 [ext_resource type="Texture2D" uid="uid://c7toaq4be4ktg" path="res://assets/map/green_forest64x64.png" id="5_amp2j"]
 [ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="5_sdtop"]
 [ext_resource type="PackedScene" uid="uid://cfpp5sa7x3s7g" path="res://scenes/buildings/basic_house_1.tscn" id="6_1qq5s"]
 [ext_resource type="PackedScene" uid="uid://dj3x34xk3qcne" path="res://scenes/buildings/scheune.tscn" id="11_8cvap"]
+
+[sub_resource type="TileSet" id="TileSet_1sjyb"]
 
 [node name="Demo Map" type="Node2D"]
 
@@ -19,18 +21,22 @@ position_smoothing_speed = 7.0
 
 [node name="TileMaps" type="Node" parent="."]
 
+[node name="fence" type="TileMapLayer" parent="TileMaps"]
+tile_set = SubResource("TileSet_1sjyb")
+
 [node name="map_background" type="Sprite2D" parent="TileMaps"]
+z_index = -1
 position = Vector2(-58, 4)
 scale = Vector2(2500, 1200)
 texture = ExtResource("5_amp2j")
 region_enabled = true
 region_rect = Rect2(536, 83, 31, 35)
 
-[node name="House" parent="TileMaps" instance=ExtResource("6_1qq5s")]
-position = Vector2(1432, -466)
+[node name="basic_house" parent="TileMaps" instance=ExtResource("6_1qq5s")]
+position = Vector2(112, -383)
 
-[node name="Scheune" parent="TileMaps" instance=ExtResource("11_8cvap")]
-position = Vector2(2949, -684)
+[node name="scheune" parent="TileMaps" instance=ExtResource("11_8cvap")]
+position = Vector2(767, -390)
 
 [node name="Fields" type="Node" parent="."]
 
