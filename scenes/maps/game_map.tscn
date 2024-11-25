@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://7401yxdfc7e2"]
+[gd_scene load_steps=7 format=3 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
 [ext_resource type="Texture2D" uid="uid://c7toaq4be4ktg" path="res://assets/map/green_forest64x64.png" id="5_amp2j"]
@@ -6,48 +6,57 @@
 [ext_resource type="PackedScene" uid="uid://cfpp5sa7x3s7g" path="res://scenes/buildings/basic_house_1.tscn" id="6_1qq5s"]
 [ext_resource type="PackedScene" uid="uid://dj3x34xk3qcne" path="res://scenes/buildings/scheune.tscn" id="11_8cvap"]
 
-[node name="Demo Map" type="Node2D"]
+[sub_resource type="TileSet" id="TileSet_1sjyb"]
 
-[node name="Player" parent="." instance=ExtResource("1_0u3w2")]
+[node name="Game" type="Node2D"]
+
+[node name="Map" type="Node2D" parent="."]
+unique_name_in_owner = true
+
+[node name="Player" parent="Map" instance=ExtResource("1_0u3w2")]
 unique_name_in_owner = true
 z_index = 5
 
-[node name="Camera" type="Camera2D" parent="Player"]
+[node name="Camera" type="Camera2D" parent="Map/Player"]
 position = Vector2(0, -43)
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
-[node name="TileMaps" type="Node" parent="."]
+[node name="TileMaps" type="Node" parent="Map"]
 
-[node name="map_background" type="Sprite2D" parent="TileMaps"]
+[node name="map_background" type="Sprite2D" parent="Map/TileMaps"]
+z_index = -1
 position = Vector2(-58, 4)
 scale = Vector2(2500, 1200)
 texture = ExtResource("5_amp2j")
 region_enabled = true
 region_rect = Rect2(536, 83, 31, 35)
 
-[node name="House" parent="TileMaps" instance=ExtResource("6_1qq5s")]
-position = Vector2(1432, -466)
+[node name="fence" type="TileMapLayer" parent="Map/TileMaps"]
+tile_set = SubResource("TileSet_1sjyb")
 
-[node name="Scheune" parent="TileMaps" instance=ExtResource("11_8cvap")]
-position = Vector2(2949, -684)
+[node name="basic_house" parent="Map/TileMaps" instance=ExtResource("6_1qq5s")]
+position = Vector2(112, -383)
 
-[node name="Fields" type="Node" parent="."]
+[node name="scheune" parent="Map/TileMaps" instance=ExtResource("11_8cvap")]
+position = Vector2(767, -390)
 
-[node name="farming_area" parent="Fields" instance=ExtResource("5_sdtop")]
+[node name="Fields" type="Node" parent="Map"]
+
+[node name="farming_area" parent="Map/Fields" instance=ExtResource("5_sdtop")]
 position = Vector2(-794, -624)
 
-[node name="farming_area2" parent="Fields" instance=ExtResource("5_sdtop")]
+[node name="farming_area2" parent="Map/Fields" instance=ExtResource("5_sdtop")]
 position = Vector2(-794, -82)
 
-[node name="farming_area3" parent="Fields" instance=ExtResource("5_sdtop")]
+[node name="farming_area3" parent="Map/Fields" instance=ExtResource("5_sdtop")]
 position = Vector2(-794, 532)
 
-[node name="farming_area4" parent="Fields" instance=ExtResource("5_sdtop")]
+[node name="farming_area4" parent="Map/Fields" instance=ExtResource("5_sdtop")]
 position = Vector2(-1465, -643)
 
-[node name="farming_area5" parent="Fields" instance=ExtResource("5_sdtop")]
+[node name="farming_area5" parent="Map/Fields" instance=ExtResource("5_sdtop")]
 position = Vector2(-1455, -44)
 
-[node name="farming_area6" parent="Fields" instance=ExtResource("5_sdtop")]
+[node name="farming_area6" parent="Map/Fields" instance=ExtResource("5_sdtop")]
 position = Vector2(-1435, 516)
