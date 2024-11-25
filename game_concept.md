@@ -1,4 +1,5 @@
 # Spielkonzept
+- [Spielkonzept](#spielkonzept)
 - [Spielkreislauf](#spielkreislauf)
     - [Pflanzen](#pflanzen)
     - [Tiere](#tiere)
@@ -7,6 +8,7 @@
     - [Verkaufen](#verkaufen)
         - [Marktplatz](#marktplatz)
         - [Auftragsbrett](#auftragsbrett)
+        - [Beispiel Auftrag:](#beispiel-auftrag)
     - [Möglichkeiten mit dem Geld](#möglichkeiten-mit-dem-geld)
         - [Erweiterungen](#erweiterungen)
         - [Spielehalle](#spielehalle)
@@ -22,6 +24,7 @@
 - [Systeme](#systeme)
     - [Levelsystem](#levelsystem)
     - [NPCs](#npcs)
+    - [Das Dorf](#das-dorf)
 - [Story](#story)
     - [Charaktere](#charaktere)
         - [Großeltern](#großeltern)
@@ -125,6 +128,8 @@ Erfahrungspunkte können über Auftrage vom Auftragsbrett oder über das ernten 
 ### NPCs
 NPCs sind nicht spielbare Charaktere welche im Dorf leben. Mit ihnen kann man reden und handeln. Mit ihnen kann man Waren in niedriger Anzahl gegen Geld tauschen. Sie können nicht zum Bauernhof gehen da sie nicht wollen.
 
+### Das Dorf
+Das Dorf besteht aus vielen kleinen Häusern. Man kann jedes Haus betreten und sich mit allen NPCs unterhalten. In der Stadt gibt es auch verschiedene Geschäfte. In diesen kann man zum Beispiel neue Pflanzen oder Tiere kaufen. Das Dorf ist dafür da, damit der Spieler einen Anreiz hat Geld zu verdienen. 
 
 # Story
 Du erhältst einen Brief. Deine verloren gegelaubten Großeltern haben dir ihren alten Bauernhof in St. Catchpole vererbt. Da du gerade arbeitslos bist und dich auf ein neues Arbenteuer freust, beschließt du auf den Bauernhof zu ziehen. Dort erwartet dich Martha. Sie erklärt dir, dass sie eine gute Freundin deiner Oma war. Sie erklärt dir wo deine Scheune liegt, wie du Pflanzen anbaust und wie du deine Bestellungen abschließt. Danach lädt sie dich auf einen Kaffee im Dorf ein. Sie zeigt dir zuerst das Dorf. Dort zeigt sie die Spielehalle, den Marktplatz und zuletzt das Kaffee. Nach einem Kaffee geht sie nach Hause und du beginnst deine Arbeit als frisch geborener Farmer.
