@@ -64,7 +64,7 @@ Damit Tiere ihre Produkte, wie z.B. bei der Kuh die Milch, produzieren können, 
 - Bienen
 
 ### Lagern
-Die Ernte wird automatisch in die Scheune übertragen. Es gibt kein eigenes Spielerinventar. Die Scheune wir absteigend sortiert. Wenn es von einem Item 0 gibt wird es nicht angezeigt.
+Die Ernte wird automatisch in die Scheune übertragen. Es gibt kein eigenes Spielerinventar. Die Scheune wir absteigend sortiert. Wenn es von einem Item 0 gibt wird es nicht angezeigt. Für die Speicherung der Daten wird das Godot eigene .tres Format verwendet.
 
 ### Verkaufen
 Es gibt einen Marktplatz und ein Auftragsbrett.

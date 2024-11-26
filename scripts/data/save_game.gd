@@ -76,19 +76,23 @@ func load_game() -> void:
 		print("No save file found. Starting new game.")
 	"""
 
-func add_to_inventory(item:String) -> void:
+func add_to_inventory(item:String, count:int=1) -> void:
 	if inventory == null:
 		inventory = Inventory.new()
 	
 	if inventory.data.has(item):
-		inventory.data[item] += 1
+		inventory.data[item] += count
 	else:
-		inventory.data[item] = 1
-		
-func remove_from_inventory(item: String) -> void:
+		inventory.data[item] = count
+
+# removes something
+func remove_from_inventory(item: String, count:int=1, remove_completly:bool=false) -> void:
 	if inventory == null or not inventory.data.has(item):
 		return
-	inventory.data[item] -= 1
+	if remove_completly:
+		inventory.data.erase(item)
+
+	inventory.data[item] -= count
 	if inventory.data[item] <= 0:
 		inventory.data.erase(item)
 		

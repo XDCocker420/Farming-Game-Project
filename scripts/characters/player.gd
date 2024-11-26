@@ -14,7 +14,6 @@ signal interact2
 @export var sprint_speed: float = 400.0
 var current_speed: float
 
-
 func _ready() -> void:
 	# Add the player to the "Player" group for identification
 	#load_state()
