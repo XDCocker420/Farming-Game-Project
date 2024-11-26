@@ -1,9 +1,10 @@
-extends TileMapLayer
+extends Node2D
 
 
 @onready var player: CharacterBody2D = %Player
 @onready var e_button: AnimatedSprite2D = $AnimatedSprite2D2
 @onready var door: AnimatedSprite2D = $AnimatedSprite2D
+@onready var door_area: Area2D = $DoorArea
 @onready var storage_label: Label = $StorageLabel
 
 var in_area = false
@@ -19,6 +20,8 @@ func _ready() -> void:
 
 	player.interact.connect(_on_player_interact)
 	player.interact2.connect(_on_player_interact2)
+	door_area.body_entered.connect(_on_door_area_body_entered)
+	door_area.body_exited.connect(_on_door_area_body_exited)
 
 
 func _input(event: InputEvent) -> void:
@@ -41,7 +44,7 @@ func _on_player_interact():
 
 func _on_player_interact2():
 	if in_area and open:
-		if SaveData.data['inventory'] > 0:
+		if SaveGame.get_inventory():
 			#SaveData.data['inventory'] -= 1
 			update_storage_text()
 

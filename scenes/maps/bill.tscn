@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://l6rnva0jxton"]
+
+[ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_7s4qw"]
+
+[node name="Bill_Map" type="Node2D"]
+
+[node name="Player" parent="." instance=ExtResource("1_7s4qw")]
+unique_name_in_owner = true
+z_index = 5
+position = Vector2(1180, 625)
+
+[node name="Camera" type="Camera2D" parent="Player"]
+position_smoothing_enabled = true
+position_smoothing_speed = 7.0
