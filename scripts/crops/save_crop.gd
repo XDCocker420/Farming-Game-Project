@@ -1,5 +1,5 @@
 class_name CropSaves
-extends StaticSaves
+extends ItemSaves
 
 @export var time_left:int
 @export var state:int
