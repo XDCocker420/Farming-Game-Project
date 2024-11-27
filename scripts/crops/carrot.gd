@@ -3,23 +3,30 @@ extends AnimatedSprite2D
 
 @onready var timer: Timer = $Timer
 @onready var player: CharacterBody2D = get_tree().get_nodes_in_group("Player")[0]
-@onready var field: Area2D = get_parent()
+@onready var field = get_parent()
+@onready var default_time = CropManager.get_crop_time('carrot')
 
-var state = 0
+@export var state = 0
 var time_left = 0
 
+
 func _ready() -> void:
-	timer.wait_time = CropManager.get_crop_time('carrot')
+	z_index = 2
 	player.interact.connect(_on_player_interact)
-	play("grow 1")
-	timer.wait_time = time_left
+	if state != 0:
+		position.y -= 10
+	play("grow " + str(state + 1))
+	if(time_left > 0):
+		timer.wait_time = time_left
+	else:
+		timer.wait_time = default_time
 	timer.start()
 
 
 func _on_timer_timeout() -> void:
 	if state != 2:
 		state += 1
-		timer.start()
+		timer.start(default_time)
 		
 	if state == 1:
 		position.y -= 10
@@ -30,31 +37,27 @@ func _on_timer_timeout() -> void:
 
 func _on_player_interact():
 	if state == 2 and field.player_in_area == true:
-		SaveGame.add_to_inventory("carrot")
+		SaveGame.add_to_inventory("carrot", 2)
+		print(SaveGame.get_inventory())
 		queue_free()
 
 func on_save_game(saved_data:Array[ItemSaves]):
 	var data = CropSaves.new()
-	data.position = global_position
 	data.scene_path = scene_file_path
 	data.time_left = timer.time_left
+	data.state = state
+	data.parent_path = get_parent().get_path()
 	saved_data.append(data)
 
 func on_before_load():
-	get_parent().remove_child(self)
+	#get_parent().remove_child(self)
 	queue_free()
 
 func on_load_game(saved_data):
-	global_position = saved_data.position
+	#position = saved_data.position
 
 	if saved_data is CropSaves:
 		var data = saved_data as CropSaves
+		print(data.state)
+		state = data.state
 		time_left = data.time_left
-
-"""
-func add_inventory() -> void:
-	if 'carrot' in SaveData.data['inventory']:
-		SaveData.data['inventory']['carrot'] += 2
-	else:
-		SaveData.data['inventory']['carrot'] = 1
-"""

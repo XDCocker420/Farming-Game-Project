@@ -1,10 +1,11 @@
-[gd_scene load_steps=7 format=4 uid="uid://7401yxdfc7e2"]
+[gd_scene load_steps=8 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
 [ext_resource type="TileSet" uid="uid://ckrpgnu5r4oj6" path="res://tiles/farmlands.tres" id="3_0p4cf"]
 [ext_resource type="Texture2D" uid="uid://c7toaq4be4ktg" path="res://assets/map/green_forest64x64.png" id="5_amp2j"]
 [ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="5_sdtop"]
 [ext_resource type="PackedScene" uid="uid://cfpp5sa7x3s7g" path="res://scenes/buildings/basic_house_1.tscn" id="6_1qq5s"]
+[ext_resource type="PackedScene" uid="uid://0y5hanmykn2e" path="res://scenes/farming/field.tscn" id="7_j8nlu"]
 [ext_resource type="PackedScene" uid="uid://dj3x34xk3qcne" path="res://scenes/buildings/scheune.tscn" id="11_8cvap"]
 
 [node name="Game" type="Node2D"]
@@ -64,3 +65,6 @@ position = Vector2(-1467, -42)
 
 [node name="farming_area6" parent="Map/Fields" instance=ExtResource("5_sdtop")]
 position = Vector2(-1467, 533)
+
+[node name="Field" parent="Map" instance=ExtResource("7_j8nlu")]
+position = Vector2(437, 906)

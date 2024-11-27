@@ -1,8 +1,5 @@
 extends Node
 
-# Dictionary to store game state data
-#var data: Dictionary = {'player':{}, 'crops':{}, 'inventory':{}}
-
 # File path for saving and loading
 const SAVE_FILE_PATH: String = "user://savegame.tres"
 
@@ -13,7 +10,6 @@ var inventory:Inventory
 
 @onready var map = get_tree().get_first_node_in_group("Map")
 @onready var player = get_tree().get_first_node_in_group("Player")
-#@onready var test = %Player
 
 func _ready() -> void:
 	# Start the auto-save timer
@@ -33,16 +29,6 @@ func save_game() -> void:
 	save.inventory = inventory
 	
 	ResourceSaver.save(save, SAVE_FILE_PATH)
-	"""
-	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.WRITE_READ)
-	if file:
-		var json_data = JSON.stringify(data)
-		file.store_string(json_data)
-		file.close()
-		print("Game saved successfully.")
-	else:
-		print("Failed to save game.")
-	"""
 
 
 func load_game() -> void:
@@ -57,24 +43,16 @@ func load_game() -> void:
 	for item in saved_game.saved_data:
 		var scene := load(item.scene_path) as PackedScene
 		var restored_node = scene.instantiate()
-		map.add_child(restored_node)
+
+		if item is CropSaves:
+			print(item.parent_path)
+			var temp:Node = get_node(item.parent_path)
+			temp.add_child(restored_node)
+		else:
+			map.add_child(restored_node)
 		if restored_node.has_method("on_load_game"):
 			restored_node.on_load_game(item)
-	"""
-	var file = FileAccess.open(SAVE_FILE_PATH, FileAccess.READ)
-	if file:
-		var json = JSON.new()
-		var json_data = file.get_as_text()
-		var error = json.parse(json_data)
-		if error == OK:
-			data = JSON.parse_string(json_data)
-			print("Game loaded successfully.")
-		else:
-			print("Error parsing save file: ", error,)
-		file.close()
-	else:
-		print("No save file found. Starting new game.")
-	"""
+
 
 func add_to_inventory(item:String, count:int=1) -> void:
 	if inventory == null:

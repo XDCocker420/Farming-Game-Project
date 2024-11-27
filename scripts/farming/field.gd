@@ -28,11 +28,12 @@ func _on_player_interact() -> void:
 	if player_in_area:
 		plant()
 
-
 func plant() -> void:
 	if not get_node_or_null("Carrot"):
+		# for later implementation
+		#if SaveGame.get_item_count("carrot") < 1:
+		#	print("Not enough Carrots")
+		#	return
 		crop = carrot_scene.instantiate()
 		add_child(crop)
-		#SaveData.data['inventory']['carrot'] -= 1
-	#else:
-			#crop.queue_free()
+		SaveGame.remove_from_inventory("carrot")
