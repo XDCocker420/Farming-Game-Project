@@ -91,6 +91,7 @@ func remove_from_inventory(item: String, count:int=1, remove_completly:bool=fals
 		return
 	if remove_completly:
 		inventory.data.erase(item)
+		return
 
 	inventory.data[item] -= count
 	if inventory.data[item] <= 0:
