@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://c8s6l5qwnpp46"]
+
+[ext_resource type="Texture2D" uid="uid://w4s1ltuhwfk3" path="res://assets/gui/back.png" id="1_osals"]
+[ext_resource type="Script" path="res://scripts/ui/button.gd" id="2_lt2pl"]
+
+[node name="Back" type="PanelContainer"]
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_osals")
+expand_mode = 1
+stretch_mode = 2
+
+[node name="Button" type="Button" parent="TextureRect"]
+visible = false
+layout_mode = 2
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("2_lt2pl")
