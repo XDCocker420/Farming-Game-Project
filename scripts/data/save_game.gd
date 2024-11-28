@@ -6,7 +6,9 @@ const SAVE_FILE_PATH: String = "user://savegame.tres"
 # Auto-save interval in seconds
 const AUTO_SAVE_INTERVAL: float = 60.0  # Save every 60 seconds
 
-var inventory:Inventory
+const MAX_LEVEL:int = 6
+
+var inventory:Inventory = Inventory.new()
 var config = ConfigFile.new()
 var level:int = 0
 var exp_level:int = 0
@@ -44,6 +46,7 @@ func load_game() -> void:
 	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
 	if saved_game == null:
 		level = 1
+		inventory.money = 100
 		return
 	
 	get_tree().call_group("game_events", "on_before_load_game")
@@ -69,10 +72,7 @@ func load_game() -> void:
 func add_to_inventory(item:String, count:int=1) -> void:
 	if count < 1:
 		push_error("count musst be bigger or equal 1")
-		return
-	if inventory == null:
-		inventory = Inventory.new()
-	
+		get_tree().quit()	
 	if inventory.data.has(item):
 		inventory.data[item] += count
 	else:
@@ -82,9 +82,10 @@ func add_to_inventory(item:String, count:int=1) -> void:
 func remove_from_inventory(item: String, count:int=1, remove_completly:bool=false) -> void:
 	if count < 1:
 		push_error("count musst be bigger or equal 1")
-		return
+		get_tree().quit()
 	if inventory == null or not inventory.data.has(item):
-		return
+		push_error("Item not found in Inventory. Add it first")
+		get_tree().quit()
 	if remove_completly:
 		inventory.data.erase(item)
 		return
@@ -94,8 +95,6 @@ func remove_from_inventory(item: String, count:int=1, remove_completly:bool=fals
 		inventory.data.erase(item)
 		
 func get_inventory() -> Dictionary:
-	if inventory == null:
-		return {}
 	return inventory.data
 	
 func get_item_count(item:String) -> int:
@@ -112,11 +111,14 @@ func get_experience_per_level() -> int:
 func add_experience_points(count:int) -> void:
 	if count < 1:
 		push_error("count musst be bigger or equal 1")
-		return
+		get_tree().quit()
 	exp_level += count
 	_check_new_level()
 
 func _check_new_level() -> void:
+	if(level > MAX_LEVEL):
+		print("Congratulations you reached the maximum Level")	
+		return
 	var xp_needed = config.get_value("Level" + str(level), "exp_needed")
 	if(exp_level >= xp_needed):
 		level += 1
@@ -124,6 +126,25 @@ func _check_new_level() -> void:
 		print("Congratulations you reached Level " + str(level))
 		if(exp_level < 0):
 			exp_level = 0
+
+func add_money(count:int=1) -> void:
+	if count < 1:
+		push_error("count musst be bigger or equal 1")
+		get_tree().quit()
+	inventory.money += count
+
+func remove_money(count:int=1) -> bool:
+	if count < 1:
+		push_error("count musst be bigger or equal 1")
+		get_tree().quit()
+	if inventory.money - count < 0:
+		push_warning("Money isn't enough for this interaction")
+		return false
+	inventory.money -= count
+	return true
+
+func get_money() -> int:
+	return inventory.money
 
 func start_auto_save_timer() -> void:
 	var timer = Timer.new()

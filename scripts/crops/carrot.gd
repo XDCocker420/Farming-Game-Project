@@ -39,8 +39,10 @@ func _on_player_interact():
 	if state == 2 and field.player_in_area == true:
 		SaveGame.add_experience_points(CropManager.get_crop_exp("carrot"))
 		SaveGame.add_to_inventory("carrot", 2)
+		SaveGame.add_money(CropManager.get_crop_value("carrot"))
 		print(SaveGame.get_inventory())
 		print(SaveGame.get_current_level())
+		print(SaveGame.get_money())
 		queue_free()
 
 func on_save_game(saved_data:Array[ItemSaves]):

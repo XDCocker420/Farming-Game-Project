@@ -12,14 +12,17 @@ func _ready() -> void:
 		return
 
 
-func get_crop_time(crop_name:String):
+func get_crop_time(crop_name:String) -> int:
 	return config.get_value(crop_name, 'growth_time')
 
-func get_crop_value(crop_name:String):
+func get_crop_value(crop_name:String) -> int:
 	return config.get_value(crop_name, 'value')
 
-func get_crop_exp(crop_name:String):
+func get_crop_exp(crop_name:String) -> int:
 	return config.get_value(crop_name, 'xp')
+
+func get_max_price(crop_name:String) -> int:
+	return config.get_value(crop_name, "maxPrice")
 
 func has_reached_level(crop_name:String) -> bool:
 	return SaveGame.get_current_level() >= config.get_value(crop_name, "level_needed")
