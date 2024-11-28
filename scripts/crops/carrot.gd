@@ -37,8 +37,10 @@ func _on_timer_timeout() -> void:
 
 func _on_player_interact():
 	if state == 2 and field.player_in_area == true:
+		SaveGame.add_experience_points(CropManager.get_crop_exp("carrot"))
 		SaveGame.add_to_inventory("carrot", 2)
 		print(SaveGame.get_inventory())
+		print(SaveGame.get_current_level())
 		queue_free()
 
 func on_save_game(saved_data:Array[ItemSaves]):

@@ -7,6 +7,9 @@ const SAVE_FILE_PATH: String = "user://savegame.tres"
 const AUTO_SAVE_INTERVAL: float = 60.0  # Save every 60 seconds
 
 var inventory:Inventory
+var config = ConfigFile.new()
+var level:int = 0
+var exp_level:int = 0
 
 @onready var map = get_tree().get_first_node_in_group("Map")
 @onready var player = get_tree().get_first_node_in_group("Player")
@@ -17,10 +20,16 @@ func _ready() -> void:
 	# Attempt to load existing game data
 	load_game()
 
+	var err = config.load("res://scripts/config/level_config.cfg")
+	if err != OK:
+		return
+
 
 func save_game() -> void:
 	var save := SavedData.new()
 	save.player_position = player.global_position
+	save.player_level = level
+	save.player_experience_per_level = exp_level
 
 	var saved_data:Array[ItemSaves] = []
 	get_tree().call_group("game_events", "on_save_game", saved_data)
@@ -34,10 +43,13 @@ func save_game() -> void:
 func load_game() -> void:
 	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
 	if saved_game == null:
+		level = 1
 		return
 	
 	get_tree().call_group("game_events", "on_before_load_game")
 	inventory = saved_game.inventory
+	level = saved_game.player_level
+	exp_level = saved_game.player_experience_per_level
 	player.global_position = saved_game.player_position
 	
 	for item in saved_game.saved_data:
@@ -55,6 +67,9 @@ func load_game() -> void:
 
 
 func add_to_inventory(item:String, count:int=1) -> void:
+	if count < 1:
+		push_error("count musst be bigger or equal 1")
+		return
 	if inventory == null:
 		inventory = Inventory.new()
 	
@@ -65,6 +80,9 @@ func add_to_inventory(item:String, count:int=1) -> void:
 
 # removes something
 func remove_from_inventory(item: String, count:int=1, remove_completly:bool=false) -> void:
+	if count < 1:
+		push_error("count musst be bigger or equal 1")
+		return
 	if inventory == null or not inventory.data.has(item):
 		return
 	if remove_completly:
@@ -84,6 +102,28 @@ func get_item_count(item:String) -> int:
 	if inventory == null or not inventory.data.has(item):
 		return 0
 	return inventory.data[item]
+
+func get_current_level() -> int:
+	return level
+
+func get_experience_per_level() -> int:
+	return exp_level
+
+func add_experience_points(count:int) -> void:
+	if count < 1:
+		push_error("count musst be bigger or equal 1")
+		return
+	exp_level += count
+	_check_new_level()
+
+func _check_new_level() -> void:
+	var xp_needed = config.get_value("Level" + str(level), "exp_needed")
+	if(exp_level >= xp_needed):
+		level += 1
+		exp_level -= xp_needed
+		print("Congratulations you reached Level " + str(level))
+		if(exp_level < 0):
+			exp_level = 0
 
 func start_auto_save_timer() -> void:
 	var timer = Timer.new()
