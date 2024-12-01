@@ -45,7 +45,7 @@ func load_game() -> void:
 		var restored_node = scene.instantiate()
 
 		if item is CropSaves:
-			print(item.parent_path)
+			#print(item.parent_path)
 			var temp:Node = get_node(item.parent_path)
 			temp.add_child(restored_node)
 		else:

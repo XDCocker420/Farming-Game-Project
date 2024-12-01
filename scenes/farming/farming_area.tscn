@@ -1,11 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://bqogj2noiv4ya"]
+[gd_scene load_steps=6 format=3 uid="uid://bqogj2noiv4ya"]
 
+[ext_resource type="Script" path="res://scripts/farming/farming_area.gd" id="1_or51d"]
 [ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_wlexk"]
+[ext_resource type="Script" path="res://scripts/farming/field.gd" id="2_jqb3j"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vx044"]
+size = Vector2(64, 44)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6vrsi"]
 size = Vector2(488, 412)
 
 [node name="farming_area" type="Area2D"]
+script = ExtResource("1_or51d")
 
 [node name="long_field1" type="Node2D" parent="."]
 position = Vector2(0, -158)
@@ -15,12 +21,25 @@ position = Vector2(-191, 0)
 texture = ExtResource("1_wlexk")
 region_enabled = true
 region_rect = Rect2(324, 460, 62, 52)
+script = ExtResource("2_jqb3j")
+
+[node name="Area2D" type="Area2D" parent="long_field1/field1"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="long_field1/field1/Area2D"]
+position = Vector2(2, 0)
+shape = SubResource("RectangleShape2D_vx044")
 
 [node name="field2" type="Sprite2D" parent="long_field1"]
 position = Vector2(-128, 0)
 texture = ExtResource("1_wlexk")
 region_enabled = true
 region_rect = Rect2(386, 460, 64, 52)
+script = ExtResource("2_jqb3j")
+
+[node name="Area2D" type="Area2D" parent="long_field1/field2"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="long_field1/field2/Area2D"]
+shape = SubResource("RectangleShape2D_vx044")
 
 [node name="field3" type="Sprite2D" parent="long_field1"]
 position = Vector2(-64, 0)
@@ -184,4 +203,5 @@ region_enabled = true
 region_rect = Rect2(450, 460, 58, 52)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 shape = SubResource("RectangleShape2D_6vrsi")
