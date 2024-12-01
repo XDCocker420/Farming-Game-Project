@@ -1,10 +1,11 @@
-[gd_scene load_steps=8 format=4 uid="uid://7401yxdfc7e2"]
+[gd_scene load_steps=9 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
 [ext_resource type="TileSet" uid="uid://ckrpgnu5r4oj6" path="res://tiles/farmlands.tres" id="3_0p4cf"]
 [ext_resource type="Texture2D" uid="uid://c7toaq4be4ktg" path="res://assets/map/green_forest64x64.png" id="5_amp2j"]
 [ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="5_sdtop"]
 [ext_resource type="PackedScene" uid="uid://cfpp5sa7x3s7g" path="res://scenes/buildings/basic_house_1.tscn" id="6_1qq5s"]
+[ext_resource type="PackedScene" uid="uid://cgv01xlihuvuq" path="res://scenes/ui/ui_scheune.tscn" id="6_wick1"]
 [ext_resource type="PackedScene" uid="uid://0y5hanmykn2e" path="res://scenes/farming/field.tscn" id="7_j8nlu"]
 [ext_resource type="PackedScene" uid="uid://dj3x34xk3qcne" path="res://scenes/buildings/scheune.tscn" id="11_8cvap"]
 
@@ -45,6 +46,13 @@ position = Vector2(129, -383)
 
 [node name="scheune" parent="Map/TileMaps" instance=ExtResource("11_8cvap")]
 position = Vector2(767, -390)
+
+[node name="UI" parent="Map/TileMaps/scheune" instance=ExtResource("6_wick1")]
+visible = false
+offset_left = -825.0
+offset_top = 309.0
+offset_right = -825.0
+offset_bottom = 309.0
 
 [node name="Fields" type="Node" parent="Map"]
 

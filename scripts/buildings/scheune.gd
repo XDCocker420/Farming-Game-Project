@@ -6,6 +6,7 @@ extends Node2D
 @onready var door: AnimatedSprite2D = $AnimatedSprite2D
 @onready var door_area: Area2D = $DoorArea
 @onready var storage_label: Label = $StorageLabel
+@onready var ui = $UI
 
 var in_area = false
 var open = false
@@ -25,8 +26,9 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-    if event.is_action_pressed("interact"):
-        pass
+	if event.is_action_pressed("interact"):
+		print("test passed")
+		ui.show()
 
 
 func _on_player_interact():
