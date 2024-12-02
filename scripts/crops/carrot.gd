@@ -8,11 +8,11 @@ extends AnimatedSprite2D
 
 @export var state = 0
 var time_left = 0
+var is_watered = false
 
 
 func _ready() -> void:
 	z_index = 2
-	player.interact.connect(_on_player_interact)
 	if state != 0:
 		position.y -= 10
 	play("grow " + str(state + 1))
@@ -35,15 +35,44 @@ func _on_timer_timeout() -> void:
 		play("grow 3")
 
 
-func _on_player_interact():
-	if state == 2 and field.player_in_area == true:
-		SaveGame.add_experience_points(CropManager.get_crop_exp("carrot"))
-		SaveGame.add_to_inventory("carrot", 2)
-		SaveGame.add_money(CropManager.get_crop_value("carrot"))
-		print(SaveGame.get_inventory())
-		print(SaveGame.get_current_level())
-		print(SaveGame.get_money())
-		queue_free()
+func water() -> bool:
+	if not is_watered:
+		is_watered = true
+		return true
+	return false
+
+
+func can_harvest() -> bool:
+	return state == 2
+
+
+func harvest() -> void:
+	if not can_harvest():
+		return
+		
+	# Bestimme die Anzahl der Karotten basierend auf dem Gießzustand
+	var carrot_count = 2  # Standardmäßig 2 Karotten
+	if is_watered:
+		# 22% Chance auf 3 Karotten wenn gegossen
+		if randf() > 0.78:
+			carrot_count = 3
+	else:
+		# 10% Chance auf 3 Karotten wenn nicht gegossen
+		if randf() > 0.90:
+			carrot_count = 3
+		# 5% Chance auf 1 Karotte wenn nicht gegossen
+		elif randf() < 0.05:
+			carrot_count = 1
+	
+	SaveGame.add_experience_points(CropManager.get_crop_exp("carrot"))
+	SaveGame.add_to_inventory("carrot", carrot_count)
+	SaveGame.add_money(CropManager.get_crop_value("carrot"))
+	print("Karotten geerntet: ", carrot_count)
+	print("Inventar: ", SaveGame.get_inventory())
+	print("Level: ", SaveGame.get_current_level())
+	print("Geld: ", SaveGame.get_money())
+	queue_free()
+
 
 func on_save_game(saved_data:Array[ItemSaves]):
 	var data = CropSaves.new()
@@ -53,13 +82,12 @@ func on_save_game(saved_data:Array[ItemSaves]):
 	data.parent_path = get_parent().get_path()
 	saved_data.append(data)
 
+
 func on_before_load():
-	#get_parent().remove_child(self)
 	queue_free()
 
-func on_load_game(saved_data):
-	#position = saved_data.position
 
+func on_load_game(saved_data):
 	if saved_data is CropSaves:
 		var data = saved_data as CropSaves
 		print(data.state)
