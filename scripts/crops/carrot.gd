@@ -1,6 +1,5 @@
 extends AnimatedSprite2D
 
-
 @onready var timer: Timer = $Timer
 @onready var player: CharacterBody2D = get_tree().get_nodes_in_group("Player")[0]
 @onready var field = get_parent()
@@ -9,7 +8,6 @@ extends AnimatedSprite2D
 @export var state = 0
 var time_left = 0
 var is_watered = false
-
 
 func _ready() -> void:
 	z_index = 2
@@ -22,7 +20,6 @@ func _ready() -> void:
 		timer.wait_time = default_time
 	timer.start()
 
-
 func _on_timer_timeout() -> void:
 	if state != 2:
 		state += 1
@@ -34,45 +31,37 @@ func _on_timer_timeout() -> void:
 	elif state == 2:
 		play("grow 3")
 
-
 func water() -> bool:
 	if not is_watered:
 		is_watered = true
 		return true
 	return false
 
-
 func can_harvest() -> bool:
 	return state == 2
-
 
 func harvest() -> void:
 	if not can_harvest():
 		return
 		
-	# Bestimme die Anzahl der Karotten basierend auf dem Gießzustand
-	var carrot_count = 2  # Standardmäßig 2 Karotten
+	var carrot_count = 2
 	if is_watered:
-		# 22% Chance auf 3 Karotten wenn gegossen
 		if randf() > 0.78:
 			carrot_count = 3
 	else:
-		# 10% Chance auf 3 Karotten wenn nicht gegossen
 		if randf() > 0.90:
 			carrot_count = 3
-		# 5% Chance auf 1 Karotte wenn nicht gegossen
 		elif randf() < 0.05:
 			carrot_count = 1
 	
 	SaveGame.add_experience_points(CropManager.get_crop_exp("carrot"))
 	SaveGame.add_to_inventory("carrot", carrot_count)
 	SaveGame.add_money(CropManager.get_crop_value("carrot"))
-	print("Karotten geerntet: ", carrot_count)
-	print("Inventar: ", SaveGame.get_inventory())
+	print("Harvested: ", carrot_count, " carrots")
+	print("Inventory: ", SaveGame.get_inventory())
 	print("Level: ", SaveGame.get_current_level())
-	print("Geld: ", SaveGame.get_money())
+	print("Money: ", SaveGame.get_money())
 	queue_free()
-
 
 func on_save_game(saved_data:Array[ItemSaves]):
 	var data = CropSaves.new()
@@ -82,10 +71,8 @@ func on_save_game(saved_data:Array[ItemSaves]):
 	data.parent_path = get_parent().get_path()
 	saved_data.append(data)
 
-
 func on_before_load():
 	queue_free()
-
 
 func on_load_game(saved_data):
 	if saved_data is CropSaves:

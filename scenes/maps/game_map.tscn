@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://7401yxdfc7e2"]
+[gd_scene load_steps=10 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
 [ext_resource type="TileSet" uid="uid://ckrpgnu5r4oj6" path="res://tiles/farmlands.tres" id="3_0p4cf"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://cfpp5sa7x3s7g" path="res://scenes/buildings/basic_house_1.tscn" id="6_1qq5s"]
 [ext_resource type="PackedScene" uid="uid://cgv01xlihuvuq" path="res://scenes/ui/ui_scheune.tscn" id="6_wick1"]
 [ext_resource type="PackedScene" uid="uid://0y5hanmykn2e" path="res://scenes/farming/field.tscn" id="7_j8nlu"]
+[ext_resource type="PackedScene" uid="uid://b8j6g3l4n5m7k" path="res://scenes/ui/farming_ui.tscn" id="9_8m1fq"]
 [ext_resource type="PackedScene" uid="uid://dj3x34xk3qcne" path="res://scenes/buildings/scheune.tscn" id="11_8cvap"]
 
 [node name="Game" type="Node2D"]
@@ -76,3 +77,9 @@ position = Vector2(-1467, 533)
 
 [node name="Field" parent="Map" instance=ExtResource("7_j8nlu")]
 position = Vector2(437, 906)
+
+[node name="FarmingGUI" parent="Map" instance=ExtResource("9_8m1fq")]
+offset_left = 537.0
+offset_top = 862.0
+offset_right = 537.0
+offset_bottom = 862.0

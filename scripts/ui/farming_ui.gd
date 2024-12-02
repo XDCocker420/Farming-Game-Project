@@ -16,15 +16,15 @@ func _ready() -> void:
 
 func _on_plant_button_pressed() -> void:
     emit_signal("plant_requested")
-    print("Pflanz-Aktion angefordert")
+    print("Plant action requested")
 
 func _on_water_button_pressed() -> void:
     emit_signal("water_requested")
-    print("Gieß-Aktion angefordert")
+    print("Water action requested")
 
 func _on_harvest_button_pressed() -> void:
     emit_signal("harvest_requested")
-    print("Ernte-Aktion angefordert")
+    print("Harvest action requested")
 
 func show_ui() -> void:
     visible = true
