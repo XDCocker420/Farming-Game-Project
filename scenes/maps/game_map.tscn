@@ -79,6 +79,7 @@ position = Vector2(-1467, 533)
 position = Vector2(437, 906)
 
 [node name="FarmingGUI" parent="Map" instance=ExtResource("9_8m1fq")]
+visible = false
 offset_left = 537.0
 offset_top = 862.0
 offset_right = 537.0

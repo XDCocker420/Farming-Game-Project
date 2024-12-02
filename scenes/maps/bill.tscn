@@ -9,13 +9,17 @@
 [node name="Player" parent="." instance=ExtResource("1_7s4qw")]
 unique_name_in_owner = true
 z_index = 5
-position = Vector2(74, -83)
+position = Vector2(216, 22)
 
 [node name="Camera" type="Camera2D" parent="Player"]
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
 [node name="FarmingGUI" parent="." instance=ExtResource("2_w12eg")]
+offset_left = 85.0
+offset_top = -43.0
+offset_right = 85.0
+offset_bottom = -43.0
 
 [node name="Field" parent="." instance=ExtResource("3_i13pp")]
 position = Vector2(-9, 4)

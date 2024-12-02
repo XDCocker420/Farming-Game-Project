@@ -34,6 +34,20 @@ func _connect_ui() -> void:
 		farming_ui.plant_requested.connect(_on_plant_requested)
 		farming_ui.water_requested.connect(_on_water_requested)
 		farming_ui.harvest_requested.connect(_on_harvest_requested)
+		_update_ui_visibility()
+
+func _any_field_selected() -> bool:
+	for field in get_tree().get_nodes_in_group("fields"):
+		if field.is_selected:
+			return true
+	return false
+
+func _update_ui_visibility() -> void:
+	if farming_ui:
+		if _any_field_selected():
+			farming_ui.show_ui()
+		else:
+			farming_ui.hide_ui()
 
 func _on_mouse_entered() -> void:
 	selection_highlight.color = Color(1, 1, 0, 0.5)
@@ -49,16 +63,7 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 		is_selected = !is_selected
 		selection_highlight.visible = is_selected
-		if is_selected and farming_ui:
-			farming_ui.show_ui()
-		else:
-			var any_selected = false
-			for field in get_tree().get_nodes_in_group("fields"):
-				if field != self and field.is_selected:
-					any_selected = true
-					break
-			if not any_selected and farming_ui:
-				farming_ui.hide_ui()
+		_update_ui_visibility()
 
 func _on_plant_requested() -> void:
 	if is_selected and not has_node("Carrot"):
@@ -83,3 +88,4 @@ func _on_harvest_requested() -> void:
 				is_selected = false
 				selection_highlight.visible = false
 				selection_highlight.color = Color(1, 1, 0, 0.3)
+				_update_ui_visibility()
