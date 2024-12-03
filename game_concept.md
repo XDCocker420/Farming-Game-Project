@@ -87,7 +87,10 @@ Auf diesem werden Aufträge von Personen aus dem Dorf ausgeschrieben. Sie werden
 Mit voranschreitendem Level schaltet der Spieler neue Elemente des Spieles frei. Diese Elemente z.B. neue Tiere oder Produktionsgebäude kosten einen bestimmten, momentan noch nicht festgelegten, Geldbetrag.
 
 ##### Spielehalle
-In einer Spielehalle, welche sich an der aus Pokémon Diamant orientiert,kann über verschiedene Maschinen seltene Items oder Gold erspielt werden. Es ist nicht möglich mit Echtgeld zu spielen oder dieses zu gewinnen also qualifiziert es sich nicht als Casino. Die Spielehalle hat rund um die Uhr geöffnet und es gibt Blackjack, Poker und Slotmachinen. !! Es ist ein Teil des Spieles nicht der Hauptsinn um Geld auszugeben. Momentan ist es der einzige Weg um Geld auszugeben da alternativen fehlen. Die Spielehalle wird ab Level 5 freigeschaltet und die Regestrierung kostet 3000
+In einer Spielehalle, welche sich an der aus Pokémon Diamant orientiert,kann über verschiedene Maschinen seltene Items oder Gold erspielt werden. Es ist nicht möglich mit Echtgeld zu spielen oder dieses zu gewinnen also qualifiziert es sich nicht als Casino. Die Spielehalle hat rund um die Uhr geöffnet und es gibt Blackjack, Poker und Slotmachinen. !! Es ist ein Teil des Spieles nicht der Hauptsinn um Geld auszugeben. Momentan ist es der einzige Weg um Geld auszugeben da alternativen fehlen. Die Spielehalle wird ab Level 5 freigeschaltet und die Regestrierung kostet 3000 Geld.
+
+##### Geschenke an NPCs
+Man kann  seine Waren oder Geschenke, welche in einem Geschenkshop gekauft werden, an NPCs im Dorf schenken. Dadurch mag dieser eine NPC den Spieler mehr und bietet bessere Handelpreise an. Mit einer Progressbar wird angezeigt ab wann man ein neues Level an Freundschaft erreicht.
 
 ### Produktionsgebäude
 ##### !! Tierfuttermühle !!
