@@ -3,7 +3,7 @@ GitHub repository for our SYP-Projekt.
 
 ## Getting started
 ```bash
-git clone https://github.com/XDCocker420/Projekt-Farming-Game.git
+git clone https://github.com/XDCocker420/Farming-Game-Project.git
 ```
 
 ## [Our GameConcept](game_concept.md)
