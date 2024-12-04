@@ -1,7 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://bqogj2noiv4ya"]
+[gd_scene load_steps=6 format=3 uid="uid://bqogj2noiv4ya"]
 
 [ext_resource type="Script" path="res://scripts/farming/farming_area.gd" id="1_or51d"]
-[ext_resource type="PackedScene" uid="uid://b8k5vvj6vk47x" path="res://scenes/farming/farm_field.tscn" id="2_field"]
+[ext_resource type="PackedScene" uid="uid://lo6utycpenq8" path="res://scenes/farming/farmFieldLeft.tscn" id="2_pdgie"]
+[ext_resource type="PackedScene" uid="uid://bwk02b3kef0xu" path="res://scenes/farming/farmFieldMiddle.tscn" id="3_fq8gb"]
+[ext_resource type="PackedScene" uid="uid://dgbjtfg8j188k" path="res://scenes/farming/farmFieldRight.tscn" id="4_rach3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6vrsi"]
 size = Vector2(488, 412)
@@ -9,98 +11,98 @@ size = Vector2(488, 412)
 [node name="farming_area" type="Area2D"]
 script = ExtResource("1_or51d")
 
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+shape = SubResource("RectangleShape2D_6vrsi")
+
 [node name="long_field1" type="Node2D" parent="."]
 position = Vector2(0, -158)
 
-[node name="field1" parent="long_field1" instance=ExtResource("2_field")]
+[node name="field1" parent="long_field1" instance=ExtResource("2_pdgie")]
 position = Vector2(-191, 0)
 
-[node name="field2" parent="long_field1" instance=ExtResource("2_field")]
+[node name="field2" parent="long_field1" instance=ExtResource("3_fq8gb")]
 position = Vector2(-128, 0)
 
-[node name="field3" parent="long_field1" instance=ExtResource("2_field")]
+[node name="field3" parent="long_field1" instance=ExtResource("3_fq8gb")]
 position = Vector2(-64, 0)
 
-[node name="field4" parent="long_field1" instance=ExtResource("2_field")]
+[node name="field4" parent="long_field1" instance=ExtResource("3_fq8gb")]
 
-[node name="field5" parent="long_field1" instance=ExtResource("2_field")]
+[node name="field5" parent="long_field1" instance=ExtResource("3_fq8gb")]
 position = Vector2(64, 0)
 
-[node name="field6" parent="long_field1" instance=ExtResource("2_field")]
+[node name="field6" parent="long_field1" instance=ExtResource("3_fq8gb")]
 position = Vector2(128, 0)
 
-[node name="field7" parent="long_field1" instance=ExtResource("2_field")]
+[node name="field7" parent="long_field1" instance=ExtResource("4_rach3")]
 position = Vector2(189, 0)
 
 [node name="long_field2" type="Node2D" parent="."]
 position = Vector2(0, -54)
 
-[node name="field1" parent="long_field2" instance=ExtResource("2_field")]
+[node name="field1" parent="long_field2" instance=ExtResource("2_pdgie")]
 position = Vector2(-191, 0)
 
-[node name="field2" parent="long_field2" instance=ExtResource("2_field")]
+[node name="field2" parent="long_field2" instance=ExtResource("3_fq8gb")]
 position = Vector2(-128, 0)
 
-[node name="field3" parent="long_field2" instance=ExtResource("2_field")]
+[node name="field3" parent="long_field2" instance=ExtResource("3_fq8gb")]
 position = Vector2(-64, 0)
 
-[node name="field4" parent="long_field2" instance=ExtResource("2_field")]
+[node name="field4" parent="long_field2" instance=ExtResource("3_fq8gb")]
 
-[node name="field5" parent="long_field2" instance=ExtResource("2_field")]
+[node name="field5" parent="long_field2" instance=ExtResource("3_fq8gb")]
 position = Vector2(64, 0)
 
-[node name="field6" parent="long_field2" instance=ExtResource("2_field")]
+[node name="field6" parent="long_field2" instance=ExtResource("3_fq8gb")]
 position = Vector2(128, 0)
 
-[node name="field7" parent="long_field2" instance=ExtResource("2_field")]
+[node name="field7" parent="long_field2" instance=ExtResource("4_rach3")]
 position = Vector2(189, 0)
 
 [node name="long_field3" type="Node2D" parent="."]
 position = Vector2(0, 50)
 
-[node name="field1" parent="long_field3" instance=ExtResource("2_field")]
+[node name="field1" parent="long_field3" instance=ExtResource("2_pdgie")]
 position = Vector2(-191, 0)
 
-[node name="field2" parent="long_field3" instance=ExtResource("2_field")]
+[node name="field2" parent="long_field3" instance=ExtResource("3_fq8gb")]
 position = Vector2(-128, 0)
 
-[node name="field3" parent="long_field3" instance=ExtResource("2_field")]
+[node name="field3" parent="long_field3" instance=ExtResource("3_fq8gb")]
 position = Vector2(-64, 0)
 
-[node name="field4" parent="long_field3" instance=ExtResource("2_field")]
+[node name="field4" parent="long_field3" instance=ExtResource("3_fq8gb")]
 
-[node name="field5" parent="long_field3" instance=ExtResource("2_field")]
+[node name="field5" parent="long_field3" instance=ExtResource("3_fq8gb")]
 position = Vector2(64, 0)
 
-[node name="field6" parent="long_field3" instance=ExtResource("2_field")]
+[node name="field6" parent="long_field3" instance=ExtResource("3_fq8gb")]
 position = Vector2(128, 0)
 
-[node name="field7" parent="long_field3" instance=ExtResource("2_field")]
+[node name="field7" parent="long_field3" instance=ExtResource("4_rach3")]
 position = Vector2(189, 0)
 
 [node name="long_field4" type="Node2D" parent="."]
 position = Vector2(0, 154)
 
-[node name="field1" parent="long_field4" instance=ExtResource("2_field")]
+[node name="field1" parent="long_field4" instance=ExtResource("2_pdgie")]
 position = Vector2(-191, 0)
 
-[node name="field2" parent="long_field4" instance=ExtResource("2_field")]
+[node name="field2" parent="long_field4" instance=ExtResource("3_fq8gb")]
 position = Vector2(-128, 0)
 
-[node name="field3" parent="long_field4" instance=ExtResource("2_field")]
+[node name="field3" parent="long_field4" instance=ExtResource("3_fq8gb")]
 position = Vector2(-64, 0)
 
-[node name="field4" parent="long_field4" instance=ExtResource("2_field")]
+[node name="field4" parent="long_field4" instance=ExtResource("3_fq8gb")]
 
-[node name="field5" parent="long_field4" instance=ExtResource("2_field")]
+[node name="field5" parent="long_field4" instance=ExtResource("3_fq8gb")]
 position = Vector2(64, 0)
 
-[node name="field6" parent="long_field4" instance=ExtResource("2_field")]
+[node name="field6" parent="long_field4" instance=ExtResource("3_fq8gb")]
 position = Vector2(128, 0)
 
-[node name="field7" parent="long_field4" instance=ExtResource("2_field")]
+[node name="field7" parent="long_field4" instance=ExtResource("4_rach3")]
 position = Vector2(189, 0)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-shape = SubResource("RectangleShape2D_6vrsi")
