@@ -1,20 +1,19 @@
 [gd_scene load_steps=4 format=3 uid="uid://cgv01xlihuvuq"]
 
 [ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_gkugg"]
+[ext_resource type="Script" path="res://scripts/ui/ui_scheune.gd" id="1_hyfmf"]
 [ext_resource type="PackedScene" uid="uid://f2u7wd113dhm" path="res://scenes/ui/ui_slot.tscn" id="2_s5gn4"]
-[ext_resource type="PackedScene" uid="uid://p0g8ts0lvm8t" path="res://scenes/ui/back_n_forth.tscn" id="3_0o4xl"]
 
 [node name="UI" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = -58.0
-offset_top = -81.0
-offset_right = -58.0
-offset_bottom = -81.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_hyfmf")
 
 [node name="Menu" type="NinePatchRect" parent="."]
 layout_mode = 1
@@ -24,90 +23,70 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -147.0
-offset_top = -111.5
-offset_right = 147.0
-offset_bottom = 111.5
+offset_top = -111.0
+offset_right = 98.0
+offset_bottom = 134.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("1_gkugg")
 region_rect = Rect2(113, 1, 46, 46)
 
-[node name="GridContainer" type="GridContainer" parent="Menu"]
-layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -123.0
-offset_top = -98.0
-offset_right = 23.0
-offset_bottom = 18.0
-grow_horizontal = 2
-grow_vertical = 2
-scale = Vector2(1.7, 1.7)
-columns = 5
+[node name="ScrollContainer" type="ScrollContainer" parent="Menu"]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 9.0
+offset_right = 118.0
+offset_bottom = 121.0
+scale = Vector2(2, 2)
 
-[node name="Slot" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
+[node name="VBoxContainer" type="VBoxContainer" parent="Menu/ScrollContainer"]
 layout_mode = 2
 
-[node name="Slot2" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
+[node name="GridContainer" type="GridContainer" parent="Menu/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="Slot" parent="Menu/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_s5gn4")]
 layout_mode = 2
 
-[node name="Slot3" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
+[node name="Slot2" parent="Menu/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_s5gn4")]
 layout_mode = 2
 
-[node name="Slot4" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
+[node name="Slot3" parent="Menu/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_s5gn4")]
 layout_mode = 2
 
-[node name="Slot5" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
+[node name="Slot4" parent="Menu/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_s5gn4")]
 layout_mode = 2
 
-[node name="Slot6" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
+[node name="Slot5" parent="Menu/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_s5gn4")]
 layout_mode = 2
 
-[node name="Slot7" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
+[node name="Slot6" parent="Menu/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_s5gn4")]
 layout_mode = 2
 
-[node name="Slot8" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
+[node name="Slot7" parent="Menu/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_s5gn4")]
 layout_mode = 2
 
-[node name="Slot9" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
+[node name="Slot8" parent="Menu/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_s5gn4")]
 layout_mode = 2
 
-[node name="Slot10" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
+[node name="Slot9" parent="Menu/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_s5gn4")]
 layout_mode = 2
 
-[node name="Slot11" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
+[node name="Slot10" parent="Menu/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_s5gn4")]
 layout_mode = 2
 
-[node name="Slot12" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
+[node name="Slot11" parent="Menu/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_s5gn4")]
 layout_mode = 2
 
-[node name="Slot13" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
+[node name="Slot12" parent="Menu/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_s5gn4")]
 layout_mode = 2
 
-[node name="Slot14" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
+[node name="Slot13" parent="Menu/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_s5gn4")]
 layout_mode = 2
 
-[node name="Slot15" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
-z_index = 6
+[node name="Slot14" parent="Menu/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_s5gn4")]
 layout_mode = 2
 
-[node name="Slot16" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
+[node name="Slot15" parent="Menu/ScrollContainer/VBoxContainer/GridContainer" instance=ExtResource("2_s5gn4")]
 layout_mode = 2
-
-[node name="Slot17" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
-layout_mode = 2
-
-[node name="Slot18" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
-layout_mode = 2
-
-[node name="Slot19" parent="Menu/GridContainer" instance=ExtResource("2_s5gn4")]
-layout_mode = 2
-
-[node name="BackNForth" parent="Menu/GridContainer" instance=ExtResource("3_0o4xl")]
-layout_direction = 0
-layout_mode = 2
-size_flags_horizontal = 2
-size_flags_vertical = 4

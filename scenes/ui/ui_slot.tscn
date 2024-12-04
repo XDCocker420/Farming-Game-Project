@@ -1,10 +1,13 @@
-[gd_scene load_steps=2 format=3 uid="uid://f2u7wd113dhm"]
+[gd_scene load_steps=3 format=3 uid="uid://f2u7wd113dhm"]
 
 [ext_resource type="Texture2D" uid="uid://b1a783ur0o53u" path="res://assets/gui/slot_bg.png" id="1_qjc65"]
 
+[sub_resource type="LabelSettings" id="LabelSettings_ny3na"]
+font_size = 64
+
 [node name="Slot" type="PanelContainer"]
-offset_right = 195.0
-offset_bottom = 171.0
+offset_right = 26.0
+offset_bottom = 26.0
 
 [node name="Background" type="TextureRect" parent="."]
 layout_mode = 2
@@ -12,3 +15,15 @@ texture = ExtResource("1_qjc65")
 
 [node name="Icon" type="TextureRect" parent="."]
 layout_mode = 2
+
+[node name="Node2D" type="Node2D" parent="."]
+
+[node name="amount" type="Label" parent="Node2D"]
+visible = false
+offset_left = 21.0
+offset_top = 17.0
+offset_right = 61.0
+offset_bottom = 105.0
+scale = Vector2(0.1, 0.1)
+text = "0"
+label_settings = SubResource("LabelSettings_ny3na")
