@@ -26,7 +26,7 @@ func _ready() -> void:
 
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("interact"):
+	if event.is_action_pressed("interact") && in_area:
 		print("test passed")
 		ui.show()
 
@@ -36,11 +36,13 @@ func _on_player_interact():
 		if not open:
 			door.play("open")
 			open = true
+			ui.show()
 			storage_label.visible = true
 			update_storage_text()
 		else:
 			door.play_backwards("open")
 			open = false
+			ui.hide()
 			storage_label.visible = false
 
 

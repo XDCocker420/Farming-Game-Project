@@ -1,8 +1,9 @@
-[gd_scene load_steps=23 format=4 uid="uid://dj3x34xk3qcne"]
+[gd_scene load_steps=24 format=4 uid="uid://dj3x34xk3qcne"]
 
 [ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_yksl6"]
 [ext_resource type="Script" path="res://scripts/buildings/scheune.gd" id="2_ac5ql"]
 [ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="3_e6v12"]
+[ext_resource type="PackedScene" uid="uid://cgv01xlihuvuq" path="res://scenes/ui/ui_scheune.tscn" id="4_ny552"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_g6eeo"]
 texture = ExtResource("1_yksl6")
@@ -9131,6 +9132,12 @@ offset_bottom = -73.0
 text = "Lager: 0 von 10"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="UI" parent="." instance=ExtResource("4_ny552")]
+offset_left = 306.0
+offset_top = -67.0
+offset_right = 306.0
+offset_bottom = -67.0
 
 [connection signal="body_entered" from="DoorArea" to="tiles" method="_on_door_area_body_entered"]
 [connection signal="body_exited" from="DoorArea" to="tiles" method="_on_door_area_body_exited"]
