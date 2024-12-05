@@ -1,7 +1,6 @@
 extends AnimatedSprite2D
 
 @onready var timer: Timer = $Timer
-@onready var player: CharacterBody2D = get_tree().get_nodes_in_group("Player")[0]
 @onready var field = get_parent()
 @onready var default_time = CropManager.get_crop_time('carrot')
 

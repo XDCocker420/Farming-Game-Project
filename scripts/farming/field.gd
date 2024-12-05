@@ -2,8 +2,6 @@ extends Area2D
 
 var is_selected: bool = false
 var crop: Node = null
-var farming_ui: Node = null
-var ui_active: bool = false
 var current_mode: String = ""
 
 @onready var carrot_scene = preload("res://scenes/crops/carrot.tscn")
@@ -26,18 +24,6 @@ func _ready() -> void:
 		highlight.position = Vector2(-32, -32)
 		add_child(highlight)
 		selection_highlight = highlight
-	
-	# Wait for UI to be ready
-	call_deferred("_connect_ui")
-
-func _connect_ui() -> void:
-	var uis = get_tree().get_nodes_in_group("farming_ui")
-	if uis.size() > 0:
-		farming_ui = uis[0]
-		farming_ui.plant_requested.connect(_on_plant_requested)
-		farming_ui.water_requested.connect(_on_water_requested)
-		farming_ui.harvest_requested.connect(_on_harvest_requested)
-		farming_ui.ui_visibility_changed.connect(_on_ui_visibility_changed)
 
 func _on_mouse_entered() -> void:
 	if current_mode != "":
@@ -68,23 +54,6 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 							plant.harvest()
 							selection_highlight.visible = false
 
-func _on_ui_visibility_changed(is_visible: bool) -> void:
-	ui_active = is_visible
-	if not is_visible:
-		is_selected = false
-		selection_highlight.visible = false
-
 func set_mode(mode: String) -> void:
 	current_mode = mode
 	selection_highlight.visible = false
-
-# Diese Funktionen werden nicht mehr direkt verwendet, da die Aktionen
-# jetzt direkt bei der Feldauswahl ausgeführt werden
-func _on_plant_requested() -> void:
-	pass
-
-func _on_water_requested() -> void:
-	pass
-
-func _on_harvest_requested() -> void:
-	pass
