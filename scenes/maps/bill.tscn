@@ -15,12 +15,12 @@ position = Vector2(216, 22)
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
+[node name="farming_area" parent="." instance=ExtResource("3_wcd6p")]
+position = Vector2(-15, -119)
+
 [node name="FarmingGUI" parent="." instance=ExtResource("2_w12eg")]
 z_index = 4
 offset_left = 85.0
 offset_top = -43.0
 offset_right = 85.0
 offset_bottom = -43.0
-
-[node name="farming_area" parent="." instance=ExtResource("3_wcd6p")]
-position = Vector2(-15, -119)
