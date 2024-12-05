@@ -56,11 +56,9 @@ func harvest() -> void:
 	
 	SaveGame.add_experience_points(CropManager.get_crop_exp("carrot"))
 	SaveGame.add_to_inventory("carrot", carrot_count)
-	SaveGame.add_money(CropManager.get_crop_value("carrot"))
 	print("Harvested: ", carrot_count, " carrots")
 	print("Inventory: ", SaveGame.get_inventory())
 	print("Level: ", SaveGame.get_current_level())
-	print("Money: ", SaveGame.get_money())
 	queue_free()
 
 func on_save_game(saved_data:Array[ItemSaves]):
