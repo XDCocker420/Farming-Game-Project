@@ -1,8 +1,8 @@
 extends Area2D
 
-const MODE_PLANT := "pflanzen"
-const MODE_WATER := "gießen"
-const MODE_HARVEST := "ernten"
+const MODE_PLANT := "plant"
+const MODE_WATER := "water"
+const MODE_HARVEST := "harvest"
 
 const HIGHLIGHT_DEFAULT := Color(1, 1, 1, 0.2)
 const HIGHLIGHT_HOVER := Color(1, 1, 1, 0.3)

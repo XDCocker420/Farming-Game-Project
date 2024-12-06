@@ -1,8 +1,8 @@
 extends Area2D
 
-const MODE_PLANT := "pflanzen"
-const MODE_WATER := "gießen"
-const MODE_HARVEST := "ernten"
+const MODE_PLANT := "plant"
+const MODE_WATER := "water"
+const MODE_HARVEST := "harvest"
 
 var current_mode: String = ""
 var is_current_area: bool = false
