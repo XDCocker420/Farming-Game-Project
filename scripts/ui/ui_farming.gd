@@ -1,5 +1,9 @@
 extends Control
 
+const MODE_PLANT := "pflanzen"
+const MODE_WATER := "gießen"
+const MODE_HARVEST := "ernten"
+
 @onready var plant_button: Button = $Menu/PlantButtonField/PlantButton
 @onready var water_button: Button = $Menu/WaterButtonField/WaterButton
 @onready var harvest_button: Button = $Menu/HarvestButtonField/HarvestButton
@@ -15,11 +19,14 @@ func _ready() -> void:
 	visible = false
 
 func _connect_buttons() -> void:
-	plant_button.pressed.connect(func(): _on_mode_button_pressed("pflanzen"))
-	water_button.pressed.connect(func(): _on_mode_button_pressed("gießen"))
-	harvest_button.pressed.connect(func(): _on_mode_button_pressed("ernten"))
+	plant_button.pressed.connect(func(): _on_mode_button_pressed(MODE_PLANT))
+	water_button.pressed.connect(func(): _on_mode_button_pressed(MODE_WATER))
+	harvest_button.pressed.connect(func(): _on_mode_button_pressed(MODE_HARVEST))
 
 func _connect_areas() -> void:
+	if farming_areas.is_empty():
+		return
+		
 	for area in farming_areas:
 		area.body_entered.connect(_on_farming_area_entered.bind(area))
 		area.body_exited.connect(_on_farming_area_exited.bind(area))
@@ -33,7 +40,7 @@ func _on_farming_area_entered(body: Node2D, area: Area2D) -> void:
 	if body.is_in_group("Player"):
 		current_area = area
 
-func _on_farming_area_exited(body: Node2D, area: Area2D) -> void:
+func _on_farming_area_exited(body: Node2D, _area: Area2D) -> void:
 	if body.is_in_group("Player"):
 		hide_ui()
 		current_area = null
