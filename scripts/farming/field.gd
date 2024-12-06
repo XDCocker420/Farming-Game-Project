@@ -58,6 +58,9 @@ func _try_plant() -> void:
 			add_child(carrot_scene.instantiate())
 			selection_highlight.modulate = Color(1, 1, 1, 0.4)
 			selection_highlight.visible = true
+			print("Plant planted! Remaining carrots: ", SaveGame.get_item_count("carrot"))
+		else:
+			print("Not enough carrots to plant!")
 
 func _try_water() -> void:
 	var plant = get_node_or_null("Carrot")
