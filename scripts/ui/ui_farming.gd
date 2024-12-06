@@ -25,13 +25,6 @@ func _ready() -> void:
 			area.body_entered.connect(_on_farming_area_entered.bind(area))
 			area.body_exited.connect(_on_farming_area_exited.bind(area))
 
-func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_accept") and is_in_area: # E-Taste ist standardmäßig ui_accept
-		if visible:
-			hide_ui()
-		else:
-			show_ui()
-
 func _on_plant_button_pressed() -> void:
 	emit_signal("plant_requested")
 	print("Plant action requested")
