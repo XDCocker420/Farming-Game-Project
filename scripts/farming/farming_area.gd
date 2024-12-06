@@ -4,6 +4,7 @@ var in_area: bool = false
 var current_mode: String = ""
 
 @onready var mode_label: Label = $ModeLabel
+@onready var farming_ui = $FarmingUI
 
 func _ready() -> void:
 	body_entered.connect(_on_player_entered)
@@ -23,6 +24,7 @@ func _on_player_exited(body: Node2D) -> void:
 		in_area = false
 		if current_mode != "":
 			exit_mode()
+		farming_ui.hide_ui()
 
 func enter_mode(mode: String) -> void:
 	current_mode = mode
@@ -44,7 +46,6 @@ func exit_mode() -> void:
 	for field in fields:
 		if field.has_method("set_mode"):
 			field.set_mode("")
-			
-	var uis = get_tree().get_nodes_in_group("farming_ui")
-	if uis.size() > 0:
-		uis[0].show_ui()
+	
+	# Zeige das UI wieder an, anstatt es komplett zu schließen
+	farming_ui.show_ui()
