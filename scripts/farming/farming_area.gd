@@ -20,7 +20,7 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("ui_cancel") and current_mode != "": # ESC-Taste
 		exit_mode()
-	elif event.is_action_pressed("ui_accept") and is_current_area: # E-Taste
+	elif event.is_action_pressed("ui_accept") and is_current_area and current_mode == "": # E-Taste nur wenn kein Modus aktiv
 		if farming_ui.visible:
 			farming_ui.hide_ui()
 		else:
