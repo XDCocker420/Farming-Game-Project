@@ -19,7 +19,7 @@ func _setup_highlight() -> void:
 		highlight.texture = preload("res://assets/gui/menu.png")
 		highlight.region_rect = Rect2(305, 81, 14, 14)
 		highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		highlight.modulate = Color(1, 1, 1, 0.2)
+		highlight.modulate = Color(1, 1, 1, 0.4)
 		highlight.visible = false
 		highlight.size = Vector2(64, 64)
 		highlight.position = Vector2(-32, -32)
@@ -54,20 +54,25 @@ func execute_action() -> void:
 func _try_plant() -> void:
 	if not has_node("Carrot"):
 		add_child(carrot_scene.instantiate())
+		selection_highlight.modulate = Color(1, 1, 1, 0.4)
+		selection_highlight.visible = true
 
 func _try_water() -> void:
 	var plant = get_node_or_null("Carrot")
 	if plant and plant.has_method("water") and plant.water():
-		selection_highlight.modulate = Color(0.7, 0.9, 1.0, 0.3)
+		selection_highlight.modulate = Color(0, 0.5, 1, 0.6)
+		selection_highlight.visible = true
 
 func _try_harvest() -> void:
 	var plant = get_node_or_null("Carrot")
 	if plant and plant.has_method("harvest") and plant.has_method("can_harvest") and plant.can_harvest():
 		plant.harvest()
+		selection_highlight.modulate = Color(1, 1, 1, 0.4)
 		selection_highlight.visible = false
 
 func _show_highlight() -> void:
-	selection_highlight.modulate = Color(1, 1, 1, 0.3)
+	if not selection_highlight.modulate == Color(0, 0.5, 1, 0.6):
+		selection_highlight.modulate = Color(1, 1, 1, 0.5)
 	selection_highlight.visible = true
 
 func set_mode(mode: String) -> void:
