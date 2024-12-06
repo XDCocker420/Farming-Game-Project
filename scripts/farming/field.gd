@@ -3,6 +3,7 @@ extends Area2D
 var is_selected: bool = false
 var crop: Node = null
 var current_mode: String = ""
+var mouse_held: bool = false
 
 @onready var carrot_scene = preload("res://scenes/crops/carrot.tscn")
 @onready var selection_highlight = $SelectionHighlight
@@ -27,32 +28,39 @@ func _ready() -> void:
 
 func _on_mouse_entered() -> void:
 	if current_mode != "":
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			execute_action()
 		selection_highlight.color = Color(1, 1, 0, 0.5)
 		selection_highlight.visible = true
 
 func _on_mouse_exited() -> void:
-	selection_highlight.visible = false
+	if not is_selected:
+		selection_highlight.visible = false
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if current_mode != "" and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		match current_mode:
-			"pflanzen":
-				if not has_node("Carrot"):
-					crop = carrot_scene.instantiate()
-					add_child(crop)
-			"gießen":
-				if has_node("Carrot"):
-					var plant = get_node("Carrot")
-					if plant.has_method("water"):
-						if plant.water():
-							selection_highlight.color = Color(0, 0, 1, 0.3)
-			"ernten":
-				if has_node("Carrot"):
-					var plant = get_node("Carrot")
-					if plant.has_method("harvest") and plant.has_method("can_harvest"):
-						if plant.can_harvest():
-							plant.harvest()
-							selection_highlight.visible = false
+	if current_mode != "" and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.pressed:
+			execute_action()
+
+func execute_action() -> void:
+	match current_mode:
+		"pflanzen":
+			if not has_node("Carrot"):
+				crop = carrot_scene.instantiate()
+				add_child(crop)
+		"gießen":
+			if has_node("Carrot"):
+				var plant = get_node("Carrot")
+				if plant.has_method("water"):
+					if plant.water():
+						selection_highlight.color = Color(0, 0, 1, 0.3)
+		"ernten":
+			if has_node("Carrot"):
+				var plant = get_node("Carrot")
+				if plant.has_method("harvest") and plant.has_method("can_harvest"):
+					if plant.can_harvest():
+						plant.harvest()
+						selection_highlight.visible = false
 
 func set_mode(mode: String) -> void:
 	current_mode = mode
