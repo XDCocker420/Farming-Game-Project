@@ -1,8 +1,8 @@
 extends Control
 
-@onready var plant_button: Button = $Panel/VBoxContainer/PlantButton
-@onready var water_button: Button = $Panel/VBoxContainer/WaterButton
-@onready var harvest_button: Button = $Panel/VBoxContainer/HarvestButton
+@onready var plant_button: Button = $Menu/PlantButtonField/PlantButton
+@onready var water_button: Button = $Menu/WaterButtonField/WaterButton
+@onready var harvest_button: Button = $Menu/HarvestButtonField/HarvestButton
 @onready var farming_areas = get_tree().get_nodes_in_group("farming_areas")
 
 var is_in_area: bool = false
