@@ -1,17 +1,13 @@
 extends Area2D
 
-const MODE_PLANT := "plant"
-const MODE_WATER := "water"
-const MODE_HARVEST := "harvest"
-
 var current_mode: String = ""
 var is_current_area: bool = false
 
 @onready var ui_farming = $FarmingUI
 @onready var mode_uis = {
-	MODE_PLANT: $PlantModeUI,
-	MODE_WATER: $WaterModeUI,
-	MODE_HARVEST: $HarvestModeUI
+	"plant": $PlantModeUI,
+	"water": $WaterModeUI,
+	"harvest": $HarvestModeUI
 }
 
 func _ready() -> void:

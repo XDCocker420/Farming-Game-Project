@@ -1,9 +1,5 @@
 extends Control
 
-const MODE_PLANT := "plant"
-const MODE_WATER := "water"
-const MODE_HARVEST := "harvest"
-
 @onready var plant_button: Button = $Menu/PlantButtonField/PlantButton
 @onready var water_button: Button = $Menu/WaterButtonField/WaterButton
 @onready var harvest_button: Button = $Menu/HarvestButtonField/HarvestButton
@@ -19,9 +15,9 @@ func _ready() -> void:
 	visible = false
 
 func _connect_buttons() -> void:
-	plant_button.pressed.connect(func(): _on_mode_button_pressed(MODE_PLANT))
-	water_button.pressed.connect(func(): _on_mode_button_pressed(MODE_WATER))
-	harvest_button.pressed.connect(func(): _on_mode_button_pressed(MODE_HARVEST))
+	plant_button.pressed.connect(func(): _on_mode_button_pressed("plant"))
+	water_button.pressed.connect(func(): _on_mode_button_pressed("water"))
+	harvest_button.pressed.connect(func(): _on_mode_button_pressed("harvest"))
 
 func _connect_areas() -> void:
 	if farming_areas.is_empty():
