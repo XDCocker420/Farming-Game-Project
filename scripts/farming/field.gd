@@ -17,7 +17,7 @@ func _setup_highlight() -> void:
 		var highlight = NinePatchRect.new()
 		highlight.name = "SelectionHighlight"
 		highlight.texture = preload("res://assets/gui/menu.png")
-		highlight.region_rect = Rect2(289, 49, 46, 14)
+		highlight.region_rect = Rect2(305, 81, 14, 14)
 		highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
 		highlight.modulate = Color(1, 1, 1, 0.2)
 		highlight.visible = false
