@@ -1,9 +1,7 @@
 extends Area2D
 
-var is_selected: bool = false
 var crop: Node = null
 var current_mode: String = ""
-var mouse_held: bool = false
 
 @onready var carrot_scene = preload("res://scenes/crops/carrot.tscn")
 @onready var selection_highlight = $SelectionHighlight

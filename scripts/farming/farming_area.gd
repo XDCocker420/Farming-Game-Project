@@ -1,6 +1,5 @@
 extends Area2D
 
-var in_area: bool = false
 var current_mode: String = ""
 var is_current_area: bool = false
 
@@ -28,12 +27,10 @@ func _input(event: InputEvent) -> void:
 
 func _on_player_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		in_area = true
 		is_current_area = true
 
 func _on_player_exited(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		in_area = false
 		is_current_area = false
 		if current_mode != "":
 			exit_mode()
