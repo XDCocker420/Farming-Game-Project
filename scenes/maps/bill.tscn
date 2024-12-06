@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://l6rnva0jxton"]
+[gd_scene load_steps=3 format=3 uid="uid://l6rnva0jxton"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_7s4qw"]
-[ext_resource type="PackedScene" uid="uid://b8j6g3l4n5m7k" path="res://scenes/ui/farming_ui.tscn" id="2_w12eg"]
 [ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="3_wcd6p"]
 
 [node name="Bill_Map" type="Node2D"]
@@ -17,10 +16,3 @@ position_smoothing_speed = 7.0
 
 [node name="farming_area" parent="." instance=ExtResource("3_wcd6p")]
 position = Vector2(-15, -119)
-
-[node name="FarmingGUI" parent="." instance=ExtResource("2_w12eg")]
-z_index = 4
-offset_left = 85.0
-offset_top = -43.0
-offset_right = 85.0
-offset_bottom = -43.0

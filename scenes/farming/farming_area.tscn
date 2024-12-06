@@ -1,25 +1,16 @@
-[gd_scene load_steps=7 format=3 uid="uid://bqogj2noiv4ya"]
+[gd_scene load_steps=10 format=3 uid="uid://bqogj2noiv4ya"]
 
 [ext_resource type="Script" path="res://scripts/farming/farming_area.gd" id="1_or51d"]
 [ext_resource type="PackedScene" uid="uid://lo6utycpenq8" path="res://scenes/farming/farmFieldLeft.tscn" id="2_pdgie"]
 [ext_resource type="PackedScene" uid="uid://bwk02b3kef0xu" path="res://scenes/farming/farmFieldMiddle.tscn" id="3_fq8gb"]
 [ext_resource type="PackedScene" uid="uid://dgbjtfg8j188k" path="res://scenes/farming/farmFieldRight.tscn" id="4_rach3"]
 [ext_resource type="PackedScene" uid="uid://bqag013g7o0c6" path="res://scenes/ui/ui_farming.tscn" id="5_xk3l4"]
+[ext_resource type="PackedScene" uid="uid://kuegxrcss13s" path="res://scenes/ui/ui_plant_mode.tscn" id="6_ykl4m"]
+[ext_resource type="PackedScene" uid="uid://dpj4xransfcws" path="res://scenes/ui/ui_water_mode.tscn" id="7_l2m3n"]
+[ext_resource type="PackedScene" uid="uid://c37fb3qfu8h0r" path="res://scenes/ui/ui_harvest_mode.tscn" id="8_n4o5p"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6vrsi"]
 size = Vector2(488, 412)
-
-[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1"]
-bg_color = Color(0.129412, 0.129412, 0.129412, 0.901961)
-border_width_left = 2
-border_width_top = 2
-border_width_right = 2
-border_width_bottom = 2
-border_color = Color(0.8, 0.8, 0.8, 1)
-corner_radius_top_left = 8
-corner_radius_top_right = 8
-corner_radius_bottom_right = 8
-corner_radius_bottom_left = 8
 
 [node name="farming_area" type="Area2D" groups=["farming_areas"]]
 script = ExtResource("1_or51d")
@@ -28,24 +19,16 @@ script = ExtResource("1_or51d")
 visible = false
 shape = SubResource("RectangleShape2D_6vrsi")
 
-[node name="ModeLabel" type="Label" parent="."]
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -100.0
-offset_top = -25.0
-offset_right = 100.0
-offset_bottom = 25.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_font_sizes/font_size = 32
-theme_override_styles/normal = SubResource("StyleBoxFlat_1")
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="FarmingUI" parent="." instance=ExtResource("5_xk3l4")]
+visible = false
+
+[node name="PlantModeUI" parent="." instance=ExtResource("6_ykl4m")]
+visible = false
+
+[node name="WaterModeUI" parent="." instance=ExtResource("7_l2m3n")]
+visible = false
+
+[node name="HarvestModeUI" parent="." instance=ExtResource("8_n4o5p")]
 visible = false
 
 [node name="long_field1" type="Node2D" parent="."]
