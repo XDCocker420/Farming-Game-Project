@@ -15,11 +15,13 @@ func _ready() -> void:
 	add_to_group("fields")
 	
 	if not has_node("SelectionHighlight"):
-		var highlight = ColorRect.new()
+		var highlight = NinePatchRect.new()
 		highlight.name = "SelectionHighlight"
 		
-		highlight.color = Color(1, 1, 0, 0.3)
+		highlight.texture = preload("res://assets/gui/menu.png")
+		highlight.region_rect = Rect2(289, 49, 46, 14)
 		highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		highlight.modulate = Color(1, 1, 1, 0.2)
 		highlight.visible = false
 		highlight.size = Vector2(64, 64)
 		highlight.position = Vector2(-32, -32)
@@ -30,12 +32,11 @@ func _on_mouse_entered() -> void:
 	if current_mode != "":
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			execute_action()
-		selection_highlight.color = Color(1, 1, 0, 0.5)
+		selection_highlight.modulate = Color(1, 1, 1, 0.3)
 		selection_highlight.visible = true
 
 func _on_mouse_exited() -> void:
-	if not is_selected:
-		selection_highlight.visible = false
+	selection_highlight.visible = false
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
 	if current_mode != "" and event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
@@ -53,7 +54,7 @@ func execute_action() -> void:
 				var plant = get_node("Carrot")
 				if plant.has_method("water"):
 					if plant.water():
-						selection_highlight.color = Color(0, 0, 1, 0.3)
+						selection_highlight.modulate = Color(0.7, 0.9, 1.0, 0.3)
 		"ernten":
 			if has_node("Carrot"):
 				var plant = get_node("Carrot")
