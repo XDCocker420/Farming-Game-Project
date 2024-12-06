@@ -10,30 +10,23 @@ var current_area: Area2D = null
 signal ui_visibility_changed(is_visible: bool)
 
 func _ready() -> void:
-	plant_button.pressed.connect(_on_plant_button_pressed)
-	water_button.pressed.connect(_on_water_button_pressed)
-	harvest_button.pressed.connect(_on_harvest_button_pressed)
+	_connect_buttons()
+	_connect_areas()
 	visible = false
-	
-	# Connect to all farming areas
+
+func _connect_buttons() -> void:
+	plant_button.pressed.connect(func(): _on_mode_button_pressed("pflanzen"))
+	water_button.pressed.connect(func(): _on_mode_button_pressed("gießen"))
+	harvest_button.pressed.connect(func(): _on_mode_button_pressed("ernten"))
+
+func _connect_areas() -> void:
 	for area in farming_areas:
-		if area.has_method("_on_player_entered"):
-			area.body_entered.connect(_on_farming_area_entered.bind(area))
-			area.body_exited.connect(_on_farming_area_exited.bind(area))
+		area.body_entered.connect(_on_farming_area_entered.bind(area))
+		area.body_exited.connect(_on_farming_area_exited.bind(area))
 
-func _on_plant_button_pressed() -> void:
+func _on_mode_button_pressed(mode: String) -> void:
 	if current_area:
-		current_area.enter_mode("pflanzen")
-		hide_ui(false)
-
-func _on_water_button_pressed() -> void:
-	if current_area:
-		current_area.enter_mode("gießen")
-		hide_ui(false)
-
-func _on_harvest_button_pressed() -> void:
-	if current_area:
-		current_area.enter_mode("ernten")
+		current_area.enter_mode(mode)
 		hide_ui(false)
 
 func _on_farming_area_entered(body: Node2D, area: Area2D) -> void:
