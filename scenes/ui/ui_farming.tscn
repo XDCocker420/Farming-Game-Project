@@ -4,7 +4,7 @@
 [ext_resource type="Script" path="res://scripts/ui/ui_farming.gd" id="1_ykl4m"]
 [ext_resource type="Texture2D" uid="uid://cq72eeq6qv0oy" path="res://assets/gui/icons/carrot.png" id="2_ybe8i"]
 
-[node name="FarmingUI" type="Control" groups=["farming_ui"]]
+[node name="FarmingUI" type="Control" groups=["ui_farming"]]
 z_index = 4
 layout_mode = 3
 anchors_preset = 15
