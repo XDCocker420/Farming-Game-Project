@@ -18,9 +18,9 @@ func _ready() -> void:
 	harvest_mode_ui.visible = false
 
 func _input(event: InputEvent) -> void:
-	if event.is_action_pressed("ui_cancel") and current_mode != "": # ESC-Taste
+	if event.is_action_pressed("ui_cancel") and current_mode != "": # ESC key
 		exit_mode()
-	elif event.is_action_pressed("ui_accept") and is_current_area and current_mode == "": # E-Taste nur wenn kein Modus aktiv
+	elif event.is_action_pressed("ui_accept") and is_current_area and current_mode == "": # E key when no mode active
 		if ui_farming.visible:
 			ui_farming.hide_ui()
 		else:
@@ -42,12 +42,12 @@ func _on_player_exited(body: Node2D) -> void:
 func enter_mode(mode: String) -> void:
 	current_mode = mode
 	
-	# Verstecke alle Modus-UIs
+	# Hide all mode UIs
 	plant_mode_ui.visible = false
 	water_mode_ui.visible = false
 	harvest_mode_ui.visible = false
 	
-	# Zeige das entsprechende Modus-UI
+	# Show the corresponding mode UI
 	match mode:
 		"pflanzen":
 			plant_mode_ui.visible = true
@@ -56,7 +56,7 @@ func enter_mode(mode: String) -> void:
 		"ernten":
 			harvest_mode_ui.visible = true
 	
-	# Setze den Modus für alle Felder
+	# Set mode for all fields
 	var fields = get_tree().get_nodes_in_group("fields")
 	for field in fields:
 		if field.has_method("set_mode"):
@@ -65,17 +65,17 @@ func enter_mode(mode: String) -> void:
 func exit_mode() -> void:
 	current_mode = ""
 	
-	# Verstecke alle Modus-UIs
+	# Hide all mode UIs
 	plant_mode_ui.visible = false
 	water_mode_ui.visible = false
 	harvest_mode_ui.visible = false
 	
-	# Setze den Modus für alle Felder zurück
+	# Reset mode for all fields
 	var fields = get_tree().get_nodes_in_group("fields")
 	for field in fields:
 		if field.has_method("set_mode"):
 			field.set_mode("")
 	
-	# Zeige das UI wieder an, anstatt es komplett zu schließen
+	# Show the UI again
 	if is_current_area:
 		ui_farming.show_ui()

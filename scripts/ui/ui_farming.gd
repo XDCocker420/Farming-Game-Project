@@ -19,7 +19,7 @@ func _ready() -> void:
 	harvest_button.pressed.connect(_on_harvest_button_pressed)
 	visible = false
 	
-	# Verbinde mit allen Farming-Bereichen
+	# Connect to all farming areas
 	for area in farming_areas:
 		if area.has_method("_on_player_entered"):
 			area.body_entered.connect(_on_farming_area_entered.bind(area))

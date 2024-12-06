@@ -14,6 +14,7 @@ func _ready() -> void:
 	input_event.connect(_on_input_event)
 	add_to_group("fields")
 	
+	# Create highlight if it doesn't exist
 	if not has_node("SelectionHighlight"):
 		var highlight = NinePatchRect.new()
 		highlight.name = "SelectionHighlight"
@@ -21,7 +22,7 @@ func _ready() -> void:
 		highlight.texture = preload("res://assets/gui/menu.png")
 		highlight.region_rect = Rect2(289, 49, 46, 14)
 		highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		highlight.modulate = Color(1, 1, 1, 0.2)
+		highlight.modulate = Color(1, 1, 1, 0.2)  # Default transparency
 		highlight.visible = false
 		highlight.size = Vector2(64, 64)
 		highlight.position = Vector2(-32, -32)
@@ -32,7 +33,7 @@ func _on_mouse_entered() -> void:
 	if current_mode != "":
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			execute_action()
-		selection_highlight.modulate = Color(1, 1, 1, 0.3)
+		selection_highlight.modulate = Color(1, 1, 1, 0.3)  # Slightly more visible on hover
 		selection_highlight.visible = true
 
 func _on_mouse_exited() -> void:
@@ -54,7 +55,7 @@ func execute_action() -> void:
 				var plant = get_node("Carrot")
 				if plant.has_method("water"):
 					if plant.water():
-						selection_highlight.modulate = Color(0.7, 0.9, 1.0, 0.3)
+						selection_highlight.modulate = Color(0.7, 0.9, 1.0, 0.3)  # Blue tint for watered fields
 		"ernten":
 			if has_node("Carrot"):
 				var plant = get_node("Carrot")
