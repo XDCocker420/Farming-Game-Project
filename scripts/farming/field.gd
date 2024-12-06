@@ -53,9 +53,11 @@ func execute_action() -> void:
 
 func _try_plant() -> void:
 	if not has_node("Carrot"):
-		add_child(carrot_scene.instantiate())
-		selection_highlight.modulate = Color(1, 1, 1, 0.4)
-		selection_highlight.visible = true
+		if SaveGame.get_item_count("carrot") > 0:
+			SaveGame.remove_from_inventory("carrot")
+			add_child(carrot_scene.instantiate())
+			selection_highlight.modulate = Color(1, 1, 1, 0.4)
+			selection_highlight.visible = true
 
 func _try_water() -> void:
 	var plant = get_node_or_null("Carrot")

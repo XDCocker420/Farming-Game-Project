@@ -58,6 +58,7 @@ func harvest() -> void:
 	print("Harvested: ", carrot_count, " carrots")
 	print("Inventory: ", SaveGame.get_inventory())
 	print("Level: ", SaveGame.get_current_level())
+	SaveGame.save_game()
 	queue_free()
 
 func on_save_game(saved_data:Array[ItemSaves]):
