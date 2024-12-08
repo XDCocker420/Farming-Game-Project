@@ -60,7 +60,7 @@ func _try_plant() -> void:
 			print("Plant planted! Remaining carrots: ", SaveGame.get_item_count("carrot"))
 		else:
 			print("Not enough carrots to plant!")
-			SaveGame.add_to_inventory("carrot", 10)
+			SaveGame.add_to_inventory("carrot", 10) # add 10 carrots to the inventory for testing
 			SaveGame.save_game()
 
 func _try_water() -> void:
