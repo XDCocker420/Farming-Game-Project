@@ -16,13 +16,18 @@ func _ready() -> void:
 	if(time_left > 0):
 		timer.wait_time = time_left
 	else:
-		timer.wait_time = default_time
+		timer.wait_time = get_growth_time()
 	timer.start()
+
+func get_growth_time() -> float:
+	if is_watered:
+		return default_time * 0.8  # 20% faster if watered
+	return default_time
 
 func _on_timer_timeout() -> void:
 	if state != 2:
 		state += 1
-		timer.start(default_time)
+		timer.start(get_growth_time())
 		
 	if state == 1:
 		position.y -= 10
@@ -44,14 +49,16 @@ func harvest() -> void:
 		return
 		
 	var carrot_count = 2
+	var chance = randf()
+	
 	if is_watered:
-		if randf() > 0.78:
+		if chance > 0.8:
 			carrot_count = 3
 	else:
-		if randf() > 0.90:
-			carrot_count = 3
-		elif randf() < 0.05:
+		if chance < 0.15:
 			carrot_count = 1
+		elif chance > 0.95:
+			carrot_count = 3
 	
 	SaveGame.add_experience_points(CropManager.get_crop_exp("carrot"))
 	SaveGame.add_to_inventory("carrot", carrot_count)
