@@ -6,7 +6,7 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mo1vq"]
 size = Vector2(64, 44)
 
-[node name="FarmFieldMiddle" type="Area2D"]
+[node name="FarmFieldMiddle" type="Area2D" groups=["fields"]]
 script = ExtResource("1_rjyel")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]

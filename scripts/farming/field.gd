@@ -1,91 +1,86 @@
 extends Area2D
 
-var is_selected: bool = false
-var crop: Node = null
-var farming_ui: Node = null
+var current_mode: String = ""
+var selection_highlight: NinePatchRect = null
 
 @onready var carrot_scene = preload("res://scenes/crops/carrot.tscn")
-@onready var selection_highlight = $SelectionHighlight
 
 func _ready() -> void:
+	_setup_highlight()
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 	input_event.connect(_on_input_event)
-	
-	if not has_node("SelectionHighlight"):
-		var highlight = ColorRect.new()
-		highlight.name = "SelectionHighlight"
-		
-		highlight.color = Color(1, 1, 0, 0.3)
-		highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		highlight.visible = false
-		highlight.size = Vector2(64, 64)
-		highlight.position = Vector2(-32, -32)
-		add_child(highlight)
-		selection_highlight = highlight
-	
-	# Wait for UI to be ready
-	call_deferred("_connect_ui")
+	add_to_group("fields")
 
-func _connect_ui() -> void:
-	var uis = get_tree().get_nodes_in_group("farming_ui")
-	if uis.size() > 0:
-		farming_ui = uis[0]
-		farming_ui.plant_requested.connect(_on_plant_requested)
-		farming_ui.water_requested.connect(_on_water_requested)
-		farming_ui.harvest_requested.connect(_on_harvest_requested)
-		_update_ui_visibility()
-
-func _any_field_selected() -> bool:
-	for field in get_tree().get_nodes_in_group("fields"):
-		if field.is_selected:
-			return true
-	return false
-
-func _update_ui_visibility() -> void:
-	if farming_ui:
-		if _any_field_selected():
-			farming_ui.show_ui()
-		else:
-			farming_ui.hide_ui()
+func _setup_highlight() -> void:
+	var highlight = NinePatchRect.new()
+	highlight.name = "SelectionHighlight"
+	highlight.texture = preload("res://assets/gui/menu.png")
+	highlight.region_rect = Rect2(305, 81, 14, 14)
+	highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	highlight.modulate = Color(1, 1, 1, 0.4)
+	highlight.visible = false
+	highlight.size = Vector2(64, 64)
+	highlight.position = Vector2(-32, -32)
+	add_child(highlight)
+	selection_highlight = highlight
 
 func _on_mouse_entered() -> void:
-	selection_highlight.color = Color(1, 1, 0, 0.5)
-	selection_highlight.visible = true
+	if not current_mode.is_empty():
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			execute_action()
+		_show_highlight()
 
 func _on_mouse_exited() -> void:
-	if not is_selected:
-		selection_highlight.visible = false
-	else:
-		selection_highlight.color = Color(1, 1, 0, 0.3)
+	selection_highlight.visible = false
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-		is_selected = !is_selected
-		selection_highlight.visible = is_selected
-		_update_ui_visibility()
+	if current_mode.is_empty() or not event is InputEventMouseButton:
+		return
+		
+	if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		execute_action()
 
-func _on_plant_requested() -> void:
-	if is_selected and not has_node("Carrot"):
-		crop = carrot_scene.instantiate()
-		add_child(crop)
-		print("Plant planted!")
+func execute_action() -> void:
+	match current_mode:
+		"plant":
+			_try_plant()
+		"water":
+			_try_water()
+		"harvest":
+			_try_harvest()
 
-func _on_water_requested() -> void:
-	if is_selected and has_node("Carrot"):
-		var plant = get_node("Carrot")
-		if plant.has_method("water"):
-			if plant.water():
-				selection_highlight.color = Color(0, 0, 1, 0.3)
-				print("Field watered!")
+func _try_plant() -> void:
+	if not has_node("Carrot"):
+		if SaveGame.get_item_count("carrot") > 0:
+			SaveGame.remove_from_inventory("carrot")
+			add_child(carrot_scene.instantiate())
+			selection_highlight.modulate = Color(1, 1, 1, 0.4)
+			selection_highlight.visible = true
+			print("Plant planted! Remaining carrots: ", SaveGame.get_item_count("carrot"))
+		else:
+			print("Not enough carrots to plant!")
+			SaveGame.add_to_inventory("carrot", 10) # add 10 carrots to the inventory for testing
+			SaveGame.save_game()
 
-func _on_harvest_requested() -> void:
-	if is_selected and has_node("Carrot"):
-		var plant = get_node("Carrot")
-		if plant.has_method("harvest") and plant.has_method("can_harvest"):
-			if plant.can_harvest():
-				plant.harvest()
-				is_selected = false
-				selection_highlight.visible = false
-				selection_highlight.color = Color(1, 1, 0, 0.3)
-				_update_ui_visibility()
+func _try_water() -> void:
+	var plant = get_node_or_null("Carrot")
+	if plant and plant.has_method("water") and plant.water():
+		selection_highlight.modulate = Color(0, 0.5, 1, 0.6)
+		selection_highlight.visible = true
+
+func _try_harvest() -> void:
+	var plant = get_node_or_null("Carrot")
+	if plant and plant.has_method("harvest") and plant.has_method("can_harvest") and plant.can_harvest():
+		plant.harvest()
+		selection_highlight.modulate = Color(1, 1, 1, 0.4)
+		selection_highlight.visible = false
+
+func _show_highlight() -> void:
+	if not selection_highlight.modulate == Color(0, 0.5, 1, 0.6):
+		selection_highlight.modulate = Color(1, 1, 1, 0.5)
+	selection_highlight.visible = true
+
+func set_mode(mode: String) -> void:
+	current_mode = mode
+	selection_highlight.visible = false

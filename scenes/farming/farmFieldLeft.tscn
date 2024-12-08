@@ -1,21 +1,18 @@
 [gd_scene load_steps=4 format=3 uid="uid://lo6utycpenq8"]
 
-[ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_ftfk4"]
-[ext_resource type="Script" path="res://scripts/farming/field.gd" id="1_ggdde"]
+[ext_resource type="Script" path="res://scripts/farming/field.gd" id="1_rjyel"]
+[ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_u131f"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_oo8ah"]
-size = Vector2(58, 44)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mo1vq"]
+size = Vector2(64, 44)
 
-[node name="FarmFieldLeft" type="Area2D"]
-script = ExtResource("1_ggdde")
+[node name="FarmFieldLeft" type="Area2D" groups=["fields"]]
+script = ExtResource("1_rjyel")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("1_ftfk4")
+texture = ExtResource("1_u131f")
 region_enabled = true
-region_rect = Rect2(324, 460, 62, 52)
+region_rect = Rect2(322, 460, 64, 52)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visibility_layer = 2
-position = Vector2(2, 0)
-shape = SubResource("RectangleShape2D_oo8ah")
-debug_color = Color(2.88785e-07, 0.590593, 0.751171, 0.42)
+shape = SubResource("RectangleShape2D_mo1vq")
