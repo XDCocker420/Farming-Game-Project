@@ -16,13 +16,18 @@ func _ready() -> void:
 	if(time_left > 0):
 		timer.wait_time = time_left
 	else:
-		timer.wait_time = default_time
+		timer.wait_time = get_growth_time()
 	timer.start()
+
+func get_growth_time() -> float:
+	if is_watered:
+		return default_time * 0.8  # 20% faster if watered
+	return default_time
 
 func _on_timer_timeout() -> void:
 	if state != 2:
 		state += 1
-		timer.start(default_time)
+		timer.start(get_growth_time())
 		
 	if state == 1:
 		position.y -= 10
