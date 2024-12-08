@@ -51,6 +51,15 @@ text = "Auftrag"
 label_settings = SubResource("LabelSettings_2qc2u")
 horizontal_alignment = 1
 
+[node name="Label2" type="Label" parent="Menu/order_board"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 54.0
+offset_right = 160.0
+offset_bottom = 233.0
+text = "
+"
+
 [node name="Button" type="Button" parent="Menu"]
 layout_mode = 0
 offset_left = 386.0
