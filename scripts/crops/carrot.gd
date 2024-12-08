@@ -38,6 +38,8 @@ func _on_timer_timeout() -> void:
 func water() -> bool:
 	if not is_watered:
 		is_watered = true
+		var progress_ratio = timer.time_left / timer.wait_time
+		timer.start(get_growth_time() * progress_ratio)
 		return true
 	return false
 
