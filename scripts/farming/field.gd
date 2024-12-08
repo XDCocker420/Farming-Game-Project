@@ -1,30 +1,29 @@
 extends Area2D
 
 var current_mode: String = ""
+var selection_highlight: NinePatchRect = null
 
 @onready var carrot_scene = preload("res://scenes/crops/carrot.tscn")
-@onready var selection_highlight = $SelectionHighlight
 
 func _ready() -> void:
+	_setup_highlight()
 	mouse_entered.connect(_on_mouse_entered)
 	mouse_exited.connect(_on_mouse_exited)
 	input_event.connect(_on_input_event)
 	add_to_group("fields")
-	_setup_highlight()
 
 func _setup_highlight() -> void:
-	if not has_node("SelectionHighlight"):
-		var highlight = NinePatchRect.new()
-		highlight.name = "SelectionHighlight"
-		highlight.texture = preload("res://assets/gui/menu.png")
-		highlight.region_rect = Rect2(305, 81, 14, 14)
-		highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		highlight.modulate = Color(1, 1, 1, 0.4)
-		highlight.visible = false
-		highlight.size = Vector2(64, 64)
-		highlight.position = Vector2(-32, -32)
-		add_child(highlight)
-		selection_highlight = highlight
+	var highlight = NinePatchRect.new()
+	highlight.name = "SelectionHighlight"
+	highlight.texture = preload("res://assets/gui/menu.png")
+	highlight.region_rect = Rect2(305, 81, 14, 14)
+	highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	highlight.modulate = Color(1, 1, 1, 0.4)
+	highlight.visible = false
+	highlight.size = Vector2(64, 64)
+	highlight.position = Vector2(-32, -32)
+	add_child(highlight)
+	selection_highlight = highlight
 
 func _on_mouse_entered() -> void:
 	if not current_mode.is_empty():
@@ -61,6 +60,8 @@ func _try_plant() -> void:
 			print("Plant planted! Remaining carrots: ", SaveGame.get_item_count("carrot"))
 		else:
 			print("Not enough carrots to plant!")
+			SaveGame.add_to_inventory("carrot", 10)
+			SaveGame.save_game()
 
 func _try_water() -> void:
 	var plant = get_node_or_null("Carrot")
