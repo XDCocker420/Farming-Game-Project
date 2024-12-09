@@ -4,6 +4,7 @@ var current_mode: String = ""
 var selection_highlight: NinePatchRect = null
 
 @onready var carrot_scene = preload("res://scenes/crops/carrot.tscn")
+@onready var wheat_scene = preload("res://scenes/crops/wheat.tscn")
 
 func _ready() -> void:
 	_setup_highlight()
@@ -51,30 +52,42 @@ func execute_action() -> void:
 			_try_harvest()
 
 func _try_plant() -> void:
-	if not has_node("Carrot"):
-		if SaveGame.get_item_count("carrot") > 0:
-			SaveGame.remove_from_inventory("carrot")
-			add_child(carrot_scene.instantiate())
-			selection_highlight.modulate = Color(1, 1, 1, 0.4)
-			selection_highlight.visible = true
-			print("Plant planted! Remaining carrots: ", SaveGame.get_item_count("carrot"))
-		else:
-			print("Not enough carrots to plant!")
-			SaveGame.add_to_inventory("carrot", 10) # add 10 carrots to the inventory for testing
-			SaveGame.save_game()
+	if has_node("Carrot") or has_node("Wheat"):
+		return
+		
+	var crop_scene
+	if SaveGame.get_item_count("carrot") > 0:
+		crop_scene = wheat_scene
+		SaveGame.remove_from_inventory("carrot")
+	elif SaveGame.get_item_count("wheat") > 0:
+		crop_scene = wheat_scene
+		SaveGame.remove_from_inventory("wheat")
+	else:
+		print("No seeds available!")
+		SaveGame.add_to_inventory("carrot", 10) # add 10 carrots for testing
+		SaveGame.add_to_inventory("wheat", 10)  # add 10 wheat for testing
+		SaveGame.save_game()
+		return
+		
+	add_child(crop_scene.instantiate())
+	selection_highlight.modulate = Color(1, 1, 1, 0.4)
+	selection_highlight.visible = true
 
 func _try_water() -> void:
-	var plant = get_node_or_null("Carrot")
-	if plant and plant.has_method("water") and plant.water():
+	var crop = _get_current_crop()
+	if crop and crop.has_method("water") and crop.water():
 		selection_highlight.modulate = Color(0, 0.5, 1, 0.6)
 		selection_highlight.visible = true
 
 func _try_harvest() -> void:
-	var plant = get_node_or_null("Carrot")
-	if plant and plant.has_method("harvest") and plant.has_method("can_harvest") and plant.can_harvest():
-		plant.harvest()
+	var crop = _get_current_crop()
+	if crop and crop.has_method("harvest") and crop.has_method("can_harvest") and crop.can_harvest():
+		crop.harvest()
 		selection_highlight.modulate = Color(1, 1, 1, 0.4)
 		selection_highlight.visible = false
+
+func _get_current_crop() -> Node:
+	return get_node_or_null("Carrot") if has_node("Carrot") else get_node_or_null("Wheat")
 
 func _show_highlight() -> void:
 	if not selection_highlight.modulate == Color(0, 0.5, 1, 0.6):

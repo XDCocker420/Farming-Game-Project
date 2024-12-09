@@ -48,6 +48,7 @@ sprite_frames = SubResource("SpriteFrames_67loh")
 animation = &"grow 1"
 offset = Vector2(0, -32)
 script = ExtResource("2_drmck")
+crop_type = "wheat"
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

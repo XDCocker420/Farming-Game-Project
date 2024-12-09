@@ -47,6 +47,7 @@ scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_67loh")
 animation = &"grow 1"
 script = ExtResource("2_2t3df")
+crop_type = "carrot"
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
