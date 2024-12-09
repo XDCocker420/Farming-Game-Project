@@ -55,7 +55,6 @@ func load_game() -> void:
 	exp_level = saved_game.player_experience_per_level
 	player.global_position = saved_game.player_position
 	
-	# Warte einen Frame, damit die Szene vollständig geladen ist
 	await get_tree().process_frame
 	
 	for item in saved_game.saved_data:
@@ -82,7 +81,7 @@ func load_game() -> void:
 func add_to_inventory(item:String, count:int=1) -> void:
 	if count < 1:
 		push_error("count musst be bigger or equal 1")
-		get_tree().quit()	
+		get_tree().quit()    
 	if inventory.data.has(item):
 		inventory.data[item] += count
 	else:

@@ -91,8 +91,6 @@ func _show_highlight() -> void:
 
 func set_mode(mode: String) -> void:
 	if mode == current_mode:
-		return  # Prevent setting the same mode multiple times
-		return  # Verhindere mehrfaches Setzen des gleichen Modus
-	print("Setze Feldmodus von '", current_mode, "' auf '", mode, "'")
+		return
 	current_mode = mode
 	selection_highlight.visible = false

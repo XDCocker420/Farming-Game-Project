@@ -1,7 +1,6 @@
 extends PanelContainer
 
 func _ready() -> void:
-	# Adjust name label size on ready
 	var name_label = $Node2D/name
 	name_label.scale = Vector2(0.15, 0.15)
 
