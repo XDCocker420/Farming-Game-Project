@@ -3,6 +3,7 @@ extends Area2D
 var current_mode: String = ""
 var current_crop_type: String = ""
 var selection_highlight: NinePatchRect = null
+var can_interact: bool = true
 
 var crop_scenes = {
 	"carrot": preload("res://scenes/crops/carrot.tscn"),
@@ -31,6 +32,8 @@ func _setup_highlight() -> void:
 
 func _on_mouse_entered() -> void:
 	if not current_mode.is_empty():
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and can_interact:
+			execute_action()
 		_show_highlight()
 
 func _on_mouse_exited() -> void:
@@ -40,7 +43,7 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 	if current_mode.is_empty() or not event is InputEventMouseButton:
 		return
 		
-	if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+	if event.button_index == MOUSE_BUTTON_LEFT and event.pressed and can_interact:
 		execute_action()
 
 func execute_action() -> void:
@@ -53,6 +56,9 @@ func update_field_state(mode: String, crop_type: String = "") -> void:
 	current_mode = mode
 	current_crop_type = crop_type
 	selection_highlight.visible = false
+	can_interact = false
+	await get_tree().create_timer(0.1).timeout
+	can_interact = true
 
 func _try_plant() -> void:
 	if has_node("Carrot") or has_node("Wheat") or current_crop_type.is_empty():
