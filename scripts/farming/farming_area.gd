@@ -92,6 +92,3 @@ func _update_fields() -> void:
 		for field in fields:
 			if field.has_method("update_field_state"):
 				field.update_field_state(current_mode, selected_crop)
-
-func get_selected_crop() -> String:
-	return selected_crop
