@@ -1,8 +1,7 @@
 extends PanelContainer
 
 func _ready() -> void:
-	var name_label = $Node2D/name
-	name_label.scale = Vector2(0.15, 0.15)
+	pass
 
 func _on_icon_mouse_entered() -> void:
 	var name_label = $Node2D/name

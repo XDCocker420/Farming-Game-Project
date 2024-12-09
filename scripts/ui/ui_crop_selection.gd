@@ -29,8 +29,6 @@ func _add_crop_slot(crop_type: String, count: int) -> void:
 	if slot.has_node("Icon"):
 		var icon = slot.get_node("Icon")
 		icon.texture = load("res://assets/gui/icons/" + crop_type + ".png")
-		icon.custom_minimum_size = Vector2(64, 64)
-		slot.custom_minimum_size = Vector2(70, 70)
 		slots.add_child(slot)
 		
 		icon.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -39,9 +37,6 @@ func _add_crop_slot(crop_type: String, count: int) -> void:
 		slot.show()
 		
 		var amount_label = slot.get_node("Node2D/amount")
-		amount_label.scale = Vector2(0.25, 0.25)
-		
-		amount_label.position = Vector2(42, 45)
 		
 		if count >= 1:
 			amount_label.text = str(count)
