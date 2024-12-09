@@ -30,8 +30,8 @@ func _setup_highlight() -> void:
 	add_child(selection_highlight)
 
 func _on_mouse_entered() -> void:
-	if not current_mode.is_empty():
-		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and can_interact:
+	if not current_mode.is_empty() and can_interact:
+		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			execute_action()
 		_show_highlight()
 
@@ -39,10 +39,7 @@ func _on_mouse_exited() -> void:
 	selection_highlight.visible = false
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if current_mode.is_empty() or not event is InputEventMouseButton:
-		return
-		
-	if event.button_index == MOUSE_BUTTON_LEFT and event.pressed and can_interact:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed and can_interact and not current_mode.is_empty():
 		execute_action()
 
 func execute_action() -> void:
@@ -77,7 +74,7 @@ func _try_water() -> void:
 
 func _try_harvest() -> void:
 	var crop = _get_current_crop()
-	if crop and crop.has_method("harvest") and crop.has_method("can_harvest") and crop.can_harvest():
+	if crop and crop.has_method("can_harvest") and crop.can_harvest():
 		crop.harvest()
 		selection_highlight.modulate = Color(1, 1, 1, 0.4)
 		selection_highlight.visible = false
@@ -90,5 +87,6 @@ func _get_current_crop() -> Node:
 	return null
 
 func _show_highlight() -> void:
-	selection_highlight.modulate = Color(1, 1, 1, 0.5) if selection_highlight.modulate != Color(0, 0.5, 1, 0.6) else selection_highlight.modulate
 	selection_highlight.visible = true
+	if selection_highlight.modulate != Color(0, 0.5, 1, 0.6):
+		selection_highlight.modulate = Color(1, 1, 1, 0.5)
