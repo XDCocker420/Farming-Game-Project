@@ -23,7 +23,6 @@ func _on_player_interact():
         if not open:
             door.play("open")
             open = true
-            SaveGame.add_to_inventory("carrot", 5)
         else:
             door.play_backwards("open")
             open = false

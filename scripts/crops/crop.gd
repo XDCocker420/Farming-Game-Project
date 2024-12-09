@@ -65,8 +65,7 @@ func harvest() -> void:
 	var chance = randf()
 	
 	if is_watered:
-		if chance > 0.8:
-			crop_count = 3  # 20% chance for 3 crops when watered
+		crop_count = 3 if chance > 0.8 else 2  # 20% chance for 3 crops when watered
 	else:
 		if chance < 0.15:
 			crop_count = 1  # 15% chance for 1 crop when not watered

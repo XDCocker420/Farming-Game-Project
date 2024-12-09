@@ -18,17 +18,16 @@ func _ready() -> void:
 	add_to_group("fields")
 
 func _setup_highlight() -> void:
-	var highlight = NinePatchRect.new()
-	highlight.name = "SelectionHighlight"
-	highlight.texture = preload("res://assets/gui/menu.png")
-	highlight.region_rect = Rect2(305, 81, 14, 14)
-	highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
-	highlight.modulate = Color(1, 1, 1, 0.4)
-	highlight.visible = false
-	highlight.size = Vector2(64, 64)
-	highlight.position = Vector2(-32, -32)
-	add_child(highlight)
-	selection_highlight = highlight
+	selection_highlight = NinePatchRect.new()
+	selection_highlight.name = "SelectionHighlight"
+	selection_highlight.texture = preload("res://assets/gui/menu.png")
+	selection_highlight.region_rect = Rect2(305, 81, 14, 14)
+	selection_highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	selection_highlight.modulate = Color(1, 1, 1, 0.4)
+	selection_highlight.visible = false
+	selection_highlight.size = Vector2(64, 64)
+	selection_highlight.position = Vector2(-32, -32)
+	add_child(selection_highlight)
 
 func _on_mouse_entered() -> void:
 	if not current_mode.is_empty():
@@ -91,12 +90,5 @@ func _get_current_crop() -> Node:
 	return null
 
 func _show_highlight() -> void:
-	if not selection_highlight.modulate == Color(0, 0.5, 1, 0.6):
-		selection_highlight.modulate = Color(1, 1, 1, 0.5)
+	selection_highlight.modulate = Color(1, 1, 1, 0.5) if selection_highlight.modulate != Color(0, 0.5, 1, 0.6) else selection_highlight.modulate
 	selection_highlight.visible = true
-
-func set_mode(mode: String) -> void:
-	if mode == current_mode:
-		return
-	current_mode = mode
-	selection_highlight.visible = false

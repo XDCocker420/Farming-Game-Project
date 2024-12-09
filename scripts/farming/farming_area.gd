@@ -88,12 +88,10 @@ func _show_mode_ui(mode: String) -> void:
 
 func _update_fields() -> void:
 	var fields = get_tree().get_nodes_in_group("fields")
-	if fields.is_empty():
-		return
-		
-	for field in fields:
-		if field.has_method("update_field_state"):
-			field.update_field_state(current_mode, selected_crop)
+	if not fields.is_empty():
+		for field in fields:
+			if field.has_method("update_field_state"):
+				field.update_field_state(current_mode, selected_crop)
 
 func get_selected_crop() -> String:
 	return selected_crop
