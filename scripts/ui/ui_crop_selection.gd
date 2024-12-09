@@ -9,7 +9,6 @@ func _ready() -> void:
 	load_available_crops()
 
 func load_available_crops() -> void:
-	# Clear existing slots
 	for slot in slots.get_children():
 		slot.queue_free()
 		
@@ -18,20 +17,15 @@ func load_available_crops() -> void:
 	keys.sort_custom(func(x:String, y:String) -> bool: return inventory[x] > inventory[y])
 	
 	for item in keys:
-		if _is_crop(item):
+		if item in ["carrot", "wheat"]:
 			var count = SaveGame.get_item_count(item)
 			if count > 0:
 				_add_crop_slot(item, count)
-
-func _is_crop(item: String) -> bool:
-	# Add all plantable items here
-	return item in ["carrot", "wheat"]
 
 func _add_crop_slot(crop_type: String, count: int) -> void:
 	var slot = preload("res://scenes/ui/ui_slot.tscn").instantiate()
 	slot.set_script(load("res://scripts/ui/ui_crop_selection_slot.gd"))
 	
-	# Set up the slot
 	if slot.has_node("Icon"):
 		var icon = slot.get_node("Icon")
 		icon.texture = load("res://assets/gui/icons/" + crop_type + ".png")
@@ -39,16 +33,14 @@ func _add_crop_slot(crop_type: String, count: int) -> void:
 		slot.custom_minimum_size = Vector2(70, 70)
 		slots.add_child(slot)
 		
-		# Make the icon clickable
 		icon.mouse_filter = Control.MOUSE_FILTER_STOP
 		icon.gui_input.connect(func(event): _on_crop_clicked(event, crop_type))
 		
 		slot.show()
-		count = SaveGame.get_item_count(str(crop_type))
 		
-		# Show amount with adjusted position and scale
 		var amount_label = slot.get_node("Node2D/amount")
 		amount_label.scale = Vector2(0.25, 0.25)
+		
 		amount_label.position = Vector2(42, 45)
 		
 		if count >= 1:
@@ -63,12 +55,11 @@ func _on_crop_clicked(event: InputEvent, crop_type: String) -> void:
 		hide()
 
 func show_ui() -> void:
-	# Füge Testsamen hinzu
 	SaveGame.add_to_inventory("carrot", 10)
 	SaveGame.add_to_inventory("wheat", 10)
 	SaveGame.save_game()
 	
-	load_available_crops()  # Aktualisiere die Liste
+	load_available_crops()
 	visible = true
 
 func hide_ui() -> void:

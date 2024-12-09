@@ -55,21 +55,23 @@ func enter_mode(mode: String) -> void:
 		return
 		
 	current_mode = mode
+	selected_crop = ""
 	_hide_all_uis()
 	_show_mode_ui(mode)
-	_update_fields(mode)
+	_update_fields()
 
 func _on_crop_selected(crop_type: String) -> void:
 	selected_crop = crop_type
 	current_mode = "plant"
+	_hide_all_uis()
 	_show_mode_ui("plant")
-	_update_fields("plant")
+	_update_fields()
 
 func exit_mode() -> void:
 	current_mode = ""
 	selected_crop = ""
 	_hide_all_uis()
-	_update_fields("")
+	_update_fields()
 	
 	if is_current_area:
 		ui_farming.show_ui()
@@ -84,14 +86,14 @@ func _show_mode_ui(mode: String) -> void:
 	if mode in mode_uis:
 		mode_uis[mode].visible = true
 
-func _update_fields(mode: String) -> void:
+func _update_fields() -> void:
 	var fields = get_tree().get_nodes_in_group("fields")
 	if fields.is_empty():
 		return
 		
 	for field in fields:
-		if field.has_method("set_mode"):
-			field.set_mode(mode)
+		if field.has_method("update_field_state"):
+			field.update_field_state(current_mode, selected_crop)
 
 func get_selected_crop() -> String:
 	return selected_crop

@@ -1,6 +1,7 @@
 extends Area2D
 
 var current_mode: String = ""
+var current_crop_type: String = ""
 var selection_highlight: NinePatchRect = null
 
 var crop_scenes = {
@@ -30,8 +31,6 @@ func _setup_highlight() -> void:
 
 func _on_mouse_entered() -> void:
 	if not current_mode.is_empty():
-		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
-			execute_action()
 		_show_highlight()
 
 func _on_mouse_exited() -> void:
@@ -53,26 +52,20 @@ func execute_action() -> void:
 		"harvest":
 			_try_harvest()
 
+func update_field_state(mode: String, crop_type: String = "") -> void:
+	current_mode = mode
+	current_crop_type = crop_type
+	selection_highlight.visible = false
+
 func _try_plant() -> void:
-	if has_node("Carrot") or has_node("Wheat"):
+	if has_node("Carrot") or has_node("Wheat") or current_crop_type.is_empty():
 		return
 		
-	var farming_area = get_tree().get_first_node_in_group("farming_areas")
-	if not farming_area:
-		return
-		
-	var crop_type = farming_area.get_selected_crop()
-	if crop_type.is_empty():
-		return
-		
-	if SaveGame.get_item_count(crop_type) > 0:
-		if crop_type in crop_scenes:
-			SaveGame.remove_from_inventory(crop_type)
-			add_child(crop_scenes[crop_type].instantiate())
-			selection_highlight.modulate = Color(1, 1, 1, 0.4)
-			selection_highlight.visible = true
-	else:
-		print("No seeds available!")
+	if SaveGame.get_item_count(current_crop_type) > 0 and current_crop_type in crop_scenes:
+		SaveGame.remove_from_inventory(current_crop_type)
+		add_child(crop_scenes[current_crop_type].instantiate())
+		selection_highlight.modulate = Color(1, 1, 1, 0.4)
+		selection_highlight.visible = true
 
 func _try_water() -> void:
 	var crop = _get_current_crop()
@@ -100,5 +93,8 @@ func _show_highlight() -> void:
 	selection_highlight.visible = true
 
 func set_mode(mode: String) -> void:
+	if mode == current_mode:
+		return  # Verhindere mehrfaches Setzen des gleichen Modus
+	print("Setze Feldmodus von '", current_mode, "' auf '", mode, "'")
 	current_mode = mode
 	selection_highlight.visible = false
