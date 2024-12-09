@@ -34,6 +34,8 @@ func _add_crop_slot(crop_type: String, count: int) -> void:
 	if slot.has_node("Icon"):
 		var icon = slot.get_node("Icon")
 		icon.texture = load("res://assets/gui/icons/" + crop_type + ".png")
+		icon.custom_minimum_size = Vector2(64, 64)
+		slot.custom_minimum_size = Vector2(70, 70)
 		slots.add_child(slot)
 		
 		# Make the icon clickable
@@ -43,12 +45,21 @@ func _add_crop_slot(crop_type: String, count: int) -> void:
 		slot.show()
 		count = SaveGame.get_item_count(str(crop_type))
 		
-		# Show amount
+		# Show amount with adjusted position and scale
+		var amount_label = slot.get_node("Node2D/amount")
+		amount_label.scale = Vector2(0.25, 0.25)
+		amount_label.position = Vector2(42, 45)
+		
+		# Adjust name label
+		var name_label = slot.get_node("Node2D/name")
+		name_label.scale = Vector2(0.2, 0.2)
+		name_label.position = Vector2(0, -15)
+		
 		if count >= 1:
-			slot.get_node("Node2D/amount").text = str(count)
-			slot.get_node("Node2D/amount").show()
+			amount_label.text = str(count)
+			amount_label.show()
 		else:
-			slot.get_node("Node2D/amount").hide()
+			amount_label.hide()
 
 func _on_crop_clicked(event: InputEvent, crop_type: String) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
