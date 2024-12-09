@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://chtb7g2pg6giq"]
+
+[ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_ctj27"]
+[ext_resource type="Script" path="res://scripts/crops/crop.gd" id="2_drmck"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ukwwh"]
+atlas = ExtResource("1_ctj27")
+region = Rect2(768, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ffoyj"]
+atlas = ExtResource("1_ctj27")
+region = Rect2(832, 256, 64, 128)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ou2r2"]
+atlas = ExtResource("1_ctj27")
+region = Rect2(896, 256, 64, 128)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_67loh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ukwwh")
+}],
+"loop": true,
+"name": &"grow 1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ffoyj")
+}],
+"loop": true,
+"name": &"grow 2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ou2r2")
+}],
+"loop": true,
+"name": &"grow 3",
+"speed": 5.0
+}]
+
+[node name="Wheat" type="AnimatedSprite2D" groups=["game_events"]]
+scale = Vector2(0.8, 0.8)
+sprite_frames = SubResource("SpriteFrames_67loh")
+animation = &"grow 1"
+offset = Vector2(0, -32)
+script = ExtResource("2_drmck")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
