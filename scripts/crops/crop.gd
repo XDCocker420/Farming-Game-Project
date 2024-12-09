@@ -3,7 +3,7 @@ extends AnimatedSprite2D
 @onready var timer: Timer = $Timer
 @onready var field = get_parent()
 
-@export var crop_type: String = "carrot"  # Default to carrot, can be changed in the editor
+@export var crop_type: String = ""  # Must be set in editor for each crop scene
 @export var state = 0
 
 var time_left = 0
@@ -12,6 +12,12 @@ var default_time: float
 
 func _ready() -> void:
 	z_index = 2
+	
+	# Verify that crop_type is set
+	if crop_type.is_empty():
+		push_error("Crop type not set in editor!")
+		return
+		
 	default_time = CropManager.get_crop_time(crop_type)
 	
 	if state != 0:
