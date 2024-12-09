@@ -29,6 +29,7 @@ func _is_crop(item: String) -> bool:
 
 func _add_crop_slot(crop_type: String, count: int) -> void:
 	var slot = preload("res://scenes/ui/ui_slot.tscn").instantiate()
+	slot.set_script(load("res://scripts/ui/ui_crop_selection_slot.gd"))
 	
 	# Set up the slot
 	if slot.has_node("Icon"):
@@ -49,11 +50,6 @@ func _add_crop_slot(crop_type: String, count: int) -> void:
 		var amount_label = slot.get_node("Node2D/amount")
 		amount_label.scale = Vector2(0.25, 0.25)
 		amount_label.position = Vector2(42, 45)
-		
-		# Adjust name label
-		var name_label = slot.get_node("Node2D/name")
-		name_label.scale = Vector2(0.2, 0.2)
-		name_label.position = Vector2(0, -15)
 		
 		if count >= 1:
 			amount_label.text = str(count)
