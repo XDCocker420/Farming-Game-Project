@@ -57,7 +57,7 @@ func _try_plant() -> void:
 		
 	var crop_scene
 	if SaveGame.get_item_count("carrot") > 0:
-		crop_scene = wheat_scene
+		crop_scene = carrot_scene
 		SaveGame.remove_from_inventory("carrot")
 	elif SaveGame.get_item_count("wheat") > 0:
 		crop_scene = wheat_scene
