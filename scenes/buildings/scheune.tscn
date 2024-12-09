@@ -9125,6 +9125,7 @@ autoplay = "default"
 frame_progress = 0.126296
 
 [node name="UI" parent="." instance=ExtResource("4_ny552")]
+visible = false
 offset_left = 306.0
 offset_top = -67.0
 offset_right = 306.0
