@@ -45,12 +45,9 @@ func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> voi
 
 func execute_action() -> void:
 	match current_mode:
-		"plant":
-			_try_plant()
-		"water":
-			_try_water()
-		"harvest":
-			_try_harvest()
+		"plant": _try_plant()
+		"water": _try_water()
+		"harvest": _try_harvest()
 
 func update_field_state(mode: String, crop_type: String = "") -> void:
 	current_mode = mode
@@ -94,6 +91,7 @@ func _show_highlight() -> void:
 
 func set_mode(mode: String) -> void:
 	if mode == current_mode:
+		return  # Prevent setting the same mode multiple times
 		return  # Verhindere mehrfaches Setzen des gleichen Modus
 	print("Setze Feldmodus von '", current_mode, "' auf '", mode, "'")
 	current_mode = mode
