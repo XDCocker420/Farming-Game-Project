@@ -6,6 +6,7 @@ extends Node2D
 @onready var door: AnimatedSprite2D = $AnimatedSprite2D
 @onready var door_area: Area2D = $DoorArea
 @onready var ui = $UI
+@onready var slots = get_node("UI/Menu/ScrollContainer/VBoxContainer/GridContainer")
 
 var in_area = false
 var open = false
@@ -24,6 +25,7 @@ func _ready() -> void:
 
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact") && in_area:
+		#ui_scheune_instance.load_inventory()
 		ui.show()
 
 
@@ -32,11 +34,15 @@ func _on_player_interact():
 		if not open:
 			door.play("open")
 			open = true
+			#ui_scheune_instance.load_inventory()
+			load_inventory()
 			ui.show()
 		else:
 			door.play_backwards("open")
 			open = false
+			
 			ui.hide()
+			delete_slots()
 
 
 func _on_door_area_body_entered(body):
@@ -44,7 +50,6 @@ func _on_door_area_body_entered(body):
 		e_button.visible = true
 		in_area = true
 		
-
 
 func _on_door_area_body_exited(body):
 	if body.is_in_group("Player"):
@@ -55,3 +60,38 @@ func _on_door_area_body_exited(body):
 			door.play_backwards("open")
 			open = false
 			ui.hide()
+			delete_slots()
+
+
+func load_inventory() -> void:
+	var inventory = SaveGame.get_inventory()
+	var count = 0
+	
+
+	var keys = inventory.keys()
+	keys.sort_custom(func(x:String, y:String) -> bool: return inventory[x] > inventory[y])
+		
+	for item in keys:
+		
+		var slot = preload("res://scenes/ui/ui_slot.tscn")
+
+		var new_slot = slot.instantiate()
+
+		if new_slot.has_node("Icon"):
+			new_slot.get_node("Icon").texture = load("res://assets/gui/icons/" + item + ".png")
+			slots.add_child(new_slot)
+			
+			new_slot.show()
+			count = SaveGame.get_item_count(str(item))
+
+			if count >= 1:
+				new_slot.get_node("Node2D/amount").text = str(count)
+				new_slot.get_node("Node2D/amount").show()
+			else:
+				new_slot.get_node("Node2D/amount").hide()
+	
+	
+func delete_slots() -> void:
+	for slot in slots.get_children():
+		slot.queue_free()
+		#slots.remove_child(slot)
