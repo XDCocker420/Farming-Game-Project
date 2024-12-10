@@ -61,24 +61,33 @@ func load_game() -> void:
 	con_sav = saved_game.contracts
 	market_sav = saved_game.market_items
 	
+	await get_tree().process_frame
+	
 	for item in saved_game.saved_data:
 		var scene := load(item.scene_path) as PackedScene
+		if not scene:
+			continue
+			
 		var restored_node = scene.instantiate()
+		if not restored_node:
+			continue
 
 		if item is CropSaves:
-			#print(item.parent_path)
-			var temp:Node = get_node(item.parent_path)
-			temp.add_child(restored_node)
+			var parent = get_node_or_null(item.parent_path)
+			if parent:
+				parent.add_child(restored_node)
+				if restored_node.has_method("on_load_game"):
+					restored_node.on_load_game(item)
 		else:
 			map.add_child(restored_node)
-		if restored_node.has_method("on_load_game"):
-			restored_node.on_load_game(item)
+			if restored_node.has_method("on_load_game"):
+				restored_node.on_load_game(item)
 
 
 func add_to_inventory(item:String, count:int=1) -> void:
 	if count < 1:
 		push_error("count musst be bigger or equal 1")
-		get_tree().quit()	
+		get_tree().quit()    
 	if inventory.data.has(item):
 		inventory.data[item] += count
 	else:
@@ -123,13 +132,11 @@ func add_experience_points(count:int) -> void:
 
 func _check_new_level() -> void:
 	if(level > MAX_LEVEL):
-		print("Congratulations you reached the maximum Level")	
 		return
 	var xp_needed = config.get_value("Level" + str(level), "exp_needed")
 	if(exp_level >= xp_needed):
 		level += 1
 		exp_level -= xp_needed
-		print("Congratulations you reached Level " + str(level))
 		if(exp_level < 0):
 			exp_level = 0
 
@@ -144,7 +151,6 @@ func remove_money(count:int=1) -> bool:
 		push_error("count musst be bigger or equal 1")
 		get_tree().quit()
 	if inventory.money - count < 0:
-		push_warning("Money isn't enough for this interaction")
 		return false
 	inventory.money -= count
 	return true

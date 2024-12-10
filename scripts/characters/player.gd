@@ -29,8 +29,8 @@ func _input(event: InputEvent) -> void:
 		interact2.emit()
 
 	# exit game on esc
-	if event.is_action_pressed("ui_cancel"):
-		get_tree().quit()
+	'''*if event.is_action_pressed("ui_cancel"):
+		get_tree().quit()'''
 
 
 func set_selected_crop(crop_name: String) -> void:

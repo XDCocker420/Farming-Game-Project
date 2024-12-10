@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://bxq4l4t5a2ree"]
+
+[ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_itcet"]
+[ext_resource type="Script" path="res://scripts/crops/crop.gd" id="2_bjhxg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ffgw5"]
+atlas = ExtResource("1_itcet")
+region = Rect2(768, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mao3s"]
+atlas = ExtResource("1_itcet")
+region = Rect2(832, 192, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_148r3"]
+atlas = ExtResource("1_itcet")
+region = Rect2(896, 192, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_67loh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ffgw5")
+}],
+"loop": true,
+"name": &"grow 1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mao3s")
+}],
+"loop": true,
+"name": &"grow 2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_148r3")
+}],
+"loop": true,
+"name": &"grow 3",
+"speed": 5.0
+}]
+
+[node name="Cauliflower" type="AnimatedSprite2D" groups=["game_events"]]
+scale = Vector2(0.8, 0.8)
+sprite_frames = SubResource("SpriteFrames_67loh")
+animation = &"grow 3"
+script = ExtResource("2_bjhxg")
+crop_type = "cauliflower"
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

@@ -1,0 +1,16 @@
+[gd_scene load_steps=2 format=3 uid="uid://dmfs7ufngriac"]
+
+[ext_resource type="Texture2D" uid="uid://b1a783ur0o53u" path="res://assets/gui/slot_bg.png" id="1_mafu7"]
+
+[node name="ui_cb_slot" type="PanelContainer"]
+offset_right = 26.0
+offset_bottom = 26.0
+
+[node name="Background" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_mafu7")
+
+[node name="Icon" type="TextureRect" parent="."]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4

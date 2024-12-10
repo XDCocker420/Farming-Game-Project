@@ -1,5 +1,114 @@
-[gd_scene format=3 uid="uid://cslkmefe4o55w"]
+[gd_scene load_steps=4 format=3 uid="uid://dwsrp6tihv8pd"]
 
-[node name="ContractBoardUi" type="Control"]
+[ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_y785a"]
+[ext_resource type="PackedScene" uid="uid://dmfs7ufngriac" path="res://scenes/ui/ui_contractboard_slot.tscn" id="2_pxqxh"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_2qc2u"]
+font_size = 64
+
+[node name="ContractBoardUI" type="Control"]
 layout_mode = 3
 anchors_preset = 0
+
+[node name="Menu" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -285.0
+offset_top = -175.0
+offset_right = 285.0
+offset_bottom = 175.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_y785a")
+region_rect = Rect2(113, 1, 46, 46)
+
+[node name="order_board" type="NinePatchRect" parent="Menu"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 101.0
+offset_top = -159.0
+offset_right = 264.0
+offset_bottom = 111.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_y785a")
+region_rect = Rect2(87.7466, 9.96324, 12.3766, 25.5432)
+
+[node name="Label" type="Label" parent="Menu/order_board"]
+layout_mode = 0
+offset_right = 407.0
+offset_bottom = 88.0
+scale = Vector2(0.4, 0.4)
+text = "Auftrag"
+label_settings = SubResource("LabelSettings_2qc2u")
+horizontal_alignment = 1
+
+[node name="Label2" type="Label" parent="Menu/order_board"]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 54.0
+offset_right = 160.0
+offset_bottom = 233.0
+text = "
+"
+
+[node name="Button" type="Button" parent="Menu"]
+layout_mode = 0
+offset_left = 386.0
+offset_top = 303.0
+offset_right = 549.0
+offset_bottom = 334.0
+text = "Abschließen"
+
+[node name="GridContainer" type="GridContainer" parent="Menu"]
+layout_mode = 0
+offset_left = 24.0
+offset_top = 22.0
+offset_right = 140.0
+offset_bottom = 108.0
+scale = Vector2(3, 3)
+columns = 4
+
+[node name="ui_cb_slot" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+layout_mode = 2
+
+[node name="ui_cb_slot2" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+layout_mode = 2
+
+[node name="ui_cb_slot3" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+layout_mode = 2
+
+[node name="ui_cb_slot4" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+layout_mode = 2
+
+[node name="ui_cb_slot5" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+layout_mode = 2
+
+[node name="ui_cb_slot6" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+layout_mode = 2
+
+[node name="ui_cb_slot7" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+layout_mode = 2
+
+[node name="ui_cb_slot8" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+layout_mode = 2
+
+[node name="ui_cb_slot9" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+layout_mode = 2
+
+[node name="ui_cb_slot10" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+layout_mode = 2
+
+[node name="ui_cb_slot11" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+layout_mode = 2
+
+[node name="ui_cb_slot12" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+layout_mode = 2

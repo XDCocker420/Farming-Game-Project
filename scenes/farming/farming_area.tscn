@@ -1,19 +1,39 @@
-[gd_scene load_steps=6 format=3 uid="uid://bqogj2noiv4ya"]
+[gd_scene load_steps=10 format=3 uid="uid://bqogj2noiv4ya"]
 
 [ext_resource type="Script" path="res://scripts/farming/farming_area.gd" id="1_or51d"]
 [ext_resource type="PackedScene" uid="uid://lo6utycpenq8" path="res://scenes/farming/farmFieldLeft.tscn" id="2_pdgie"]
 [ext_resource type="PackedScene" uid="uid://bwk02b3kef0xu" path="res://scenes/farming/farmFieldMiddle.tscn" id="3_fq8gb"]
 [ext_resource type="PackedScene" uid="uid://dgbjtfg8j188k" path="res://scenes/farming/farmFieldRight.tscn" id="4_rach3"]
+[ext_resource type="PackedScene" uid="uid://bqag013g7o0c6" path="res://scenes/ui/ui_farming.tscn" id="5_xk3l4"]
+[ext_resource type="PackedScene" uid="uid://crop_selection_ui" path="res://scenes/ui/ui_crop_selection.tscn" id="6_ykl4m"]
+[ext_resource type="PackedScene" uid="uid://kuegxrcss13s" path="res://scenes/ui/ui_plant_mode.tscn" id="7_abc12"]
+[ext_resource type="PackedScene" uid="uid://dpj4xransfcws" path="res://scenes/ui/ui_water_mode.tscn" id="8_def34"]
+[ext_resource type="PackedScene" uid="uid://c37fb3qfu8h0r" path="res://scenes/ui/ui_harvest_mode.tscn" id="9_ghi56"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6vrsi"]
 size = Vector2(488, 412)
 
-[node name="farming_area" type="Area2D"]
+[node name="farming_area" type="Area2D" groups=["farming_areas"]]
 script = ExtResource("1_or51d")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
 shape = SubResource("RectangleShape2D_6vrsi")
+
+[node name="FarmingUI" parent="." instance=ExtResource("5_xk3l4")]
+visible = false
+
+[node name="CropSelectionUI" parent="." instance=ExtResource("6_ykl4m")]
+visible = false
+
+[node name="PlantModeUI" parent="." instance=ExtResource("7_abc12")]
+visible = false
+
+[node name="WaterModeUI" parent="." instance=ExtResource("8_def34")]
+visible = false
+
+[node name="HarvestModeUI" parent="." instance=ExtResource("9_ghi56")]
+visible = false
 
 [node name="long_field1" type="Node2D" parent="."]
 position = Vector2(0, -158)
@@ -36,7 +56,7 @@ position = Vector2(64, 0)
 position = Vector2(128, 0)
 
 [node name="field7" parent="long_field1" instance=ExtResource("4_rach3")]
-position = Vector2(189, 0)
+position = Vector2(192, 0)
 
 [node name="long_field2" type="Node2D" parent="."]
 position = Vector2(0, -54)
@@ -59,7 +79,7 @@ position = Vector2(64, 0)
 position = Vector2(128, 0)
 
 [node name="field7" parent="long_field2" instance=ExtResource("4_rach3")]
-position = Vector2(189, 0)
+position = Vector2(192, 0)
 
 [node name="long_field3" type="Node2D" parent="."]
 position = Vector2(0, 50)
@@ -82,7 +102,7 @@ position = Vector2(64, 0)
 position = Vector2(128, 0)
 
 [node name="field7" parent="long_field3" instance=ExtResource("4_rach3")]
-position = Vector2(189, 0)
+position = Vector2(192, 0)
 
 [node name="long_field4" type="Node2D" parent="."]
 position = Vector2(0, 154)
@@ -105,4 +125,4 @@ position = Vector2(64, 0)
 position = Vector2(128, 0)
 
 [node name="field7" parent="long_field4" instance=ExtResource("4_rach3")]
-position = Vector2(189, 0)
+position = Vector2(192, 0)

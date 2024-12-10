@@ -52,7 +52,7 @@
 # Spielkreislauf
 
 ### Pflanzen
-Pflanzen werden mit 1ner Pflanze der selben Art angebaut. Beim abbauen bekommt man entweder 1, 2 oder 3 Karotten. Wahrscheinlichkeiten: 5% 1 Stück 85% 2 Stück, 10% 3 Stück. Wenn man die Pflanzen gießt steigt die Wahrscheinlich auf 2 oder 3 Stück.
+Pflanzen werden mit 1ner Pflanze der selben Art angebaut. Beim abbauen bekommt man entweder 1, 2 oder 3 Karotten. Wahrscheinlichkeiten: 15% 1 Stück 80% 2 Stück, 5% 3 Stück. Wenn man die Pflanzen gießt kann man nie nur 1 Stück Karotte bekommen, die Wahrscheinlichkeit für 2 Stück bleibt 80% und für 3 Stück steigt auf 15%.
 
 ### Tiere
 Damit Tiere ihre Produkte, wie z.B. bei der Kuh die Milch, produzieren können, benötigen sie Tierfutter. Tierfutter wird in einer Tierfuttermühle produziert. Es besteht aus verschiedenen Pflanzen. Tiere können für Fleisch geschlachtet werden.
