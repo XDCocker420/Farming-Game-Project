@@ -8,7 +8,8 @@ var can_interact: bool = true
 var crop_scenes = {
 	"carrot": preload("res://scenes/crops/carrot.tscn"),
 	"wheat": preload("res://scenes/crops/wheat.tscn"),
-	"corn": preload("res://scenes/crops/corn.tscn")
+	"corn": preload("res://scenes/crops/corn.tscn"),
+	"cauliflower": preload("res://scenes/crops/cauliflower.tscn")
 }
 
 func _ready() -> void:
