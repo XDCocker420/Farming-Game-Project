@@ -26,9 +26,10 @@ func _input(event: InputEvent) -> void:
 		if crop_selection_ui.visible:
 			crop_selection_ui.hide_ui()
 			ui_farming.show_ui()
+			ui_farming.show_ui()
 		elif not current_mode.is_empty():
 			exit_mode()
-	elif event.is_action_pressed("ui_accept") and current_mode.is_empty():
+	elif event.is_action_pressed("ui_accept") and current_mode.is_empty() and not crop_selection_ui.visible:
 		_toggle_farming_ui()
 
 func _toggle_farming_ui() -> void:
