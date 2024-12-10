@@ -56,7 +56,7 @@ position = Vector2(64, 0)
 position = Vector2(128, 0)
 
 [node name="field7" parent="long_field1" instance=ExtResource("4_rach3")]
-position = Vector2(189, 0)
+position = Vector2(192, 0)
 
 [node name="long_field2" type="Node2D" parent="."]
 position = Vector2(0, -54)
@@ -79,7 +79,7 @@ position = Vector2(64, 0)
 position = Vector2(128, 0)
 
 [node name="field7" parent="long_field2" instance=ExtResource("4_rach3")]
-position = Vector2(189, 0)
+position = Vector2(192, 0)
 
 [node name="long_field3" type="Node2D" parent="."]
 position = Vector2(0, 50)
@@ -102,7 +102,7 @@ position = Vector2(64, 0)
 position = Vector2(128, 0)
 
 [node name="field7" parent="long_field3" instance=ExtResource("4_rach3")]
-position = Vector2(189, 0)
+position = Vector2(192, 0)
 
 [node name="long_field4" type="Node2D" parent="."]
 position = Vector2(0, 154)
@@ -125,4 +125,4 @@ position = Vector2(64, 0)
 position = Vector2(128, 0)
 
 [node name="field7" parent="long_field4" instance=ExtResource("4_rach3")]
-position = Vector2(189, 0)
+position = Vector2(192, 0)
