@@ -63,7 +63,7 @@ func update_field_state(mode: String, crop_type: String = "") -> void:
 	can_interact = true
 
 func _try_plant() -> void:
-	if has_node("Carrot") or has_node("Wheat") or current_crop_type.is_empty():
+	if _get_current_crop() or current_crop_type.is_empty():
 		return
 		
 	if SaveGame.get_item_count(current_crop_type) > 0 and current_crop_type in crop_scenes:
