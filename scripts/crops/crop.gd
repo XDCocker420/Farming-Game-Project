@@ -78,7 +78,6 @@ func harvest() -> void:
 	SaveGame.add_to_inventory(crop_type, crop_count)
 	print("Harvested: ", crop_count, " ", crop_type)
 	print("Inventory: ", SaveGame.get_inventory())
-	print("Level: ", SaveGame.get_current_level())
 	SaveGame.save_game()
 	queue_free()
 
