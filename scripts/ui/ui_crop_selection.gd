@@ -17,7 +17,7 @@ func load_available_crops() -> void:
 	keys.sort_custom(func(x:String, y:String) -> bool: return inventory[x] > inventory[y])
 	
 	for item in keys:
-		if item in ["carrot", "wheat", "corn", "cauliflower", "berry", "onion"]:
+		if item in ["carrot", "wheat", "corn", "cauliflower", "berry", "onion", "bean"]:
 			var count = SaveGame.get_item_count(item)
 			if count > 0:
 				_add_crop_slot(item, count)
@@ -56,6 +56,7 @@ func show_ui() -> void:
 	SaveGame.add_to_inventory("cauliflower", 10)
 	SaveGame.add_to_inventory("berry", 10)
 	SaveGame.add_to_inventory("onion", 10)
+	SaveGame.add_to_inventory("bean", 10)
 	SaveGame.save_game()
 	
 	load_available_crops()

@@ -11,7 +11,8 @@ var crop_scenes = {
 	"corn": preload("res://scenes/crops/corn.tscn"),
 	"cauliflower": preload("res://scenes/crops/cauliflower.tscn"),
 	"berry": preload("res://scenes/crops/berry.tscn"),
-	"onion": preload("res://scenes/crops/onion.tscn")
+	"onion": preload("res://scenes/crops/onion.tscn"),
+	"bean": preload("res://scenes/crops/bean.tscn")
 }
 
 func _ready() -> void:

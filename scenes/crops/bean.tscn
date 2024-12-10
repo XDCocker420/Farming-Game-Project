@@ -1,0 +1,55 @@
+[gd_scene load_steps=7 format=3 uid="uid://dmvnlwps6331g"]
+
+[ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_evbi0"]
+[ext_resource type="Script" path="res://scripts/crops/crop.gd" id="2_5hupj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_64jb6"]
+atlas = ExtResource("1_evbi0")
+region = Rect2(1728, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u262w"]
+atlas = ExtResource("1_evbi0")
+region = Rect2(1792, 256, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6otk5"]
+atlas = ExtResource("1_evbi0")
+region = Rect2(1856, 256, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_67loh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_64jb6")
+}],
+"loop": true,
+"name": &"grow 1",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u262w")
+}],
+"loop": true,
+"name": &"grow 2",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6otk5")
+}],
+"loop": true,
+"name": &"grow 3",
+"speed": 5.0
+}]
+
+[node name="Bean" type="AnimatedSprite2D" groups=["game_events"]]
+scale = Vector2(0.8, 0.8)
+sprite_frames = SubResource("SpriteFrames_67loh")
+animation = &"grow 3"
+script = ExtResource("2_5hupj")
+crop_type = "bean"
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
