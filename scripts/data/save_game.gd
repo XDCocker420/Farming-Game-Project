@@ -12,6 +12,8 @@ var inventory:Inventory = Inventory.new()
 var config = ConfigFile.new()
 var level:int = 0
 var exp_level:int = 0
+var con_sav:Array[SavedContracts] = [SavedContracts.new()]
+var market_sav:Array[SavedMarket] = [SavedMarket.new()]
 
 @onready var map = get_tree().get_first_node_in_group("Map")
 @onready var player = get_tree().get_first_node_in_group("Player")
@@ -32,6 +34,8 @@ func save_game() -> void:
 	save.player_position = player.global_position
 	save.player_level = level
 	save.player_experience_per_level = exp_level
+	save.contracts = con_sav
+	save.market_items = market_sav
 
 	var saved_data:Array[ItemSaves] = []
 	get_tree().call_group("game_events", "on_save_game", saved_data)
@@ -49,11 +53,13 @@ func load_game() -> void:
 		inventory.money = 100
 		return
 	
-	get_tree().call_group("game_events", "on_before_load_game")
+	get_tree().call_group("dynamic_elements", "on_before_load_game")
 	inventory = saved_game.inventory
 	level = saved_game.player_level
 	exp_level = saved_game.player_experience_per_level
 	player.global_position = saved_game.player_position
+	con_sav = saved_game.contracts
+	market_sav = saved_game.market_items
 	
 	for item in saved_game.saved_data:
 		var scene := load(item.scene_path) as PackedScene
@@ -145,6 +151,37 @@ func remove_money(count:int=1) -> bool:
 
 func get_money() -> int:
 	return inventory.money
+	
+func add_contract(exp_val:int, money:int, items:Dictionary) -> SavedContracts:
+	var temp:SavedContracts = SavedContracts.new()
+	temp.exp_val = exp_level
+	temp.currency = money
+	temp.req_res = items
+	con_sav.append(temp)
+	return temp
+		
+func remove_contract(con:SavedContracts) -> SavedContracts:
+	con_sav.remove_at(con_sav.find(con))
+	return con
+	
+func get_contracts() -> Array[SavedContracts]:
+	return con_sav
+
+func add_market_item(item:String, count:int=1, amount_to_sell:int=1) -> SavedMarket:
+	var temp:SavedMarket = SavedMarket.new()
+	temp.id = market_sav.size() + 1
+	temp.item = item
+	temp.count = count
+	temp.money_am = amount_to_sell
+	market_sav.append(temp)
+	return temp
+
+func remove_market_item(item:SavedMarket) -> SavedMarket:
+	market_sav.remove_at(market_sav.find(item))
+	return item
+
+func get_market() -> Array[SavedMarket]:
+	return market_sav
 
 func start_auto_save_timer() -> void:
 	var timer = Timer.new()
