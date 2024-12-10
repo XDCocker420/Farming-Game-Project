@@ -19,16 +19,18 @@ func _ready() -> void:
 		return
 		
 	default_time = CropManager.get_crop_time(crop_type)
-	
-	if state != 0:
-		position.y -= 10
-	play("grow " + str(state + 1))
+	_update_visual_state()
 	
 	if(time_left > 0):
 		timer.wait_time = time_left
 	else:
 		timer.wait_time = get_growth_time()
 	timer.start()
+
+func _update_visual_state() -> void:
+	if state >= 1:
+		position.y -= 10
+	play("grow " + str(state + 1))
 
 func get_growth_time() -> float:
 	if is_watered:
@@ -96,4 +98,5 @@ func on_load_game(saved_data):
 		var data = saved_data as CropSaves
 		print(data.state)
 		state = data.state
-		time_left = data.time_left 
+		time_left = data.time_left
+		_update_visual_state()
