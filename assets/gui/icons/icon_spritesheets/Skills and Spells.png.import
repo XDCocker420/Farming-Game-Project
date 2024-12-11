@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://6w6niuq7faen"
-path="res://.godot/imported/onion.png-e0eb9109c29086f50dbe75f2f49d5a21.ctex"
+uid="uid://dgb2g820tmwe0"
+path="res://.godot/imported/Skills and Spells.png-677cdd0193a363da4159a5e050363b29.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gui/icons/onion.png"
-dest_files=["res://.godot/imported/onion.png-e0eb9109c29086f50dbe75f2f49d5a21.ctex"]
+source_file="res://assets/gui/icons/icon_spritesheets/Skills and Spells.png"
+dest_files=["res://.godot/imported/Skills and Spells.png-677cdd0193a363da4159a5e050363b29.ctex"]
 
 [params]
 

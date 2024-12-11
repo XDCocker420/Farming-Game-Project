@@ -2,7 +2,7 @@ extends Control
 
 signal crop_selected(crop_type: String)
 
-const AVAILABLE_CROPS = ["carrot", "wheat", "corn", "cauliflower", "berry", "onion", "bean", "grape"]
+const AVAILABLE_CROPS = ["carrot", "wheat", "corn", "cauliflower", "berry", "aubergine", "pumpkin", "grape"]
 
 @onready var slots = $Menu/ScrollContainer/VBoxContainer/GridContainer
 
