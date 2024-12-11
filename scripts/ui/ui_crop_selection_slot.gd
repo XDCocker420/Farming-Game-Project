@@ -2,6 +2,7 @@ extends PanelContainer
 
 var display_names = {
 	"cauliflower": "Cauli",
+	"aubergine": "Eggplant"
 }
 
 func _ready() -> void:
