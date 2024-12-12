@@ -4,6 +4,7 @@ var current_mode: String = ""
 var current_crop_type: String = ""
 var selection_highlight: NinePatchRect = null
 var can_interact: bool = true
+var active_farming_area: Area2D = null
 
 var crop_scenes = {
 	"carrot": preload("res://scenes/crops/carrot.tscn"),
@@ -36,7 +37,7 @@ func _setup_highlight() -> void:
 	add_child(selection_highlight)
 
 func _on_mouse_entered() -> void:
-	if not current_mode.is_empty() and can_interact:
+	if not current_mode.is_empty() and can_interact and _is_in_active_area():
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			execute_action()
 		_show_highlight()
@@ -45,7 +46,7 @@ func _on_mouse_exited() -> void:
 	selection_highlight.visible = false
 
 func _on_input_event(_viewport: Node, event: InputEvent, _shape_idx: int) -> void:
-	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed and can_interact and not current_mode.is_empty():
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed and can_interact and not current_mode.is_empty() and _is_in_active_area():
 		execute_action()
 
 func execute_action() -> void:
@@ -54,9 +55,10 @@ func execute_action() -> void:
 		"water": _try_water()
 		"harvest": _try_harvest()
 
-func update_field_state(mode: String, crop_type: String = "") -> void:
+func update_field_state(mode: String, crop_type: String = "", farming_area: Area2D = null) -> void:
 	current_mode = mode
 	current_crop_type = crop_type
+	active_farming_area = farming_area
 	selection_highlight.visible = false
 	can_interact = false
 	await get_tree().create_timer(0.1).timeout
@@ -64,8 +66,11 @@ func update_field_state(mode: String, crop_type: String = "") -> void:
 	
 	var mouse_pos = get_local_mouse_position()
 	if mouse_pos.x >= -32 and mouse_pos.x <= 32 and mouse_pos.y >= -32 and mouse_pos.y <= 32:
-		if not current_mode.is_empty():
+		if not current_mode.is_empty() and _is_in_active_area():
 			_show_highlight()
+
+func _is_in_active_area() -> bool:
+	return active_farming_area and active_farming_area.is_current_area
 
 func _try_plant() -> void:
 	if _get_current_crop() or current_crop_type.is_empty():
