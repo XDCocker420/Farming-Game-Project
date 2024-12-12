@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbpettpmlfem6"
-path="res://.godot/imported/bean.png-99ccfff79f8e7da3c22d17cc93885c54.ctex"
+uid="uid://qmontyyd365m"
+path="res://.godot/imported/Loot and Treasure.png-4a625fd9d6f053784d29a8ad25f7e968.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://assets/gui/icons/bean.png"
-dest_files=["res://.godot/imported/bean.png-99ccfff79f8e7da3c22d17cc93885c54.ctex"]
+source_file="res://assets/gui/icons/icon_spritesheets/Loot and Treasure.png"
+dest_files=["res://.godot/imported/Loot and Treasure.png-4a625fd9d6f053784d29a8ad25f7e968.ctex"]
 
 [params]
 

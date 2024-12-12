@@ -11,8 +11,8 @@ var crop_scenes = {
 	"corn": preload("res://scenes/crops/corn.tscn"),
 	"cauliflower": preload("res://scenes/crops/cauliflower.tscn"),
 	"berry": preload("res://scenes/crops/berry.tscn"),
-	"onion": preload("res://scenes/crops/onion.tscn"),
-	"bean": preload("res://scenes/crops/bean.tscn"),
+	"aubergine": preload("res://scenes/crops/aubergine.tscn"),
+	"pumpkin": preload("res://scenes/crops/pumpkin.tscn"),
 	"grape": preload("res://scenes/crops/grape.tscn")
 }
 
@@ -61,6 +61,11 @@ func update_field_state(mode: String, crop_type: String = "") -> void:
 	can_interact = false
 	await get_tree().create_timer(0.1).timeout
 	can_interact = true
+	
+	var mouse_pos = get_local_mouse_position()
+	if mouse_pos.x >= -32 and mouse_pos.x <= 32 and mouse_pos.y >= -32 and mouse_pos.y <= 32:
+		if not current_mode.is_empty():
+			_show_highlight()
 
 func _try_plant() -> void:
 	if _get_current_crop() or current_crop_type.is_empty():
