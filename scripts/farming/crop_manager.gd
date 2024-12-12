@@ -1,6 +1,7 @@
 extends Node
 
 var config = ConfigFile.new()
+
 var display_names = {
 	"cauliflower": "Cauli",
 	"aubergine": "Eggplant"
