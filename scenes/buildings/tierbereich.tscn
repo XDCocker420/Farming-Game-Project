@@ -1,0 +1,103 @@
+[gd_scene load_steps=14 format=4 uid="uid://nyttgrj1hid3"]
+
+[ext_resource type="Script" path="res://scripts/farming/tierbereich.gd" id="1_eee0d"]
+[ext_resource type="TileSet" uid="uid://ckrpgnu5r4oj6" path="res://tiles/farmlands.tres" id="1_t44fs"]
+[ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="2_tnc6i"]
+[ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="4_mfc16"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r7rfy"]
+atlas = ExtResource("2_tnc6i")
+region = Rect2(960, 384, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mh8a3"]
+atlas = ExtResource("2_tnc6i")
+region = Rect2(1088, 384, 128, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8ywlb"]
+atlas = ExtResource("2_tnc6i")
+region = Rect2(1216, 384, 128, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_wrir4"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r7rfy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mh8a3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8ywlb")
+}],
+"loop": false,
+"name": &"open",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_baojd"]
+size = Vector2(127, 73)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_77ibm"]
+size = Vector2(115.25, 39.75)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5hh2b"]
+atlas = ExtResource("4_mfc16")
+region = Rect2(240, 208, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rgnvf"]
+atlas = ExtResource("4_mfc16")
+region = Rect2(240, 320, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ja575"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5hh2b")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rgnvf")
+}],
+"loop": true,
+"name": &"default",
+"speed": 2.0
+}]
+
+[node name="Tierbereich" type="Node2D"]
+script = ExtResource("1_eee0d")
+
+[node name="ground" type="TileMapLayer" parent="."]
+position = Vector2(-784, -479)
+tile_map_data = PackedByteArray("AAAHAAMAAwAEAAEAAAAIAAMAAwAEAAEAAAAJAAMAAwAEAAEAAAAKAAMAAwAEAAEAAAALAAMAAwAEAAIAAAAMAAMAAwAEAAIAAAANAAMAAwAEAAEAAAAOAAMAAwAEAAEAAAAOAAQAAwAEAAIAAAAOAAUAAwAEAAIAAAAOAAYAAwAEAAIAAAAOAAcAAwAEAAIAAAAOAAgAAwAEAAIAAAAOAAkAAwAEAAIAAAAOAAoAAwAEAAIAAAAOAAsAAwAEAAIAAAANAAsAAwAEAAIAAAAMAAsAAwAEAAIAAAALAAsAAwAEAAIAAAAKAAsAAwAEAAIAAAAJAAsAAwAEAAIAAAAIAAsAAwAEAAIAAAAHAAsAAwAEAAIAAAAHAAoAAwAEAAIAAAAHAAkAAwAEAAIAAAAHAAgAAwAEAAIAAAAHAAcAAwAEAAIAAAAHAAYAAwAEAAIAAAAHAAUAAwAEAAIAAAAHAAQAAwAEAAIAAAAIAAQAAwAEAAIAAAAJAAQAAwAEAAIAAAAKAAQAAwAEAAIAAAALAAQAAwAEAAIAAAAMAAQAAwAEAAIAAAANAAQAAwAEAAIAAAANAAUAAwAEAAIAAAANAAYAAwAEAAIAAAANAAcAAwAEAAIAAAANAAkAAwAEAAIAAAANAAoAAwAEAAIAAAAMAAoAAwAEAAIAAAALAAoAAwAEAAIAAAAKAAoAAwAEAAIAAAAJAAoAAwAEAAIAAAAIAAoAAwAEAAIAAAAIAAkAAwAEAAIAAAAIAAgAAwAEAAIAAAAIAAcAAwAEAAIAAAAIAAYAAwAEAAIAAAAJAAYAAwAEAAIAAAAJAAUAAwAEAAIAAAAIAAUAAwAEAAIAAAAJAAkAAwAEAAIAAAAKAAkAAwAEAAIAAAAKAAgAAwAEAAIAAAAKAAcAAwAEAAIAAAAJAAcAAwAEAAIAAAAJAAgAAwAEAAIAAAALAAgAAwAEAAIAAAALAAcAAwAEAAIAAAALAAkAAwAEAAIAAAAMAAgAAwAEAAIAAAAMAAcAAwAEAAIAAAANAAgAAwAEAAIAAAAMAAkAAwAEAAIAAAAMAAYAAwAEAAIAAAAMAAUAAwAEAAIAAAALAAUAAwAEAAIAAAAKAAUAAwAEAAIAAAAKAAYAAwAEAAIAAAALAAYAAwAEAAIAAAAPAAMAAwAEAAEAAAAPAAQAAwAEAAIAAAAPAAUAAwAEAAIAAAAPAAYAAwAEAAIAAAAPAAcAAwAEAAIAAAAPAAgAAwAEAAIAAAAPAAkAAwAEAAIAAAAPAAoAAwAEAAIAAAAPAAsAAwAEAAIAAAAOAAwAAwAEAAMAAAANAAwAAwAEAAMAAAAMAAwAAwAEAAMAAAALAAwAAwAEAAMAAAAKAAwAAwAEAAMAAAAJAAwAAwAEAAMAAAAIAAwAAwAEAAMAAAAHAAwAAwAEAAMAAAAGAAsAAwADAAIAAAAGAAoAAwADAAIAAAAGAAkAAwADAAIAAAAGAAgAAwADAAIAAAAGAAcAAwADAAIAAAAGAAYAAwADAAIAAAAGAAUAAwADAAIAAAAGAAQAAwADAAIAAAAGAAMAAwADAAEAAAAPAAwAAwAEAAMAAAAGAAwAAwADAAMAAAAQAAsAAwAEAAIAAAAQAAoAAwAEAAIAAAAQAAkAAwAEAAIAAAAQAAgAAwAEAAIAAAAQAAcAAwAEAAIAAAAQAAYAAwAEAAIAAAAQAAUAAwAEAAIAAAAQAAQAAwAEAAIAAAARAAQAAwAFAAIAAAARAAUAAwAFAAIAAAARAAYAAwAFAAIAAAARAAcAAwAFAAIAAAARAAgAAwAFAAIAAAARAAkAAwAFAAIAAAARAAoAAwAFAAIAAAARAAsAAwAFAAIAAAARAAMAAwAFAAEAAAAQAAMAAwAEAAEAAAAQAAwAAwAEAAMAAAARAAwAAwAFAAMAAAA=")
+tile_set = ExtResource("1_t44fs")
+
+[node name="decos" type="TileMapLayer" parent="."]
+position = Vector2(-784, -479)
+tile_map_data = PackedByteArray("AAAHAAQAAwARAAcAAAAHAAUAAwARAAgAAAAHAAYAAwAQAAcAAAAHAAcAAwAQAAgAAAAOAAQAAwAEAAAAAAAJAAkAAwAEAAAAAAAGAAsAAwALAAIAAAAGAAoAAwALAAIAAAAGAAkAAwALAAIAAAAGAAgAAwALAAIAAAAGAAcAAwALAAIAAAAGAAYAAwALAAIAAAAGAAUAAwALAAIAAAAGAAQAAwALAAIAAAAHAAMAAwALAAEAAAAIAAMAAwALAAEAAAAJAAMAAwALAAEAAAANAAMAAwALAAEAAAAOAAMAAwALAAEAAAAGAAwAAwAIAAMAAAAPAAwAAwAJAAMAAAAOAAwAAwAJAAMAAAANAAwAAwAJAAMAAAAMAAwAAwAJAAMAAAALAAwAAwAJAAMAAAAKAAwAAwAJAAMAAAAJAAwAAwAJAAMAAAAIAAwAAwAJAAMAAAAHAAwAAwAJAAMAAAAPAAMAAwALAAEAAAAGAAMAAwAIAAEAAAAQAAwAAwAJAAMAAAARAAwAAwAKAAMAAAARAAsAAwALAAIAAAARAAoAAwALAAIAAAARAAkAAwALAAIAAAARAAgAAwALAAIAAAARAAcAAwALAAIAAAARAAYAAwALAAIAAAARAAUAAwALAAIAAAARAAQAAwALAAIAAAARAAMAAwAKAAEAAAAQAAMAAwALAAEAAAAKAAMAAwALAAEAAAAPAAsAAwAWAAoAAAAQAAsAAwAXAAoAAAANAAsAAwAWAAoAAAAOAAsAAwAXAAoAAAAQAAgAAwAEAAAAAAALAAMAAwAHAAIAAAAMAAMAAwAGAAIAAAA=")
+tile_set = ExtResource("1_t44fs")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(-16, -256)
+
+[node name="door" type="AnimatedSprite2D" parent="Area2D"]
+sprite_frames = SubResource("SpriteFrames_wrir4")
+animation = &"open"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.5, 0.5)
+shape = SubResource("RectangleShape2D_baojd")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-16, -253)
+shape = SubResource("RectangleShape2D_77ibm")
+
+[node name="AnimatedSprite2D3" type="AnimatedSprite2D" parent="."]
+position = Vector2(37, -295)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_ja575")
+autoplay = "default"
+
+[connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
