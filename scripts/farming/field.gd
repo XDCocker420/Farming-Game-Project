@@ -60,14 +60,19 @@ func update_field_state(mode: String, crop_type: String = "", farming_area: Area
 	current_crop_type = crop_type
 	active_farming_area = farming_area
 	selection_highlight.visible = false
-	can_interact = false
-	await get_tree().create_timer(0.1).timeout
-	can_interact = true
 	
-	var mouse_pos = get_local_mouse_position()
-	if mouse_pos.x >= -32 and mouse_pos.x <= 32 and mouse_pos.y >= -32 and mouse_pos.y <= 32:
-		if not current_mode.is_empty() and _is_in_active_area():
-			_show_highlight()
+	if not mode.is_empty():
+		can_interact = false
+		if is_instance_valid(self) and not is_queued_for_deletion():
+			await get_tree().create_timer(0.1).timeout
+			if is_instance_valid(self):
+				can_interact = true
+				var mouse_pos = get_local_mouse_position()
+				if mouse_pos.x >= -32 and mouse_pos.x <= 32 and mouse_pos.y >= -32 and mouse_pos.y <= 32:
+					if not current_mode.is_empty() and _is_in_active_area():
+						_show_highlight()
+	else:
+		can_interact = true
 
 func _is_in_active_area() -> bool:
 	return active_farming_area and active_farming_area.is_current_area
