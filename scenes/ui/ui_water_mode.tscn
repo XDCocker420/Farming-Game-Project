@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://dpj4xransfcws"]
+[gd_scene load_steps=3 format=3 uid="uid://dpj4xransfcws"]
 
 [ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_r8it2"]
+[ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://pokemon-dppt/pokemon-dppt.ttf" id="2_wkpbt"]
 
 [node name="WaterModeUI" type="Control"]
 layout_mode = 3
@@ -34,7 +35,8 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 theme_override_colors/font_color = Color(0, 0, 0, 1)
-theme_override_font_sizes/font_size = 22
+theme_override_fonts/font = ExtResource("2_wkpbt")
+theme_override_font_sizes/font_size = 28
 text = "Gieß Modus"
 horizontal_alignment = 1
 vertical_alignment = 1
