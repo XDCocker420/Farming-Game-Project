@@ -4,6 +4,8 @@ extends Node2D
 @onready var ui = $ContractBoardUI
 @onready var player: CharacterBody2D = %Player
 
+
+
 var in_area:bool = false
 var ui_is_open:bool = false
 

@@ -1,7 +1,6 @@
-[gd_scene load_steps=4 format=3 uid="uid://b57ax2p4r20ae"]
+[gd_scene load_steps=3 format=3 uid="uid://b57ax2p4r20ae"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_ipkwj"]
-[ext_resource type="PackedScene" uid="uid://dwsrp6tihv8pd" path="res://scenes/ui/contract_board_ui.tscn" id="2_unubv"]
 [ext_resource type="PackedScene" uid="uid://bc6sudr6mtykj" path="res://scenes/buildings/contract_board.tscn" id="3_4i42o"]
 
 [node name="Node2D" type="Node2D"]
@@ -15,11 +14,5 @@ position = Vector2(0, -43)
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
-[node name="ContractBoardUI" parent="." instance=ExtResource("2_unubv")]
-visible = false
-offset_left = 372.0
-offset_top = 133.0
-offset_right = 372.0
-offset_bottom = 133.0
-
 [node name="contract_board" parent="." instance=ExtResource("3_4i42o")]
+position = Vector2(-10, 35)

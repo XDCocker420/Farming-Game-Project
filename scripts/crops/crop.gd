@@ -49,7 +49,7 @@ func _on_timer_timeout() -> void:
 		play("grow 3")
 
 func water() -> bool:
-	if not is_watered:
+	if not is_watered && state != 2:
 		is_watered = true
 		var progress_ratio = timer.time_left / timer.wait_time
 		timer.start(get_growth_time() * progress_ratio)
@@ -87,6 +87,7 @@ func on_save_game(saved_data:Array[ItemSaves]):
 	data.time_left = timer.time_left
 	data.state = state
 	data.parent_path = get_parent().get_path()
+	data.is_watered = is_watered
 	saved_data.append(data)
 
 func on_before_load():
@@ -95,7 +96,7 @@ func on_before_load():
 func on_load_game(saved_data):
 	if saved_data is CropSaves:
 		var data = saved_data as CropSaves
-		print(data.state)
+		is_watered = data.is_watered
 		state = data.state
 		time_left = data.time_left
 		_update_visual_state()

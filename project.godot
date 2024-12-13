@@ -29,7 +29,7 @@ project/assembly_name="Project Farming Game"
 
 Player=""
 Map=""
-game_events=""
+dynamic_elements="all dynamic elements that should be saved"
 
 [input]
 

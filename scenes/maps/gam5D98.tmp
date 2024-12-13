@@ -81,4 +81,4 @@ position = Vector2(1932, 543)
 [node name="AuftragUMarkt" type="Node" parent="Map"]
 
 [node name="contract_board" parent="Map/AuftragUMarkt" instance=ExtResource("8_1t62h")]
-position = Vector2(-310, -501)
+position = Vector2(-293, -488)

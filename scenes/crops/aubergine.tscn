@@ -42,7 +42,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Aubergine" type="AnimatedSprite2D" groups=["game_events"]]
+[node name="Aubergine" type="AnimatedSprite2D" groups=["dynamic_elements"]]
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_67loh")
 animation = &"grow 3"

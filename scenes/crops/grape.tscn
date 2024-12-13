@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://d3id7fc7joyem"]
+[gd_scene load_steps=7 format=3 uid="uid://c5qr8p87stfmr"]
 
 [ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_7mxrh"]
 [ext_resource type="Script" path="res://scripts/crops/crop.gd" id="2_5ecqq"]
@@ -42,7 +42,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Grape" type="AnimatedSprite2D" groups=["game_events"]]
+[node name="Grape" type="AnimatedSprite2D" groups=["dynamic_elements"]]
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_67loh")
 animation = &"grow 1"

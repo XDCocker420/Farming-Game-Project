@@ -5,7 +5,7 @@
 [ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://pokemon-dppt/pokemon-dppt.ttf" id="3_4bkbb"]
 
 [node name="FarmingUI" type="Control" groups=["ui_farming"]]
-z_index = 4
+z_index = 6
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
