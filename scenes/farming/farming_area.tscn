@@ -39,7 +39,7 @@ visible = false
 position = Vector2(0, -158)
 
 [node name="field1" parent="long_field1" instance=ExtResource("2_pdgie")]
-position = Vector2(-191, 0)
+position = Vector2(-192, 0)
 
 [node name="field2" parent="long_field1" instance=ExtResource("3_fq8gb")]
 position = Vector2(-128, 0)
@@ -62,7 +62,7 @@ position = Vector2(192, 0)
 position = Vector2(0, -54)
 
 [node name="field1" parent="long_field2" instance=ExtResource("2_pdgie")]
-position = Vector2(-191, 0)
+position = Vector2(-192, 0)
 
 [node name="field2" parent="long_field2" instance=ExtResource("3_fq8gb")]
 position = Vector2(-128, 0)
@@ -85,7 +85,7 @@ position = Vector2(192, 0)
 position = Vector2(0, 50)
 
 [node name="field1" parent="long_field3" instance=ExtResource("2_pdgie")]
-position = Vector2(-191, 0)
+position = Vector2(-192, 0)
 
 [node name="field2" parent="long_field3" instance=ExtResource("3_fq8gb")]
 position = Vector2(-128, 0)
@@ -108,7 +108,7 @@ position = Vector2(192, 0)
 position = Vector2(0, 154)
 
 [node name="field1" parent="long_field4" instance=ExtResource("2_pdgie")]
-position = Vector2(-191, 0)
+position = Vector2(-192, 0)
 
 [node name="field2" parent="long_field4" instance=ExtResource("3_fq8gb")]
 position = Vector2(-128, 0)
