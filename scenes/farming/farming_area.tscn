@@ -1,11 +1,11 @@
-[gd_scene load_steps=10 format=3 uid="uid://bqogj2noiv4ya"]
+[gd_scene load_steps=11 format=3 uid="uid://bqogj2noiv4ya"]
 
 [ext_resource type="Script" path="res://scripts/farming/farming_area.gd" id="1_or51d"]
 [ext_resource type="PackedScene" uid="uid://lo6utycpenq8" path="res://scenes/farming/farmFieldLeft.tscn" id="2_pdgie"]
 [ext_resource type="PackedScene" uid="uid://bwk02b3kef0xu" path="res://scenes/farming/farmFieldMiddle.tscn" id="3_fq8gb"]
 [ext_resource type="PackedScene" uid="uid://dgbjtfg8j188k" path="res://scenes/farming/farmFieldRight.tscn" id="4_rach3"]
 [ext_resource type="PackedScene" uid="uid://bqag013g7o0c6" path="res://scenes/ui/ui_farming.tscn" id="5_xk3l4"]
-[ext_resource type="PackedScene" uid="uid://crop_selection_ui" path="res://scenes/ui/ui_crop_selection.tscn" id="6_ykl4m"]
+[ext_resource type="PackedScene" path="res://scenes/ui/ui_crop_selection.tscn" id="6_ykl4m"]
 [ext_resource type="PackedScene" uid="uid://kuegxrcss13s" path="res://scenes/ui/ui_plant_mode.tscn" id="7_abc12"]
 [ext_resource type="PackedScene" uid="uid://dpj4xransfcws" path="res://scenes/ui/ui_water_mode.tscn" id="8_def34"]
 [ext_resource type="PackedScene" uid="uid://c37fb3qfu8h0r" path="res://scenes/ui/ui_harvest_mode.tscn" id="9_ghi56"]
