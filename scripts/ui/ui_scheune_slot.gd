@@ -13,7 +13,7 @@ func _ready() -> void:
 func _on_icon_mouse_entered() -> void:
 	var name_label = $Node2D/name
 	var icon_name = $Icon.texture.get_path().get_file().get_basename()
-	name_label.text = CropManager.get_display_name(icon_name)
+	name_label.text = ConfigReader.get_display_name(icon_name)
 	name_label.show()
 
 func _on_icon_mouse_exited() -> void:

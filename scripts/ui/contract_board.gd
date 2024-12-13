@@ -44,23 +44,23 @@ func get_random_res(prev_id:int) -> SavedContracts:
 	var money:int = 0
 	var exp_v:int = 0
 	
-	var all_items = CropManager.get_all_level()
+	var all_items = ConfigReader.get_all_level()
 	all_items.shuffle()
 	
 	var rng = RandomNumberGenerator.new()
 	for i in range(rng.randi_range(2,5)):
 		var rng_int:int = rng.randi_range(0, all_items.size() - 1)
 		var count:int
-		if CropManager.get_crop_value(all_items[rng_int]) < 10:
+		if ConfigReader.get_crop_value(all_items[rng_int]) < 10:
 			count = rng.randi_range(5,17)
-		elif CropManager.get_crop_value(all_items[rng_int]) >= 10:
+		elif ConfigReader.get_crop_value(all_items[rng_int]) >= 10:
 			count = rng.randi_range(1,5)
 		
 		items[all_items.pop_at(rng_int)] = count
 	
 	for j in items.keys():
-		exp_v += rng.randi_range(int(CropManager.get_crop_exp(j) * 0.9), int(CropManager.get_crop_exp(j) * 1.1)) * items[j]
-		money += rng.randi_range(int(CropManager.get_crop_value(j)), int(CropManager.get_max_price(j) * 0.7)) * items[j]
+		exp_v += rng.randi_range(int(ConfigReader.get_crop_exp(j) * 0.9), int(ConfigReader.get_crop_exp(j) * 1.1)) * items[j]
+		money += rng.randi_range(int(ConfigReader.get_crop_value(j)), int(ConfigReader.get_max_price(j) * 0.7)) * items[j]
 		
 	SaveGame.add_contract(prev_id, exp_v, money, items)
 	var temp:SavedContracts = SavedContracts.new()
