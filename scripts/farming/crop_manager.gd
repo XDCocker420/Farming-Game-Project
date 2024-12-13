@@ -1,8 +1,11 @@
 extends Node
 
-
 var config = ConfigFile.new()
 
+var display_names = {
+	"cauliflower": "Cauli",
+	"aubergine": "Eggplant"
+}
 
 func _ready() -> void:
 	var err = config.load("res://scripts/config/crops_config.cfg")
@@ -11,6 +14,10 @@ func _ready() -> void:
 	if err != OK:
 		return
 
+func get_display_name(crop_name: String) -> String:
+	if crop_name in display_names:
+		return display_names[crop_name]
+	return crop_name[0].to_upper() + crop_name.substr(1,-1)
 
 func get_crop_time(crop_name:String) -> int:
 	return config.get_value(crop_name, 'time')

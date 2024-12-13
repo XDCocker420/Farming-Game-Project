@@ -1,0 +1,91 @@
+[gd_scene load_steps=3 format=3 uid="uid://c3q7b62yfbd56"]
+
+[ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_f6luj"]
+[ext_resource type="PackedScene" uid="uid://f2u7wd113dhm" path="res://scenes/ui/ui_slot.tscn" id="2_spcch"]
+
+[node name="ui_markt" type="Control"]
+layout_mode = 3
+anchor_left = 0.437
+anchor_top = 0.375
+anchor_right = 0.437
+anchor_bottom = 0.375
+offset_left = -503.424
+offset_top = -243.0
+offset_right = 648.576
+offset_bottom = 405.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="NinePatchRect" type="NinePatchRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -697.0
+offset_bottom = -409.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_f6luj")
+region_rect = Rect2(112, 0, 48, 48)
+
+[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 24
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 24
+
+[node name="ScrollContainer" type="ScrollContainer" parent="NinePatchRect/MarginContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/MarginContainer/ScrollContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 3
+
+[node name="HBoxContainer" type="HBoxContainer" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Slot" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_spcch")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Slot2" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_spcch")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Slot3" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_spcch")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Slot4" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_spcch")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Slot" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("2_spcch")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Slot2" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("2_spcch")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Slot3" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("2_spcch")]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="Slot4" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("2_spcch")]
+layout_mode = 2
+size_flags_horizontal = 3

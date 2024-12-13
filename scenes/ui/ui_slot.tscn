@@ -1,13 +1,20 @@
-[gd_scene load_steps=5 format=3 uid="uid://f2u7wd113dhm"]
+[gd_scene load_steps=6 format=3 uid="uid://f2u7wd113dhm"]
 
 [ext_resource type="Script" path="res://scripts/ui/ui_scheune_slot.gd" id="1_odjiv"]
 [ext_resource type="Texture2D" uid="uid://b1a783ur0o53u" path="res://assets/gui/slot_bg.png" id="1_qjc65"]
+[ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://pokemon-dppt/pokemon-dppt.ttf" id="3_hpx8t"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ny3na"]
+font = ExtResource("3_hpx8t")
 font_size = 64
+outline_size = 4
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_vjjsr"]
+font = ExtResource("3_hpx8t")
 font_size = 64
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
 
 [node name="Slot" type="PanelContainer"]
 offset_right = 26.0
@@ -36,9 +43,8 @@ label_settings = SubResource("LabelSettings_ny3na")
 
 [node name="name" type="Label" parent="Node2D"]
 visible = false
-offset_top = -2.0
 offset_right = 260.0
-offset_bottom = 86.0
+offset_bottom = 88.0
 scale = Vector2(0.1, 0.1)
 size_flags_horizontal = 4
 text = "Name"
