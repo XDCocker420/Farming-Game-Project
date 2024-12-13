@@ -13,7 +13,7 @@ func _ready() -> void:
 
 
 func get_crop_time(crop_name:String) -> int:
-	return config.get_value(crop_name, 'growth_time')
+	return config.get_value(crop_name, 'time')
 
 func get_crop_value(crop_name:String) -> int:
 	return config.get_value(crop_name, 'value')
@@ -26,3 +26,10 @@ func get_max_price(crop_name:String) -> int:
 
 func has_reached_level(crop_name:String) -> bool:
 	return SaveGame.get_current_level() >= config.get_value(crop_name, "level_needed")
+	
+func get_all_level() -> Array[String]:
+	var items:Array[String] = []
+	for i in config.get_sections():
+		if has_reached_level(i):
+			items.append(i)
+	return items

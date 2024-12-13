@@ -12,8 +12,8 @@ var inventory:Inventory = Inventory.new()
 var config = ConfigFile.new()
 var level:int = 0
 var exp_level:int = 0
-var con_sav:Array[SavedContracts] = [SavedContracts.new()]
-var market_sav:Array[SavedMarket] = [SavedMarket.new()]
+var con_sav:Array[SavedContracts] = []
+var market_sav:Array[SavedMarket] = []
 
 @onready var map = get_tree().get_first_node_in_group("Map")
 @onready var player = get_tree().get_first_node_in_group("Player")
@@ -123,7 +123,7 @@ func get_current_level() -> int:
 func get_experience_per_level() -> int:
 	return exp_level
 
-func add_experience_points(count:int) -> void:
+func add_experience_points(count:int=1) -> void:
 	if count < 1:
 		push_error("count musst be bigger or equal 1")
 		get_tree().quit()
@@ -158,9 +158,10 @@ func remove_money(count:int=1) -> bool:
 func get_money() -> int:
 	return inventory.money
 	
-func add_contract(exp_val:int, money:int, items:Dictionary) -> SavedContracts:
+func add_contract(id:int, exp_val:int, money:int, items:Dictionary) -> SavedContracts:
 	var temp:SavedContracts = SavedContracts.new()
-	temp.exp_val = exp_level
+	temp.id = id
+	temp.exp_val = exp_val
 	temp.currency = money
 	temp.req_res = items
 	con_sav.append(temp)
@@ -172,10 +173,16 @@ func remove_contract(con:SavedContracts) -> SavedContracts:
 	
 func get_contracts() -> Array[SavedContracts]:
 	return con_sav
+	
+func get_contract_by_id(id:int) -> SavedContracts:
+	for i:SavedContracts in con_sav: 
+		if i.id == id:
+			return i
+	return null
 
-func add_market_item(item:String, count:int=1, amount_to_sell:int=1) -> SavedMarket:
+func add_market_item(id:int, item:String, count:int=1, amount_to_sell:int=1) -> SavedMarket:
 	var temp:SavedMarket = SavedMarket.new()
-	temp.id = market_sav.size() + 1
+	temp.id = id
 	temp.item = item
 	temp.count = count
 	temp.money_am = amount_to_sell
@@ -185,6 +192,12 @@ func add_market_item(item:String, count:int=1, amount_to_sell:int=1) -> SavedMar
 func remove_market_item(item:SavedMarket) -> SavedMarket:
 	market_sav.remove_at(market_sav.find(item))
 	return item
+	
+func get_market_by_id(id:int) -> SavedMarket:
+	for i:SavedMarket in market_sav: 
+		if i.id == id:
+			return i
+	return null
 
 func get_market() -> Array[SavedMarket]:
 	return market_sav

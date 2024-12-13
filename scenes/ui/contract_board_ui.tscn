@@ -1,14 +1,25 @@
-[gd_scene load_steps=4 format=3 uid="uid://dwsrp6tihv8pd"]
+[gd_scene load_steps=9 format=3 uid="uid://dwsrp6tihv8pd"]
 
+[ext_resource type="Script" path="res://scripts/ui/contract_board.gd" id="1_2gmrp"]
 [ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_y785a"]
-[ext_resource type="PackedScene" uid="uid://dmfs7ufngriac" path="res://scenes/ui/ui_contractboard_slot.tscn" id="2_pxqxh"]
+[ext_resource type="ButtonGroup" uid="uid://crkx4fmbsdgl8" path="res://scripts/ui/contract_button_group.tres" id="3_g5ga2"]
+[ext_resource type="Texture2D" uid="uid://b1a783ur0o53u" path="res://assets/gui/slot_bg.png" id="4_o36fj"]
+[ext_resource type="Texture2D" uid="uid://c5q8elcvteu8a" path="res://assets/gui/slot_contractboard_bg.png" id="5_7m0dk"]
+[ext_resource type="Texture2D" uid="uid://kr6egn4rae3c" path="res://assets/gui/button.png" id="6_g4vgt"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_2qc2u"]
 font_size = 64
 
+[sub_resource type="LabelSettings" id="LabelSettings_oh52m"]
+line_spacing = 1.0
+font_size = 8
+
 [node name="ContractBoardUI" type="Control"]
+top_level = true
+z_index = 7
 layout_mode = 3
 anchors_preset = 0
+script = ExtResource("1_2gmrp")
 
 [node name="Menu" type="NinePatchRect" parent="."]
 layout_mode = 1
@@ -62,10 +73,10 @@ text = "
 
 [node name="Button" type="Button" parent="Menu"]
 layout_mode = 0
-offset_left = 386.0
-offset_top = 303.0
-offset_right = 549.0
-offset_bottom = 334.0
+offset_left = 387.0
+offset_top = 305.0
+offset_right = 550.0
+offset_bottom = 336.0
 text = "Abschließen"
 
 [node name="GridContainer" type="GridContainer" parent="Menu"]
@@ -77,38 +88,204 @@ offset_bottom = 108.0
 scale = Vector2(3, 3)
 columns = 4
 
-[node name="ui_cb_slot" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+[node name="1" type="TextureButton" parent="Menu/GridContainer"]
 layout_mode = 2
+toggle_mode = true
+action_mode = 0
+button_group = ExtResource("3_g5ga2")
+texture_normal = ExtResource("5_7m0dk")
+texture_pressed = ExtResource("4_o36fj")
 
-[node name="ui_cb_slot2" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
-layout_mode = 2
+[node name="Label" type="Label" parent="Menu/GridContainer/1"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.33333
+offset_right = 26.0
+offset_bottom = 24.3333
+label_settings = SubResource("LabelSettings_oh52m")
 
-[node name="ui_cb_slot3" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+[node name="2" type="TextureButton" parent="Menu/GridContainer"]
 layout_mode = 2
+toggle_mode = true
+action_mode = 0
+button_group = ExtResource("3_g5ga2")
+texture_normal = ExtResource("5_7m0dk")
+texture_pressed = ExtResource("4_o36fj")
 
-[node name="ui_cb_slot4" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
-layout_mode = 2
+[node name="Label" type="Label" parent="Menu/GridContainer/2"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.33333
+offset_right = 26.0
+offset_bottom = 24.3333
+label_settings = SubResource("LabelSettings_oh52m")
 
-[node name="ui_cb_slot5" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+[node name="3" type="TextureButton" parent="Menu/GridContainer"]
 layout_mode = 2
+toggle_mode = true
+action_mode = 0
+button_group = ExtResource("3_g5ga2")
+texture_normal = ExtResource("5_7m0dk")
+texture_pressed = ExtResource("4_o36fj")
 
-[node name="ui_cb_slot6" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
-layout_mode = 2
+[node name="Label" type="Label" parent="Menu/GridContainer/3"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.33333
+offset_right = 26.0
+offset_bottom = 24.3333
+label_settings = SubResource("LabelSettings_oh52m")
 
-[node name="ui_cb_slot7" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+[node name="4" type="TextureButton" parent="Menu/GridContainer"]
 layout_mode = 2
+toggle_mode = true
+action_mode = 0
+button_group = ExtResource("3_g5ga2")
+texture_normal = ExtResource("5_7m0dk")
+texture_pressed = ExtResource("4_o36fj")
 
-[node name="ui_cb_slot8" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
-layout_mode = 2
+[node name="Label" type="Label" parent="Menu/GridContainer/4"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.33333
+offset_right = 26.0
+offset_bottom = 24.3333
+label_settings = SubResource("LabelSettings_oh52m")
 
-[node name="ui_cb_slot9" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+[node name="5" type="TextureButton" parent="Menu/GridContainer"]
 layout_mode = 2
+toggle_mode = true
+action_mode = 0
+button_group = ExtResource("3_g5ga2")
+texture_normal = ExtResource("5_7m0dk")
+texture_pressed = ExtResource("4_o36fj")
 
-[node name="ui_cb_slot10" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
-layout_mode = 2
+[node name="Label" type="Label" parent="Menu/GridContainer/5"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.33333
+offset_right = 26.0
+offset_bottom = 24.3333
+label_settings = SubResource("LabelSettings_oh52m")
 
-[node name="ui_cb_slot11" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+[node name="6" type="TextureButton" parent="Menu/GridContainer"]
 layout_mode = 2
+toggle_mode = true
+action_mode = 0
+button_group = ExtResource("3_g5ga2")
+texture_normal = ExtResource("5_7m0dk")
+texture_pressed = ExtResource("4_o36fj")
 
-[node name="ui_cb_slot12" parent="Menu/GridContainer" instance=ExtResource("2_pxqxh")]
+[node name="Label" type="Label" parent="Menu/GridContainer/6"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.33333
+offset_right = 26.0
+offset_bottom = 24.3333
+label_settings = SubResource("LabelSettings_oh52m")
+
+[node name="7" type="TextureButton" parent="Menu/GridContainer"]
 layout_mode = 2
+toggle_mode = true
+action_mode = 0
+button_group = ExtResource("3_g5ga2")
+texture_normal = ExtResource("5_7m0dk")
+texture_pressed = ExtResource("4_o36fj")
+
+[node name="Label" type="Label" parent="Menu/GridContainer/7"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.33333
+offset_right = 26.0
+offset_bottom = 24.3333
+label_settings = SubResource("LabelSettings_oh52m")
+
+[node name="8" type="TextureButton" parent="Menu/GridContainer"]
+layout_mode = 2
+toggle_mode = true
+action_mode = 0
+button_group = ExtResource("3_g5ga2")
+texture_normal = ExtResource("5_7m0dk")
+texture_pressed = ExtResource("4_o36fj")
+
+[node name="Label" type="Label" parent="Menu/GridContainer/8"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.33333
+offset_right = 26.0
+offset_bottom = 24.3333
+label_settings = SubResource("LabelSettings_oh52m")
+
+[node name="9" type="TextureButton" parent="Menu/GridContainer"]
+layout_mode = 2
+toggle_mode = true
+action_mode = 0
+button_group = ExtResource("3_g5ga2")
+texture_normal = ExtResource("5_7m0dk")
+texture_pressed = ExtResource("4_o36fj")
+
+[node name="Label" type="Label" parent="Menu/GridContainer/9"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.33333
+offset_right = 26.0
+offset_bottom = 24.3333
+label_settings = SubResource("LabelSettings_oh52m")
+
+[node name="10" type="TextureButton" parent="Menu/GridContainer"]
+layout_mode = 2
+toggle_mode = true
+action_mode = 0
+button_group = ExtResource("3_g5ga2")
+texture_normal = ExtResource("5_7m0dk")
+texture_pressed = ExtResource("4_o36fj")
+
+[node name="Label" type="Label" parent="Menu/GridContainer/10"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.33333
+offset_right = 26.0
+offset_bottom = 24.3333
+label_settings = SubResource("LabelSettings_oh52m")
+
+[node name="11" type="TextureButton" parent="Menu/GridContainer"]
+layout_mode = 2
+toggle_mode = true
+action_mode = 0
+button_group = ExtResource("3_g5ga2")
+texture_normal = ExtResource("5_7m0dk")
+texture_pressed = ExtResource("4_o36fj")
+
+[node name="Label" type="Label" parent="Menu/GridContainer/11"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.33333
+offset_right = 26.0
+offset_bottom = 24.3333
+label_settings = SubResource("LabelSettings_oh52m")
+
+[node name="12" type="TextureButton" parent="Menu/GridContainer"]
+layout_mode = 2
+toggle_mode = true
+action_mode = 0
+button_group = ExtResource("3_g5ga2")
+texture_normal = ExtResource("5_7m0dk")
+texture_pressed = ExtResource("4_o36fj")
+
+[node name="Label" type="Label" parent="Menu/GridContainer/12"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 1.33333
+offset_right = 26.0
+offset_bottom = 24.3333
+label_settings = SubResource("LabelSettings_oh52m")
+
+[node name="TextureButton" type="TextureButton" parent="Menu"]
+visible = false
+layout_mode = 0
+offset_left = 383.0
+offset_top = 292.0
+offset_right = 431.0
+offset_bottom = 332.0
+scale = Vector2(3.48, 2.28)
+texture_normal = ExtResource("6_g4vgt")

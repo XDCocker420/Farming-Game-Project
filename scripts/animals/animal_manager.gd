@@ -32,3 +32,10 @@ func get_meat_max_price(animal_name:String):
 
 func has_reached_level(animal_name:String) -> bool:
 	return SaveGame.get_current_level() >= config.get_value(animal_name, "level_needed")
+
+func get_all_level() -> Array[String]:
+	var items:Array[String] = []
+	for i in config.get_sections():
+		if has_reached_level(i):
+			items.append(i)
+	return items
