@@ -1,0 +1,226 @@
+[gd_scene load_steps=29 format=3 uid="uid://rjwuxr2sss3k"]
+
+[ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_nccap"]
+[ext_resource type="Script" path="res://scripts/state_management/state_machine.gd" id="2_pbhin"]
+[ext_resource type="Script" path="res://scripts/animals/animal_fed.gd" id="3_sjo8e"]
+[ext_resource type="Script" path="res://scripts/animals/animal_full.gd" id="4_bl8x8"]
+[ext_resource type="Script" path="res://scripts/animals/animal_hungry.gd" id="5_ib16o"]
+[ext_resource type="PackedScene" uid="uid://bekt21sxspmob" path="res://scenes/ui/feeding_ui.tscn" id="6_inr80"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nplvv"]
+atlas = ExtResource("1_nccap")
+region = Rect2(512, 1535, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_knyek"]
+atlas = ExtResource("1_nccap")
+region = Rect2(576, 1535, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lr248"]
+atlas = ExtResource("1_nccap")
+region = Rect2(640, 1535, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3w73l"]
+atlas = ExtResource("1_nccap")
+region = Rect2(512, 1797, 64, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nmjf0"]
+atlas = ExtResource("1_nccap")
+region = Rect2(576, 1797, 64, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7kcw1"]
+atlas = ExtResource("1_nccap")
+region = Rect2(640, 1797, 64, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_llxn0"]
+atlas = ExtResource("1_nccap")
+region = Rect2(512, 1663, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aiu5x"]
+atlas = ExtResource("1_nccap")
+region = Rect2(576, 1663, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wd3o4"]
+atlas = ExtResource("1_nccap")
+region = Rect2(640, 1663, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ps6nt"]
+atlas = ExtResource("1_nccap")
+region = Rect2(512, 1599, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_24fgr"]
+atlas = ExtResource("1_nccap")
+region = Rect2(576, 1599, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vcjn2"]
+atlas = ExtResource("1_nccap")
+region = Rect2(640, 1599, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r7jfp"]
+atlas = ExtResource("1_nccap")
+region = Rect2(512, 1727, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i8avk"]
+atlas = ExtResource("1_nccap")
+region = Rect2(576, 1727, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_th1hn"]
+atlas = ExtResource("1_nccap")
+region = Rect2(640, 1727, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_w2dou"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nplvv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_knyek")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lr248")
+}],
+"loop": true,
+"name": &"down",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3w73l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nmjf0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7kcw1")
+}],
+"loop": true,
+"name": &"hungry",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_llxn0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aiu5x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wd3o4")
+}],
+"loop": true,
+"name": &"left",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ps6nt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_24fgr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vcjn2")
+}],
+"loop": true,
+"name": &"right",
+"speed": 3.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r7jfp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i8avk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_th1hn")
+}],
+"loop": true,
+"name": &"up",
+"speed": 3.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_tcyek"]
+size = Vector2(44, 53)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u7x6q"]
+atlas = ExtResource("1_nccap")
+region = Rect2(1024, 1151, 64, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k0tgt"]
+atlas = ExtResource("1_nccap")
+region = Rect2(1088, 1151, 64, 66)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tr418"]
+atlas = ExtResource("1_nccap")
+region = Rect2(1152, 1151, 64, 66)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mthy5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u7x6q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k0tgt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tr418")
+}],
+"loop": true,
+"name": &"full",
+"speed": 1.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_iox6e"]
+size = Vector2(49, 60)
+
+[node name="Chicken" type="CharacterBody2D"]
+motion_mode = 1
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_w2dou")
+animation = &"hungry"
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -0.5)
+shape = SubResource("RectangleShape2D_tcyek")
+
+[node name="State Machine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
+script = ExtResource("2_pbhin")
+initial_state = NodePath("Hungry")
+
+[node name="Fed" type="Node" parent="State Machine" node_paths=PackedStringArray("animal")]
+script = ExtResource("3_sjo8e")
+animal = NodePath("../..")
+
+[node name="Timer" type="Timer" parent="State Machine/Fed"]
+
+[node name="Full" type="Node" parent="State Machine" node_paths=PackedStringArray("animal")]
+script = ExtResource("4_bl8x8")
+animal = NodePath("../..")
+
+[node name="Hungry" type="Node" parent="State Machine" node_paths=PackedStringArray("animal")]
+script = ExtResource("5_ib16o")
+animal = NodePath("../..")
+
+[node name="Action" type="AnimatedSprite2D" parent="."]
+visible = false
+position = Vector2(-17, -51)
+sprite_frames = SubResource("SpriteFrames_mthy5")
+animation = &"full"
+
+[node name="FeedingUi" parent="." instance=ExtResource("6_inr80")]
+visible = false
+z_index = 7
+offset_left = 160.0
+offset_top = -3.0
+offset_right = 160.0
+offset_bottom = -3.0
+
+[node name="InteractionRange" type="Area2D" parent="."]
+disable_mode = 1
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionRange"]
+position = Vector2(-1.5, -2)
+shape = SubResource("RectangleShape2D_iox6e")
