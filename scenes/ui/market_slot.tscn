@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://byp8gj3fl1y4q"]
+
+[ext_resource type="Texture2D" uid="uid://b1a783ur0o53u" path="res://assets/gui/slot_bg.png" id="1_4sevg"]
+
+[node name="market_slot" type="TextureButton"]
+offset_right = 26.0
+offset_bottom = 26.0
+texture_normal = ExtResource("1_4sevg")

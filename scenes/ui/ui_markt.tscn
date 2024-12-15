@@ -1,7 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://c3q7b62yfbd56"]
+[gd_scene load_steps=3 format=3 uid="uid://bgatkx86onbu6"]
 
+[ext_resource type="Script" path="res://scripts/ui/ui_markt.gd" id="1_5y7iy"]
 [ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_f6luj"]
-[ext_resource type="PackedScene" uid="uid://f2u7wd113dhm" path="res://scenes/ui/ui_slot.tscn" id="2_spcch"]
 
 [node name="ui_markt" type="Control"]
 layout_mode = 3
@@ -17,6 +17,7 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
+script = ExtResource("1_5y7iy")
 
 [node name="NinePatchRect" type="NinePatchRect" parent="."]
 layout_mode = 1
@@ -54,38 +55,6 @@ size_flags_vertical = 3
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="Slot" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_spcch")]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Slot2" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_spcch")]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Slot3" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_spcch")]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Slot4" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("2_spcch")]
-layout_mode = 2
-size_flags_horizontal = 3
-
 [node name="HBoxContainer2" type="HBoxContainer" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer"]
 layout_mode = 2
 size_flags_vertical = 3
-
-[node name="Slot" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("2_spcch")]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Slot2" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("2_spcch")]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Slot3" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("2_spcch")]
-layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="Slot4" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("2_spcch")]
-layout_mode = 2
-size_flags_horizontal = 3

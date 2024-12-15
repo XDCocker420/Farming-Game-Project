@@ -1,8 +1,8 @@
-[gd_scene load_steps=7 format=4 uid="uid://cxwka3u6ebixd"]
+[gd_scene load_steps=7 format=4 uid="uid://ddeef2warcy2e"]
 
 [ext_resource type="Texture2D" uid="uid://cv4dghej01bcr" path="res://assets/map/city_64x64.png" id="1_2pbhm"]
 [ext_resource type="Script" path="res://scripts/buildings/markt.gd" id="1_watet"]
-[ext_resource type="PackedScene" uid="uid://c3q7b62yfbd56" path="res://scenes/ui/ui_markt.tscn" id="3_ui650"]
+[ext_resource type="PackedScene" path="res://scenes/ui/ui_markt.tscn" id="3_ui650"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_huxpm"]
 texture = ExtResource("1_2pbhm")
