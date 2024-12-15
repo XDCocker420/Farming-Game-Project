@@ -3,12 +3,12 @@
 importer="font_data_dynamic"
 type="FontFile"
 uid="uid://xaiy7t3lavld"
-path="res://.godot/imported/pokemon-dppt.ttf-75bfeac1b7fcdd6c61778de37e3fa633.fontdata"
+path="res://.godot/imported/pokemon-dppt.ttf-543aa8bce64e7387e381fb7e959974a7.fontdata"
 
 [deps]
 
-source_file="res://pokemon-dppt/pokemon-dppt.ttf"
-dest_files=["res://.godot/imported/pokemon-dppt.ttf-75bfeac1b7fcdd6c61778de37e3fa633.fontdata"]
+source_file="res://fonts/pokemon-dppt.ttf"
+dest_files=["res://.godot/imported/pokemon-dppt.ttf-543aa8bce64e7387e381fb7e959974a7.fontdata"]
 
 [params]
 
