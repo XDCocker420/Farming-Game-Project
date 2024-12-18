@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/ui/contract_board.gd" id="1_2gmrp"]
 [ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_y785a"]
 [ext_resource type="ButtonGroup" uid="uid://crkx4fmbsdgl8" path="res://scripts/ui/contract_button_group.tres" id="3_g5ga2"]
-[ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://pokemon-dppt/pokemon-dppt.ttf" id="3_ypm81"]
+[ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://fonts/pokemon-dppt.ttf" id="3_ypm81"]
 [ext_resource type="Texture2D" uid="uid://b1a783ur0o53u" path="res://assets/gui/slot_bg.png" id="4_o36fj"]
 [ext_resource type="Texture2D" uid="uid://c5q8elcvteu8a" path="res://assets/gui/slot_contractboard_bg.png" id="5_7m0dk"]
 [ext_resource type="Texture2D" uid="uid://kr6egn4rae3c" path="res://assets/gui/button.png" id="6_g4vgt"]
@@ -11,7 +11,8 @@
 [sub_resource type="LabelSettings" id="LabelSettings_2qc2u"]
 font = ExtResource("3_ypm81")
 font_size = 64
-outline_size = 2
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_oh52m"]
 line_spacing = 1.0
@@ -79,6 +80,10 @@ offset_left = 387.0
 offset_top = 305.0
 offset_right = 550.0
 offset_bottom = 336.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("3_ypm81")
 text = "Abschließen"
 
 [node name="GridContainer" type="GridContainer" parent="Menu"]
