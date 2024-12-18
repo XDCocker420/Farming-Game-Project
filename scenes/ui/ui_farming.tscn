@@ -2,7 +2,7 @@
 
 [ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_yhy4n"]
 [ext_resource type="Script" path="res://scripts/ui/ui_farming.gd" id="1_ykl4m"]
-[ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://pokemon-dppt/pokemon-dppt.ttf" id="3_4bkbb"]
+[ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://fonts/pokemon-dppt.ttf" id="3_4bkbb"]
 
 [node name="FarmingUI" type="Control" groups=["ui_farming"]]
 z_index = 6
@@ -46,7 +46,7 @@ offset_top = 8.0
 offset_right = 150.0
 offset_bottom = 37.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
+theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("3_4bkbb")
 theme_override_font_sizes/font_size = 20
 text = "Anbauen"
@@ -69,7 +69,7 @@ offset_top = 8.0
 offset_right = 150.0
 offset_bottom = 37.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
+theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("3_4bkbb")
 theme_override_font_sizes/font_size = 20
 text = "Abbauen"
@@ -92,7 +92,7 @@ offset_top = 8.0
 offset_right = 150.0
 offset_bottom = 37.0
 theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
-theme_override_constants/outline_size = 4
+theme_override_constants/outline_size = 6
 theme_override_fonts/font = ExtResource("3_4bkbb")
 theme_override_font_sizes/font_size = 20
 text = "Gießen"
