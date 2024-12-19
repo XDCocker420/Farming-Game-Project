@@ -18,7 +18,7 @@ func _ready() -> void:
 		push_error("Crop type not set in editor!")
 		return
 		
-	default_time = ConfigReader.get_crop_time(crop_type)
+	default_time = ConfigReader.get_time(crop_type)
 	_update_visual_state()
 	
 	if(time_left > 0):
@@ -74,7 +74,7 @@ func harvest() -> void:
 		elif chance > 0.95:
 			crop_count = 3  # 5% chance for 3 crops when not watered
 	
-	SaveGame.add_experience_points(ConfigReader.get_crop_exp(crop_type))
+	SaveGame.add_experience_points(ConfigReader.get_exp(crop_type))
 	SaveGame.add_to_inventory(crop_type, crop_count)
 	print("Harvested: ", crop_count, " ", crop_type)
 	print("Inventory: ", SaveGame.get_inventory())

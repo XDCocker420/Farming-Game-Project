@@ -1,10 +1,11 @@
-[gd_scene load_steps=32 format=3 uid="uid://020l6elc3p55"]
+[gd_scene load_steps=33 format=3 uid="uid://020l6elc3p55"]
 
 [ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_kswhy"]
 [ext_resource type="Script" path="res://scripts/state_management/state_machine.gd" id="3_3mbhh"]
 [ext_resource type="Script" path="res://scripts/animals/animal_fed.gd" id="4_bgmx2"]
 [ext_resource type="Script" path="res://scripts/animals/animal_full.gd" id="5_nyeyd"]
 [ext_resource type="PackedScene" uid="uid://bekt21sxspmob" path="res://scenes/ui/feeding_ui.tscn" id="5_x275d"]
+[ext_resource type="Script" path="res://scripts/animals/animal_eating.gd" id="6_0x6cu"]
 [ext_resource type="Script" path="res://scripts/animals/animal_hungry.gd" id="6_uyfr5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_or7a3"]
@@ -166,9 +167,8 @@ animations = [{
 "speed": 3.0
 }]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_5hjdb"]
-radius = 30.0
-height = 94.0
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jqlvd"]
+size = Vector2(65, 73)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ykmyd"]
 atlas = ExtResource("1_kswhy")
@@ -200,20 +200,20 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tkosv"]
-size = Vector2(70, 90)
+size = Vector2(127, 108)
 
-[node name="Cow" type="CharacterBody2D"]
+[node name="Cow" type="CharacterBody2D" groups=["Animal"]]
 position = Vector2(-1, 0)
 motion_mode = 1
 safe_margin = 20.767
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_yktfy")
-animation = &"down"
+animation = &"hungry"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -4)
-shape = SubResource("CapsuleShape2D_5hjdb")
+position = Vector2(-0.5, 14.5)
+shape = SubResource("RectangleShape2D_jqlvd")
 
 [node name="State Machine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_3mbhh")
@@ -233,6 +233,13 @@ animal = NodePath("../..")
 script = ExtResource("6_uyfr5")
 animal = NodePath("../..")
 
+[node name="Eat" type="Node" parent="State Machine" node_paths=PackedStringArray("animal")]
+script = ExtResource("6_0x6cu")
+animal = NodePath("../..")
+
+[node name="Timer" type="Timer" parent="State Machine/Eat"]
+one_shot = true
+
 [node name="Action" type="AnimatedSprite2D" parent="."]
 visible = false
 position = Vector2(-42, -77)
@@ -241,7 +248,6 @@ animation = &"full"
 
 [node name="FeedingUi" parent="." instance=ExtResource("5_x275d")]
 visible = false
-z_index = 7
 offset_left = 159.0
 offset_top = -24.0
 offset_right = 159.0
@@ -251,5 +257,5 @@ offset_bottom = -24.0
 disable_mode = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionRange"]
-position = Vector2(-1, 12)
+position = Vector2(-1.5, 2)
 shape = SubResource("RectangleShape2D_tkosv")

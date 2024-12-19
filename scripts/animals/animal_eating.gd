@@ -2,20 +2,55 @@ extends State
 class_name  AnimalEating
 
 var move_direction:Vector2
-var eat_time:float
 @export var animal:CharacterBody2D
 @export var move_speed := 50.0
+@onready var player:AnimatedSprite2D = $"../../AnimatedSprite2D"
+@onready var timer = $Timer
 
-func eat():
-	pass
+var rand_pos:Vector2
+var looking_direction = "down"
+var once:bool = false
+var direction:Vector2
 
-func enter():
-	eat()
+func _ready() -> void:
+	timer.wait_time = 2
+	rand_pos = Vector2(randf_range(-20, 60),0)
 	
-func update(delta:float):
-	pass
-		
+func enter():
+	if timer.timeout.get_connections().size() < 1:
+		timer.timeout.connect(_on_timer_timeout)
+	once = false
+	direction = Vector2(0,0)
+	
+func exit():
+	if timer.timeout.get_connections().size() >= 1:
+		timer.timeout.disconnect(_on_timer_timeout)
+	
 func physics_update(_delta:float):
+	## TODO: Add pathfinding
 	if animal:
-		
-		animal.velocity = move_direction * move_speed
+		var ft_pos = get_parent().get_parent().get_parent().get_node("FeedingThrough").position + rand_pos
+		direction = ft_pos - animal.position
+	
+		if direction.length() < 100:
+			player.play("eating")
+			if !once:
+				get_parent().get_parent().get_parent().get_node("FeedingThrough").food_count -= 1
+				once = true
+				timer.wait_time = 2
+				timer.start()
+		else:
+			animal.velocity = direction.normalized() * move_speed
+			if animal.velocity.x > 0:
+				looking_direction = "right"
+			elif animal.velocity.x < 0:
+				looking_direction = "left"
+			elif animal.velocity.y > 0:
+				looking_direction = "down"
+			elif animal.velocity.y < 0:
+				looking_direction = "up"
+			animal.move_and_slide()
+			player.play(looking_direction)
+	
+func _on_timer_timeout():
+	transitioned.emit(self, "fed")

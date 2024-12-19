@@ -1,11 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://b57ax2p4r20ae"]
+[gd_scene load_steps=4 format=3 uid="uid://b57ax2p4r20ae"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_ipkwj"]
 [ext_resource type="PackedScene" uid="uid://nyttgrj1hid3" path="res://scenes/buildings/tierbereich.tscn" id="2_yjp7c"]
-[ext_resource type="PackedScene" uid="uid://020l6elc3p55" path="res://scenes/animals/cow.tscn" id="3_41t44"]
-[ext_resource type="PackedScene" uid="uid://db625opwfqpf8" path="res://scenes/animals/feeding_through.tscn" id="4_1ith8"]
-[ext_resource type="PackedScene" uid="uid://nv1jgb37xufl" path="res://scenes/animals/sheep.tscn" id="4_ycooy"]
-[ext_resource type="PackedScene" uid="uid://rjwuxr2sss3k" path="res://scenes/animals/chicken.tscn" id="5_ndirs"]
+[ext_resource type="PackedScene" uid="uid://rjwuxr2sss3k" path="res://scenes/animals/chicken.tscn" id="4_4wsvr"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -21,14 +18,8 @@ position_smoothing_speed = 7.0
 [node name="Tierbereich" parent="." instance=ExtResource("2_yjp7c")]
 position = Vector2(454, 274)
 
-[node name="Cow" parent="Tierbereich" instance=ExtResource("3_41t44")]
-position = Vector2(-196, 52)
-safe_margin = 0.08
+[node name="Chicken" parent="Tierbereich" instance=ExtResource("4_4wsvr")]
+position = Vector2(-24, -66)
 
-[node name="Sheep" parent="Tierbereich" instance=ExtResource("4_ycooy")]
-position = Vector2(204, -106)
-
-[node name="Chicken" parent="Tierbereich" instance=ExtResource("5_ndirs")]
-
-[node name="FeedingThrough" parent="." instance=ExtResource("4_1ith8")]
-position = Vector2(274, -122)
+[node name="Chicken2" parent="Tierbereich" instance=ExtResource("4_4wsvr")]
+position = Vector2(92, -12)

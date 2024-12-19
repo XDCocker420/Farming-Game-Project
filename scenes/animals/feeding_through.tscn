@@ -1,7 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://db625opwfqpf8"]
+[gd_scene load_steps=9 format=3 uid="uid://db625opwfqpf8"]
 
 [ext_resource type="Script" path="res://scripts/animals/feeding_through.gd" id="1_euqs8"]
 [ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_ve7ug"]
+[ext_resource type="PackedScene" uid="uid://dp8tqjk2yeuf8" path="res://scenes/ui/ui_feeding_through.tscn" id="3_fru6v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_meljp"]
 atlas = ExtResource("1_ve7ug")
@@ -33,6 +34,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_amlft"]
 size = Vector2(108, 124)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w53py"]
+size = Vector2(54, 114)
+
 [node name="FeedingThrough" type="Node2D"]
 script = ExtResource("1_euqs8")
 
@@ -43,5 +47,19 @@ sprite_frames = SubResource("SpriteFrames_xmxdb")
 animation = &"empty"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+visible = false
 position = Vector2(-20, -9)
 shape = SubResource("RectangleShape2D_amlft")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(1, -6)
+shape = SubResource("RectangleShape2D_w53py")
+
+[node name="UiFeedingThrough" parent="." instance=ExtResource("3_fru6v")]
+visible = false
+offset_top = -288.0
+offset_bottom = -288.0
+rotation = -1.5708
+scale = Vector2(0.5, 0.5)

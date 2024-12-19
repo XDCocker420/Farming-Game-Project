@@ -1,9 +1,12 @@
-[gd_scene load_steps=15 format=4 uid="uid://nyttgrj1hid3"]
+[gd_scene load_steps=19 format=4 uid="uid://nyttgrj1hid3"]
 
 [ext_resource type="Script" path="res://scripts/farming/tierbereich.gd" id="1_eee0d"]
 [ext_resource type="TileSet" uid="uid://ckrpgnu5r4oj6" path="res://tiles/farmlands.tres" id="1_t44fs"]
 [ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="2_tnc6i"]
 [ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="4_mfc16"]
+[ext_resource type="PackedScene" uid="uid://db625opwfqpf8" path="res://scenes/animals/feeding_through.tscn" id="5_egvxt"]
+[ext_resource type="PackedScene" uid="uid://bekt21sxspmob" path="res://scenes/ui/feeding_ui.tscn" id="6_sdn6j"]
+[ext_resource type="PackedScene" uid="uid://dpw64dphs34yi" path="res://scenes/animals/harvest_animals.tscn" id="7_h0qjq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r7rfy"]
 atlas = ExtResource("2_tnc6i")
@@ -65,6 +68,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_votcy"]
 size = Vector2(251, 88)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7oive"]
+size = Vector2(654, 525)
+
 [node name="Tierbereich" type="Node2D"]
 script = ExtResource("1_eee0d")
 
@@ -106,6 +112,24 @@ autoplay = "default"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="feeding"]
 position = Vector2(175.5, 254)
 shape = SubResource("RectangleShape2D_votcy")
+
+[node name="FeedingThrough" parent="." instance=ExtResource("5_egvxt")]
+position = Vector2(-63, 255)
+rotation = 1.5708
+
+[node name="Range" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Range"]
+position = Vector2(-14, 28.5)
+shape = SubResource("RectangleShape2D_7oive")
+
+[node name="FeedingUi" parent="." instance=ExtResource("6_sdn6j")]
+visible = false
+
+[node name="HarvestAnimals" parent="." instance=ExtResource("7_h0qjq")]
+visible = false
+offset_top = -44.0
+offset_bottom = -44.0
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -1,10 +1,11 @@
-[gd_scene load_steps=29 format=3 uid="uid://rjwuxr2sss3k"]
+[gd_scene load_steps=30 format=3 uid="uid://rjwuxr2sss3k"]
 
 [ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_nccap"]
 [ext_resource type="Script" path="res://scripts/state_management/state_machine.gd" id="2_pbhin"]
 [ext_resource type="Script" path="res://scripts/animals/animal_fed.gd" id="3_sjo8e"]
 [ext_resource type="Script" path="res://scripts/animals/animal_full.gd" id="4_bl8x8"]
 [ext_resource type="Script" path="res://scripts/animals/animal_hungry.gd" id="5_ib16o"]
+[ext_resource type="Script" path="res://scripts/animals/animal_eating.gd" id="6_6jupx"]
 [ext_resource type="PackedScene" uid="uid://bekt21sxspmob" path="res://scenes/ui/feeding_ui.tscn" id="6_inr80"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_nplvv"]
@@ -204,6 +205,13 @@ animal = NodePath("../..")
 script = ExtResource("5_ib16o")
 animal = NodePath("../..")
 
+[node name="Eat" type="Node" parent="State Machine" node_paths=PackedStringArray("animal")]
+script = ExtResource("6_6jupx")
+animal = NodePath("../..")
+
+[node name="Timer" type="Timer" parent="State Machine/Eat"]
+one_shot = true
+
 [node name="Action" type="AnimatedSprite2D" parent="."]
 visible = false
 position = Vector2(-17, -51)
@@ -212,7 +220,6 @@ animation = &"full"
 
 [node name="FeedingUi" parent="." instance=ExtResource("6_inr80")]
 visible = false
-z_index = 7
 offset_left = 160.0
 offset_top = -3.0
 offset_right = 160.0
