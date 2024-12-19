@@ -11,7 +11,8 @@
 [sub_resource type="LabelSettings" id="LabelSettings_2qc2u"]
 font = ExtResource("3_ypm81")
 font_size = 64
-outline_size = 2
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_oh52m"]
 line_spacing = 1.0
@@ -79,6 +80,10 @@ offset_left = 387.0
 offset_top = 305.0
 offset_right = 550.0
 offset_bottom = 336.0
+theme_override_colors/font_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(0, 0, 0, 1)
+theme_override_constants/outline_size = 6
+theme_override_fonts/font = ExtResource("3_ypm81")
 text = "Abschließen"
 
 [node name="GridContainer" type="GridContainer" parent="Menu"]

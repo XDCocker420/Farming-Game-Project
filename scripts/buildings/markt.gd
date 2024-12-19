@@ -7,11 +7,11 @@ extends Node2D
 
 var player_in_area: bool = false
 
+
 func _ready() -> void:
     market_area.body_entered.connect(_on_player_entered)
     market_area.body_exited.connect(_on_player_exited)
     player.interact.connect(_on_player_interact)
-    ui_markt.visible = false
 
 
 func _on_player_entered(body: Node2D):
@@ -27,7 +27,4 @@ func _on_player_exited(body: Node2D):
 
 func _on_player_interact():
     if player_in_area:
-        if ui_markt.visible == true:
-            ui_markt.visible = false
-        else:
-            ui_markt.visible = true
+        ui_markt.change_visible()
