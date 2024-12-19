@@ -47,6 +47,10 @@ func _input(event: InputEvent) -> void:
 						if machine.current_state is AnimalHungry:
 							hungry_animals.append(i)
 				spin_box.max_value = min(hungry_animals.size(),SaveGame.get_item_count(food_name))
+				if spin_box.max_value == 0:
+					submit.disabled = true
+				else:
+					submit.disabled = false
 				ui.show()
 				ui_is_open = true
 
@@ -73,6 +77,8 @@ func notify_animal(anz:int):
 			
 			
 func on_submit():
+	if spin_box.value < 1:
+		return
 	## TODO: Let Spinbox not Submit when to big even on current value
 	food_count = spin_box.value
 	SaveGame.remove_from_inventory(food_name, food_count)
