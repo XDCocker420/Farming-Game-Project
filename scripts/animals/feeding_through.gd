@@ -23,8 +23,8 @@ func _ready() -> void:
 		if i.is_in_group("Animal"):
 			food_name = i.name.to_lower().rstrip("1234567890") + "_food"
 			icon.texture = load("res://assets/gui/icons/" + food_name + ".png")
-			icon.scale = Vector2(0.5,0.5)
-			icon.position = Vector2(-3,-4)
+			#icon.scale = Vector2(0.5,0.5)
+			#icon.position = Vector2(-3,-4)
 			break
 			
 #func _process(delta: float) -> void:

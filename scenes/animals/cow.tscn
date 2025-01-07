@@ -217,7 +217,7 @@ shape = SubResource("RectangleShape2D_jqlvd")
 
 [node name="State Machine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]
 script = ExtResource("3_3mbhh")
-initial_state = NodePath("Hungry")
+initial_state = NodePath("Eat")
 
 [node name="Fed" type="Node" parent="State Machine" node_paths=PackedStringArray("animal")]
 script = ExtResource("4_bgmx2")
@@ -259,3 +259,13 @@ disable_mode = 1
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionRange"]
 position = Vector2(-1.5, 2)
 shape = SubResource("RectangleShape2D_tkosv")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+position = Vector2(1, 17)
+radius = 35.0
+
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+
+[node name="RecalcTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true

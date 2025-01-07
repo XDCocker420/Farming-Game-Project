@@ -176,7 +176,7 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_iox6e"]
 size = Vector2(49, 60)
 
-[node name="Chicken" type="CharacterBody2D"]
+[node name="Chicken" type="CharacterBody2D" groups=["Animal"]]
 motion_mode = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

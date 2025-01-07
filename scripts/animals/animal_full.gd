@@ -21,7 +21,6 @@ var should_show:bool = false
 
 
 func _ready() -> void:
-	print("jeah")
 	match animal.name.to_lower().rstrip("1234567890"):
 		"cow":
 			interact_btn.text = "Milk Cow"
@@ -44,7 +43,7 @@ func enter():
 	interaction.play("full")
 
 func process_input(_event: InputEvent):
-	if _event.is_action_pressed("interact2") && in_area:
+	if _event.is_action_pressed("interact2") && in_area && should_show:
 		if ui_shown:
 			ui.hide()
 			ui_shown = false
@@ -76,18 +75,11 @@ func on_interaction():
 	transitioned.emit(self, "Hungry")
 		
 func exit():
-	#if interact_range.mouse_entered.get_connections().size() >= 1 && interact_range.mouse_exited.get_connections().size() >= 1:
-	#	interact_range.mouse_entered.disconnect(_on_mouse_entered)
-	#	interact_range.mouse_exited.disconnect(_on_mouse_exited)
-	#if cage.want_to_interact.get_connections().size() >= 1:
-		#cage.want_to_interact.disconnect(on_harvest)
 	should_show = false
 	interaction.visible = false
 	ui.hide()
 		
 func _on_mouse_entered() -> void:
-	print(should_show)
-	print(get_parent().current_state is AnimalFull)
 	if should_show && get_parent().current_state is AnimalFull:
 		selection_highlight.visible = true
 	in_area = true

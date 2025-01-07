@@ -29,14 +29,14 @@ func _ready() -> void:
 	
 
 func _on_player_interact():
-	if interaction_range && !in_ft && !in_area:
+	if in_interaction && !in_ft && !in_area:
 		if !ui_open:
 			ui_open = true
 			#player.cant_move = true
 			want_to_interact.emit(true)
-			mode.visible = true
+			mode.show()
 		else:
-			mode.visible = false
+			mode.hide()
 			want_to_interact.emit(false)
 			#player.cant_move = false
 			ui_open = false
@@ -64,11 +64,12 @@ func _on_area_2d_body_exited(body:Node2D) -> void:
 		
 func on_interaction_enter(body:Node2D):
 	if body.is_in_group("Player"):
-		in_interaction = false	
+		in_interaction = true
 		
 func on_interaction_exit(body:Node2D):
 	if body.is_in_group("Player"):
-		
+		want_to_interact.emit(false)
+		mode.hide()
 		in_interaction = false	
 		
 func on_ft_enter(body:Node2D):

@@ -142,7 +142,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_gymli"]
-size = Vector2(93, 92)
+size = Vector2(93, 74)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g2x51"]
 atlas = ExtResource("1_44bqb")
@@ -176,15 +176,15 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_axamr"]
 size = Vector2(99, 98)
 
-[node name="Sheep" type="CharacterBody2D"]
+[node name="Sheep" type="CharacterBody2D" groups=["Animal"]]
 motion_mode = 1
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_6sv47")
-animation = &"hungry"
+animation = &"left"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(1.5, 15)
+position = Vector2(1.5, 17)
 shape = SubResource("RectangleShape2D_gymli")
 
 [node name="State Machine" type="Node" parent="." node_paths=PackedStringArray("initial_state")]

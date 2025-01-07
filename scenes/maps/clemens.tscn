@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_ipkwj"]
 [ext_resource type="PackedScene" uid="uid://nyttgrj1hid3" path="res://scenes/buildings/tierbereich.tscn" id="2_yjp7c"]
-[ext_resource type="PackedScene" uid="uid://rjwuxr2sss3k" path="res://scenes/animals/chicken.tscn" id="4_4wsvr"]
+[ext_resource type="PackedScene" uid="uid://020l6elc3p55" path="res://scenes/animals/cow.tscn" id="3_u2g24"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -18,8 +18,11 @@ position_smoothing_speed = 7.0
 [node name="Tierbereich" parent="." instance=ExtResource("2_yjp7c")]
 position = Vector2(454, 274)
 
-[node name="Chicken" parent="Tierbereich" instance=ExtResource("4_4wsvr")]
-position = Vector2(-24, -66)
+[node name="Cow" parent="Tierbereich" instance=ExtResource("3_u2g24")]
+position = Vector2(-209, 132)
 
-[node name="Chicken2" parent="Tierbereich" instance=ExtResource("4_4wsvr")]
-position = Vector2(92, -12)
+[node name="Cow2" parent="Tierbereich" instance=ExtResource("3_u2g24")]
+position = Vector2(149, -70)
+
+[node name="Cow3" parent="Tierbereich" instance=ExtResource("3_u2g24")]
+position = Vector2(-60, -54)
