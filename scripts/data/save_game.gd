@@ -31,11 +31,12 @@ func _ready() -> void:
 
 func save_game() -> void:
 	var save := SavedData.new()
-	save.player_position = player.global_position
-	save.player_level = level
-	save.player_experience_per_level = exp_level
-	save.contracts = con_sav
-	save.market_items = market_sav
+	if player:
+		save.player_position = player.global_position
+		save.player_level = level
+		save.player_experience_per_level = exp_level
+		save.contracts = con_sav
+		save.market_items = market_sav
 
 	var saved_data:Array[ItemSaves] = []
 	get_tree().call_group("dynamic_elements", "on_save_game", saved_data)
@@ -53,13 +54,14 @@ func load_game() -> void:
 		inventory.money = 100
 		return
 	
-	get_tree().call_group("dynamic_elements", "on_before_load_game")
-	inventory = saved_game.inventory
-	level = saved_game.player_level
-	exp_level = saved_game.player_experience_per_level
-	player.global_position = saved_game.player_position
-	con_sav = saved_game.contracts
-	market_sav = saved_game.market_items
+	if player:
+		get_tree().call_group("dynamic_elements", "on_before_load_game")
+		inventory = saved_game.inventory
+		level = saved_game.player_level
+		exp_level = saved_game.player_experience_per_level
+		player.global_position = saved_game.player_position
+		con_sav = saved_game.contracts
+		market_sav = saved_game.market_items
 	
 	await get_tree().process_frame
 	
