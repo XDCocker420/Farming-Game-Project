@@ -3,7 +3,7 @@
 [ext_resource type="Script" path="res://scripts/ui/ui_markt.gd" id="1_5y7iy"]
 [ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_f6luj"]
 [ext_resource type="PackedScene" uid="uid://byp8gj3fl1y4q" path="res://scenes/ui/market_slot.tscn" id="3_dqgtw"]
-[ext_resource type="PackedScene" uid="uid://b8v0ysphsfbju" path="res://scenes/ui/ui_crop_selection.tscn" id="4_mjykj"]
+[ext_resource type="PackedScene" path="res://scenes/ui/ui_crop_selection.tscn" id="4_mjykj"]
 
 [node name="ui_markt" type="Control"]
 layout_mode = 3
