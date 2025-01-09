@@ -1,8 +1,0 @@
-join theoden center
-theoden: Hey new Friend\
-How are you?
-[wait_input hide_text="false"]
-- I'm fine
-	Sigma Boy
-- KYS
-	theoden: niga
