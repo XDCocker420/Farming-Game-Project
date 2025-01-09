@@ -25,16 +25,16 @@ Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 [dialogic]
 
 directories/dch_directory={
-"martha": "res://story/martha.dch",
-"theoden": "res://characters/theoden.dch"
+"characters/martha": "res://dialogs/characters/martha.dch",
+"characters/theoden": "res://dialogs/characters/theoden.dch"
 }
 directories/dtl_directory={
-"intro_timeline": "res://story/timelines/intro_timeline.dtl",
-"theoden_main": "res://characters/theoden_main.dtl",
-"tutorial_timeline": "res://story/timelines/tutorial_timeline.dtl"
+"timelines/intro_timeline": "res://dialogs/story/timelines/intro_timeline.dtl",
+"timelines/theoden_main": "res://dialogs/story/timelines/theoden_main.dtl",
+"timelines/tutorial_timeline": "res://dialogs/story/timelines/tutorial_timeline.dtl"
 }
 glossary/default_case_sensitive=true
-layout/style_list=["res://story/dialog_style.tres", "res://story/speaker_style.tres", "res://story/visual_novel_style.tres"]
+layout/style_list=["res://dialogs/story/visual_novel_style.tres", "res://dialogs/story/speaker_style.tres", "res://dialogs/story/dialog_style.tres"]
 layout/default_style="res://story/visual_novel_style.tres"
 variables={
 "global": {
