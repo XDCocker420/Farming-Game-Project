@@ -1,2 +1,2 @@
-join martha center
-martha: Lets start the tutorial my {global.player_name}
+join characters/martha center
+characters/martha: Lets start the tutorial my {global.player_name}

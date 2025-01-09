@@ -1,21 +1,20 @@
-join martha center
-martha: HEYYYY
-martha: Hi!\
+join characters/martha center
+characters/martha: HEYYYY
+characters/martha: Hi!\
 You´re new here aren´t you?
 - Yes
-	martha: NICE !\
+	characters/martha: NICE !\
 What's your name?
 	set {global.tutorial} = true
 - No (No tutorial needed)
-	martha: Oh\
+	characters/martha: Oh\
 I'm sorry\
 Can you tell me your name again?
 [text_input text="Enter your name:" var="global.player_name" placeholder="Name"]
-martha: Nice to meet you {global.player_name} !!
+characters/martha: Nice to meet you {global.player_name} !!
 if {global.tutorial} == true:
-	martha: Nice nice\
-I will show you around in a minute
-	jump tutorial_timeline/
+	characters/martha: I will show you around in a minute
+	jump timelines/tutorial_timeline/
 else:
-	martha: Okay, well then have fun!
+	characters/martha: Okay, well then have fun!
 	[end_timeline]

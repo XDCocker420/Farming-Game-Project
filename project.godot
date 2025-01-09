@@ -35,7 +35,7 @@ directories/dtl_directory={
 }
 glossary/default_case_sensitive=true
 layout/style_list=["res://dialogs/story/visual_novel_style.tres", "res://dialogs/story/speaker_style.tres", "res://dialogs/story/dialog_style.tres"]
-layout/default_style="res://story/visual_novel_style.tres"
+layout/default_style="res://dialogs/story/visual_novel_style.tres"
 variables={
 "global": {
 "player_name": "",
@@ -63,6 +63,13 @@ save/autosave_delay=60.0
 save/encryption_on_exports_only=true
 text/autopauses={}
 save/autosave=true
+glossary/glossary_files=["res://dialogs/story/glossary/glos1.tres"]
+translation/enabled=true
+translation/original_locale="de"
+translation/file_mode=1
+translation/translation_folder="res://translations"
+translation/save_mode=0
+translation/add_separator=false
 
 [dotnet]
 

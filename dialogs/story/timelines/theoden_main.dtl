@@ -1,7 +1,8 @@
-join theoden center
-theoden: Oh hello young geezer.\
-How are you young man?
+join characters/theoden center
+characters/martha: Oh hello young geezer.\
+How are you young man?\
+Something
 - I'm fine
-	theoden: Nice nice have fun
+	characters/theoden: Nice nice have fun
 - Mittel
-	theoden: Sehr cool
+	characters/theoden: Sehr cool
