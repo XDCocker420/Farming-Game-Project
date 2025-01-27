@@ -1,8 +1,11 @@
-join characters/theoden center
-characters/martha: Oh hello young geezer.\
-How are you young man?\
-Something
-- I'm fine
-	characters/theoden: Nice nice have fun
-- Mittel
-	characters/theoden: Sehr cool
+join characters/theoden right
+set {global.player_name} = "Peter"
+characters/theoden: Hallo junger Mann\
+Wer bist du?
+- {global.player_name}
+characters/theoden: Dich hab ich hier noch nie gesehen.\
+Aber egal\
+Wie gehts dir?
+- Ganz okay
+- Excellent
+characters/theoden: <Empty Text Event>

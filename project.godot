@@ -26,9 +26,11 @@ Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 
 directories/dch_directory={
 "characters/martha": "res://dialogs/characters/martha.dch",
-"characters/theoden": "res://dialogs/characters/theoden.dch"
+"characters/theoden": "res://dialogs/characters/theoden.dch",
+"marlene": "res://dialogs/characters/marlene.dch"
 }
 directories/dtl_directory={
+"template timeline": "res://dialogs/story/timelines/template timeline.dtl",
 "timelines/intro_timeline": "res://dialogs/story/timelines/intro_timeline.dtl",
 "timelines/theoden_main": "res://dialogs/story/timelines/theoden_main.dtl",
 "timelines/tutorial_timeline": "res://dialogs/story/timelines/tutorial_timeline.dtl"
@@ -63,13 +65,16 @@ save/autosave_delay=60.0
 save/encryption_on_exports_only=true
 text/autopauses={}
 save/autosave=true
-glossary/glossary_files=["res://dialogs/story/glossary/glos1.tres"]
-translation/enabled=true
+glossary/glossary_files=["res://dialogs/story/glossary/glos1.tres", "res://dialogs/story/glossary/characters.tres"]
+translation/enabled=false
 translation/original_locale="de"
 translation/file_mode=1
 translation/translation_folder="res://translations"
 translation/save_mode=0
 translation/add_separator=false
+history/simple_history_enabled=true
+history/full_history_enabled=false
+choices/hotkey_behaviour=1
 
 [dotnet]
 

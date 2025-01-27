@@ -1,0 +1,29 @@
+[style name="visual_novel_style"]
+
+# Szene 1: Einführung in Theodens Geschichte
+
+join characters/theoden center
+characters/theoden: Hallo. Mein Name ist Theoden. Ich stamme aus einem kleinen Dorf namens Rohundan.
+characters/theoden: Meine Eltern besaßen dort ein Stück Land, und von klein auf habe ich mitgeholfen, die Tiere zu füttern und die Felder zu bestellen.
+
+join marlene center
+marlene: Das klingt nach einer harten, aber schönen Kindheit. Möchtest du ein bisschen mehr erzählen?
+
+join characters/theoden center
+characters/theoden: Aber sicher, Marlena. Es war oft anstrengend. Doch ich habe gelernt, jeden winzigen Fortschritt zu schätzen – sei es eine gute Ernte oder ein neuer Trieb im Garten.
+
+- Ja, erzähl weiter.
+	set {global.tutorial} = true
+- Das klingt interessant. Kannst du mir mehr über deine Familie erzählen?
+	set {global.tutorial} = false
+if {global.tutorial} == true:
+	# Wenn gerade Tutorial läuft
+	join characters/theoden center
+	characters/theoden: (flüstert) Ich merke, du bist ganz neu hier. Lass mich kurz erklären...
+	characters/theoden: In unserem Dorf Rohundan gab es nicht viel Reichtum, aber wir haben immer zusammengehalten.
+else:
+	# Standardfall: ausführlichere Erzählung
+	join characters/theoden center
+	characters/theoden: Als ich älter wurde, träumte ich davon, mehr von der Welt zu sehen. Doch ich blieb meiner Familie treu.
+	join characters/theoden center
+	characters/theoden: Später heiratete ich meine Jugendliebe Marlena, und wir hatten das Glück, zwei Kinder zu bekommen.

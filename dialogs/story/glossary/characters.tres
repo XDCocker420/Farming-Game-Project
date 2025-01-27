@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="DialogicGlossary" load_steps=2 format=3 uid="uid://dfoalbsips0ah"]
+
+[ext_resource type="Script" path="res://addons/dialogic/Modules/Glossary/glossary_resource.gd" id="1_jm7d2"]
+
+[resource]
+script = ExtResource("1_jm7d2")
+entries = {
+"Theoden": {
+"case_sensitive": false,
+"name": "Theoden",
+"text": "Theoden war nun 72 Jahre alt, ein Alter, das er nie für besonders erwähnenswert gehalten hatte. Er stammte aus dem kleinen Rohundan, das südwestlich von St. Catchpole an den Ufern eines bescheidenen Flusses lag. Obwohl die Gegend malerisch und friedlich wirkte, hatten ihn seine Lebensjahre gelehrt, dass unter der ruhigen Oberfläche oft große Abenteuer lauern.
+
+Schon als Kind verbrachte Theoden viele Stunden damit, auf den umgebenden Hügeln zu wandern. Die saftig-grünen Wiesen und kleinen Waldstücke waren sein Reich. Seine Eltern betrieben eine kleine, aber gut gehende Gerberei im Dorf. Während die meisten Gleichaltrigen bei der Ernte halfen oder Vieh hüteten, trug er als Junge oft schwere Lederhäute für den Betrieb der Familie. Das Hämmern, Schleifen und die Gerüche brannten sich tief in sein Gedächtnis ein – und vielleicht wuchs in dieser Zeit auch ein zunächst leiser Wunsch, sein Leben später anders zu gestalten.
+
+Mit etwa 18 Jahren verließ er seine Heimat, um in St. Catchpole das Schreiben und Lesen von alten Schriften zu erlernen. Rohundan war zu dieser Zeit zu klein, um eine eigene Schule zu unterhalten, und in seiner Jugend hatte ihm stets ein Lehrer gefehlt. In St. Catchpole hingegen herrschte rege Betriebsamkeit: Händler, Gelehrte und Reisende jeglicher Couleur durchstreiften die gepflasterten Straßen, und den Marktplatz umgab ein Gewirr von Gesichtern und Stimmen. Theoden fühlte sich lebendig wie nie zuvor.  
+
+Was als ein schlichter Aufenthalt zur Weiterbildung geplant war, entwickelte sich zu einer Dekade voller Entdeckungen. Er fand heraus, dass er ein Talent fürs Kartografieren hatte. Schon nach wenigen Monaten begann er, alte Karten zu studieren und bald danach seine eigenen zu zeichnen. Wenn er nicht gerade in staubigen Archiven verborgene Dokumente entschlüsselte, durchstreifte er die umliegenden Berge und Täler, um neue Wege und Flussverläufe festzuhalten. 
+
+Mit 30 Jahren kehrte er für eine Weile nach Rohundan zurück – doch die Stille seines Heimatortes empfand er nun als ungewohnt. Er versuchte, seine Eltern zu überzeugen, dass eine gute Bildung jedem zugutekommen könnte und dass es Zeit sei, sich mit den umliegenden Orten enger zu verbinden. Zu seinem Bedauern stieß er aber auf viele Dorfbewohner, die an alten Traditionen festhielten und Veränderungen mit Argwohn betrachteten. So zog Theoden wenige Jahre später erneut von dannen und wagte schließlich den Schritt in ferne Lande.
+
+In den folgenden Jahrzehnten bereiste er zahlreiche Städte, sprach mit Gelehrten und einfachem Volk, tauschte sein Wissen über Karten, Schriften und die Gerberei seines Vaters. Wo auch immer er hinkam, ließ er in Bibliotheken Abschriften seiner neuesten Karten zurück. Diese sollten künftigen Reisenden als Hilfe dienen – und ihm selbst ein Stück Unsterblichkeit schenken, wie er insgeheim hoffte.
+
+Nun, mit 72 Jahren, lebte Theoden in einem bescheidenen Haus nördlich des alten Hafens von St. Catchpole, unweit jener Bibliothek, in der sein Forscherdrang einst geweckt worden war. Sein Haar war dünner geworden, und die Hände zeigten die Spuren eines Lebens voller Arbeit, Wind und Wetter. Doch seine Augen hatten den Schimmer der Neugier nicht verloren. Er war dankbar für das, was er erlebt und gelernt hatte. 
+
+Dennoch bohrte in seinem Herzen eine neue Frage: War es nun an der Zeit, in seine Heimat zurückzukehren, um den Rest seiner Tage in Frieden zu verbringen? Oder würde eine letzte Reise – ein letztes Abenteuer – rufen, eines, das sein Lebenswerk vollenden könnte? Theoden blickte auf seine alten Karten, in die er zahllose Erinnerungen eingraviert hatte. Vielleicht, so dachte er, gab es noch einen unerforschten Winkel dieser Welt, der darauf wartete, von ihm gezeichnet zu werden.",
+"title": "Theoden"
+}
+}
+enabled = true
+_translation_id = ""
+_translation_keys = {}

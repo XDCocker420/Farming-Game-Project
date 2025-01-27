@@ -1,15 +1,15 @@
 join characters/martha center
-characters/martha: HEYYYY
+characters/martha: HEYYYY something
 characters/martha: Hi!\
 You´re new here aren´t you?
 - Yes
 	characters/martha: NICE !\
-What's your name?
+	What's your name?
 	set {global.tutorial} = true
 - No (No tutorial needed)
 	characters/martha: Oh\
-I'm sorry\
-Can you tell me your name again?
+	I'm sorry\
+	Can you tell me your name again?
 [text_input text="Enter your name:" var="global.player_name" placeholder="Name"]
 characters/martha: Nice to meet you {global.player_name} !!
 if {global.tutorial} == true:
