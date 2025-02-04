@@ -90,6 +90,10 @@ Player=""
 Map=""
 dynamic_elements="all dynamic elements that should be saved"
 
+[gui]
+
+theme/custom="res://default_theme.tres"
+
 [input]
 
 ui_accept={

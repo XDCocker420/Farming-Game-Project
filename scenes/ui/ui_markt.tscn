@@ -1,9 +1,6 @@
-[gd_scene load_steps=5 format=3 uid="uid://bgatkx86onbu6"]
+[gd_scene load_steps=2 format=3 uid="uid://bgatkx86onbu6"]
 
 [ext_resource type="Script" path="res://scripts/ui/ui_markt.gd" id="1_5y7iy"]
-[ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_f6luj"]
-[ext_resource type="PackedScene" uid="uid://byp8gj3fl1y4q" path="res://scenes/ui/market_slot.tscn" id="3_dqgtw"]
-[ext_resource type="PackedScene" path="res://scenes/ui/ui_crop_selection.tscn" id="4_mjykj"]
 
 [node name="ui_markt" type="Control"]
 layout_mode = 3
@@ -20,74 +17,3 @@ grow_vertical = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_5y7iy")
-
-[node name="NinePatchRect" type="NinePatchRect" parent="."]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_right = -697.0
-offset_bottom = -409.0
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("1_f6luj")
-region_rect = Rect2(112, 0, 48, 48)
-
-[node name="MarginContainer" type="MarginContainer" parent="NinePatchRect"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-theme_override_constants/margin_left = 32
-theme_override_constants/margin_top = 24
-theme_override_constants/margin_right = 32
-theme_override_constants/margin_bottom = 24
-
-[node name="ScrollContainer" type="ScrollContainer" parent="NinePatchRect/MarginContainer"]
-layout_mode = 2
-
-[node name="VBoxContainer" type="VBoxContainer" parent="NinePatchRect/MarginContainer/ScrollContainer"]
-layout_mode = 2
-size_flags_horizontal = 3
-size_flags_vertical = 3
-
-[node name="HBoxContainer" type="HBoxContainer" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="TextureButton" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_dqgtw")]
-layout_mode = 2
-
-[node name="TextureButton2" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_dqgtw")]
-layout_mode = 2
-
-[node name="TextureButton3" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_dqgtw")]
-layout_mode = 2
-
-[node name="TextureButton4" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer" instance=ExtResource("3_dqgtw")]
-layout_mode = 2
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer"]
-layout_mode = 2
-size_flags_vertical = 3
-
-[node name="TextureButton" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("3_dqgtw")]
-layout_mode = 2
-
-[node name="TextureButton2" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("3_dqgtw")]
-layout_mode = 2
-
-[node name="TextureButton3" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("3_dqgtw")]
-layout_mode = 2
-
-[node name="TextureButton4" parent="NinePatchRect/MarginContainer/ScrollContainer/VBoxContainer/HBoxContainer2" instance=ExtResource("3_dqgtw")]
-layout_mode = 2
-
-[node name="CropSelectionUI" parent="." instance=ExtResource("4_mjykj")]
-layout_mode = 1
-offset_left = -361.0
-offset_top = -405.0
-offset_right = -361.0
-offset_bottom = -405.0

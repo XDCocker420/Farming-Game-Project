@@ -1,0 +1,10 @@
+[gd_resource type="Theme" load_steps=3 format=3 uid="uid://oj1fluymoaa1"]
+
+[ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://fonts/pokemon-dppt.ttf" id="1_fyanx"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_v5r0v"]
+
+[resource]
+Label/font_sizes/font_size = 48
+Label/fonts/font = ExtResource("1_fyanx")
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_v5r0v")
