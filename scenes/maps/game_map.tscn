@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="5_sdtop"]
 [ext_resource type="PackedScene" uid="uid://cfpp5sa7x3s7g" path="res://scenes/buildings/basic_house_1.tscn" id="6_1qq5s"]
 [ext_resource type="PackedScene" uid="uid://nyttgrj1hid3" path="res://scenes/buildings/tierbereich.tscn" id="7_8ejyj"]
-[ext_resource type="PackedScene" path="res://scenes/buildings/contract_board.tscn" id="8_1t62h"]
+[ext_resource type="PackedScene" uid="uid://bc6sudr6mtykj" path="res://scenes/buildings/contract_board.tscn" id="8_1t62h"]
 [ext_resource type="PackedScene" uid="uid://ddeef2warcy2e" path="res://scenes/buildings/markt.tscn" id="10_d7fkh"]
 [ext_resource type="PackedScene" uid="uid://dj3x34xk3qcne" path="res://scenes/buildings/scheune.tscn" id="11_8cvap"]
 

@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=4 uid="uid://ddeef2warcy2e"]
+[gd_scene load_steps=8 format=4 uid="uid://ddeef2warcy2e"]
 
 [ext_resource type="Texture2D" uid="uid://cv4dghej01bcr" path="res://assets/map/city_64x64.png" id="1_2pbhm"]
 [ext_resource type="Script" path="res://scripts/buildings/markt.gd" id="1_watet"]
 [ext_resource type="PackedScene" uid="uid://bgatkx86onbu6" path="res://scenes/ui/ui_markt.tscn" id="3_ui650"]
+[ext_resource type="PackedScene" uid="uid://dqljx4yrs6ttv" path="res://scenes/ui/ui_selection.tscn" id="4_jpnmi"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_huxpm"]
 texture = ExtResource("1_2pbhm")
@@ -568,9 +569,15 @@ position = Vector2(31, -182.5)
 shape = SubResource("RectangleShape2D_svl4q")
 
 [node name="ui_markt" parent="." instance=ExtResource("3_ui650")]
-visible = false
-z_index = 7
-offset_left = -197.0
-offset_top = -240.0
-offset_right = 955.0
-offset_bottom = 408.0
+z_index = 6
+offset_left = -150.0
+offset_top = -169.0
+offset_right = 242.0
+offset_bottom = 31.0
+
+[node name="ui_selection" parent="." instance=ExtResource("4_jpnmi")]
+z_index = 6
+offset_left = 280.0
+offset_top = -169.0
+offset_right = 548.0
+offset_bottom = 163.0

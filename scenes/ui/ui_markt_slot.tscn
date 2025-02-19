@@ -1,6 +1,7 @@
-[gd_scene load_steps=3 format=3 uid="uid://b24bo4ir8kd3p"]
+[gd_scene load_steps=4 format=3 uid="uid://b24bo4ir8kd3p"]
 
-[ext_resource type="Texture2D" uid="uid://uea7ecc0r3hi" path="res://assets/gui/items_frame.png" id="1_refh3"]
+[ext_resource type="Script" path="res://scripts/ui/ui_markt_slot.gd" id="1_an1b0"]
+[ext_resource type="Texture2D" uid="uid://ntx1wlp6t057" path="res://assets/gui/items_frame.png" id="1_refh3"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oeedi"]
 
@@ -8,14 +9,17 @@
 offset_right = 26.0
 offset_bottom = 26.0
 theme_override_styles/panel = SubResource("StyleBoxEmpty_oeedi")
+script = ExtResource("1_an1b0")
 
 [node name="TextureButton" type="TextureButton" parent="."]
 layout_mode = 2
+action_mode = 0
 texture_normal = ExtResource("1_refh3")
 stretch_mode = 5
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
+mouse_filter = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_top = 4
 theme_override_constants/margin_right = 4
@@ -23,4 +27,5 @@ theme_override_constants/margin_bottom = 4
 
 [node name="TextureRect" type="TextureRect" parent="MarginContainer"]
 layout_mode = 2
+mouse_filter = 2
 stretch_mode = 5

@@ -5,6 +5,8 @@
 [node name="ui_markt" type="PanelContainer"]
 offset_right = 124.0
 offset_bottom = 64.0
+size_flags_horizontal = 3
+size_flags_vertical = 0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 2
@@ -14,19 +16,19 @@ alignment = 1
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PanelContainer" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_sbuhv")]
+[node name="ui_markt_slot" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PanelContainer2" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_sbuhv")]
+[node name="ui_markt_slot2" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PanelContainer3" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_sbuhv")]
+[node name="ui_markt_slot3" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PanelContainer4" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_sbuhv")]
+[node name="ui_markt_slot4" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
 size_flags_horizontal = 3
 
@@ -34,18 +36,18 @@ size_flags_horizontal = 3
 layout_mode = 2
 size_flags_vertical = 3
 
-[node name="PanelContainer" parent="VBoxContainer/HBoxContainer2" instance=ExtResource("1_sbuhv")]
+[node name="ui_markt_slot5" parent="VBoxContainer/HBoxContainer2" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PanelContainer2" parent="VBoxContainer/HBoxContainer2" instance=ExtResource("1_sbuhv")]
+[node name="ui_markt_slot6" parent="VBoxContainer/HBoxContainer2" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PanelContainer3" parent="VBoxContainer/HBoxContainer2" instance=ExtResource("1_sbuhv")]
+[node name="ui_markt_slot7" parent="VBoxContainer/HBoxContainer2" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
 size_flags_horizontal = 3
 
-[node name="PanelContainer4" parent="VBoxContainer/HBoxContainer2" instance=ExtResource("1_sbuhv")]
+[node name="ui_markt_slot8" parent="VBoxContainer/HBoxContainer2" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
 size_flags_horizontal = 3
