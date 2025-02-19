@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://bt4l6bgpwfqsn"]
+
+[ext_resource type="Texture2D" uid="uid://uea7ecc0r3hi" path="res://assets/gui/items_frame.png" id="1_lbae1"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wkwc4"]
+
+[node name="ui_selection_slot" type="PanelContainer"]
+offset_right = 26.0
+offset_bottom = 26.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_wkwc4")
+
+[node name="TextureButton" type="TextureButton" parent="."]
+layout_mode = 2
+texture_normal = ExtResource("1_lbae1")
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer"]
+layout_mode = 2
+stretch_mode = 5
