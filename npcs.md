@@ -35,11 +35,11 @@ Seine Obstprodukte sind weithin bekannt, und sein Honig gilt als der beste in de
 
 **Besonderheiten in der Spielmechanik**
 
-- **Lehrer und Mentor:** Spieler können von Thomas lernen, wie man Obstbäume richtig pflegt oder Honig produziert. Er gibt Anleitungen zu Baumkrankheiten, Erntetipps und speziellen Anbautechniken.
+- **Lehrer und Mentor:** Spieler können von Thomas lernen, wie man Obstbäume richtig pflegt oder Honig produziert.
 
 - **Seltene Sorten:** Thomas bietet den Spielern seltene Obstbaumsetzlinge an, die es nirgendwo sonst gibt. Wenn die Spieler seine Freundschaft gewinnen, teilt er das Geheimnis seines „goldenen Honigs“, der besondere Eigenschaften hat.
 
-- **Nebenquests:** Thomas gibt Aufgaben, die oft mit Geduld zu tun haben, wie das Warten auf eine perfekte Ernte oder die Pflege eines beschädigten Baumes. Seine Quests lehren Spieler, dass Erfolg Zeit und Hingabe braucht.
+- **Nebenquests:** Thomas gibt Aufgaben, die oft mit Geduld zu tun haben, wie das Warten auf eine perfekte Ernte oder die Pflege eines beschädigten Baumes.
 
 - **Freundschaftsbonus:** Wenn der Spieler eine enge Freundschaft mit Thomas entwickelt, erzählt er persönliche Geschichten über seine Familie und die schwere Zeit nach der Dürre. Diese Geschichten sind nicht nur emotional, sondern enthalten auch Hinweise auf versteckte Mechaniken oder Geheimnisse im Spiel.
 
@@ -123,13 +123,13 @@ Hannah ist oft im Freien anzutreffen, mit ihrem treuen Hund Pepper an ihrer Seit
 
 **Besonderheiten in der Spielmechanik**
 
-- **Dekorationen:** Spieler können bei Hannah handgefertigte Dekorationen kaufen, die aus natürlichen Materialien bestehen. Diese Objekte sind nicht nur schön, sondern können auch das Ansehen der Farm steigern oder Tiere anlocken.
+- **Dekorationen:** Spieler können bei Hannah handgefertigte Dekorationen kaufen, die aus natürlichen Materialien bestehen. Diese Objekte sind nicht nur schön, sondern können auch in der Wohnung platziert werden.
 
-- **Quests:** Hannah gibt regelmäßig Quests, bei denen Spieler seltene Pflanzen oder besondere Materialien für ihre Kreationen finden müssen. Diese Quests führen oft an versteckte Orte, die nur sie kennt.
+- **Quests:** Hannah gibt regelmäßig Quests, bei denen Spieler seltene Pflanzen oder besondere Materialien für ihre Kreationen finden müssen.
 
-- **Tierschutz:** Hannah hat ein besonderes Interesse an Tieren. Sie hilft Spielern, verletzte oder verlorene Tiere zu finden und aufzupäppeln. Spieler können von ihr lernen, wie man Tiere besser pflegt oder sogar seltene Tiere auf die eigene Farm lockt.
+- **Tierschutz:** Hannah hat ein besonderes Interesse an Tieren. Spieler können von ihr lernen, wie man Tiere besser pflegt und betreut.
 
-- **Freundschaftsbonus:** Wenn Spieler sich mit Hannah anfreunden, lädt sie sie zu besonderen gemeinsamen Ausflügen ein, wie einem nächtlichen Spaziergang, um Glühwürmchen zu fangen, oder einem Ausflug zu einem verborgenen Ort, an dem seltene Pflanzen wachsen.
+- **Freundschaftsbonus:** Wenn Spieler sich mit Hannah anfreunden, lädt sie sie zu besonderen gemeinsamen Ausflügen ein, wie einem nächtlichen Spaziergang, um Glühwürmchen zu fangen.
 
 **Hannahs Philosophie**
 
@@ -164,9 +164,9 @@ Ihr Café ist mehr als nur ein Ort zum Essen. Es ist ein Zentrum der Gemeinschaf
 
 - **Rezepte und Kochen:** Spieler können bei Anna neue Rezepte lernen oder Zutaten abgeben, um spezielle Gerichte zu kochen. Diese Gerichte können besondere Effekte haben, wie erhöhte Energie oder eine schnellere Erntezeit.
 
-- **Quests:** Anna gibt regelmäßig Quests, bei denen Spieler seltene Zutaten oder besondere Kräuter finden müssen. Im Gegenzug teilt sie exklusive Rezepte oder besondere Belohnungen wie ihre beliebten Kochutensilien.
+- **Quests:** Anna gibt regelmäßig Quests, bei denen Spieler bestimmte Zutaten oder besondere Kräuter anbauen müssen. Im Gegenzug teilt sie exklusive Rezepte oder besondere Belohnungen wie ihre beliebten Kochutensilien.
 
-- **Café-Events:** Anna organisiert regelmäßig Gemeinschaftsveranstaltungen in ihrem Café, wie Kochwettbewerbe oder kleine Märkte, bei denen Spieler mit anderen NPCs interagieren können.
+- **Café-Events:** Anna organisiert regelmäßig Gemeinschaftsveranstaltungen in ihrem Café, wie Kochwettbewerbe, bei denen Spieler mit anderen NPCs interagieren können.
 
 - **Freundschaftsbonus:** Wenn Spieler Annas Vertrauen gewinnen, bietet sie ihnen an, ihre Gerichte in ihrem Café zu verkaufen, was eine zusätzliche Einkommensquelle für den Spieler darstellen kann.
 
