@@ -166,8 +166,6 @@ Ihr Café ist mehr als nur ein Ort zum Essen. Es ist ein Zentrum der Gemeinschaf
 
 - **Quests:** Anna gibt regelmäßig Quests, bei denen Spieler bestimmte Zutaten oder besondere Kräuter anbauen müssen. Im Gegenzug teilt sie exklusive Rezepte oder besondere Belohnungen wie ihre beliebten Kochutensilien.
 
-- **Café-Events:** Anna organisiert regelmäßig Gemeinschaftsveranstaltungen in ihrem Café, wie Kochwettbewerbe, bei denen Spieler mit anderen NPCs interagieren können.
-
 - **Freundschaftsbonus:** Wenn Spieler Annas Vertrauen gewinnen, bietet sie ihnen an, ihre Gerichte in ihrem Café zu verkaufen, was eine zusätzliche Einkommensquelle für den Spieler darstellen kann.
 
 **Annas Philosophie**
@@ -240,11 +238,9 @@ Martha verbringt viel Zeit damit, junge Menschen zu inspirieren, sich für die G
 
 **Besonderheiten in der Spielmechanik**
 
-- **Traditionen und Geschichte:** Spieler können Martha besuchen, um mehr über die Geschichte ihrer Familie und von St. Catchpole zu erfahren. Sie erzählt Geschichten, die oft Hinweise auf versteckte Orte, alte Rezepte oder besondere Gegenstände im Spiel enthalten.
+- **Traditionen und Geschichte:** Spieler können Martha besuchen, um mehr über die Geschichte ihrer Familie und von St. Catchpole zu erfahren. Sie erzählt Geschichten, die oft  alte Rezepte oder besondere Gegenstände im Spiel enthalten.
 
 - **Handwerksquests:** Martha gibt Quests, bei denen Spieler seltene Materialien wie spezielle Farbpflanzen, Wolle oder antike Muster finden müssen, die sie für ihre Werke benötigt. Als Belohnung bietet sie einzigartige handgefertigte Gegenstände wie Decken oder Kleidung an.
-
-- **Lehrerin:** Martha kann Spielern beibringen, wie man traditionelle Muster webt oder spezielle Stricktechniken einsetzt, um dekorative oder funktionale Gegenstände herzustellen. Diese Fähigkeiten können den Spielern helfen, ihre Farm zu verschönern oder zu verbessern.
 
 - **Freundschaftsbonus:** Wenn Spieler eine enge Beziehung zu Martha aufbauen, erzählt sie tiefgründige Geschichten über deine Großeltern und gibt dir ein wertvolles Erinnerungsstück, das eine besondere Bedeutung oder Funktion im Spiel hat.
 
@@ -283,9 +279,9 @@ Er ist besonders stolz auf seinen kleinen Laden, in dem er Heiltränke, Kräuter
 
 **Besonderheiten in der Spielmechanik**
 
-- **Questgeber:** Theoden gibt regelmäßig Aufgaben, die mit seltenen Pflanzen oder besonderen Heiltränken verbunden sind. Er fordert Spieler oft dazu auf, verlorene Samen oder Pflanzen in der Wildnis zu finden. Als Belohnung gibt er Zugang zu neuen Fähigkeiten oder einzigartigen Waren.
+- **Questgeber:** Theoden gibt regelmäßig Aufgaben, die mit seltenen Pflanzen oder besonderen Gerichten verbunden sind. Er fordert Spieler oft dazu auf, verlorene Samen oder Pflanzen in der Wildnis zu finden. Als Belohnung gibt er Zugang zu neuen Fähigkeiten oder einzigartigen Waren.
   
-- **Geheimer Garten:** Wenn der Spieler genug Vertrauen bei Theoden aufgebaut hat, öffnet er die Tore zu seinem geheimen Garten, wo seltene Pflanzen gesammelt werden können.
+- **Freundschaftsbonus:** Wenn der Spieler genug Vertrauen bei Theoden aufgebaut hat, bietet er den Spielern besondere Pflanzen an.
 
 - **Weisheiten:** Theoden teilt „Lebensweisheiten“, die subtil Hinweise auf versteckte Mechaniken im Spiel geben können, wie etwa besondere Wachstumsbedingungen für Pflanzen oder geheime Orte in St. Catchpole.
 
@@ -322,7 +318,7 @@ Manchmal sitzt sie abends am großen Marktplatz und lauscht den Geschichten der 
 
 **Besonderheiten in der Spielmechanik**
 
-- **Werkstatt und Geräte:** Spieler können Laras Werkstatt besuchen, um Werkzeuge reparieren oder neue Maschinen kaufen zu lassen. Sie bietet einzigartige Upgrades wie automatische Bewässerungssysteme, erweiterte Saatmaschinen oder Verbesserungen für die Lagerung an.
+- **Werkstatt und Geräte:** Spieler können Laras Werkstatt besuchen, um Werkzeuge reparieren oder neue Maschinen kaufen zu lassen. Sie bietet einzigartige Upgrades wie automatische Bewässerungssysteme oder Verbesserungen für die Lagerung an.
 
 - **Technologie-Quests:** Lara gibt regelmäßig Quests, bei denen Spieler ihr Materialien wie Zahnräder, Metallteile oder seltene Edelsteine aus der Wildnis bringen müssen. Im Gegenzug bietet sie exklusive Gerätschaften an, die den Spielern helfen, ihre Farm effizienter zu gestalten.
 
@@ -362,7 +358,7 @@ Sein größter Traum ist es, eines Tages ein berühmter Naturforscher oder Abent
 
 - **Wissenssammlung:** Joshua freut sich, wenn Spieler ihm neue Pflanzen oder Tiere zeigen, die sie entdeckt haben. Er belohnt sie mit kleinen Geschenken, wie handgemalten Karten oder Geschichten, die Hinweise auf versteckte Orte enthalten.
 
-- **Freundschaftsbonus:** Wenn Spieler sich mit Joshua anfreunden, gibt er ihnen sein „Forscher-Kit“ – eine Sammlung von Werkzeugen wie einer Lupe und einem kleinen Notizbuch, das ihnen beim Sammeln von Materialien oder Erkunden der Umgebung hilft.
+- **Freundschaftsbonus:** Wenn Spieler sich mit Joshua anfreunden, gibt er ihnen sein „Forscher-Kit“ – eine Sammlung von Werkzeugen wie einer Lupe und einem kleinen Notizbuch, das ihnen beim Sammeln von Materialien aus der Umgebung hilft.
 
 - **Verbindung zur Dorfschule:** Da Joshuas Vater Lehrer ist, hat Joshua Zugang zu Büchern und alten Dokumenten über die Geschichte der Stadt. Wenn die Spieler eine enge Beziehung zu ihm aufbauen, kann er Geschichten oder Hinweise geben, die ihnen helfen, verborgene Geheimnisse von St. Catchpole zu entdecken.
 
