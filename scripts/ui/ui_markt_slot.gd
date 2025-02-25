@@ -4,7 +4,7 @@ extends PanelContainer
 @onready var texture_button: TextureButton = $TextureButton
 @onready var texture_rect: TextureRect = $MarginContainer/TextureRect
 
-signal slot_select(slot)
+signal markt_slot_select(slot)
 
 var item: String
 var amount: int
@@ -25,4 +25,4 @@ func unlock():
 
 
 func _on_pressed():
-    slot_select.emit(self)
+    markt_slot_select.emit(self)

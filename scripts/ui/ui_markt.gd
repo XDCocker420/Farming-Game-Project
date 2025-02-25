@@ -15,7 +15,7 @@ func _ready() -> void:
     load_slots()
     
     for slot in all_slots:
-        slot.slot_select.connect(_select_item)
+        slot.markt_slot_select.connect(_select_item)
 
 
 func _select_item(slot):

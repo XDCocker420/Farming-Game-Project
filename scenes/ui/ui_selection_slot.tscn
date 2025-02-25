@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://bt4l6bgpwfqsn"]
 
-[ext_resource type="Texture2D" uid="uid://uea7ecc0r3hi" path="res://assets/gui/items_frame.png" id="1_lbae1"]
+[ext_resource type="Texture2D" uid="uid://ntx1wlp6t057" path="res://assets/gui/items_frame.png" id="1_lbae1"]
 [ext_resource type="Script" path="res://scripts/ui/ui_selection_slot.gd" id="1_rx28o"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_88w3y"]

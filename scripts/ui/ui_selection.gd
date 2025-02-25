@@ -3,11 +3,17 @@ extends PanelContainer
 
 @onready var v_box_container: VBoxContainer = $ScrollContainer/VBoxContainer
 
+signal selection_select(item: String)
+
 const slot_scene = preload("res://scenes/ui/ui_selection_slot.tscn")
+var slots = []
 
 
 func _ready() -> void:
     load_inventory()
+    
+    for slot in slots:
+        slot.selection_slot_select.connect(_select_item)
 
 
 func load_inventory() -> void:
@@ -24,6 +30,10 @@ func load_inventory() -> void:
         add_slot(current_hbox, item)
 
 
+func _select_item(item: String):
+    selection_select.emit(item)
+
+
 func add_h_box() -> HBoxContainer:
     var hbox = HBoxContainer.new()
     v_box_container.add_child(hbox)    
@@ -37,4 +47,5 @@ func add_slot(hbox: HBoxContainer, item: String) -> void:
     var slot_texture = slot.get_node("MarginContainer/TextureRect")
     slot_texture.texture = load("res://assets/gui/icons/" + item + ".png")
     
-    hbox.add_child(slot)
+    hbox.add_child(slot)    
+    slots.append(slot)

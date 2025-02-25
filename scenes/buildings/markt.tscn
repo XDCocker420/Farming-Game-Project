@@ -569,6 +569,7 @@ position = Vector2(31, -182.5)
 shape = SubResource("RectangleShape2D_svl4q")
 
 [node name="ui_markt" parent="." instance=ExtResource("3_ui650")]
+visible = false
 z_index = 6
 offset_left = -157.0
 offset_top = -204.0
@@ -577,6 +578,7 @@ offset_bottom = -140.0
 scale = Vector2(3, 3)
 
 [node name="ui_selection" parent="." instance=ExtResource("4_jpnmi")]
+visible = false
 z_index = 6
 offset_left = 254.0
 offset_top = -206.0
