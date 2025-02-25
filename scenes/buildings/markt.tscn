@@ -570,14 +570,16 @@ shape = SubResource("RectangleShape2D_svl4q")
 
 [node name="ui_markt" parent="." instance=ExtResource("3_ui650")]
 z_index = 6
-offset_left = -150.0
-offset_top = -169.0
-offset_right = 242.0
-offset_bottom = 31.0
+offset_left = -157.0
+offset_top = -204.0
+offset_right = -33.0
+offset_bottom = -140.0
+scale = Vector2(3, 3)
 
 [node name="ui_selection" parent="." instance=ExtResource("4_jpnmi")]
 z_index = 6
-offset_left = 280.0
-offset_top = -169.0
-offset_right = 548.0
-offset_bottom = 163.0
+offset_left = 254.0
+offset_top = -206.0
+offset_right = 362.0
+offset_bottom = -98.0
+scale = Vector2(3, 3)

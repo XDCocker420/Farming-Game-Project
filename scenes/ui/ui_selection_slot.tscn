@@ -1,23 +1,20 @@
 [gd_scene load_steps=4 format=3 uid="uid://bt4l6bgpwfqsn"]
 
-[ext_resource type="Script" path="res://scripts/ui/ui_selection_slot.gd" id="1_h1cyc"]
-[ext_resource type="Texture2D" uid="uid://ntx1wlp6t057" path="res://assets/gui/items_frame.png" id="1_lbae1"]
+[ext_resource type="Texture2D" uid="uid://uea7ecc0r3hi" path="res://assets/gui/items_frame.png" id="1_lbae1"]
+[ext_resource type="Script" path="res://scripts/ui/ui_selection_slot.gd" id="1_rx28o"]
 
-[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_wkwc4"]
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_88w3y"]
 
 [node name="ui_selection_slot" type="PanelContainer"]
-custom_minimum_size = Vector2(26, 26)
 offset_right = 26.0
 offset_bottom = 26.0
-size_flags_horizontal = 3
-size_flags_vertical = 3
-theme_override_styles/panel = SubResource("StyleBoxEmpty_wkwc4")
-script = ExtResource("1_h1cyc")
+theme_override_styles/panel = SubResource("StyleBoxEmpty_88w3y")
+script = ExtResource("1_rx28o")
 
 [node name="TextureButton" type="TextureButton" parent="."]
 layout_mode = 2
 texture_normal = ExtResource("1_lbae1")
-stretch_mode = 5
+stretch_mode = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
@@ -30,4 +27,4 @@ theme_override_constants/margin_bottom = 4
 [node name="TextureRect" type="TextureRect" parent="MarginContainer"]
 layout_mode = 2
 mouse_filter = 2
-stretch_mode = 5
+stretch_mode = 4

@@ -76,6 +76,12 @@ history/simple_history_enabled=true
 history/full_history_enabled=false
 choices/hotkey_behaviour=1
 
+[display]
+
+window/size/viewport_width=1280
+window/size/viewport_height=720
+window/stretch/mode="viewport"
+
 [dotnet]
 
 project/assembly_name="Project Farming Game"
@@ -152,3 +158,5 @@ dialogic_default_action={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true

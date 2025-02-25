@@ -4,10 +4,25 @@ extends PanelContainer
 @onready var texture_button: TextureButton = $TextureButton
 @onready var texture_rect: TextureRect = $MarginContainer/TextureRect
 
+signal slot_select(slot)
+
+var item: String
+var amount: int
+
 
 func _ready() -> void:
-    texture_button.pressed.connect(_on_button_pressed)
+    texture_button.pressed.connect(_on_pressed)
+    texture_button.disabled = true
+    
+    
+func set_item(item: String, amount: int) -> void:
+    self.item = item
+    self.amount = amount
 
 
-func _on_button_pressed() -> void:
-    texture_rect.texture = load("res://assets/gui/icons/carrot.png")
+func unlock():
+    texture_button.disabled = false
+
+
+func _on_pressed():
+    slot_select.emit(self)
