@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://bt4l6bgpwfqsn"]
+[gd_scene load_steps=5 format=3 uid="uid://bt4l6bgpwfqsn"]
 
-[ext_resource type="Texture2D" uid="uid://ntx1wlp6t057" path="res://assets/gui/items_frame.png" id="1_lbae1"]
+[ext_resource type="Texture2D" uid="uid://uea7ecc0r3hi" path="res://assets/gui/items_frame.png" id="1_lbae1"]
 [ext_resource type="Script" path="res://scripts/ui/ui_selection_slot.gd" id="1_rx28o"]
+[ext_resource type="Texture2D" uid="uid://cj1yk8sw77a6u" path="res://assets/gui/select.png" id="3_f3cmj"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_88w3y"]
 
@@ -14,6 +15,7 @@ script = ExtResource("1_rx28o")
 [node name="TextureButton" type="TextureButton" parent="."]
 layout_mode = 2
 texture_normal = ExtResource("1_lbae1")
+texture_focused = ExtResource("3_f3cmj")
 stretch_mode = 4
 
 [node name="MarginContainer" type="MarginContainer" parent="."]

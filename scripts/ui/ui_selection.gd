@@ -1,7 +1,7 @@
 extends PanelContainer
 
 
-@onready var v_box_container: VBoxContainer = $ScrollContainer/VBoxContainer
+@onready var v_box_container: VBoxContainer = $VBoxContainer/ScrollContainer/VBoxContainer
 
 signal selection_select(item: String)
 

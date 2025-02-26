@@ -33,8 +33,9 @@ func _on_select(slot):
 
 
 func _on_item_selected(item: String):
-    current_texture.texture = load("res://assets/gui/icons/" + item + ".png")
-    ui_selection.hide()
+    # current_texture.texture = load("res://assets/gui/icons/" + item + ".png")
+    # ui_selection.hide()
+    pass
 
 
 func _on_player_entered(body: Node2D):
