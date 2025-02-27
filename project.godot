@@ -88,7 +88,7 @@ project/assembly_name="Project Farming Game"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/dynamic_day_night_cycles/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogic/plugin.cfg")
 
 [global_group]
 
