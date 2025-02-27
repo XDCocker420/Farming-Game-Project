@@ -14,7 +14,7 @@ func process_input(_event: InputEvent):
 		http_request.request_completed.connect(_on_request_completed)
 
 		# Define your API key and URL.
-		var api_key = "AIzaSyB8ExehUd7ULav63SGT-ZLx_TuHxFa5zlc"  # Replace with your actual API key.
+		var api_key = "API_KEY"  # Replace with your actual API key.
 		var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + api_key
 
 		# Set up the headers.
