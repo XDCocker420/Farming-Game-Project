@@ -1,8 +1,6 @@
-[gd_scene load_steps=6 format=3 uid="uid://b57ax2p4r20ae"]
+[gd_scene load_steps=4 format=3 uid="uid://b57ax2p4r20ae"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_ipkwj"]
-[ext_resource type="PackedScene" uid="uid://nyttgrj1hid3" path="res://scenes/buildings/tierbereich.tscn" id="3_b54lf"]
-[ext_resource type="PackedScene" uid="uid://020l6elc3p55" path="res://scenes/animals/cow.tscn" id="4_4jala"]
 [ext_resource type="PackedScene" uid="uid://bkag1kuotq8kp" path="res://scenes/characters/npcs/thomas.tscn" id="4_o85ij"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_c3goq"]
@@ -26,11 +24,3 @@ position = Vector2(1242, 744)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_c3goq")
-
-[node name="Tierbereich" parent="." instance=ExtResource("3_b54lf")]
-
-[node name="Cow" parent="Tierbereich" instance=ExtResource("4_4jala")]
-position = Vector2(-133, -75)
-
-[node name="Cow2" parent="Tierbereich" instance=ExtResource("4_4jala")]
-position = Vector2(165, -64)
