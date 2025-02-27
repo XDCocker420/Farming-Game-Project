@@ -1,10 +1,9 @@
-[gd_scene load_steps=56 format=3 uid="uid://bkag1kuotq8kp"]
+[gd_scene load_steps=55 format=3 uid="uid://bkag1kuotq8kp"]
 
 [ext_resource type="Texture2D" uid="uid://dbyuun8r0xpxy" path="res://assets/player/no_guide.png" id="1_sm1gc"]
 [ext_resource type="Script" uid="uid://cy4stu548207u" path="res://scripts/navigationtest.gd" id="1_vysgh"]
 [ext_resource type="Script" uid="uid://cdwxjc2autrp8" path="res://scripts/state_management/state_machine.gd" id="2_du83c"]
 [ext_resource type="Script" uid="uid://doerln5bpjcnx" path="res://scripts/characters/npcs/wandering.gd" id="3_avafv"]
-[ext_resource type="Script" uid="uid://byx11jvwlpf7e" path="res://scripts/characters/npcs/talking.gd" id="4_2xpu3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_1qdyj"]
 atlas = ExtResource("1_sm1gc")
@@ -428,9 +427,6 @@ script = ExtResource("2_du83c")
 initial_state = NodePath("Wandering")
 
 [node name="Talking" type="Node" parent="State Machine"]
-script = ExtResource("4_2xpu3")
-
-[node name="HTTPRequest" type="HTTPRequest" parent="State Machine/Talking"]
 
 [node name="GoingHome" type="Node" parent="State Machine"]
 
