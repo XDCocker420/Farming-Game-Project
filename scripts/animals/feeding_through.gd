@@ -13,6 +13,17 @@ var ui_is_open:bool = false
 var is_full:bool = false
 var food_name:String
 var food_count:int
+var hungry_animals:Array = []
+
+var cow_positions:Array[Vector2] = [
+	Vector2(-194,-136),
+	Vector2(-3,-193),
+	Vector2(79, -162),
+	Vector2(244, -111),
+	Vector2(211, -2),
+	Vector2(-7, 20),
+	Vector2(-226, -6)
+]
 
 
 func _ready() -> void:
@@ -39,7 +50,9 @@ func _input(event: InputEvent) -> void:
 				ui.hide()
 				ui_is_open = false
 			else:
+				### FOR TESTING ONLY
 				SaveGame.add_to_inventory(food_name, 2)
+				###
 				var hungry_animals:Array = []
 				for i in get_parent().get_children():
 					if i.is_in_group("Animal"):
@@ -59,22 +72,31 @@ func notify_animal(anz:int):
 	if anz <= 0:
 		return
 	animation.play("full")
-	var hungry_animals:Array = []
+
 	for i in get_parent().get_children():
 		if i.is_in_group("Animal"):
 			var machine = i.get_node("State Machine")
 			if machine.current_state is AnimalHungry:
 				hungry_animals.append(i)
+				i.get_node("State Machine").get_node("Eat").connect("eating_ended", notify_next)
+	
+	var machine = hungry_animals.pop_front().get_node("State Machine").current_state
+	machine.transitioned.emit(machine, "Eat")
+	"""
 	if anz <= hungry_animals.size():
+		var machine = hungry_animals.pop_front().get_node("State Machine").current_state
+		machine.transitioned.emit(machine, "Eat")
+	
 		for h in range(anz):
 			var machine = hungry_animals[h].get_node("State Machine").current_state
 			machine.transitioned.emit(machine, "Eat")
+		
 	else:
 		food_count = anz - hungry_animals.size()
 		for j in range(hungry_animals.size()):
 			var machine = hungry_animals[j].get_node("State Machine").current_state
 			machine.transitioned.emit(machine, "Eat")
-			
+	"""	
 			
 func on_submit():
 	if spin_box.value < 1:
@@ -97,3 +119,8 @@ func on_body_exit(body:Node2D):
 	if body.is_in_group("Player"):
 		in_area = false
 		ui_is_open = false
+		
+func notify_next():
+	if !hungry_animals.is_empty():
+		var machine = hungry_animals.pop_front().get_node("State Machine").current_state
+		machine.transitioned.emit(machine, "Eat")

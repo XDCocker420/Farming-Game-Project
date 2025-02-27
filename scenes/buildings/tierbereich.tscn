@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=4 uid="uid://nyttgrj1hid3"]
+[gd_scene load_steps=19 format=4 uid="uid://nyttgrj1hid3"]
 
 [ext_resource type="Script" path="res://scripts/farming/tierbereich.gd" id="1_eee0d"]
 [ext_resource type="TileSet" uid="uid://ckrpgnu5r4oj6" path="res://tiles/farmlands.tres" id="1_t44fs"]
@@ -71,11 +71,6 @@ size = Vector2(251, 88)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7oive"]
 size = Vector2(654, 525)
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_2et8l"]
-vertices = PackedVector2Array(-338.039, 275, -338.953, 37.9766, -280.727, 39.0391, -116.938, 275, -263, 30.1797, 40.1172, 196.961, 39.1172, 276.867, -263, -211.047, 305.039, -213.938, 306.953, 197.961)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(3, 2, 4, 5, 6), PackedInt32Array(7, 8, 9, 5, 4)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(-273, -221, -273, 24, -283, 29, -338, 28, -349, 26, -348, 285, -117, 285, 49, 287, 50, 207, 317, 208, 315, -224)])
-
 [node name="Tierbereich" type="Node2D"]
 script = ExtResource("1_eee0d")
 
@@ -136,9 +131,6 @@ visible = false
 z_index = 7
 offset_top = -44.0
 offset_bottom = -44.0
-
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-navigation_polygon = SubResource("NavigationPolygon_2et8l")
 
 [connection signal="area_entered" from="Area2D" to="." method="_on_area_2d_area_entered"]
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

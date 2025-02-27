@@ -33,7 +33,6 @@ func on_transition(state, new_state_name):
 	
 	var new_state = states.get(new_state_name.to_lower())
 	if !new_state:
-		print("bwda")
 		return
 		
 	if current_state:

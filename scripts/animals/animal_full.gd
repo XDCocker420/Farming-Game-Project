@@ -66,6 +66,7 @@ func _setup_highlight() -> void:
 	
 			
 func on_kill():
+	get_parent().get_parent().get_parent().get_node("FeedingThrough").cow_positions.append(animal.position)
 	SaveGame.add_to_inventory(animal.name.to_lower().rstrip("1234567890") + "_meat", 2)
 	get_parent().get_parent().queue_free()
 	
