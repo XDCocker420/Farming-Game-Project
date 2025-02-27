@@ -1,6 +1,6 @@
 [gd_resource type="Resource" script_class="DialogicGlossary" load_steps=2 format=3 uid="uid://dfoalbsips0ah"]
 
-[ext_resource type="Script" path="res://addons/dialogic/Modules/Glossary/glossary_resource.gd" id="1_jm7d2"]
+[ext_resource type="Script" uid="uid://d1e80cwo0nhjh" path="res://addons/dialogic/Modules/Glossary/glossary_resource.gd" id="1_jm7d2"]
 
 [resource]
 script = ExtResource("1_jm7d2")

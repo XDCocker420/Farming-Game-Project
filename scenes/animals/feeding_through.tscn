@@ -1,6 +1,6 @@
 [gd_scene load_steps=9 format=3 uid="uid://db625opwfqpf8"]
 
-[ext_resource type="Script" path="res://scripts/animals/feeding_through.gd" id="1_euqs8"]
+[ext_resource type="Script" uid="uid://d01ddk4pxjnb6" path="res://scripts/animals/feeding_through.gd" id="1_euqs8"]
 [ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_ve7ug"]
 [ext_resource type="PackedScene" uid="uid://dp8tqjk2yeuf8" path="res://scenes/ui/ui_feeding_through.tscn" id="3_fru6v"]
 

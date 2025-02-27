@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://dawrar87h0xsx"]
 
 [ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_yhy4n"]
-[ext_resource type="Script" path="res://scripts/ui/ui_crop_selection.gd" id="1_ykl4m"]
+[ext_resource type="Script" uid="uid://k1bd7oya21oc" path="res://scripts/ui/ui_crop_selection.gd" id="1_ykl4m"]
 
 [node name="CropSelectionUI" type="Control"]
 z_index = 6

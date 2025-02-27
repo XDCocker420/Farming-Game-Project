@@ -1,6 +1,6 @@
 [gd_scene load_steps=19 format=4 uid="uid://nyttgrj1hid3"]
 
-[ext_resource type="Script" path="res://scripts/farming/tierbereich.gd" id="1_eee0d"]
+[ext_resource type="Script" uid="uid://diybuopnuo1hy" path="res://scripts/farming/tierbereich.gd" id="1_eee0d"]
 [ext_resource type="TileSet" uid="uid://ckrpgnu5r4oj6" path="res://tiles/farmlands.tres" id="1_t44fs"]
 [ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="2_tnc6i"]
 [ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="4_mfc16"]

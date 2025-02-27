@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bgatkx86onbu6"]
 
-[ext_resource type="Script" path="res://scripts/ui/ui_markt.gd" id="1_fgki4"]
+[ext_resource type="Script" uid="uid://b8drb1kjb6qkb" path="res://scripts/ui/ui_markt.gd" id="1_fgki4"]
 [ext_resource type="PackedScene" uid="uid://b24bo4ir8kd3p" path="res://scenes/ui/ui_markt_slot.tscn" id="1_sbuhv"]
 
 [node name="ui_markt" type="PanelContainer"]

@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://bqogj2noiv4ya"]
 
-[ext_resource type="Script" path="res://scripts/farming/farming_area.gd" id="1_or51d"]
+[ext_resource type="Script" uid="uid://chedjllhentso" path="res://scripts/farming/farming_area.gd" id="1_or51d"]
 [ext_resource type="PackedScene" uid="uid://lo6utycpenq8" path="res://scenes/farming/farmFieldLeft.tscn" id="2_pdgie"]
-[ext_resource type="PackedScene" uid="uid://bwk02b3kef0xu" path="res://scenes/farming/farmFieldMiddle.tscn" id="3_fq8gb"]
+[ext_resource type="PackedScene" uid="uid://cri6prl6lptm8" path="res://scenes/farming/farmFieldMiddle.tscn" id="3_fq8gb"]
 [ext_resource type="PackedScene" uid="uid://dgbjtfg8j188k" path="res://scenes/farming/farmFieldRight.tscn" id="4_rach3"]
 [ext_resource type="PackedScene" uid="uid://bqag013g7o0c6" path="res://scenes/ui/ui_farming.tscn" id="5_xk3l4"]
 [ext_resource type="PackedScene" uid="uid://dawrar87h0xsx" path="res://scenes/ui/ui_crop_selection.tscn" id="6_ykl4m"]

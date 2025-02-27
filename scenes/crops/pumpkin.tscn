@@ -1,7 +1,7 @@
 [gd_scene load_steps=7 format=3 uid="uid://bnr3kriot5vm5"]
 
 [ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_qn5ni"]
-[ext_resource type="Script" path="res://scripts/crops/crop.gd" id="2_qtdld"]
+[ext_resource type="Script" uid="uid://h5ktdbskdgtv" path="res://scripts/crops/crop.gd" id="2_qtdld"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_64jb6"]
 atlas = ExtResource("1_qn5ni")

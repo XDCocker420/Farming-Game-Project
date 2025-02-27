@@ -1,12 +1,12 @@
 [gd_scene load_steps=33 format=3 uid="uid://020l6elc3p55"]
 
 [ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_kswhy"]
-[ext_resource type="Script" path="res://scripts/state_management/state_machine.gd" id="3_3mbhh"]
-[ext_resource type="Script" path="res://scripts/animals/animal_fed.gd" id="4_bgmx2"]
-[ext_resource type="Script" path="res://scripts/animals/animal_full.gd" id="5_nyeyd"]
+[ext_resource type="Script" uid="uid://cdwxjc2autrp8" path="res://scripts/state_management/state_machine.gd" id="3_3mbhh"]
+[ext_resource type="Script" uid="uid://bdmdtyk52qm4n" path="res://scripts/animals/animal_fed.gd" id="4_bgmx2"]
+[ext_resource type="Script" uid="uid://b4m6baeg7pxyh" path="res://scripts/animals/animal_full.gd" id="5_nyeyd"]
 [ext_resource type="PackedScene" uid="uid://bekt21sxspmob" path="res://scenes/ui/feeding_ui.tscn" id="5_x275d"]
-[ext_resource type="Script" path="res://scripts/animals/animal_eating.gd" id="6_0x6cu"]
-[ext_resource type="Script" path="res://scripts/animals/animal_hungry.gd" id="6_uyfr5"]
+[ext_resource type="Script" uid="uid://djpwj36v87x8j" path="res://scripts/animals/animal_eating.gd" id="6_0x6cu"]
+[ext_resource type="Script" uid="uid://cfadmajc7cjkx" path="res://scripts/animals/animal_hungry.gd" id="6_uyfr5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_or7a3"]
 atlas = ExtResource("1_kswhy")

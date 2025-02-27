@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://b24bo4ir8kd3p"]
 
-[ext_resource type="Script" path="res://scripts/ui/ui_markt_slot.gd" id="1_an1b0"]
-[ext_resource type="Texture2D" uid="uid://uea7ecc0r3hi" path="res://assets/gui/items_frame.png" id="1_refh3"]
-[ext_resource type="Texture2D" uid="uid://cjwrplgy3furf" path="res://assets/gui/items_frame_disabled.png" id="3_e8q52"]
-[ext_resource type="Texture2D" uid="uid://cj1yk8sw77a6u" path="res://assets/gui/select.png" id="4_nwyf4"]
+[ext_resource type="Script" uid="uid://b6n2ep071x0ay" path="res://scripts/ui/ui_markt_slot.gd" id="1_an1b0"]
+[ext_resource type="Texture2D" uid="uid://dd6suowgscekg" path="res://assets/gui/items_frame.png" id="1_refh3"]
+[ext_resource type="Texture2D" uid="uid://cx1gfi0lhfpeb" path="res://assets/gui/items_frame_disabled.png" id="3_e8q52"]
+[ext_resource type="Texture2D" uid="uid://b58js6brv4ur3" path="res://assets/gui/select.png" id="4_nwyf4"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oeedi"]
 

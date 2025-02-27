@@ -1,7 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://c8s6l5qwnpp46"]
 
 [ext_resource type="Texture2D" uid="uid://w4s1ltuhwfk3" path="res://assets/gui/back.png" id="1_osals"]
-[ext_resource type="Script" path="res://scripts/ui/button.gd" id="2_lt2pl"]
+
+[sub_resource type="Resource" id="Resource_271ag"]
+metadata/__load_path__ = "res://scripts/ui/button.gd"
 
 [node name="Back" type="PanelContainer"]
 
@@ -16,4 +18,4 @@ visible = false
 layout_mode = 2
 offset_right = 8.0
 offset_bottom = 8.0
-script = ExtResource("2_lt2pl")
+script = SubResource("Resource_271ag")

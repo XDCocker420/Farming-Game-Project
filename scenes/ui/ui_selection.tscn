@@ -1,11 +1,11 @@
 [gd_scene load_steps=9 format=3 uid="uid://dqljx4yrs6ttv"]
 
-[ext_resource type="Script" path="res://scripts/ui/ui_selection.gd" id="1_xh3tr"]
-[ext_resource type="Texture2D" uid="uid://bgqy3asvfxypl" path="res://assets/gui/left.png" id="2_xvbp2"]
+[ext_resource type="Script" uid="uid://w6edb2pfs1es" path="res://scripts/ui/ui_selection.gd" id="1_xh3tr"]
+[ext_resource type="Texture2D" uid="uid://dwqkpdx0aj52s" path="res://assets/gui/left.png" id="2_xvbp2"]
 [ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://fonts/pokemon-dppt.ttf" id="3_gqs63"]
-[ext_resource type="Texture2D" uid="uid://cc6fwm4fgm8ss" path="res://assets/gui/right.png" id="3_n306v"]
+[ext_resource type="Texture2D" uid="uid://fqfu8ovkgm4p" path="res://assets/gui/right.png" id="3_n306v"]
 [ext_resource type="Texture2D" uid="uid://kr6egn4rae3c" path="res://assets/gui/button.png" id="5_rpfmg"]
-[ext_resource type="Texture2D" uid="uid://0bagtmif5u2l" path="res://assets/gui/button_disabled.png" id="6_fwpu3"]
+[ext_resource type="Texture2D" uid="uid://bxpdslqs5io2o" path="res://assets/gui/button_disabled.png" id="6_fwpu3"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_osaip"]
 color = Color(0.154876, 0.154876, 0.154876, 1)

@@ -1,7 +1,7 @@
 [gd_scene load_steps=19 format=4 uid="uid://cfpp5sa7x3s7g"]
 
 [ext_resource type="Texture2D" uid="uid://dsmbrw66740gf" path="res://assets/map/green_buildings_64x64.png" id="1_epap2"]
-[ext_resource type="Script" path="res://scripts/buildings/basic_house_1.gd" id="1_rljd0"]
+[ext_resource type="Script" uid="uid://uq1y51x3ptt4" path="res://scripts/buildings/basic_house_1.gd" id="1_rljd0"]
 [ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="4_yyprq"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_685gh"]

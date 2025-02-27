@@ -1,6 +1,6 @@
 [gd_scene load_steps=10 format=3 uid="uid://dwsrp6tihv8pd"]
 
-[ext_resource type="Script" path="res://scripts/ui/contract_board.gd" id="1_2gmrp"]
+[ext_resource type="Script" uid="uid://c5uny2ahi3ot3" path="res://scripts/ui/contract_board.gd" id="1_2gmrp"]
 [ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_y785a"]
 [ext_resource type="ButtonGroup" uid="uid://crkx4fmbsdgl8" path="res://scripts/ui/contract_button_group.tres" id="3_g5ga2"]
 [ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://fonts/pokemon-dppt.ttf" id="3_ypm81"]

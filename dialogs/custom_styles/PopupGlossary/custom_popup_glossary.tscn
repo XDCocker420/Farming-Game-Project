@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://4cn56t5eglf4"]
 
-[ext_resource type="Script" path="res://dialogs/custom_styles/PopupGlossary/glossary_popup_layer.gd" id="1_3nmfj"]
+[ext_resource type="Script" uid="uid://d25tknhllhrys" path="res://dialogs/custom_styles/PopupGlossary/glossary_popup_layer.gd" id="1_3nmfj"]
 
 [sub_resource type="StyleBoxFlat" id="StyleBoxFlat_a3cyk"]
 bg_color = Color(0.12549, 0.12549, 0.12549, 1)

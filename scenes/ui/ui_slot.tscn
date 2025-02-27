@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://f2u7wd113dhm"]
 
-[ext_resource type="Script" path="res://scripts/ui/ui_scheune_slot.gd" id="1_odjiv"]
+[ext_resource type="Script" uid="uid://bprtltbfq28xf" path="res://scripts/ui/ui_scheune_slot.gd" id="1_odjiv"]
 [ext_resource type="Texture2D" uid="uid://b1a783ur0o53u" path="res://assets/gui/slot_bg.png" id="1_qjc65"]
 [ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://fonts/pokemon-dppt.ttf" id="3_hpx8t"]
 
