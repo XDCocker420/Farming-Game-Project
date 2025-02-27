@@ -13,6 +13,7 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(1043, 48, 1287, 92, 157
 [node name="Player" parent="." instance=ExtResource("1_ipkwj")]
 unique_name_in_owner = true
 z_index = 5
+position = Vector2(982, 158)
 
 [node name="Camera" type="Camera2D" parent="Player"]
 position = Vector2(0, -43)
@@ -20,7 +21,7 @@ position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
 [node name="thomas" parent="." instance=ExtResource("4_o85ij")]
-position = Vector2(1242, 744)
+position = Vector2(1263, 715)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_c3goq")

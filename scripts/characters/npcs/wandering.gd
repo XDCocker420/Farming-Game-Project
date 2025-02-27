@@ -96,6 +96,11 @@ func choose_new_target() -> void:
 	# Aktualisiere den NavigationAgent2D
 	if navigation_agent:
 		navigation_agent.target_position = current_target
+		
+func process_input(_event: InputEvent):
+	if _event.is_action_pressed("interact"):
+		print("Test")
+		transitioned.emit(self, "Talking")
 
 func _play_animation(anim_name: String) -> void:
 	# Annahme: Der NPC besitzt als Kind einen AnimatedSprite2D mit dem Namen "AnimatedSprite2D"

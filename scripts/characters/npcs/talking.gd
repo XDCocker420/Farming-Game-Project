@@ -11,6 +11,7 @@ var movement_target_position: Vector2 = Vector2(60.0,180.0)
 	
 func process_input(_event: InputEvent):
 	if _event.is_action_pressed("interact"):
+		print("Test2")
 		http_request.request_completed.connect(_on_request_completed)
 
 		# Define your API key and URL.
@@ -23,7 +24,7 @@ func process_input(_event: InputEvent):
 		# Build the JSON payload.
 		var payload = {
 			"contents": [{
-				"parts": [{"text": "Explain how AI works"}]
+				"parts": [{"text": "Explain how AI works in 50 Words"}]
 			}]
 		}
 		# Convert the dictionary to a JSON string.
@@ -41,14 +42,19 @@ func _on_request_completed(result, response_code, headers, body):
 		json.parse(body.get_string_from_utf8())
 		var response = json.get_data()
 		var data = response.candidates[0].content.parts[0].text
+		print(data)
 		if Dialogic.current_timeline != null:
 			return
 		
-		var events : Array = """
-		Jowan (Surprised): """ + PackedStringArray(data).split('\n')
+		var events : Array = []
+		var text_event = DialogicTextEvent.new()
+		text_event.text = data
+		events.append(text_event)
 
 		var timeline : DialogicTimeline = DialogicTimeline.new()
 		timeline.events = events
+		# if your events are already resources, you need to add this:
+		timeline.events_processed = true
 		Dialogic.start(timeline)
 	
 		#Dialogic.start('chapterA')
