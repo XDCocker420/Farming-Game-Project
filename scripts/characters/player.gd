@@ -6,8 +6,8 @@ signal interact2
 
 @onready var animation_layers: Node = $animation_layers
 
-@export var normal_speed: float = 200.0
-@export var sprint_speed: float = 400.0
+@export var normal_speed: float = 50.0
+@export var sprint_speed: float = 100.0
 @export var cant_move: bool = false
 
 var selected_crop: String = "carrot"  # Default crop
