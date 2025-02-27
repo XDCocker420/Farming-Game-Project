@@ -8,9 +8,9 @@
 [node name="Player" parent="." instance=ExtResource("2_14qoo")]
 unique_name_in_owner = true
 z_index = 5
-position = Vector2(537, 370)
+position = Vector2(190, 99)
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
+position_smoothing_speed = 10.0
 
 [node name="Markt" parent="." instance=ExtResource("1_53iql")]
-position = Vector2(221, 386)
