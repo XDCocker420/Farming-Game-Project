@@ -1,27 +1,86 @@
-[gd_scene load_steps=2 format=3 uid="uid://dqljx4yrs6ttv"]
+[gd_scene load_steps=9 format=3 uid="uid://dqljx4yrs6ttv"]
 
 [ext_resource type="Script" path="res://scripts/ui/ui_selection.gd" id="1_xh3tr"]
+[ext_resource type="Texture2D" uid="uid://bgqy3asvfxypl" path="res://assets/gui/left.png" id="2_xvbp2"]
+[ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://fonts/pokemon-dppt.ttf" id="3_gqs63"]
+[ext_resource type="Texture2D" uid="uid://cc6fwm4fgm8ss" path="res://assets/gui/right.png" id="3_n306v"]
+[ext_resource type="Texture2D" uid="uid://kr6egn4rae3c" path="res://assets/gui/button.png" id="5_rpfmg"]
+[ext_resource type="Texture2D" uid="uid://0bagtmif5u2l" path="res://assets/gui/button_disabled.png" id="6_fwpu3"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_osaip"]
+color = Color(0.154876, 0.154876, 0.154876, 1)
+thickness = 2
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_mcqen"]
 
 [node name="ui_selection" type="PanelContainer"]
-offset_right = 110.0
-offset_bottom = 95.0
+offset_right = 108.0
+offset_bottom = 108.0
 size_flags_horizontal = 3
 size_flags_vertical = 3
 script = ExtResource("1_xh3tr")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="VBoxContainer"]
+custom_minimum_size = Vector2(100, 100)
 layout_mode = 2
 follow_focus = true
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 2
 
-[node name="MarginContainer" type="MarginContainer" parent="ScrollContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/ScrollContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
-theme_override_constants/margin_right = 8
 
-[node name="VBoxContainer" type="VBoxContainer" parent="ScrollContainer/MarginContainer"]
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_styles/separator = SubResource("StyleBoxLine_osaip")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
-size_flags_vertical = 3
+texture_normal = ExtResource("2_xvbp2")
+stretch_mode = 5
+
+[node name="LineEdit" type="LineEdit" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 2.0
+theme_override_fonts/font = ExtResource("3_gqs63")
+placeholder_text = "0"
+alignment = 1
+max_length = 3
+
+[node name="TextureButton2" type="TextureButton" parent="VBoxContainer/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+texture_normal = ExtResource("3_n306v")
+stretch_mode = 5
+
+[node name="PanelContainer" type="PanelContainer" parent="VBoxContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxEmpty_mcqen")
+
+[node name="TextureButton" type="TextureButton" parent="VBoxContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+texture_normal = ExtResource("5_rpfmg")
+texture_disabled = ExtResource("6_fwpu3")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="VBoxContainer/VBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_vertical = 1
+theme_override_colors/font_color = Color(0.838897, 0.838897, 0.838897, 1)
+text = "Add"
+horizontal_alignment = 1
