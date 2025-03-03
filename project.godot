@@ -78,6 +78,10 @@ choices/hotkey_behaviour=1
 
 [display]
 
+window/size/viewport_width=320
+window/size/viewport_height=180
+window/size/window_width_override=1280
+window/size/window_height_override=720
 window/stretch/mode="viewport"
 
 [dotnet]
@@ -96,7 +100,7 @@ dynamic_elements="all dynamic elements that should be saved"
 
 [gui]
 
-theme/custom="res://default_theme.tres"
+theme/custom="res://farm_theme.tres"
 
 [input]
 

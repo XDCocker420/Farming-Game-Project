@@ -89,9 +89,15 @@ func load_game() -> void:
 func add_to_inventory(item:String, count:int=1) -> void:
     if count < 1:
         push_error("count musst be bigger or equal 1")
-        get_tree().quit()    
+        get_tree().quit()
+    
+    if count > 99:
+        count = 99
+    
     if inventory.data.has(item):
         inventory.data[item] += count
+        if inventory.data[item] > 99:
+            inventory.data[item] = 99
     else:
         inventory.data[item] = count
 
@@ -110,6 +116,7 @@ func remove_from_inventory(item: String, count:int=1, remove_completly:bool=fals
     inventory.data[item] -= count
     if inventory.data[item] <= 0:
         inventory.data.erase(item)
+        
         
 func get_inventory() -> Dictionary:
     return inventory.data
@@ -203,6 +210,9 @@ func get_market_by_id(id:int) -> SavedMarket:
 
 func get_market() -> Array[SavedMarket]:
     return market_sav
+    
+func clear_inventory() -> void:
+    inventory.data = {}
 
 func start_auto_save_timer() -> void:
     var timer = Timer.new()

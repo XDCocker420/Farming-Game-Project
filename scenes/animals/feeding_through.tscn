@@ -1,22 +1,22 @@
 [gd_scene load_steps=9 format=3 uid="uid://db625opwfqpf8"]
 
 [ext_resource type="Script" uid="uid://d01ddk4pxjnb6" path="res://scripts/animals/feeding_through.gd" id="1_euqs8"]
-[ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_ve7ug"]
+[ext_resource type="Texture2D" uid="uid://d2x7ebuybkcby" path="res://assets/buildings/farm_buildings_all.png" id="2_75g8j"]
 [ext_resource type="PackedScene" uid="uid://dp8tqjk2yeuf8" path="res://scenes/ui/ui_feeding_through.tscn" id="3_fru6v"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_meljp"]
-atlas = ExtResource("1_ve7ug")
-region = Rect2(1024, 450, 64, 135)
+[sub_resource type="AtlasTexture" id="AtlasTexture_wvmfj"]
+atlas = ExtResource("2_75g8j")
+region = Rect2(176, 144, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_04875"]
-atlas = ExtResource("1_ve7ug")
-region = Rect2(1280, 450, 64, 135)
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ftam"]
+atlas = ExtResource("2_75g8j")
+region = Rect2(192, 144, 16, 32)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xmxdb"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_meljp")
+"texture": SubResource("AtlasTexture_wvmfj")
 }],
 "loop": true,
 "name": &"empty",
@@ -24,38 +24,39 @@ animations = [{
 }, {
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_04875")
+"texture": SubResource("AtlasTexture_1ftam")
 }],
 "loop": true,
 "name": &"full",
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_amlft"]
-size = Vector2(108, 124)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_75g8j"]
+size = Vector2(16, 24)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_w53py"]
-size = Vector2(54, 114)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_amlft"]
+size = Vector2(43, 38)
 
 [node name="FeedingThrough" type="Node2D"]
 script = ExtResource("1_euqs8")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
 
-[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Area2D"]
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="StaticBody2D"]
+position = Vector2(0, -16)
 sprite_frames = SubResource("SpriteFrames_xmxdb")
 animation = &"empty"
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-visible = false
-position = Vector2(-20, -9)
-shape = SubResource("RectangleShape2D_amlft")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(1, -6)
-shape = SubResource("RectangleShape2D_w53py")
+position = Vector2(0, -12)
+shape = SubResource("RectangleShape2D_75g8j")
+
+[node name="Area2D" type="Area2D" parent="StaticBody2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D/Area2D"]
+visible = false
+position = Vector2(0, -8)
+shape = SubResource("RectangleShape2D_amlft")
 
 [node name="UiFeedingThrough" parent="." instance=ExtResource("3_fru6v")]
 visible = false

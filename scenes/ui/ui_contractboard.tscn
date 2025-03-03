@@ -1,0 +1,72 @@
+[gd_scene load_steps=5 format=3 uid="uid://cjo2tht8bf4ad"]
+
+[ext_resource type="Texture2D" uid="uid://dwsdsbg23vb83" path="res://assets/ui/contract_board_frame.png" id="1_0f3kq"]
+[ext_resource type="PackedScene" uid="uid://ddms0lic2yxdt" path="res://scenes/ui/ui_contractboard_slot.tscn" id="2_8bskh"]
+[ext_resource type="PackedScene" uid="uid://u44hmkynjs5r" path="res://scenes/ui/ui_contractboard_task.tscn" id="3_qlcp4"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_piwo4"]
+texture = ExtResource("1_0f3kq")
+texture_margin_left = 4.0
+texture_margin_top = 6.0
+texture_margin_right = 4.0
+texture_margin_bottom = 4.0
+axis_stretch_horizontal = 1
+axis_stretch_vertical = 1
+
+[node name="ui_contractboard" type="PanelContainer"]
+offset_right = 8.0
+offset_bottom = 10.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_piwo4")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+columns = 4
+
+[node name="ui_contractboard_slot" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8bskh")]
+layout_mode = 2
+
+[node name="ui_contractboard_slot2" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8bskh")]
+layout_mode = 2
+
+[node name="ui_contractboard_slot3" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8bskh")]
+layout_mode = 2
+
+[node name="ui_contractboard_slot4" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8bskh")]
+layout_mode = 2
+
+[node name="ui_contractboard_slot5" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8bskh")]
+layout_mode = 2
+
+[node name="ui_contractboard_slot6" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8bskh")]
+layout_mode = 2
+
+[node name="ui_contractboard_slot7" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8bskh")]
+layout_mode = 2
+
+[node name="ui_contractboard_slot8" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8bskh")]
+layout_mode = 2
+
+[node name="ui_contractboard_slot9" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8bskh")]
+layout_mode = 2
+
+[node name="ui_contractboard_slot10" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8bskh")]
+layout_mode = 2
+
+[node name="ui_contractboard_slot11" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8bskh")]
+layout_mode = 2
+
+[node name="ui_contractboard_slot12" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8bskh")]
+layout_mode = 2
+
+[node name="ui_contractboard_task" parent="MarginContainer/HBoxContainer" instance=ExtResource("3_qlcp4")]
+layout_mode = 2

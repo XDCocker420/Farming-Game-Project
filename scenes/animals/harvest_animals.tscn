@@ -1,7 +1,8 @@
 [gd_scene load_steps=4 format=3 uid="uid://dpw64dphs34yi"]
 
-[ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_et3h1"]
+[ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://old assets/gui/menu.png" id="1_et3h1"]
 [ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://fonts/pokemon-dppt.ttf" id="2_kb1wq"]
+
 
 [sub_resource type="LabelSettings" id="LabelSettings_jurwd"]
 font = ExtResource("2_kb1wq")

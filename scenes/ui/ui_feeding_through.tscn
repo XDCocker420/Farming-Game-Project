@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://dp8tqjk2yeuf8"]
 
-[ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_xxehl"]
-[ext_resource type="PackedScene" uid="uid://id2egr8d1qul" path="res://scenes/ui/ui_contractboard_slot.tscn" id="2_r2d6b"]
+[ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://old assets/gui/menu.png" id="1_xxehl"]
+[ext_resource type="PackedScene" uid="uid://id2egr8d1qul" path="res://scenes/ui/nig_slot.tscn" id="2_r2d6b"]
+
 
 [node name="UiFeedingThrough" type="Control"]
 z_index = 7

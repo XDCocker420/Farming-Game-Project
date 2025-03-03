@@ -1,8 +1,7 @@
-[gd_scene load_steps=13 format=4 uid="uid://7401yxdfc7e2"]
+[gd_scene load_steps=11 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
 [ext_resource type="TileSet" uid="uid://ckrpgnu5r4oj6" path="res://tiles/farmlands.tres" id="3_0p4cf"]
-[ext_resource type="Texture2D" uid="uid://c7toaq4be4ktg" path="res://assets/map/green_forest64x64.png" id="5_amp2j"]
 [ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="5_sdtop"]
 [ext_resource type="PackedScene" uid="uid://cfpp5sa7x3s7g" path="res://scenes/buildings/basic_house_1.tscn" id="6_1qq5s"]
 [ext_resource type="PackedScene" uid="uid://nyttgrj1hid3" path="res://scenes/buildings/tierbereich.tscn" id="7_8ejyj"]
@@ -10,8 +9,9 @@
 [ext_resource type="Script" uid="uid://fyefhcda1kt" path="res://scripts/lightning/day_day_cyle.gd" id="10_6ts4f"]
 [ext_resource type="PackedScene" uid="uid://ddeef2warcy2e" path="res://scenes/buildings/markt.tscn" id="10_d7fkh"]
 [ext_resource type="PackedScene" uid="uid://dj3x34xk3qcne" path="res://scenes/buildings/scheune.tscn" id="11_8cvap"]
-[ext_resource type="Texture2D" uid="uid://b451x1bgke0d5" path="res://assets/map/daynightcycle-gradient-texture.tres" id="11_ds6an"]
-[ext_resource type="Texture2D" uid="uid://lgw21dicebr8" path="res://assets/gui/2d_lights_and_shadows_neutral_point_light.webp" id="12_8do3e"]
+
+[sub_resource type="Resource" id="Resource_1xy5d"]
+metadata/__load_path__ = "res://assets/map/daynightcycle-gradient-texture.tres"
 
 [node name="Game" type="Node2D"]
 
@@ -21,7 +21,6 @@ unique_name_in_owner = true
 [node name="Player" parent="Map" instance=ExtResource("1_0u3w2")]
 unique_name_in_owner = true
 z_index = 5
-scale = Vector2(3.5, 3.5)
 
 [node name="Camera" type="Camera2D" parent="Map/Player"]
 position = Vector2(0, -43)
@@ -34,7 +33,6 @@ position_smoothing_speed = 7.0
 z_index = -1
 position = Vector2(-58, 5)
 scale = Vector2(2500, 1200)
-texture = ExtResource("5_amp2j")
 region_enabled = true
 region_rect = Rect2(536, 83, 31, 35)
 
@@ -92,11 +90,11 @@ position = Vector2(-310, -501)
 position = Vector2(3264, -23)
 
 [node name="TagUndNacht" type="CanvasModulate" parent="."]
+visible = false
 color = Color(0.133333, 0.14902, 0.258824, 1)
 script = ExtResource("10_6ts4f")
-gradient_texture = ExtResource("11_ds6an")
+gradient_texture = SubResource("Resource_1xy5d")
 INITIAL_HOUR = 3
 
 [node name="PointLight2D" type="PointLight2D" parent="."]
 position = Vector2(768, -482)
-texture = ExtResource("12_8do3e")

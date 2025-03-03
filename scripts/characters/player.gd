@@ -5,6 +5,7 @@ signal interact
 signal interact2
 
 @onready var animation_layers: Node = $animation_layers
+@onready var body: AnimatedSprite2D = $animation_layers/body
 
 @export var normal_speed: float = 50.0
 @export var sprint_speed: float = 100.0
@@ -18,10 +19,15 @@ var layers: Array
 
 
 func _ready() -> void:
-    # Add the player to the "Player" group for identification
-    #load_state()
-    reload_layers()
+    load_layers()
     current_speed = normal_speed
+    
+    SaveGame.clear_inventory()
+    
+    SaveGame.add_to_inventory("carrot", 50)
+    SaveGame.add_to_inventory("corn", 30)
+    SaveGame.add_to_inventory("eggplant", 40)
+    SaveGame.add_to_inventory("potatoe", 100)
 
 
 func _input(event: InputEvent) -> void:
@@ -41,11 +47,11 @@ func set_selected_crop(crop_name: String) -> void:
     selected_crop = crop_name
 
 
-func reload_layers():
+func load_layers():
     layers = animation_layers.get_children()
-
-
-func _physics_process(_delta):
+    
+    
+func _physics_process(delta: float) -> void:
     if !cant_move:
         current_speed = sprint_speed if Input.is_action_pressed("sprint") else normal_speed
         
@@ -69,10 +75,13 @@ func _physics_process(_delta):
         move_and_slide()
 
 
-func update_animation(direction: Vector2):
+func update_animation(direction: Vector2) -> void:
     if direction != Vector2.ZERO:
         for layer in layers:
-            layer.play("walk_" + looking_direction)
+            if current_speed == normal_speed:
+                layer.play(looking_direction)
+            else:
+                layer.play(looking_direction, 1.5)
     else:
         for layer in layers:
             layer.stop()

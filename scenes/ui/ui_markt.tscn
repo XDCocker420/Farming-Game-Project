@@ -1,55 +1,46 @@
 [gd_scene load_steps=3 format=3 uid="uid://bgatkx86onbu6"]
 
 [ext_resource type="Script" uid="uid://b8drb1kjb6qkb" path="res://scripts/ui/ui_markt.gd" id="1_fgki4"]
-[ext_resource type="PackedScene" uid="uid://b24bo4ir8kd3p" path="res://scenes/ui/ui_markt_slot.tscn" id="1_sbuhv"]
+[ext_resource type="PackedScene" uid="uid://b24bo4ir8kd3p" path="res://scenes/ui/ui_slot.tscn" id="1_sbuhv"]
 
 [node name="ui_markt" type="PanelContainer"]
-offset_right = 124.0
-offset_bottom = 64.0
+offset_right = 97.0
+offset_bottom = 55.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
 script = ExtResource("1_fgki4")
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="MarginContainer" type="MarginContainer" parent="."]
 layout_mode = 2
-alignment = 1
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="slots" type="GridContainer" parent="MarginContainer"]
 layout_mode = 2
-size_flags_vertical = 3
+columns = 4
 
-[node name="ui_markt_slot" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_sbuhv")]
+[node name="ui_slot" parent="MarginContainer/slots" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="ui_markt_slot2" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_sbuhv")]
+[node name="ui_slot2" parent="MarginContainer/slots" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="ui_markt_slot3" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_sbuhv")]
+[node name="ui_slot3" parent="MarginContainer/slots" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="ui_markt_slot4" parent="VBoxContainer/HBoxContainer" instance=ExtResource("1_sbuhv")]
+[node name="ui_slot4" parent="MarginContainer/slots" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="ui_slot5" parent="MarginContainer/slots" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
-size_flags_vertical = 3
 
-[node name="ui_markt_slot5" parent="VBoxContainer/HBoxContainer2" instance=ExtResource("1_sbuhv")]
+[node name="ui_slot6" parent="MarginContainer/slots" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="ui_markt_slot6" parent="VBoxContainer/HBoxContainer2" instance=ExtResource("1_sbuhv")]
+[node name="ui_slot7" parent="MarginContainer/slots" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
-size_flags_horizontal = 3
 
-[node name="ui_markt_slot7" parent="VBoxContainer/HBoxContainer2" instance=ExtResource("1_sbuhv")]
+[node name="ui_slot8" parent="MarginContainer/slots" instance=ExtResource("1_sbuhv")]
 layout_mode = 2
-size_flags_horizontal = 3
-
-[node name="ui_markt_slot8" parent="VBoxContainer/HBoxContainer2" instance=ExtResource("1_sbuhv")]
-layout_mode = 2
-size_flags_horizontal = 3

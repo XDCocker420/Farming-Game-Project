@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://yxiqpjiq5g1g"]
+
+[ext_resource type="Script" uid="uid://dug24i1o17ajh" path="res://scripts/ui/increase_decrease.gd" id="1_4k6f3"]
+[ext_resource type="Texture2D" uid="uid://b4an0mlavtgln" path="res://assets/ui/control_panel_fram_alt.png" id="1_k4y3m"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_t34fh"]
+texture = ExtResource("1_k4y3m")
+texture_margin_left = 3.0
+texture_margin_top = 4.0
+texture_margin_right = 3.0
+texture_margin_bottom = 2.0
+
+[node name="increase_decrease" type="PanelContainer"]
+offset_right = 6.0
+offset_bottom = 6.0
+theme_override_styles/panel = SubResource("StyleBoxTexture_t34fh")
+script = ExtResource("1_4k6f3")
+
+[node name="SpinBox" type="SpinBox" parent="."]
+layout_mode = 2
+alignment = 1
+suffix = "$"

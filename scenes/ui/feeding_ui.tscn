@@ -1,7 +1,8 @@
 [gd_scene load_steps=3 format=3 uid="uid://bekt21sxspmob"]
 
-[ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_upjnr"]
+[ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://old assets/gui/menu.png" id="1_upjnr"]
 [ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://fonts/pokemon-dppt.ttf" id="2_wlpoc"]
+
 
 [node name="FeedingUi" type="Control"]
 z_index = 7

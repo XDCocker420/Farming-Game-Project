@@ -1,51 +1,54 @@
 extends PanelContainer
 
 
-@onready var v_box_container: VBoxContainer = $VBoxContainer/ScrollContainer/VBoxContainer
+signal put_item(item: Texture2D)
+signal accept
 
-signal selection_select(item: String)
+@onready var slots: GridContainer = $HBoxContainer/MarginContainer/ScrollContainer/slots
+@onready var accept_button: TextureButton = $HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer/HBoxContainer/accept
+@onready var cancel_button: TextureButton = $HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer/HBoxContainer/cancel
 
-const slot_scene = preload("res://scenes/ui/ui_selection_slot.tscn")
-var slots = []
+var slot_list: Array
+var slot_scenen = preload("res://scenes/ui/ui_slot.tscn")
 
 
 func _ready() -> void:
-    load_inventory()
+    accept_button.pressed.connect(_on_accept)
+    cancel_button.pressed.connect(_on_cancel)
     
-    for slot in slots:
-        slot.selection_slot_select.connect(_select_item)
+    load_slots()
+    
+    for slot: PanelContainer in slot_list:
+        slot.item_selection.connect(_on_item_selected)
+    
+
+func add_slot(item: String, amount: int) -> void:
+    var slot: PanelContainer = slot_scenen.instantiate()
+    var slot_item: TextureRect = slot.get_node("MarginContainer/item")
+    var slot_amount: Label = slot.get_node("amount")
+    
+    slot_item.texture = load("res://assets/ui/icons/" + item + ".png")
+    slot_amount.text = str(amount)
+    
+    slots.add_child(slot)
+    slot_list.append(slot)
 
 
-func load_inventory() -> void:
+func load_slots() -> void:
     var inventory = SaveGame.get_inventory()
-    var current_hbox: HBoxContainer = add_h_box()
     
     for item in inventory.keys():
-        if inventory[item] == 0:
-            continue
-        
-        if current_hbox.get_child_count() == 3:
-            current_hbox = add_h_box()
-        
-        add_slot(current_hbox, item)
+        add_slot(item, inventory[item])
 
 
-func _select_item(item: String):
-    selection_select.emit(item)
-
-
-func add_h_box() -> HBoxContainer:
-    var hbox = HBoxContainer.new()
-    v_box_container.add_child(hbox)    
-    return hbox
-
-
-func add_slot(hbox: HBoxContainer, item: String) -> void:
-    var slot = slot_scene.instantiate()
+func _on_item_selected(item: Texture2D) -> void:
+    put_item.emit(item)
     
-    slot.item_name = item
-    var slot_texture = slot.get_node("MarginContainer/TextureRect")
-    slot_texture.texture = load("res://assets/gui/icons/" + item + ".png")
     
-    hbox.add_child(slot)    
-    slots.append(slot)
+func _on_cancel() -> void:
+    hide()
+    
+    
+func _on_accept() -> void:
+    accept.emit()
+    hide()
