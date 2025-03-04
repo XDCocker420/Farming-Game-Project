@@ -1,11 +1,11 @@
 [gd_scene load_steps=14 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
-[ext_resource type="Texture2D" uid="uid://c4yorbk70t6ed" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
+[ext_resource type="Texture2D" uid="uid://0wcu3ljilipe" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
 [ext_resource type="PackedScene" uid="uid://by8sfn1p2h5nh" path="res://scenes/buildings/player_house.tscn" id="4_1xy5d"]
 [ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="5_sdtop"]
 [ext_resource type="PackedScene" uid="uid://nyttgrj1hid3" path="res://scenes/buildings/tierbereich.tscn" id="7_8ejyj"]
-[ext_resource type="PackedScene" uid="uid://bc6sudr6mtykj" path="res://scenes/buildings/contract_board.tscn" id="8_1t62h"]
+[ext_resource type="PackedScene" uid="uid://bc6sudr6mtykj" path="res://scenes/buildings/task_caravan.tscn" id="8_1t62h"]
 [ext_resource type="Script" uid="uid://fyefhcda1kt" path="res://scripts/lightning/day_day_cyle.gd" id="10_6ts4f"]
 [ext_resource type="PackedScene" uid="uid://ddeef2warcy2e" path="res://scenes/buildings/markt.tscn" id="10_d7fkh"]
 [ext_resource type="PackedScene" uid="uid://dj3x34xk3qcne" path="res://scenes/buildings/scheune.tscn" id="11_8cvap"]
@@ -3388,6 +3388,7 @@ unique_name_in_owner = true
 z_index = 5
 
 [node name="Camera" type="Camera2D" parent="Map/Player"]
+position = Vector2(0, -8)
 position_smoothing_speed = 7.0
 
 [node name="TileMaps" type="Node2D" parent="Map"]

@@ -45,12 +45,6 @@ func _on_accept():
     current_texture.texture = selected_texture
 
 
-func _on_item_selected(item: String) -> void:
-    # current_texture.texture = load("res://assets/gui/icons/" + item + ".png")
-    # ui_selection.hide()
-    pass
-
-
 func _on_player_entered(body: Node2D) -> void:
     if body.is_in_group("Player"):
         player_in_area = true

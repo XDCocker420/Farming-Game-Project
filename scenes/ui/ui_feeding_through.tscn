@@ -1,8 +1,6 @@
-[gd_scene load_steps=3 format=3 uid="uid://dp8tqjk2yeuf8"]
+[gd_scene load_steps=2 format=3 uid="uid://dp8tqjk2yeuf8"]
 
-[ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://old assets/gui/menu.png" id="1_xxehl"]
-[ext_resource type="PackedScene" uid="uid://id2egr8d1qul" path="res://scenes/ui/nig_slot.tscn" id="2_r2d6b"]
-
+[ext_resource type="Texture2D" uid="uid://wjhvafvnwsrb" path="res://old assets/gui/menu.png" id="1_xxehl"]
 
 [node name="UiFeedingThrough" type="Control"]
 z_index = 7
@@ -36,14 +34,6 @@ offset_top = 76.0001
 offset_right = 396.063
 offset_bottom = 107.0
 scale = Vector2(3, 3)
-
-[node name="ui_cb_slot" parent="Menu" instance=ExtResource("2_r2d6b")]
-layout_mode = 0
-offset_left = 110.0
-offset_top = 98.9523
-offset_right = 136.0
-offset_bottom = 124.952
-scale = Vector2(6, 6)
 
 [node name="Submit" type="Button" parent="Menu"]
 layout_mode = 0
