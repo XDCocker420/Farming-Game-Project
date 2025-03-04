@@ -1,0 +1,17 @@
+[gd_scene load_steps=3 format=4 uid="uid://by8sfn1p2h5nh"]
+
+[ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/buildings/farm_buildings_tileset.tres" id="1_t2qka"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_t2qka"]
+size = Vector2(52.5, 39.5)
+
+[node name="player_house" type="StaticBody2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD+//z/AAAEAAMAAAD+//3/AAAEAAQAAAD+//7/AAAEAAUAAAD+////AAAEAAYAAAD///v/AAAFAAIAAAD///z/AAAFAAMAAAD///3/AAAFAAQAAAD///7/AAAFAAUAAAD/////AAAFAAYAAAAAAPv/AAAGAAIAAAAAAPz/AAAGAAMAAAAAAP3/AAAGAAQAAAAAAP7/AAAGAAUAAAAAAP//AAAGAAYAAAABAPv/AAAHAAIAAAABAPz/AAAHAAMAAAABAP3/AAAHAAQAAAABAP7/AAAHAAUAAAABAP//AAAHAAYAAAA=")
+tile_set = ExtResource("1_t2qka")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+z_index = 6
+position = Vector2(-0.25, -28.25)
+shape = SubResource("RectangleShape2D_t2qka")

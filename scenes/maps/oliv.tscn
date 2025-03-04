@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cpkipawsrp8tl"]
+[gd_scene load_steps=6 format=3 uid="uid://cpkipawsrp8tl"]
 
 [ext_resource type="PackedScene" uid="uid://ddeef2warcy2e" path="res://scenes/buildings/markt.tscn" id="1_53iql"]
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="2_14qoo"]
 [ext_resource type="PackedScene" uid="uid://dj3x34xk3qcne" path="res://scenes/buildings/scheune.tscn" id="3_pyjc0"]
 [ext_resource type="PackedScene" uid="uid://bc6sudr6mtykj" path="res://scenes/buildings/contract_board.tscn" id="4_bnllk"]
+[ext_resource type="PackedScene" uid="uid://by8sfn1p2h5nh" path="res://scenes/buildings/player_house.tscn" id="5_dhanm"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -23,3 +24,6 @@ position = Vector2(93, 34)
 
 [node name="contract_board" parent="." instance=ExtResource("4_bnllk")]
 position = Vector2(240, 74)
+
+[node name="player_house" parent="." instance=ExtResource("5_dhanm")]
+position = Vector2(78, 159)

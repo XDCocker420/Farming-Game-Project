@@ -1,17 +1,9 @@
-[gd_scene load_steps=16 format=4 uid="uid://nyttgrj1hid3"]
+[gd_resource type="TileSet" load_steps=3 format=3 uid="uid://ns2vki3n45m"]
 
-[ext_resource type="Script" uid="uid://diybuopnuo1hy" path="res://scripts/farming/tierbereich.gd" id="1_eee0d"]
-[ext_resource type="TileSet" uid="uid://ns2vki3n45m" path="res://assets/buildings/terrain.tres" id="2_87pjd"]
-[ext_resource type="Texture2D" uid="uid://c4yorbk70t6ed" path="res://assets/farming/farming_tiles.png" id="3_t08ey"]
-[ext_resource type="PackedScene" uid="uid://db625opwfqpf8" path="res://scenes/animals/feeding_through.tscn" id="5_egvxt"]
-[ext_resource type="PackedScene" uid="uid://bekt21sxspmob" path="res://scenes/ui/feeding_ui.tscn" id="6_sdn6j"]
-[ext_resource type="PackedScene" uid="uid://dpw64dphs34yi" path="res://scenes/animals/harvest_animals.tscn" id="7_h0qjq"]
+[ext_resource type="Texture2D" uid="uid://c4yorbk70t6ed" path="res://assets/farming/farming_tiles.png" id="1_cm1ci"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_7oive"]
-size = Vector2(158, 157.5)
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3fvow"]
-texture = ExtResource("3_t08ey")
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5bhd8"]
+texture = ExtResource("1_cm1ci")
 0:0/0 = 0
 1:0/0 = 0
 2:0/0 = 0
@@ -1283,11 +1275,8 @@ texture = ExtResource("3_t08ey")
 2:29/0 = 0
 3:29/0 = 0
 4:29/0 = 0
-4:29/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 5:29/0 = 0
-5:29/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 6:29/0 = 0
-6:29/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 7:29/0 = 0
 8:29/0 = 0
 9:29/0 = 0
@@ -1333,9 +1322,7 @@ texture = ExtResource("3_t08ey")
 2:30/0 = 0
 3:30/0 = 0
 4:30/0 = 0
-4:30/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 6:30/0 = 0
-6:30/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 7:30/0 = 0
 8:30/0 = 0
 9:30/0 = 0
@@ -1379,11 +1366,8 @@ texture = ExtResource("3_t08ey")
 2:31/0 = 0
 3:31/0 = 0
 4:31/0 = 0
-4:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 5:31/0 = 0
-5:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 6:31/0 = 0
-6:31/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 7:31/0 = 0
 8:31/0 = 0
 9:31/0 = 0
@@ -1690,107 +1674,5 @@ texture = ExtResource("3_t08ey")
 12:49/0 = 0
 13:49/0 = 0
 
-[sub_resource type="TileSet" id="TileSet_o6cvp"]
-physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_3fvow")
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_87pjd"]
-atlas = ExtResource("3_t08ey")
-region = Rect2(0, 464, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_t08ey"]
-atlas = ExtResource("3_t08ey")
-region = Rect2(16, 464, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_3fvow"]
-atlas = ExtResource("3_t08ey")
-region = Rect2(32, 464, 16, 16)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_wrir4"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_87pjd")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_t08ey")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_3fvow")
-}],
-"loop": false,
-"name": &"open",
-"speed": 3.0
-}]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_baojd"]
-size = Vector2(32, 32)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_77ibm"]
-size = Vector2(16.6563, 14.7188)
-
-[node name="tierbereich" type="Area2D"]
-script = ExtResource("1_eee0d")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
-z_index = 6
-position = Vector2(87, 87.25)
-shape = SubResource("RectangleShape2D_7oive")
-
-[node name="ground" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAAAAAEAAAACAAoAAAAAAAAAAAADAAoAAAABAAAAAAABAAsAAAACAAAAAAABAAsAAAADAAAAAAABAAsAAAAEAAAAAAABAAsAAAAFAAAAAAABAAsAAAAGAAAAAAABAAsAAAAHAAAAAAABAAsAAAAIAAAAAAABAAsAAAAJAAAAAAABAAsAAAAKAAAAAAAEAAoAAAAKAAEAAAAAAAoAAAAKAAIAAAAAAAoAAAAKAAMAAAAAAAoAAAAKAAQAAAAAAAoAAAAKAAUAAAAAAAoAAAAKAAYAAAAAAAoAAAAKAAcAAAAAAAoAAAAKAAgAAAAAAAoAAAAKAAkAAAAAAAoAAAAKAAoAAAAEAAsAAAAAAAoAAAADAAsAAAABAAoAAAABAAkAAAACAAoAAAABAAkAAAADAAoAAAABAAkAAAAEAAoAAAABAAkAAAAFAAoAAAABAAkAAAAGAAoAAAABAAkAAAAHAAoAAAABAAkAAAAIAAoAAAABAAkAAAAJAAoAAAABAAkAAAAAAAkAAAACAAoAAAAAAAgAAAACAAoAAAAAAAcAAAACAAoAAAAAAAYAAAACAAoAAAAAAAUAAAACAAoAAAAAAAQAAAACAAoAAAAAAAMAAAACAAoAAAAAAAIAAAACAAoAAAADAAUAAAAFAAkAAAADAAQAAAAFAAkAAAADAAMAAAAFAAkAAAADAAIAAAAFAAkAAAADAAEAAAAFAAkAAAACAAEAAAAFAAkAAAABAAEAAAAFAAkAAAABAAIAAAAFAAkAAAABAAMAAAAFAAkAAAABAAQAAAAFAAkAAAABAAUAAAAFAAkAAAABAAYAAAAFAAkAAAABAAcAAAAFAAkAAAABAAgAAAAFAAkAAAABAAkAAAAFAAkAAAACAAkAAAAFAAkAAAACAAgAAAAFAAkAAAACAAcAAAAFAAkAAAACAAYAAAAFAAkAAAACAAUAAAAFAAkAAAACAAQAAAAFAAkAAAACAAMAAAAFAAkAAAACAAIAAAAFAAkAAAADAAYAAAAFAAkAAAADAAcAAAAFAAkAAAADAAgAAAAFAAkAAAADAAkAAAAFAAkAAAAEAAkAAAAFAAkAAAAEAAgAAAAFAAkAAAAEAAcAAAAFAAkAAAAEAAYAAAAFAAkAAAAEAAUAAAAFAAkAAAAEAAQAAAAFAAkAAAAEAAMAAAAFAAkAAAAEAAIAAAAFAAkAAAAEAAEAAAAFAAkAAAAFAAEAAAAFAAkAAAAFAAIAAAAFAAkAAAAFAAMAAAAFAAkAAAAFAAQAAAAFAAkAAAAFAAUAAAAFAAkAAAAFAAYAAAAFAAkAAAAFAAcAAAAFAAkAAAAFAAgAAAAFAAkAAAAFAAkAAAAFAAkAAAAGAAkAAAAFAAkAAAAGAAgAAAAFAAkAAAAGAAcAAAAFAAkAAAAGAAYAAAAFAAkAAAAGAAUAAAAFAAkAAAAGAAQAAAAFAAkAAAAGAAMAAAAFAAkAAAAGAAIAAAAFAAkAAAAGAAEAAAAFAAkAAAAHAAEAAAAFAAkAAAAHAAIAAAAFAAkAAAAHAAMAAAAFAAkAAAAHAAQAAAAFAAkAAAAHAAUAAAAFAAkAAAAHAAYAAAAFAAkAAAAHAAcAAAAFAAkAAAAHAAgAAAAFAAkAAAAHAAkAAAAFAAkAAAAIAAkAAAAFAAkAAAAIAAgAAAAFAAkAAAAIAAcAAAAFAAkAAAAIAAYAAAAFAAkAAAAIAAUAAAAFAAkAAAAIAAQAAAAFAAkAAAAIAAMAAAAFAAkAAAAIAAIAAAAFAAkAAAAIAAEAAAAFAAkAAAAJAAEAAAAFAAkAAAAJAAIAAAAFAAkAAAAJAAMAAAAFAAkAAAAJAAQAAAAFAAkAAAAJAAUAAAAFAAkAAAAJAAYAAAAFAAkAAAAJAAcAAAAFAAkAAAAJAAgAAAAFAAkAAAAJAAkAAAAFAAkAAAA=")
-tile_set = ExtResource("2_87pjd")
-
-[node name="fence" type="TileMapLayer" parent="."]
-position = Vector2(-16, -256)
-tile_map_data = PackedByteArray("AAABABAAAAAEAB0AAAABABEAAAAEAB4AAAABABIAAAAEAB4AAAABABMAAAAEAB4AAAACABAAAAAFAB0AAAADABAAAAAFAB0AAAAEABAAAAAFAB0AAAAFABAAAAAFAB0AAAAHABAAAAAFAB0AAAAIABAAAAAFAB0AAAAJABAAAAAFAB0AAAAKABAAAAAFAB0AAAALABAAAAAGAB0AAAALABEAAAAGAB4AAAALABIAAAAGAB4AAAALABMAAAAGAB4AAAALABQAAAAGAB4AAAALABUAAAAGAB4AAAALABYAAAAGAB4AAAALABcAAAAGAB4AAAALABgAAAAGAB4AAAALABkAAAAGAB4AAAALABoAAAAGAB8AAAAKABoAAAAFAB8AAAAJABoAAAAFAB8AAAAIABoAAAAFAB8AAAAHABoAAAAFAB8AAAAGABoAAAAFAB8AAAAFABoAAAAFAB8AAAAEABoAAAAFAB8AAAADABoAAAAFAB8AAAACABoAAAAFAB8AAAABABoAAAAEAB8AAAABABQAAAAEAB4AAAABABUAAAAEAB4AAAABABYAAAAEAB4AAAABABcAAAAEAB4AAAABABgAAAAEAB4AAAABABkAAAAEAB4AAAA=")
-tile_set = SubResource("TileSet_o6cvp")
-
-[node name="Area2D" type="Area2D" parent="."]
-position = Vector2(-16, -256)
-
-[node name="door" type="AnimatedSprite2D" parent="Area2D"]
-position = Vector2(104, 264)
-sprite_frames = SubResource("SpriteFrames_wrir4")
-animation = &"open"
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(104, 266)
-shape = SubResource("RectangleShape2D_baojd")
-
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(87.6719, 9)
-shape = SubResource("RectangleShape2D_77ibm")
-
-[node name="FeedingThrough" parent="." instance=ExtResource("5_egvxt")]
-position = Vector2(24, 35)
-
-[node name="FeedingThrough2" parent="." instance=ExtResource("5_egvxt")]
-position = Vector2(40, 35)
-
-[node name="FeedingThrough3" parent="." instance=ExtResource("5_egvxt")]
-position = Vector2(56, 35)
-
-[node name="FeedingThrough4" parent="." instance=ExtResource("5_egvxt")]
-position = Vector2(119, 35)
-
-[node name="FeedingThrough5" parent="." instance=ExtResource("5_egvxt")]
-position = Vector2(135, 35)
-
-[node name="FeedingThrough6" parent="." instance=ExtResource("5_egvxt")]
-position = Vector2(151, 35)
-
-[node name="FeedingUi" parent="." instance=ExtResource("6_sdn6j")]
-visible = false
-
-[node name="HarvestAnimals" parent="." instance=ExtResource("7_h0qjq")]
-visible = false
-z_index = 7
-offset_top = -44.0
-offset_bottom = -44.0
-
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[resource]
+sources/0 = SubResource("TileSetAtlasSource_5bhd8")
