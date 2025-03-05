@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://b24bo4ir8kd3p"]
+
+[ext_resource type="Script" uid="uid://dwvptup3a6fmx" path="res://scripts/ui/general/ui_slot.gd" id="1_pbvnn"]
+[ext_resource type="ButtonGroup" uid="uid://cramxeopijy2h" path="res://scripts/ui/slot_button_group.tres" id="2_c33en"]
+[ext_resource type="Texture2D" uid="uid://btehl6m8fdl2b" path="res://assets/ui_processed/general/slot.png" id="3_k2d31"]
+[ext_resource type="Texture2D" uid="uid://dg8lhf574fcim" path="res://assets/ui_processed/general/slot_pressed.png" id="4_xly0h"]
+[ext_resource type="Texture2D" uid="uid://r1iy8lyxd2k1" path="res://assets/ui_processed/general/slot_locked.png" id="5_aquq3"]
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oeedi"]
+
+[node name="slot_bg" type="PanelContainer"]
+offset_right = 18.0
+offset_bottom = 18.0
+theme_override_styles/panel = SubResource("StyleBoxEmpty_oeedi")
+script = ExtResource("1_pbvnn")
+
+[node name="button" type="TextureButton" parent="."]
+layout_mode = 2
+toggle_mode = true
+action_mode = 0
+button_group = ExtResource("2_c33en")
+texture_normal = ExtResource("3_k2d31")
+texture_pressed = ExtResource("4_xly0h")
+texture_disabled = ExtResource("5_aquq3")
+stretch_mode = 5
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+mouse_filter = 2
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_top = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="item" type="TextureRect" parent="MarginContainer"]
+layout_mode = 2
+mouse_filter = 2
+stretch_mode = 5
+
+[node name="amount" type="Label" parent="."]
+layout_mode = 2
+size_flags_vertical = 1
+horizontal_alignment = 2
+vertical_alignment = 2

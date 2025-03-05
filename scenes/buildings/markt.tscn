@@ -2,9 +2,9 @@
 
 [ext_resource type="Script" uid="uid://rrcf3dtn54ky" path="res://scripts/buildings/markt.gd" id="1_watet"]
 [ext_resource type="Texture2D" uid="uid://4dbiygs5np07" path="res://assets/buildings/farm_buildings_all.png" id="2_kk4sm"]
-[ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/buildings/farm_buildings_tileset.tres" id="2_v8obc"]
-[ext_resource type="PackedScene" uid="uid://bgatkx86onbu6" path="res://scenes/ui/ui_markt.tscn" id="3_ui650"]
-[ext_resource type="PackedScene" uid="uid://dqljx4yrs6ttv" path="res://scenes/ui/ui_selection.tscn" id="4_jpnmi"]
+[ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/tilesets/farm_buildings_tileset.tres" id="2_v8obc"]
+[ext_resource type="PackedScene" uid="uid://bgatkx86onbu6" path="res://scenes/ui/market/ui_markt.tscn" id="3_ui650"]
+[ext_resource type="PackedScene" uid="uid://dqljx4yrs6ttv" path="res://scenes/ui/market/ui_selection.tscn" id="4_jpnmi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bsug3"]
 size = Vector2(80, 45)

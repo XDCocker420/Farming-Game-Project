@@ -26,7 +26,7 @@ func _ready() -> void:
     
     SaveGame.add_to_inventory("carrot", 50)
     SaveGame.add_to_inventory("corn", 30)
-    SaveGame.add_to_inventory("eggplant", 40)
+    SaveGame.add_to_inventory("eggplant", 3)
     SaveGame.add_to_inventory("potatoe", 100)
 
 
