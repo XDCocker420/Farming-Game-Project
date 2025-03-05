@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=4 uid="uid://dema707kul0t2"]
+
+[ext_resource type="TileSet" uid="uid://er1084qjjvh3" path="res://assets/buildings/town_buildings.tres" id="1_0py2k"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d1lxo"]
+size = Vector2(63, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fdcep"]
+size = Vector2(76, 41.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ob0w1"]
+size = Vector2(75, 41)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_2fhr6"]
+size = Vector2(13.5, 20)
+
+[node name="library" type="StaticBody2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD7//n/AAAAACgAAAD7//r/AAAAACkAAAD7//v/AAAAACoAAAD7//z/AAAAACsAAAD7//3/AAAAACwAAAD8//n/AAABACgAAAD8//r/AAABACkAAAD8//v/AAABACoAAAD8//z/AAABACsAAAD8//3/AAABACwAAAD9//n/AAACACgAAAD9//r/AAACACkAAAD9//v/AAACACoAAAD9//z/AAACACsAAAD9//3/AAACACwAAAD9//7/AAACAC0AAAD9////AAACAC4AAAD+//n/AAADACgAAAD+//r/AAADACkAAAD+//v/AAADACoAAAD+//z/AAADACsAAAD+//3/AAADACwAAAD+//7/AAADAC0AAAD+////AAADAC4AAAD///n/AAAEACgAAAD///r/AAAEACkAAAD///v/AAAEACoAAAD///z/AAAEACsAAAD///3/AAAEACwAAAD///7/AAAEAC0AAAD/////AAAEAC4AAAAAAPn/AAAFACgAAAAAAPr/AAAFACkAAAAAAPv/AAAFACoAAAAAAPz/AAAFACsAAAAAAP3/AAAFACwAAAAAAP7/AAAFAC0AAAAAAP//AAAFAC4AAAABAPn/AAAGACgAAAABAPr/AAAGACkAAAABAPv/AAAGACoAAAABAPz/AAAGACsAAAABAP3/AAAGACwAAAABAP7/AAAGAC0AAAABAP//AAAGAC4AAAACAPn/AAAHACgAAAACAPr/AAAHACkAAAACAPv/AAAHACoAAAACAPz/AAAHACsAAAACAP3/AAAHACwAAAACAP7/AAAHAC0AAAACAP//AAAHAC4AAAADAPn/AAAIACgAAAADAPr/AAAIACkAAAADAPv/AAAIACoAAAADAPz/AAAIACsAAAADAP3/AAAIACwAAAAEAPn/AAAJACgAAAAEAPr/AAAJACkAAAAEAPv/AAAJACoAAAAEAPz/AAAJACsAAAAEAP3/AAAJACwAAAA=")
+tile_set = ExtResource("1_0py2k")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-2.5, -60)
+shape = SubResource("RectangleShape2D_d1lxo")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(31, -58)
+shape = SubResource("RectangleShape2D_fdcep")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+position = Vector2(-31, -58)
+shape = SubResource("RectangleShape2D_ob0w1")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="."]
+position = Vector2(-25, -19)
+shape = SubResource("RectangleShape2D_2fhr6")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="."]
+position = Vector2(26, -19)
+shape = SubResource("RectangleShape2D_2fhr6")
