@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=4 uid="uid://exndmgultn3t"]
+
+[ext_resource type="TileSet" uid="uid://er1084qjjvh3" path="res://assets/buildings/town_buildings.tres" id="1_r1v0t"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mf0cy"]
+size = Vector2(76, 20)
+
+[node name="Car1" type="StaticBody2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD+//z/AAAAACAAAAD+//3/AAAAACEAAAD+//7/AAAAACIAAAD+////AAAAACMAAAD///z/AAABACAAAAD///3/AAABACEAAAD///7/AAABACIAAAD/////AAABACMAAAAAAPz/AAACACAAAAAAAP3/AAACACEAAAAAAP7/AAACACIAAAAAAP//AAACACMAAAABAP3/AAADACEAAAABAP7/AAADACIAAAABAP//AAADACMAAAACAP3/AAAEACEAAAACAP7/AAAEACIAAAACAP//AAAEACMAAAA=")
+tile_set = ExtResource("1_r1v0t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(8, -13)
+shape = SubResource("RectangleShape2D_mf0cy")

@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=4 uid="uid://klt723iyid1e"]
+
+[ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/buildings/farm_buildings_tileset.tres" id="1_nakmm"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w6ojh"]
+size = Vector2(54.6875, 44)
+
+[node name="BasicTownHouse2" type="StaticBody2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD+//z/AAAsACIAAAD+//3/AAAsACMAAAD+//7/AAAsACQAAAD+////AAAsACUAAAD///v/AAAtACEAAAD///z/AAAtACIAAAD///3/AAAtACMAAAD///7/AAAtACQAAAD/////AAAtACUAAAAAAPv/AAAuACEAAAAAAPz/AAAuACIAAAAAAP3/AAAuACMAAAAAAP7/AAAuACQAAAAAAP//AAAuACUAAAABAPv/AAAvACEAAAABAPz/AAAvACIAAAABAP3/AAAvACMAAAABAP7/AAAvACQAAAABAP//AAAvACUAAAACAPz/AAAwACIAAAACAP3/AAAwACMAAAACAP7/AAAwACQAAAACAP//AAAwACUAAAD9//v/AAArACEAAAD9//z/AAArACIAAAD9//3/AAArACMAAAD9//7/AAArACQAAAD9////AAArACUAAAD+//v/AAAsACEAAAACAPv/AAAwACEAAAA=")
+tile_set = ExtResource("1_nakmm")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(2, -28)
+shape = SubResource("RectangleShape2D_w6ojh")
