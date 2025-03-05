@@ -11,7 +11,7 @@ signal accept(amount: int)
 @onready var price_spinbox: SpinBox = $HBoxContainer/MarginContainer2/VBoxContainer/price_spinbox
 
 var slot_list: Array
-var slot_scenen = preload("res://scenes/ui/ui_slot.tscn")
+var slot_scenen = preload("res://scenes/ui/general/ui_slot.tscn")
 
 
 func _ready() -> void:

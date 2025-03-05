@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=4 uid="uid://cr0shi20ndlv8"]
 
-[ext_resource type="TileSet" uid="uid://er1084qjjvh3" path="res://assets/buildings/town_buildings.tres" id="1_x4lom"]
+[ext_resource type="TileSet" uid="uid://er1084qjjvh3" path="res://assets/tilesets/town_buildings_tileset.tres" id="1_x4lom"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6sq0i"]
 size = Vector2(72.25, 50)

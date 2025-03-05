@@ -3,7 +3,6 @@
 [ext_resource type="TileSet" uid="uid://ns2vki3n45m" path="res://assets/tilesets/terrain_tileset.tres" id="1_rcopo"]
 [ext_resource type="PackedScene" uid="uid://c1i6syqlhigpc" path="res://scenes/farming/field.tscn" id="1_woii0"]
 
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rcopo"]
 size = Vector2(112, 112)
 

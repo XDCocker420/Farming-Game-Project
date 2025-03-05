@@ -1,9 +1,9 @@
 [gd_scene load_steps=6 format=3 uid="uid://ddms0lic2yxdt"]
 
-[ext_resource type="Texture2D" uid="uid://cnw3k8g4co7p3" path="res://assets/ui_processed/general/control_panel_fram_alt.png" id="1_songl"]
+[ext_resource type="Texture2D" uid="uid://cnw3k8g4co7p3" path="res://assets/ui/general/control_panel_fram_alt.png" id="1_songl"]
 [ext_resource type="Script" uid="uid://c41tnk4vcayuv" path="res://scripts/ui/task_caravan/ui_task_caravan_slot.gd" id="2_7uu4o"]
-[ext_resource type="Texture2D" uid="uid://6s150r16aav4" path="res://assets/ui_processed/icons/coin.png" id="2_eoh1t"]
-[ext_resource type="Texture2D" uid="uid://b4bicx7gu8j3v" path="res://assets/ui_processed/icons/exp.png" id="3_ek8yn"]
+[ext_resource type="Texture2D" uid="uid://6s150r16aav4" path="res://assets/ui/icons/coin.png" id="2_eoh1t"]
+[ext_resource type="Texture2D" uid="uid://b4bicx7gu8j3v" path="res://assets/ui/icons/exp.png" id="3_ek8yn"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_eoh1t"]
 texture = ExtResource("1_songl")

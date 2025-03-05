@@ -1,15 +1,15 @@
 {
 "@path": "res://addons/dialogic/Resources/character.gd",
 "@subpath": NodePath(""),
-"_translation_id": "",
-"color": Color(1, 1, 1, 1),
-"custom_info": {
+&"_translation_id": "",
+&"color": Color(1, 1, 1, 1),
+&"custom_info": {
 "sound_mood_default": "",
 "sound_moods": {},
 "style": ""
 },
-"default_portrait": "",
-"description": "Marlene wurde als Tochter einer Schneiderin und eines Tischlers in der Nähe von Rohundan geboren. Schon in jungen Jahren entdeckte sie ihre Liebe zu Pflanzen und ihrer heilenden Wirkung, da sie bei ihrer Großmutter häufig die Kräutergärten pflegte. Dabei erkannte sie nicht nur, wie wichtig eine gesunde Ernährung für Menschen und Tiere ist, sondern auch, wie viel Kraft in einem wohligen Tee oder einer sanften Tinktur stecken kann.
+&"default_portrait": "",
+&"description": "Marlene wurde als Tochter einer Schneiderin und eines Tischlers in der Nähe von Rohundan geboren. Schon in jungen Jahren entdeckte sie ihre Liebe zu Pflanzen und ihrer heilenden Wirkung, da sie bei ihrer Großmutter häufig die Kräutergärten pflegte. Dabei erkannte sie nicht nur, wie wichtig eine gesunde Ernährung für Menschen und Tiere ist, sondern auch, wie viel Kraft in einem wohligen Tee oder einer sanften Tinktur stecken kann.
 
 Mit etwa 16 Jahren lernte sie Theoden kennen, der ebenfalls in Rohundan lebte. Obwohl er ein paar Jahre älter war, verband die beiden schnell das gleiche ruhige Gemüt und ihre gemeinsame Freude an der Arbeit auf dem Hof. Als Theoden mit seinem Vater die Felder bestellte, war es oft Marlene, die ihnen danach eine Schüssel mit frischem Eintopf brachte. Die jungen Leute alberten dabei herum, erzählten sich Geschichten und schmiedeten Pläne für eine gemeinsame Zukunft.
 
@@ -22,10 +22,10 @@ Heute, da sie gemeinsam mit Theoden im fortgeschrittenen Alter ist und die harte
 In St. Catchpole hat sie sich längst einen Namen gemacht. Junge Menschen, die sich für Kräuter oder traditionelle Heilmethoden interessieren, finden in Marlene eine bereitwillige Lehrerin. Dabei hält sie stets an ihrem Motto fest: „Behandle jede Pflanze mit Respekt, dann wird sie dir helfen, wenn du sie brauchst.“  
 
 Obwohl sie Rohundan und die Erinnerungen an ihre gemeinsame Jugend mit Theoden manchmal vermisst, ist Marlene in St. Catchpole glücklich. Sie liebt es, wenn morgens das Marktleben erwacht und sich die Gassen allmählich mit fröhlichen Stimmen füllen. Dann packt sie ihre selbst genähten Kräutersäckchen ein und freut sich auf den Austausch mit den Menschen, die sie inzwischen Freunde nennt. In ihren funkelnden Augen erkennt man, dass sie sowohl die Wurzeln ihrer Vergangenheit als auch die Blüten ihrer Gegenwart in vollen Zügen genießt – so, wie es nur jemand kann, der in jeder Pflanze und jedem Moment das Wunderbare erkennt.",
-"display_name": "Marlene",
-"mirror": false,
-"nicknames": [""],
-"offset": Vector2(0, 0),
-"portraits": {},
-"scale": 1.0
+&"display_name": "Marlene",
+&"mirror": false,
+&"nicknames": [""],
+&"offset": Vector2(0, 0),
+&"portraits": {},
+&"scale": 1.0
 }

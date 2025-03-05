@@ -1,9 +1,19 @@
-[gd_scene load_steps=4 format=3 uid="uid://bqag013g7o0c6"]
+[gd_scene load_steps=7 format=3 uid="uid://bqag013g7o0c6"]
 
-[ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://old assets/gui/menu.png" id="1_yhy4n"]
 [ext_resource type="Script" uid="uid://bivhydgfe5vuc" path="res://scripts/ui/ui_farming.gd" id="1_ykl4m"]
 [ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://fonts/pokemon-dppt.ttf" id="3_4bkbb"]
 
+[sub_resource type="Resource" id="Resource_u85ek"]
+metadata/__load_path__ = "res://old assets/gui/menu.png"
+
+[sub_resource type="Resource" id="Resource_skane"]
+metadata/__load_path__ = "res://old assets/gui/menu.png"
+
+[sub_resource type="Resource" id="Resource_mjhml"]
+metadata/__load_path__ = "res://old assets/gui/menu.png"
+
+[sub_resource type="Resource" id="Resource_v4pp6"]
+metadata/__load_path__ = "res://old assets/gui/menu.png"
 
 [node name="FarmingUI" type="Control" groups=["ui_farming"]]
 z_index = 6
@@ -28,7 +38,7 @@ offset_right = 100.0
 offset_bottom = 90.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_yhy4n")
+texture = SubResource("Resource_u85ek")
 region_rect = Rect2(17, 1, 46, 46)
 
 [node name="PlantButtonField" type="NinePatchRect" parent="Menu"]
@@ -37,7 +47,7 @@ offset_left = 20.0
 offset_top = 17.0
 offset_right = 180.0
 offset_bottom = 62.0
-texture = ExtResource("1_yhy4n")
+texture = SubResource("Resource_skane")
 region_rect = Rect2(289, 49, 46, 14)
 
 [node name="PlantButton" type="Button" parent="Menu/PlantButtonField"]
@@ -60,7 +70,7 @@ offset_left = 20.0
 offset_top = 67.0
 offset_right = 180.0
 offset_bottom = 112.0
-texture = ExtResource("1_yhy4n")
+texture = SubResource("Resource_mjhml")
 region_rect = Rect2(289, 49, 46, 14)
 
 [node name="HarvestButton" type="Button" parent="Menu/HarvestButtonField"]
@@ -83,7 +93,7 @@ offset_left = 20.0
 offset_top = 117.0
 offset_right = 180.0
 offset_bottom = 162.0
-texture = ExtResource("1_yhy4n")
+texture = SubResource("Resource_v4pp6")
 region_rect = Rect2(289, 49, 46, 14)
 
 [node name="WaterButton" type="Button" parent="Menu/WaterButtonField"]

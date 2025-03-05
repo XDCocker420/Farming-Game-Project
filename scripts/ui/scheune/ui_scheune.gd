@@ -3,7 +3,7 @@ extends PanelContainer
 
 @onready var slots: GridContainer = $MarginContainer/ScrollContainer/slots
 
-var slot_scenen = preload("res://scenes/ui/ui_slot.tscn")
+var slot_scenen = preload("res://scenes/ui/general/ui_slot.tscn")
 var slot_list: Array
 
 func _ready() -> void:
