@@ -35,8 +35,8 @@ directories/dtl_directory={
 "talking1": "res://dialogs/timelines/talking1.dtl"
 }
 glossary/default_case_sensitive=true
-layout/style_list=["res://dialogs/story/visual_novel_style.tres", "res://dialogs/story/speaker_style.tres", "res://dialogs/story/dialog_style.tres"]
-layout/default_style="res://dialogs/story/visual_novel_style.tres"
+layout/style_list=["res://dialogs/styling/custom_styles.tres", "res://dialogs/styling/default.tres"]
+layout/default_style="res://dialogs/styling/custom_styles.tres"
 variables={
 "global": {
 "player_name": "",
