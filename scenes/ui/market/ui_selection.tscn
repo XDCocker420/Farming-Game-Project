@@ -1,0 +1,107 @@
+[gd_scene load_steps=5 format=3 uid="uid://dqljx4yrs6ttv"]
+
+[ext_resource type="Script" uid="uid://w6edb2pfs1es" path="res://scripts/ui/market/ui_selection.gd" id="1_30kxl"]
+[ext_resource type="Texture2D" uid="uid://hmamh080tsxk" path="res://assets/ui/general/accept.png" id="2_faihn"]
+[ext_resource type="Texture2D" uid="uid://dty1avx142hry" path="res://assets/ui/general/cancel.png" id="3_e2322"]
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_36lxu"]
+color = Color(0.458824, 0.352941, 0.239216, 1)
+thickness = 2
+vertical = true
+
+[node name="ui_selection" type="PanelContainer"]
+offset_right = 75.0
+offset_bottom = 89.0
+size_flags_horizontal = 3
+size_flags_vertical = 3
+script = ExtResource("1_30kxl")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 2
+theme_override_constants/margin_top = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="ScrollContainer" type="ScrollContainer" parent="HBoxContainer/MarginContainer"]
+custom_minimum_size = Vector2(0, 74)
+layout_mode = 2
+horizontal_scroll_mode = 0
+vertical_scroll_mode = 3
+
+[node name="slots" type="GridContainer" parent="HBoxContainer/MarginContainer/ScrollContainer"]
+custom_minimum_size = Vector2(62, 0)
+layout_mode = 2
+columns = 3
+
+[node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_styles/separator = SubResource("StyleBoxLine_36lxu")
+
+[node name="MarginContainer2" type="MarginContainer" parent="HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_right = 2
+theme_override_constants/margin_bottom = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="HBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Amount:"
+
+[node name="amount_spinbox" type="SpinBox" parent="HBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+min_value = 1.0
+max_value = 10.0
+value = 1.0
+alignment = 1
+update_on_text_changed = true
+select_all_on_focus = true
+
+[node name="Label2" type="Label" parent="HBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Price:"
+
+[node name="price_spinbox" type="SpinBox" parent="HBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+min_value = 1.0
+value = 1.0
+alignment = 1
+update_on_text_changed = true
+suffix = "$"
+select_all_on_focus = true
+
+[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="accept" type="TextureButton" parent="HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 2
+size_flags_vertical = 4
+action_mode = 0
+texture_normal = ExtResource("2_faihn")
+
+[node name="cancel" type="TextureButton" parent="HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 10
+size_flags_vertical = 4
+action_mode = 0
+texture_normal = ExtResource("3_e2322")

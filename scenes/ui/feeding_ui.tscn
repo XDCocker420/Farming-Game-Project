@@ -1,7 +1,9 @@
 [gd_scene load_steps=3 format=3 uid="uid://bekt21sxspmob"]
 
-[ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_upjnr"]
 [ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://fonts/pokemon-dppt.ttf" id="2_wlpoc"]
+
+[sub_resource type="Resource" id="Resource_82urh"]
+metadata/__load_path__ = "res://old assets/gui/menu.png"
 
 [node name="FeedingUi" type="Control"]
 z_index = 7
@@ -27,7 +29,7 @@ offset_bottom = -258.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(2, 1.718)
-texture = ExtResource("1_upjnr")
+texture = SubResource("Resource_82urh")
 region_rect = Rect2(113, 1, 46, 46)
 
 [node name="Schlachten" type="Button" parent="Menu"]

@@ -1,128 +1,96 @@
-[gd_scene load_steps=11 format=3 uid="uid://bqogj2noiv4ya"]
+[gd_scene load_steps=4 format=4 uid="uid://bqogj2noiv4ya"]
 
-[ext_resource type="Script" uid="uid://chedjllhentso" path="res://scripts/farming/farming_area.gd" id="1_or51d"]
-[ext_resource type="PackedScene" uid="uid://lo6utycpenq8" path="res://scenes/farming/farmFieldLeft.tscn" id="2_pdgie"]
-[ext_resource type="PackedScene" uid="uid://cri6prl6lptm8" path="res://scenes/farming/farmFieldMiddle.tscn" id="3_fq8gb"]
-[ext_resource type="PackedScene" uid="uid://dgbjtfg8j188k" path="res://scenes/farming/farmFieldRight.tscn" id="4_rach3"]
-[ext_resource type="PackedScene" uid="uid://bqag013g7o0c6" path="res://scenes/ui/ui_farming.tscn" id="5_xk3l4"]
-[ext_resource type="PackedScene" uid="uid://dawrar87h0xsx" path="res://scenes/ui/ui_crop_selection.tscn" id="6_ykl4m"]
-[ext_resource type="PackedScene" uid="uid://kuegxrcss13s" path="res://scenes/ui/ui_plant_mode.tscn" id="7_abc12"]
-[ext_resource type="PackedScene" uid="uid://dpj4xransfcws" path="res://scenes/ui/ui_water_mode.tscn" id="8_def34"]
-[ext_resource type="PackedScene" uid="uid://c37fb3qfu8h0r" path="res://scenes/ui/ui_harvest_mode.tscn" id="9_ghi56"]
+[ext_resource type="TileSet" uid="uid://ns2vki3n45m" path="res://assets/tilesets/terrain_tileset.tres" id="1_rcopo"]
+[ext_resource type="PackedScene" uid="uid://c1i6syqlhigpc" path="res://scenes/farming/field.tscn" id="1_woii0"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_6vrsi"]
-size = Vector2(488, 412)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rcopo"]
+size = Vector2(112, 112)
 
-[node name="farming_area" type="Area2D" groups=["farming_areas"]]
-script = ExtResource("1_or51d")
+[node name="Area2D" type="Area2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAAAAAAADAAoAAAAAAAYAAAADAAsAAAAAAAUAAAACAAoAAAAAAAQAAAACAAoAAAAAAAMAAAACAAoAAAAAAAIAAAACAAoAAAAAAAEAAAACAAoAAAABAAAAAAABAAsAAAACAAAAAAABAAsAAAADAAAAAAABAAsAAAAEAAAAAAABAAsAAAAFAAAAAAABAAsAAAAGAAAAAAAEAAoAAAAGAAEAAAAAAAoAAAAGAAIAAAAAAAoAAAAGAAMAAAAAAAoAAAAGAAQAAAAAAAoAAAAGAAUAAAAAAAoAAAABAAYAAAABAAkAAAACAAYAAAABAAkAAAADAAYAAAABAAkAAAAEAAYAAAABAAkAAAAFAAYAAAABAAkAAAAGAAYAAAAEAAsAAAA=")
+tile_set = ExtResource("1_rcopo")
+
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+position = Vector2(16, 16)
+
+[node name="field" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(8, 8)
+
+[node name="field2" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(24, 8)
+
+[node name="field3" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(40, 8)
+
+[node name="field4" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(56, 8)
+
+[node name="field5" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(72, 8)
+
+[node name="field6" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(8, 24)
+
+[node name="field7" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(24, 24)
+
+[node name="field8" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(40, 24)
+
+[node name="field9" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(56, 24)
+
+[node name="field10" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(72, 24)
+
+[node name="field11" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(8, 40)
+
+[node name="field12" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(24, 40)
+
+[node name="field13" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(40, 40)
+
+[node name="field14" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(56, 40)
+
+[node name="field15" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(72, 40)
+
+[node name="field16" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(8, 56)
+
+[node name="field17" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(24, 56)
+
+[node name="field18" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(40, 56)
+
+[node name="field19" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(56, 56)
+
+[node name="field20" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(72, 56)
+
+[node name="field21" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(8, 72)
+
+[node name="field22" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(24, 72)
+
+[node name="field23" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(40, 72)
+
+[node name="field24" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(56, 72)
+
+[node name="field25" parent="CanvasGroup" instance=ExtResource("1_woii0")]
+position = Vector2(72, 72)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 visible = false
-shape = SubResource("RectangleShape2D_6vrsi")
-
-[node name="FarmingUI" parent="." instance=ExtResource("5_xk3l4")]
-visible = false
-
-[node name="CropSelectionUI" parent="." instance=ExtResource("6_ykl4m")]
-visible = false
-
-[node name="PlantModeUI" parent="." instance=ExtResource("7_abc12")]
-visible = false
-
-[node name="WaterModeUI" parent="." instance=ExtResource("8_def34")]
-visible = false
-
-[node name="HarvestModeUI" parent="." instance=ExtResource("9_ghi56")]
-visible = false
-
-[node name="long_field1" type="Node2D" parent="."]
-position = Vector2(0, -158)
-
-[node name="field1" parent="long_field1" instance=ExtResource("2_pdgie")]
-position = Vector2(-192, 0)
-
-[node name="field2" parent="long_field1" instance=ExtResource("3_fq8gb")]
-position = Vector2(-128, 0)
-
-[node name="field3" parent="long_field1" instance=ExtResource("3_fq8gb")]
-position = Vector2(-64, 0)
-
-[node name="field4" parent="long_field1" instance=ExtResource("3_fq8gb")]
-
-[node name="field5" parent="long_field1" instance=ExtResource("3_fq8gb")]
-position = Vector2(64, 0)
-
-[node name="field6" parent="long_field1" instance=ExtResource("3_fq8gb")]
-position = Vector2(128, 0)
-
-[node name="field7" parent="long_field1" instance=ExtResource("4_rach3")]
-position = Vector2(192, 0)
-
-[node name="long_field2" type="Node2D" parent="."]
-position = Vector2(0, -54)
-
-[node name="field1" parent="long_field2" instance=ExtResource("2_pdgie")]
-position = Vector2(-192, 0)
-
-[node name="field2" parent="long_field2" instance=ExtResource("3_fq8gb")]
-position = Vector2(-128, 0)
-
-[node name="field3" parent="long_field2" instance=ExtResource("3_fq8gb")]
-position = Vector2(-64, 0)
-
-[node name="field4" parent="long_field2" instance=ExtResource("3_fq8gb")]
-
-[node name="field5" parent="long_field2" instance=ExtResource("3_fq8gb")]
-position = Vector2(64, 0)
-
-[node name="field6" parent="long_field2" instance=ExtResource("3_fq8gb")]
-position = Vector2(128, 0)
-
-[node name="field7" parent="long_field2" instance=ExtResource("4_rach3")]
-position = Vector2(192, 0)
-
-[node name="long_field3" type="Node2D" parent="."]
-position = Vector2(0, 50)
-
-[node name="field1" parent="long_field3" instance=ExtResource("2_pdgie")]
-position = Vector2(-192, 0)
-
-[node name="field2" parent="long_field3" instance=ExtResource("3_fq8gb")]
-position = Vector2(-128, 0)
-
-[node name="field3" parent="long_field3" instance=ExtResource("3_fq8gb")]
-position = Vector2(-64, 0)
-
-[node name="field4" parent="long_field3" instance=ExtResource("3_fq8gb")]
-
-[node name="field5" parent="long_field3" instance=ExtResource("3_fq8gb")]
-position = Vector2(64, 0)
-
-[node name="field6" parent="long_field3" instance=ExtResource("3_fq8gb")]
-position = Vector2(128, 0)
-
-[node name="field7" parent="long_field3" instance=ExtResource("4_rach3")]
-position = Vector2(192, 0)
-
-[node name="long_field4" type="Node2D" parent="."]
-position = Vector2(0, 154)
-
-[node name="field1" parent="long_field4" instance=ExtResource("2_pdgie")]
-position = Vector2(-192, 0)
-
-[node name="field2" parent="long_field4" instance=ExtResource("3_fq8gb")]
-position = Vector2(-128, 0)
-
-[node name="field3" parent="long_field4" instance=ExtResource("3_fq8gb")]
-position = Vector2(-64, 0)
-
-[node name="field4" parent="long_field4" instance=ExtResource("3_fq8gb")]
-
-[node name="field5" parent="long_field4" instance=ExtResource("3_fq8gb")]
-position = Vector2(64, 0)
-
-[node name="field6" parent="long_field4" instance=ExtResource("3_fq8gb")]
-position = Vector2(128, 0)
-
-[node name="field7" parent="long_field4" instance=ExtResource("4_rach3")]
-position = Vector2(192, 0)
+position = Vector2(56, 56)
+shape = SubResource("RectangleShape2D_rcopo")

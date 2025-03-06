@@ -1,7 +1,9 @@
 [gd_scene load_steps=4 format=3 uid="uid://dpw64dphs34yi"]
 
-[ext_resource type="Texture2D" uid="uid://cfjfflsigxxw1" path="res://assets/gui/menu.png" id="1_et3h1"]
 [ext_resource type="FontFile" uid="uid://xaiy7t3lavld" path="res://fonts/pokemon-dppt.ttf" id="2_kb1wq"]
+
+[sub_resource type="Resource" id="Resource_x374y"]
+metadata/__load_path__ = "res://old assets/gui/menu.png"
 
 [sub_resource type="LabelSettings" id="LabelSettings_jurwd"]
 font = ExtResource("2_kb1wq")
@@ -30,7 +32,7 @@ offset_right = 110.0
 offset_bottom = 20.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("1_et3h1")
+texture = SubResource("Resource_x374y")
 region_rect = Rect2(289, 65, 46, 14)
 
 [node name="PlantLabel" type="Label" parent="PlantModeField"]

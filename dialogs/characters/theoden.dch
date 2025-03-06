@@ -1,0 +1,37 @@
+{
+"@path": "res://addons/dialogic/Resources/character.gd",
+"@subpath": NodePath(""),
+&"_translation_id": "",
+&"color": Color(0.526159, 0.796875, 0.0435791, 1),
+&"custom_info": {
+"sound_mood_default": "",
+"sound_moods": {},
+"style": ""
+},
+&"default_portrait": "front",
+&"description": "Theoden wurde in Rohundan geboren, einer kleinen Ortschaft südwestlich von St. Catchpole. Seine Eltern bewirtschafteten ein kleines Stück Land am Rande des Dorfes, wo sie vor allem Viehzucht betrieben. Schon als Kind half Theoden jeden Morgen beim Füttern der Tiere und ging mit seinem Vater auf die benachbarten Felder, um Saatgut auszusäen oder Unkraut zu jäten. Zwar war das Leben in Rohundan einfach und oft hart, doch lernte er schon früh, jede kleine Ernte und jeden noch so winzigen Fortschritt zu schätzen.
+
+Als Theoden heranwuchs, wuchs auch sein Wunsch, mehr von der Welt jenseits der kleinen Felder zu sehen. Dennoch blieb er seiner Familie und seinem Heimatdorf stets verbunden. Als junger Mann heiratete er seine Jugendliebe Marlena, mit der er später zwei Kinder bekam. Um seiner jungen Familie ein besseres Leben zu ermöglichen, zog er vor über 40 Jahren nach St. Catchpole – in der Hoffnung auf gute Handelsbeziehungen, größere Märkte und neue Möglichkeiten.
+
+Das Leben in St. Catchpole gefiel ihm auf Anhieb. Er verliebte sich in das geschäftige Treiben der Bauernstände und die bunten Märkte, auf denen es immer etwas zu entdecken gab: exotisches Gemüse, seltene Tierarten und Gerätschaften, die er aus Rohundan nicht kannte. Zusammen mit Marlena gründete er einen kleinen Hof am Stadtrand, wo er sich auf den Anbau seltener Kräuter und Heilpflanzen spezialisierte. Sein Hof florierte schnell, weil die Bewohner von St. Catchpole seine Kenntnisse über die heilenden Eigenschaften so mancher Pflanze sehr zu schätzen wussten.
+
+Heute, im Alter von 72 Jahren, ist Theoden ein ruhiger, freundlicher und äußerst hilfsbereiter Mann. Obwohl er körperlich nicht mehr so kräftig ist wie früher, schlägt er selten eine Bitte ab. Wenn junge Farmer Rat suchen, steht er stets mit Tipps bereit – vom richtigen Saatgut bis hin zu bewährten Methoden beim Düngen. Auch zeigt er gern, wie man Heilpflanzen pflegt und wie Kräuter Mischkulturen unterstützen können. 
+
+Er vermisst manchmal die wilden Wiesen und den klaren Bach in Rohundan, doch St. Catchpole ist längst zu seiner Heimat geworden. Wenn er an den Markttagen in der Stadt unterwegs ist, sieht man ihm seine Freude an: Er taucht gern in das bunte Treiben ein, holt sich Inspiration für neue Rezepte – und findet hin und wieder alte Bekannte, mit denen er fröhlich in Kindheitserinnerungen schwelgt. So bleibt Theoden ein allseits geschätzter, gut vernetzter und weiser Ratgeber, der St. Catchpole mit seiner Erfahrung und seinem offenen Herzen bereichert.",
+&"display_name": "Theoden",
+&"mirror": false,
+&"nicknames": ["Theo"],
+&"offset": Vector2(0, 0),
+&"portraits": {
+"front": {
+"export_overrides": {
+"image": "\"res://assets/characters/theoden.png\""
+},
+"mirror": false,
+"offset": Vector2(0, 0),
+"scale": 1,
+"scene": ""
+}
+},
+&"scale": 1.0
+}

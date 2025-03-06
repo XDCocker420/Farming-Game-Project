@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=4 uid="uid://cr0shi20ndlv8"]
+
+[ext_resource type="TileSet" uid="uid://er1084qjjvh3" path="res://assets/tilesets/town_buildings_tileset.tres" id="1_x4lom"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6sq0i"]
+size = Vector2(72.25, 50)
+
+[node name="LuckyHouse" type="StaticBody2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD9//v/AAAAADAAAAD9//z/AAAAADEAAAD9//3/AAAAADIAAAD9//7/AAAAADMAAAD9////AAAAADQAAAD+//v/AAABADAAAAD+//z/AAABADEAAAD+//3/AAABADIAAAD+//7/AAABADMAAAD+////AAABADQAAAD///v/AAACADAAAAD///z/AAACADEAAAD///3/AAACADIAAAD///7/AAACADMAAAD/////AAACADQAAAAAAPv/AAADADAAAAAAAPz/AAADADEAAAAAAP3/AAADADIAAAAAAP7/AAADADMAAAAAAP//AAADADQAAAABAPv/AAAEADAAAAABAPz/AAAEADEAAAABAP3/AAAEADIAAAABAP7/AAAEADMAAAABAP//AAAEADQAAAACAPv/AAAFADAAAAACAPz/AAAFADEAAAACAP3/AAAFADIAAAACAP7/AAAFADMAAAACAP//AAAFADQAAAD+//r/AAABAC8AAAD///r/AAACAC8AAAAAAPr/AAADAC8AAAABAPr/AAAEAC8AAAA=")
+tile_set = ExtResource("1_x4lom")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -28)
+shape = SubResource("RectangleShape2D_6sq0i")

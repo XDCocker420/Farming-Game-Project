@@ -1,18 +1,14 @@
-[gd_scene load_steps=7 format=3 uid="uid://c5qr8p87stfmr"]
+[gd_scene load_steps=6 format=3 uid="uid://c5qr8p87stfmr"]
 
-[ext_resource type="Texture2D" uid="uid://b5alookycpdxd" path="res://assets/map/farmlands_64x64.png" id="1_7mxrh"]
 [ext_resource type="Script" uid="uid://h5ktdbskdgtv" path="res://scripts/crops/crop.gd" id="2_5ecqq"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5c5bm"]
-atlas = ExtResource("1_7mxrh")
 region = Rect2(1728, 320, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_2k2pk"]
-atlas = ExtResource("1_7mxrh")
 region = Rect2(1792, 320, 64, 64)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hqtrh"]
-atlas = ExtResource("1_7mxrh")
 region = Rect2(1856, 320, 64, 64)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_67loh"]

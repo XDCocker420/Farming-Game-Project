@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=4 uid="uid://d4fb1mmhq7kai"]
+
+[ext_resource type="TileSet" uid="uid://er1084qjjvh3" path="res://assets/tilesets/town_buildings_tileset.tres" id="1_iocdk"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_d1lxo"]
+size = Vector2(63, 80)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fdcep"]
+size = Vector2(76, 41.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ob0w1"]
+size = Vector2(75, 41)
+
+[node name="School" type="StaticBody2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD+//z/AAAEAA4AAAD+//3/AAAEAA8AAAD+//7/AAAEABAAAAD+////AAAEABEAAAD///v/AAAFAA0AAAD///z/AAAFAA4AAAD///3/AAAFAA8AAAD///7/AAAFABAAAAD/////AAAFABEAAAAAAPv/AAAGAA0AAAAAAPz/AAAGAA4AAAAAAP3/AAAGAA8AAAAAAP7/AAAGABAAAAAAAP//AAAGABEAAAABAPv/AAAHAA0AAAABAPz/AAAHAA4AAAABAP3/AAAHAA8AAAABAP7/AAAHABAAAAABAP//AAAHABEAAAACAPz/AAAIAA4AAAACAP3/AAAIAA8AAAACAP7/AAAIABAAAAACAP//AAAIABEAAAD9//v/AAADAA0AAAD9//z/AAADAA4AAAD9//3/AAADAA8AAAD9//7/AAADABAAAAD9////AAADABEAAAD+//v/AAAEAA0AAAACAPv/AAAIAA0AAAD6//v/AAAAAA0AAAD6//z/AAAAAA4AAAD6//3/AAAAAA8AAAD6//7/AAAAABAAAAD7//v/AAABAA0AAAD7//z/AAABAA4AAAD7//3/AAABAA8AAAD7//7/AAABABAAAAD8//v/AAACAA0AAAD8//z/AAACAA4AAAD8//3/AAACAA8AAAD8//7/AAACABAAAAD9//r/AAADAAwAAAD+//r/AAAEAAwAAAD///n/AAAFAAsAAAD///r/AAAFAAwAAAAAAPn/AAAGAAsAAAAAAPr/AAAGAAwAAAABAPr/AAAHAAwAAAACAPr/AAAIAAwAAAADAPv/AAAJAA0AAAADAPz/AAAJAA4AAAADAP3/AAAJAA8AAAADAP7/AAAJABAAAAAEAPv/AAAKAA0AAAAEAPz/AAAKAA4AAAAEAP3/AAAKAA8AAAAEAP7/AAAKABAAAAAFAPv/AAALAA0AAAAFAPz/AAALAA4AAAAFAP3/AAALAA8AAAAFAP7/AAALABAAAAA=")
+tile_set = ExtResource("1_iocdk")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -44)
+shape = SubResource("RectangleShape2D_d1lxo")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(53, -46.625)
+shape = SubResource("RectangleShape2D_fdcep")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+position = Vector2(-53.5, -46.5)
+shape = SubResource("RectangleShape2D_ob0w1")
