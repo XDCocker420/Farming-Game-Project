@@ -42,5 +42,5 @@ func get_all_level() -> Array[String]:
 	return items
 	
 func get_api_key() -> String:
-	var env = FileAccess.open("res://.env", FileAccess.READ)
+	var env = FileAccess.open("res://imp.env", FileAccess.READ)
 	return env.get_as_text().split("=")[1]
