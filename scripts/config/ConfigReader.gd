@@ -40,3 +40,7 @@ func get_all_level() -> Array[String]:
 		if has_reached_level(i):
 			items.append(i)
 	return items
+	
+func get_api_key() -> String:
+	var env = FileAccess.open("res://.env", FileAccess.READ)
+	return env.get_as_text().split("=")[1]

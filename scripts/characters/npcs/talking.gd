@@ -13,10 +13,10 @@ func _ready() -> void:
 	Dialogic.signal_event.connect(_on_dialogic_signal)
 
 func _on_dialogic_signal(argument:String):
-	print(argument)
 	if argument == "trigger_ai":
+		
 		# Define your API key and URL.
-		var api_key = "API_KEY"  # Replace with your actual API key.
+		var api_key = ConfigReader.get_api_key()
 		var url = "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=" + api_key
 
 		# Set up the headers.
