@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://diybuopnuo1hy" path="res://scripts/farming/tierbereich.gd" id="1_eee0d"]
 [ext_resource type="TileSet" uid="uid://ns2vki3n45m" path="res://assets/tilesets/terrain_tileset.tres" id="2_87pjd"]
-[ext_resource type="Texture2D" uid="uid://0wcu3ljilipe" path="res://assets/farming/farming_tiles.png" id="3_t08ey"]
+[ext_resource type="Texture2D" uid="uid://c4yorbk70t6ed" path="res://assets/farming/farming_tiles.png" id="3_t08ey"]
 [ext_resource type="PackedScene" uid="uid://db625opwfqpf8" path="res://scenes/animals/feeding_through.tscn" id="5_egvxt"]
 [ext_resource type="PackedScene" uid="uid://bekt21sxspmob" path="res://scenes/ui/feeding_ui.tscn" id="6_sdn6j"]
 [ext_resource type="PackedScene" uid="uid://dpw64dphs34yi" path="res://scenes/animals/harvest_animals.tscn" id="7_h0qjq"]

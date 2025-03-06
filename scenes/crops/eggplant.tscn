@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://ddg4dek5yblxw"]
 
-[ext_resource type="Texture2D" uid="uid://dvgtopcu3y02r" path="res://assets/farming/crops.png" id="1_gwsck"]
-[ext_resource type="Texture2D" uid="uid://dyk2bh8sun513" path="res://assets/farming/crops_wet.png" id="2_7sga0"]
+[ext_resource type="Texture2D" uid="uid://c1urt7huhrc1x" path="res://assets/farming/crops.png" id="1_gwsck"]
+[ext_resource type="Texture2D" uid="uid://bpvbftcuumbiy" path="res://assets/farming/crops_wet.png" id="2_7sga0"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_383ue"]
 atlas = ExtResource("1_gwsck")

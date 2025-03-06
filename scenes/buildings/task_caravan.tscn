@@ -3,20 +3,20 @@
 [ext_resource type="Script" uid="uid://dj0rn07xqryrx" path="res://scripts/buildings/task_caravan.gd" id="1_akif0"]
 [ext_resource type="TileSet" uid="uid://er1084qjjvh3" path="res://assets/tilesets/town_buildings_tileset.tres" id="2_hrwff"]
 [ext_resource type="PackedScene" uid="uid://cjo2tht8bf4ad" path="res://scenes/ui/task_caravan/ui_task_caravan.tscn" id="3_6kx0e"]
-[ext_resource type="Texture2D" uid="uid://rcm6x3v7ffgu" path="res://assets/buildings/town_buildings_all.png" id="3_elecb"]
+[ext_resource type="Texture2D" uid="uid://bs34aotdeiude" path="res://assets/buildings/town_buildings_all.png" id="3_elecb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hrwff"]
 size = Vector2(86, 43)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_a70st"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_elecb"]
 atlas = ExtResource("3_elecb")
 region = Rect2(384, 1152, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_wrjca"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_a70st"]
 atlas = ExtResource("3_elecb")
 region = Rect2(400, 1152, 16, 32)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_aijtv"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_wrjca"]
 atlas = ExtResource("3_elecb")
 region = Rect2(416, 1152, 16, 32)
 
@@ -24,13 +24,13 @@ region = Rect2(416, 1152, 16, 32)
 animations = [{
 "frames": [{
 "duration": 1.0,
+"texture": SubResource("AtlasTexture_elecb")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_a70st")
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_wrjca")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_aijtv")
 }],
 "loop": false,
 "name": &"open",

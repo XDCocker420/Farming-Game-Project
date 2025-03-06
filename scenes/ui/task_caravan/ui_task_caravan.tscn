@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cjo2tht8bf4ad"]
 
-[ext_resource type="Texture2D" uid="uid://j2l10jjifc2g" path="res://assets/ui/general/contract_board_frame.png" id="1_ki84q"]
+[ext_resource type="Texture2D" uid="uid://cbofvk7hb1eul" path="res://assets/ui/general/contract_board_frame.png" id="1_ki84q"]
 [ext_resource type="Script" uid="uid://bsolm0vqjx8vk" path="res://scripts/ui/task_caravan/ui_task_caravan.gd" id="2_0m8mx"]
 [ext_resource type="PackedScene" uid="uid://ddms0lic2yxdt" path="res://scenes/ui/task_caravan/ui_task_caravan_slot.tscn" id="2_8fpjj"]
 [ext_resource type="PackedScene" uid="uid://u44hmkynjs5r" path="res://scenes/ui/task_caravan/ui_task_caravan_task.tscn" id="3_0m8mx"]
@@ -34,32 +34,32 @@ layout_mode = 2
 layout_mode = 2
 columns = 3
 
-[node name="ui_contractboard_slot" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
+[node name="ui_task_caravan_slot" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 
-[node name="ui_contractboard_slot2" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
+[node name="ui_task_caravan_slot2" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 
-[node name="ui_contractboard_slot3" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
+[node name="ui_task_caravan_slot3" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 
-[node name="ui_contractboard_slot4" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
+[node name="ui_task_caravan_slot4" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 
-[node name="ui_contractboard_slot5" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
+[node name="ui_task_caravan_slot5" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 
-[node name="ui_contractboard_slot6" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
+[node name="ui_task_caravan_slot6" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 
-[node name="ui_contractboard_slot7" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
+[node name="ui_task_caravan_slot7" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 
-[node name="ui_contractboard_slot8" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
+[node name="ui_task_caravan_slot8" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 
-[node name="ui_contractboard_slot9" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
+[node name="ui_task_caravan_slot9" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 
-[node name="ui_contractboard_task" parent="MarginContainer/HBoxContainer" instance=ExtResource("3_0m8mx")]
+[node name="ui_task_caravan_task" parent="MarginContainer/HBoxContainer" instance=ExtResource("3_0m8mx")]
 layout_mode = 2
