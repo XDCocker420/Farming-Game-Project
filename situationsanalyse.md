@@ -43,8 +43,10 @@
 - NPCs
 
 ## Endprodukt
-Ein Spiel das wie gefolgt ablauft: Der Spieler baut seine Pflanzen an und züchtet seine Tiere und verkauft die Produkte am Markt weiter. Nebenbei kann er noch Tasks für die NPCs bei dem Task Caravan erstellen wofür er extra Geld und sogar XP Punkte bekommt. Mit dem XP Punkten steigt sein Level. Mit bestimmten Leveln kann er bestimmte Sachen freischalten, wie z.B. neue Pflanzen. Diese kann er dann wieder anbauen und am Markt verkaufen. Bei dem Task Caravan wird oft nach Items gefragt, die man nicht einfach so bekommen kann. Dafür gibt es Produktionsgebäuden, wo man weitere Items herstellen kann (Milch -> Käse). Ziel des Spiels ist, alle Items freizuschalten um die Stadt mit immer besseren Lebensmittel zu versorgen.
+Ein Spiel das wie gefolgt ablauft: Der Spieler baut seine Pflanzen an und züchtet seitiere und verkauft die Produkte am Markt weiter. Nebenbei kann er noch Tasks für die NPCs bei dem Task Caravan erstellen wofür er extra Geld und sogar XP Punkte bekommt. Mit dem XP Punkten steigt sein Level. Mit bestimmten Leveln kann er bestimmte Sachen freischalten, wie z.B. neue Pflanzen. Diese kann er dann wieder anbauen und am Markt verkaufen. Bei dem Task Caravan wird oft nach Items gefragt, die man nicht einfach so bekommen kann. Dafür gibt es Produktionsgebäuden, wo man weitere Items herstellen kann (Milch -> Käse). Ziel des Spiels ist, alle Items freizuschalten um die Stadt mit immer besseren Lebensmittel zu versorgen.
 
+# Ziel / Story
+Du gehts in dein lieblings Pub und sie bieten dir das beste Bier der Welt an. Allerdings kostet der Spaß 100.000$ und du kannst es dir nicht leisten. Deshalb kommst du auf logische Idee eine Farm zu gründen.
 
 # Fragen
 
