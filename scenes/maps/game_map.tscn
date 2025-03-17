@@ -1,7 +1,7 @@
 [gd_scene load_steps=27 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
-[ext_resource type="Texture2D" uid="uid://b1nbjqmtu0csy" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
+[ext_resource type="Texture2D" uid="uid://b7f3cctim7uf0" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
 [ext_resource type="PackedScene" uid="uid://by8sfn1p2h5nh" path="res://scenes/buildings/player_house.tscn" id="4_1xy5d"]
 [ext_resource type="PackedScene" uid="uid://bcqltpe3a1fi2" path="res://scenes/buildings/Futterhaus.tscn" id="5_77frd"]
 [ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="5_sdtop"]
@@ -22,7 +22,6 @@
 [ext_resource type="PackedScene" uid="uid://dsxmfnvn3ym2u" path="res://scenes/buildings/car_2.tscn" id="13_rh44n"]
 [ext_resource type="PackedScene" uid="uid://1w7fmk7ifca1" path="res://scenes/buildings/basic_town_house_4.tscn" id="15_mg5ce"]
 [ext_resource type="Texture2D" uid="uid://bkpc1kjm4t2xn" path="res://assets/lightning/daynightcycle-gradient-texture.tres" id="19_s3576"]
-
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ds6an"]
 texture = ExtResource("2_6ts4f")
