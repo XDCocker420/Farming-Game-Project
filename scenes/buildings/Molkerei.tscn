@@ -1,7 +1,7 @@
-[gd_scene load_steps=11 format=4 uid="uid://cqv15sjo0js8q"]
+[gd_scene load_steps=11 format=4 uid="uid://r75uh477j4dy"]
 
 [ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/tilesets/farm_buildings_tileset.tres" id="1_3njg8"]
-[ext_resource type="Script" uid="uid://ns3y0b1epow4" path="res://scripts/buildings/produktionsgebäude_3.gd" id="1_8bkq5"]
+[ext_resource type="Script" uid="uid://b25kmlrl3v558" path="res://scripts/buildings/Molkerei.gd" id="1_8bkq5"]
 [ext_resource type="Texture2D" uid="uid://cohn1pgu6ly3p" path="res://assets/buildings/farm_buildings_all.png" id="2_fwgp6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3njg8"]
@@ -43,7 +43,7 @@ animations = [{
 radius = 17.0
 height = 46.0
 
-[node name="Produktionsgebäude3" type="StaticBody2D"]
+[node name="Molkerei" type="StaticBody2D"]
 script = ExtResource("1_8bkq5")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]

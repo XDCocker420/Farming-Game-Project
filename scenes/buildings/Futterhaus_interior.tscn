@@ -1,6 +1,6 @@
-[gd_scene load_steps=8 format=4 uid="uid://grm6mm16cvxa"]
+[gd_scene load_steps=8 format=4 uid="uid://cw7oka1jj10dh"]
 
-[ext_resource type="Script" uid="uid://d0wshpf0nwnf3" path="res://scripts/buildings/produktionsgebäude_interior_1.gd" id="1_abc5q"]
+[ext_resource type="Script" path="res://scripts/buildings/Futterhaus_interior.gd" id="1_abc5q"]
 [ext_resource type="Texture2D" uid="uid://c7nypghvpck4n" path="res://assets/buildings/interior/interior.png" id="1_reu2h"]
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="4_11ytb"]
 
@@ -3691,7 +3691,7 @@ size = Vector2(128, 32)
 radius = 13.0
 height = 26.0
 
-[node name="ProduktionsgebäudeInterior1" type="StaticBody2D"]
+[node name="Futterhaus_interior" type="StaticBody2D"]
 script = ExtResource("1_abc5q")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]

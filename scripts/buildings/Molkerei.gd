@@ -5,7 +5,7 @@ extends StaticBody2D
 @onready var door: AnimatedSprite2D = $Door
 
 var in_door_area = false
-var interior_scene_path = "res://scenes/buildings/produktionsgebäude_interior_3.tscn"
+var interior_scene_path = "res://scenes/buildings/Molkerei_interior.tscn"
 
 func _ready() -> void:
 	# Verbinde die Signale

@@ -1,7 +1,7 @@
-[gd_scene load_steps=17 format=4 uid="uid://mc48ba08m2xv"]
+[gd_scene load_steps=17 format=4 uid="uid://bcqltpe3a1fi2"]
 
 [ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/tilesets/farm_buildings_tileset.tres" id="1_eqcnc"]
-[ext_resource type="Script" uid="uid://cb4f5ig5mpbdk" path="res://scripts/buildings/produktionsgebäude_1.gd" id="1_s3g82"]
+[ext_resource type="Script" uid="uid://p27lk148qw54" path="res://scripts/buildings/Futterhaus.gd" id="1_s3g82"]
 [ext_resource type="Texture2D" uid="uid://cohn1pgu6ly3p" path="res://assets/buildings/farm_buildings_all.png" id="2_765h8"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eqcnc"]
@@ -85,7 +85,7 @@ animations = [{
 radius = 8.0
 height = 22.0
 
-[node name="Produktionsgebäude1" type="StaticBody2D"]
+[node name="Futterhaus" type="StaticBody2D"]
 script = ExtResource("1_s3g82")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
