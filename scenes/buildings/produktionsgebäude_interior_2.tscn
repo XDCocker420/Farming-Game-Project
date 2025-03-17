@@ -1,8 +1,9 @@
-[gd_scene load_steps=17 format=4 uid="uid://c1q78chbtxkut"]
+[gd_scene load_steps=18 format=4 uid="uid://c1q78chbtxkut"]
 
-[ext_resource type="Script" uid="uid://cx5obh56qn1qf" path="res://scripts/buildings/produktionsgebäude_interior_2.gd" id="1_def6r"]
+[ext_resource type="Script" uid="uid://bs6v1vrdxxpfi" path="res://scripts/buildings/produktionsgebäude_interior_2.gd" id="1_def6r"]
 [ext_resource type="Texture2D" uid="uid://c7nypghvpck4n" path="res://assets/buildings/interior/interior.png" id="1_gyitn"]
 [ext_resource type="Texture2D" uid="uid://b8rdeaex1bm34" path="res://assets/farming/tools.png" id="2_6vdj5"]
+[ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="4_tw5m4"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cqhbp"]
 texture = ExtResource("1_gyitn")
@@ -3779,5 +3780,5 @@ frame_progress = 0.0623965
 position = Vector2(-1, 39)
 shape = SubResource("CapsuleShape2D_gyitn")
 
-[node name="SpawnPoint" type="Node2D" parent="."]
-position = Vector2(0, -30)
+[node name="Player" parent="." instance=ExtResource("4_tw5m4")]
+position = Vector2(0, 8)
