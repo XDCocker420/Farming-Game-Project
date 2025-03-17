@@ -21,6 +21,7 @@ var map = null
 
 var last_exterior_position: Vector2 = Vector2.ZERO
 var last_interior_position: Vector2 = Vector2.ZERO
+var last_building_entered: int = 0  # Speichert die ID des zuletzt betretenen Gebäudes
 
 func _ready() -> void:
 	# Versuche die Map-Node zu bekommen
@@ -46,6 +47,7 @@ func save_game() -> void:
 		save.player_experience_per_level = exp_level
 		save.contracts = con_sav
 		save.market_items = market_sav
+		save.last_building_entered = last_building_entered
 
 	var saved_data:Array[ItemSaves] = []
 	get_tree().call_group("dynamic_elements", "on_save_game", saved_data)
@@ -61,6 +63,7 @@ func load_game() -> void:
 	if saved_game == null:
 		level = 1
 		inventory.money = 100
+		last_building_entered = 0
 		return
 	
 	if player:
@@ -71,6 +74,7 @@ func load_game() -> void:
 		player.global_position = saved_game.player_position
 		con_sav = saved_game.contracts
 		market_sav = saved_game.market_items
+		last_building_entered = saved_game.last_building_entered
 	
 	await get_tree().process_frame
 	

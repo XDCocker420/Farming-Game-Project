@@ -15,3 +15,5 @@ extends Resource
 @export var contracts:Array[SavedContracts]
 ## All items that are insarated in the market
 @export var market_items:Array[SavedMarket]
+## ID of the last building the player entered
+@export var last_building_entered:int = 0

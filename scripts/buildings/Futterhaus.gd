@@ -52,9 +52,11 @@ func _on_door_area_exited(body: Node2D) -> void:
 func _on_garage_door_area_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		in_garage_door_area = true
-		garage_door.play("garage_door")
+		if garage_door and garage_door.sprite_frames.has_animation("GarageDoor"):
+			garage_door.play("GarageDoor")
 
 func _on_garage_door_area_exited(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		in_garage_door_area = false
-		garage_door.play_backwards("garage_door") 
+		if garage_door and garage_door.sprite_frames.has_animation("GarageDoor"):
+			garage_door.play_backwards("GarageDoor") 

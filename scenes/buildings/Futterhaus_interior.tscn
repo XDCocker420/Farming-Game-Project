@@ -1,6 +1,6 @@
 [gd_scene load_steps=8 format=4 uid="uid://cw7oka1jj10dh"]
 
-[ext_resource type="Script" path="res://scripts/buildings/Futterhaus_interior.gd" id="1_abc5q"]
+[ext_resource type="Script" uid="uid://vuunhnbu0hv2" path="res://scripts/buildings/Futterhaus_interior.gd" id="1_abc5q"]
 [ext_resource type="Texture2D" uid="uid://c7nypghvpck4n" path="res://assets/buildings/interior/interior.png" id="1_reu2h"]
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="4_11ytb"]
 
