@@ -1,0 +1,62 @@
+[gd_scene load_steps=10 format=4 uid="uid://cu64uohj7p7yy"]
+
+[ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/tilesets/farm_buildings_tileset.tres" id="1_ixems"]
+[ext_resource type="Script" uid="uid://cmlk8h5fxjaea" path="res://scripts/buildings/produktionsgebäude_2.gd" id="1_lc7rd"]
+[ext_resource type="Texture2D" uid="uid://cohn1pgu6ly3p" path="res://assets/buildings/farm_buildings_all.png" id="2_uqtd2"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ixems"]
+size = Vector2(65, 42)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8k2ub"]
+atlas = ExtResource("2_uqtd2")
+region = Rect2(176, 510, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4iau"]
+atlas = ExtResource("2_uqtd2")
+region = Rect2(192, 510, 16, 18)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sbfts"]
+atlas = ExtResource("2_uqtd2")
+region = Rect2(208, 510, 16, 18)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mcgmc"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8k2ub")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4iau")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sbfts")
+}],
+"loop": false,
+"name": &"door",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_uqtd2"]
+radius = 9.0
+
+[node name="Produktionsgebäude2" type="StaticBody2D"]
+script = ExtResource("1_lc7rd")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD9//3/AAAFAB0AAAD9//7/AAAFAB4AAAD9////AAAFAB8AAAD9/wAAAAAFACAAAAD+//z/AAAGABwAAAD+//3/AAAGAB0AAAD+//7/AAAGAB4AAAD+////AAAGAB8AAAD+/wAAAAAGACAAAAD///z/AAAHABwAAAD///3/AAAHAB0AAAD///7/AAAHAB4AAAD/////AAAHAB8AAAD//wAAAAAHACAAAAAAAPz/AAAIABwAAAAAAP3/AAAIAB0AAAAAAP7/AAAIAB4AAAAAAP//AAAIAB8AAAAAAAAAAAAIACAAAAABAP3/AAAJAB0AAAABAP7/AAAJAB4AAAABAP//AAAJAB8AAAABAAAAAAAJACAAAAA=")
+tile_set = ExtResource("1_ixems")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-6.5, -11)
+shape = SubResource("RectangleShape2D_ixems")
+
+[node name="Door" type="AnimatedSprite2D" parent="."]
+position = Vector2(-10, 7)
+sprite_frames = SubResource("SpriteFrames_mcgmc")
+animation = &"door"
+
+[node name="DoorArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorArea"]
+position = Vector2(-8, 11)
+shape = SubResource("CapsuleShape2D_uqtd2")

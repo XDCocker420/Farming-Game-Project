@@ -1,0 +1,120 @@
+[gd_scene load_steps=17 format=4 uid="uid://mc48ba08m2xv"]
+
+[ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/tilesets/farm_buildings_tileset.tres" id="1_eqcnc"]
+[ext_resource type="Script" uid="uid://cb4f5ig5mpbdk" path="res://scripts/buildings/produktionsgebäude_1.gd" id="1_s3g82"]
+[ext_resource type="Texture2D" uid="uid://cohn1pgu6ly3p" path="res://assets/buildings/farm_buildings_all.png" id="2_765h8"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_eqcnc"]
+size = Vector2(48, 40)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_suoog"]
+atlas = ExtResource("2_765h8")
+region = Rect2(559, 252, 16, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_htfgo"]
+atlas = ExtResource("2_765h8")
+region = Rect2(575, 252, 16, 20)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1iox0"]
+atlas = ExtResource("2_765h8")
+region = Rect2(591, 252, 16, 20)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_0etvi"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_suoog")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_htfgo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1iox0")
+}],
+"loop": false,
+"name": &"door",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_765h8"]
+atlas = ExtResource("2_765h8")
+region = Rect2(32, 276, 16, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0etvi"]
+atlas = ExtResource("2_765h8")
+region = Rect2(48, 276, 16, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wa3s8"]
+atlas = ExtResource("2_765h8")
+region = Rect2(64, 276, 16, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_46d4s"]
+atlas = ExtResource("2_765h8")
+region = Rect2(80, 276, 16, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbvm0"]
+atlas = ExtResource("2_765h8")
+region = Rect2(96, 276, 16, 12)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_765h8"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_765h8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0etvi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wa3s8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_46d4s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nbvm0")
+}],
+"loop": false,
+"name": &"GarageDoor",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_765h8"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_suoog"]
+radius = 8.0
+height = 22.0
+
+[node name="Produktionsgebäude1" type="StaticBody2D"]
+script = ExtResource("1_s3g82")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD+//3/AAAAAA0AAAD+//7/AAAAAA4AAAD+////AAAAAA8AAAD+/wAAAAAAABAAAAD///3/AAABAA0AAAD///7/AAABAA4AAAD/////AAABAA8AAAD//wAAAAABABAAAAAAAP3/AAACAA0AAAAAAP7/AAACAA4AAAAAAP//AAACAA8AAAAAAAAAAAACABAAAAABAP3/AAADAA0AAAABAP7/AAADAA4AAAABAP//AAADAA8AAAABAAAAAAADABAAAAA=")
+tile_set = ExtResource("1_eqcnc")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -12)
+shape = SubResource("RectangleShape2D_eqcnc")
+
+[node name="Door" type="AnimatedSprite2D" parent="."]
+position = Vector2(-8, 6)
+sprite_frames = SubResource("SpriteFrames_0etvi")
+animation = &"door"
+frame_progress = 0.288048
+
+[node name="GarageDoor" type="AnimatedSprite2D" parent="."]
+position = Vector2(11, 10)
+sprite_frames = SubResource("SpriteFrames_765h8")
+animation = &"GarageDoor"
+
+[node name="DoorArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorArea"]
+position = Vector2(-8, 9)
+shape = SubResource("CapsuleShape2D_765h8")
+
+[node name="GarageDoorArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="GarageDoorArea"]
+position = Vector2(11, 11)
+shape = SubResource("CapsuleShape2D_suoog")

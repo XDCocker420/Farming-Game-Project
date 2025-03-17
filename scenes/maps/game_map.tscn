@@ -1,10 +1,13 @@
-[gd_scene load_steps=24 format=4 uid="uid://7401yxdfc7e2"]
+[gd_scene load_steps=27 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
-[ext_resource type="Texture2D" uid="uid://b7f3cctim7uf0" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
+[ext_resource type="Texture2D" uid="uid://b1nbjqmtu0csy" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
 [ext_resource type="PackedScene" uid="uid://by8sfn1p2h5nh" path="res://scenes/buildings/player_house.tscn" id="4_1xy5d"]
+[ext_resource type="PackedScene" uid="uid://mc48ba08m2xv" path="res://scenes/buildings/produktionsgebäude_1.tscn" id="5_77frd"]
 [ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="5_sdtop"]
+[ext_resource type="PackedScene" uid="uid://cu64uohj7p7yy" path="res://scenes/buildings/produktionsgebäude_2.tscn" id="6_ur0i2"]
 [ext_resource type="PackedScene" uid="uid://nyttgrj1hid3" path="res://scenes/buildings/tierbereich.tscn" id="7_8ejyj"]
+[ext_resource type="PackedScene" uid="uid://cqv15sjo0js8q" path="res://scenes/buildings/produktionsgebäude_3.tscn" id="7_aiw1h"]
 [ext_resource type="PackedScene" uid="uid://bc6sudr6mtykj" path="res://scenes/buildings/task_caravan.tscn" id="8_1t62h"]
 [ext_resource type="PackedScene" uid="uid://d0fhk2wsiigef" path="res://scenes/buildings/CoffeeHouse.tscn" id="8_d4r37"]
 [ext_resource type="PackedScene" uid="uid://dl0oeua6mtjx5" path="res://scenes/buildings/pub.tscn" id="9_noen4"]
@@ -3433,6 +3436,15 @@ position = Vector2(635, -110)
 
 [node name="player_house" parent="Map/gebäude" instance=ExtResource("4_1xy5d")]
 position = Vector2(8, -125)
+
+[node name="Produktionsgebäude1" parent="Map/gebäude" instance=ExtResource("5_77frd")]
+position = Vector2(480, -128)
+
+[node name="Produktionsgebäude2" parent="Map/gebäude" instance=ExtResource("6_ur0i2")]
+position = Vector2(388, -123)
+
+[node name="Produktionsgebäude3" parent="Map/gebäude" instance=ExtResource("7_aiw1h")]
+position = Vector2(279, -122)
 
 [node name="Fields" type="Node2D" parent="Map"]
 
