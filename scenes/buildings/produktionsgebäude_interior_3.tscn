@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=4 uid="uid://dt3wy2eb3tmxc"]
+[gd_scene load_steps=21 format=4 uid="uid://dt3wy2eb3tmxc"]
 
 [ext_resource type="Texture2D" uid="uid://c7nypghvpck4n" path="res://assets/buildings/interior/interior.png" id="1_58pth"]
 [ext_resource type="Script" uid="uid://n6h7y2bnyarm" path="res://scripts/buildings/produktionsgebäude_interior_3.gd" id="1_ghi7s"]
@@ -3690,41 +3690,13 @@ size = Vector2(128, 32)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4m3t3"]
 atlas = ExtResource("2_y1hoa")
-region = Rect2(48, 12, 16, 20)
+region = Rect2(0, 11, 16, 21)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mo0k0"]
 atlas = ExtResource("2_y1hoa")
-region = Rect2(64, 12, 16, 20)
+region = Rect2(16, 11, 16, 21)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_eanrw"]
-atlas = ExtResource("2_y1hoa")
-region = Rect2(80, 12, 16, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_m4i2e"]
-atlas = ExtResource("2_y1hoa")
-region = Rect2(96, 12, 16, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_d2o7b"]
-atlas = ExtResource("2_y1hoa")
-region = Rect2(112, 12, 16, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_bjims"]
-atlas = ExtResource("2_y1hoa")
-region = Rect2(128, 12, 16, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rd2me"]
-atlas = ExtResource("2_y1hoa")
-region = Rect2(144, 12, 16, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vjjck"]
-atlas = ExtResource("2_y1hoa")
-region = Rect2(160, 12, 16, 20)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rpiq7"]
-atlas = ExtResource("2_y1hoa")
-region = Rect2(176, 12, 16, 20)
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_1yao7"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_eanrw"]
 animations = [{
 "frames": [{
 "duration": 1.0,
@@ -3732,10 +3704,31 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mo0k0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_eanrw")
-}, {
+}],
+"loop": true,
+"name": &"butterchurn",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m4i2e"]
+atlas = ExtResource("2_y1hoa")
+region = Rect2(224, 6, 16, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_d2o7b"]
+atlas = ExtResource("2_y1hoa")
+region = Rect2(240, 6, 16, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bjims"]
+atlas = ExtResource("2_y1hoa")
+region = Rect2(256, 6, 16, 26)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rd2me"]
+atlas = ExtResource("2_y1hoa")
+region = Rect2(272, 6, 16, 26)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_vjjck"]
+animations = [{
+"frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_m4i2e")
 }, {
@@ -3747,15 +3740,38 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_rd2me")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vjjck")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rpiq7")
 }],
 "loop": true,
-"name": &"tool3",
+"name": &"press_cheese",
+"speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rpiq7"]
+atlas = ExtResource("2_y1hoa")
+region = Rect2(416, 10, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1yao7"]
+atlas = ExtResource("2_y1hoa")
+region = Rect2(432, 10, 16, 22)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lhayv"]
+atlas = ExtResource("2_y1hoa")
+region = Rect2(449, 10, 16, 22)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i83gv"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rpiq7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1yao7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lhayv")
+}],
+"loop": true,
+"name": &"mayomaker",
 "speed": 5.0
 }]
 
@@ -3774,10 +3790,20 @@ tile_set = SubResource("TileSet_iwa4d")
 position = Vector2(0, -64)
 shape = SubResource("RectangleShape2D_i1pjf")
 
-[node name="Tool3" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -30)
-sprite_frames = SubResource("SpriteFrames_1yao7")
-animation = &"tool3"
+[node name="butterchurn" type="AnimatedSprite2D" parent="."]
+position = Vector2(-32, -32)
+sprite_frames = SubResource("SpriteFrames_eanrw")
+animation = &"butterchurn"
+
+[node name="press_cheese" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -32)
+sprite_frames = SubResource("SpriteFrames_vjjck")
+animation = &"press_cheese"
+
+[node name="mayomaker" type="AnimatedSprite2D" parent="."]
+position = Vector2(32, -32)
+sprite_frames = SubResource("SpriteFrames_i83gv")
+animation = &"mayomaker"
 
 [node name="ExitArea" type="Area2D" parent="."]
 
