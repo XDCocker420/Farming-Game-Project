@@ -1,4 +1,4 @@
-[gd_scene load_steps=21 format=4 uid="uid://dfr6ka3sk2wes"]
+[gd_scene load_steps=22 format=4 uid="uid://dfr6ka3sk2wes"]
 
 [ext_resource type="Texture2D" uid="uid://c7nypghvpck4n" path="res://assets/buildings/interior/interior.png" id="1_58pth"]
 [ext_resource type="Script" uid="uid://c120qm76kcnw3" path="res://scripts/buildings/Molkerei_interior.gd" id="1_ghi7s"]
@@ -3710,6 +3710,8 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_q54b6"]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_m4i2e"]
 atlas = ExtResource("2_y1hoa")
 region = Rect2(224, 6, 16, 26)
@@ -3795,15 +3797,34 @@ position = Vector2(-32, -32)
 sprite_frames = SubResource("SpriteFrames_eanrw")
 animation = &"butterchurn"
 
+[node name="butterchurnArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="butterchurnArea"]
+position = Vector2(-32, -24)
+shape = SubResource("CapsuleShape2D_q54b6")
+
 [node name="press_cheese" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -32)
 sprite_frames = SubResource("SpriteFrames_vjjck")
 animation = &"press_cheese"
 
+[node name="press_cheeseArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="press_cheeseArea"]
+position = Vector2(0, -24)
+shape = SubResource("CapsuleShape2D_q54b6")
+
 [node name="mayomaker" type="AnimatedSprite2D" parent="."]
 position = Vector2(32, -32)
 sprite_frames = SubResource("SpriteFrames_i83gv")
 animation = &"mayomaker"
+
+[node name="mayomakerArea" type="Area2D" parent="."]
+position = Vector2(64, 0)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="mayomakerArea"]
+position = Vector2(-32, -24)
+shape = SubResource("CapsuleShape2D_q54b6")
 
 [node name="ExitArea" type="Area2D" parent="."]
 
