@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Farming Game Project"
+config/tags=PackedStringArray("sehr_wichtig", "syp")
 run/main_scene="res://scenes/maps/game_map.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 run/max_fps=60

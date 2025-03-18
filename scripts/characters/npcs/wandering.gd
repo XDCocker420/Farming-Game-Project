@@ -6,140 +6,25 @@ class_name NPCWander
 @export var navigation_agent: NavigationAgent2D
 @onready var interaction_area: Area2D = $"../../InteractArea"
 
-# Wichtige Punkte (z.B. Marktplatz, Schmiede, etc.) – zur Laufzeit definierbar
-@export var important_points: Array[Vector2] = [Vector2(75, 59), Vector2(80, 59)]
-# Optionaler Home-Punkt, zu dem der NPC abends zurückkehrt
-@export var home_point: Vector2
+@onready var player = %Player
 
-# Bewegungsgeschwindigkeit
-@export var move_speed: float = 20.0
-# Zeit, die der NPC an einem Zielpunkt verweilen soll
-@export var wait_time: float = 2.0
-
-# Intern: aktuelles Ziel
-var current_target: Vector2
-# Timer zum Warten nach Zielerreichen
-var wait_timer: Timer
-
-var player_in_area:bool = false
+var move_speed:float = 3.0
+@onready var timer:Timer = $Timer
 
 func _ready() -> void:
-	# Erstelle dynamisch einen Timer, falls nicht bereits im Node vorhanden
-	wait_timer = Timer.new()
-	wait_timer.wait_time = wait_time
-	wait_timer.one_shot = true
-	add_child(wait_timer)
-	wait_timer.connect("timeout", Callable(self, "_on_wait_timeout"))
+	print("budaw")
+	timer.timeout.connect(make_path)
+	make_path()
+
+func physics_update(delta:float) -> void:
+	var dir = npc.to_local(navigation_agent.get_next_path_position()).normalized()
+	npc.velocity = dir * move_speed
+	npc.move_and_slide()
 	
-	if not interaction_area.area_entered.is_connected(_on_area_entered):
-		print("cool")
-		interaction_area.area_entered.connect(_on_area_entered)
-		
-	if not interaction_area.area_exited.is_connected(_on_area_exited):
-		print("cool2")
-		interaction_area.area_exited.connect(_on_area_exited)
-		
-	choose_new_target()
-
-func enter() -> void:
-	if not interaction_area.area_entered.is_connected(_on_area_entered):
-		interaction_area.area_entered.connect(_on_area_entered)
-		
-	if not interaction_area.area_exited.is_connected(_on_area_exited):
-		interaction_area.area_exited.connect(_on_area_exited)
-		
-	# Beim Zustandswechsel wird ein neues Ziel gewählt
-	choose_new_target()
-
-
-func exit() -> void:
-	# Verbindung zum Timer wieder trennen, falls nötig
-	if wait_timer.timeout.is_connected(_on_wait_timeout):
-		wait_timer.timeout.disconnect(_on_wait_timeout)
+func make_path():
+	print(get_viewport().get_mouse_position())
+	#navigation_agent.target_position = get_viewport().get_mouse_position()
 	
-	if interaction_area.area_entered.is_connected(_on_area_entered):
-		interaction_area.area_entered.disconnect(_on_area_entered)
-		
-	if interaction_area.area_exited.is_connected(_on_area_exited):
-		interaction_area.area_exited.disconnect(_on_area_exited)
-
-func physics_update(delta: float) -> void:
-	if not npc or not navigation_agent:
-		return
-
-	# Aktualisiere das Ziel des NavigationAgent2D, falls sich das Ziel geändert hat
-	if navigation_agent.target_position != current_target:
-		navigation_agent.target_position = current_target
-
-	# Wenn das Ziel noch nicht erreicht ist, folge dem Pfad
-	if not navigation_agent.is_target_reached():
-		# Hole den nächsten Punkt auf dem berechneten Pfad
-		var next_position = navigation_agent.get_next_path_position()
-		var direction = (next_position - npc.position).normalized()
-		# Setze die Geschwindigkeit des NPCs
-		npc.velocity = direction * move_speed
-
-		# Bestimme anhand der Geschwindigkeit die passende Animation
-		if abs(npc.velocity.x) > abs(npc.velocity.y):
-			if npc.velocity.x > 0:
-				_play_animation("right")
-			else:
-				_play_animation("left")
-		else:
-			if npc.velocity.y > 0:
-				_play_animation("down")
-			else:
-				_play_animation("up")
-		npc.move_and_slide()
-	else:
-		# Ziel erreicht: NPC stoppt und wechselt in einen "idle"-Zustand
-		npc.velocity = Vector2.ZERO
-		#_play_animation("idle_down")  # Alternativ: Letzte Blickrichtung verwenden
-		# Starte den Timer, um nach einer kurzen Pause ein neues Ziel zu wählen
-		if not wait_timer.is_stopped():
-			wait_timer.start()
-
-func _on_wait_timeout() -> void:
-	choose_new_target()
-
-func choose_new_target() -> void:
-	# Beispielhafte Logik:
-	# Falls es Nacht ist (hier könntest du deine Zeitlogik einbauen), wähle den Home-Punkt
-	# Andernfalls: Wähle zufällig einen der wichtigen Orte
-	# (Die Logik kann beliebig erweitert werden.)
-	var is_night = false  # Hier müsstest du deine Tageszeitlogik einbinden
-	if is_night and home_point:
-		current_target = home_point
-	else:
-		if important_points.size() > 0:
-			var index = randi() % important_points.size()
-			current_target = important_points[index]
-			print(current_target)
-		
-		else:
-			# Fallback: Nicht bewegen
-			current_target = npc.position
-	
-	# Aktualisiere den NavigationAgent2D
-	if navigation_agent:
-		navigation_agent.target_position = current_target
-		
-func process_input(_event: InputEvent):
-	if _event.is_action_pressed("interact") && player_in_area:
-		print("skibidi")
-		transitioned.emit(self, "Talking")
-
-func _play_animation(anim_name: String) -> void:
-	# Annahme: Der NPC besitzt als Kind einen AnimatedSprite2D mit dem Namen "AnimatedSprite2D"
-	var sprite = npc.get_node("AnimatedSprite2D")
-	if sprite:
-		sprite.play(anim_name)
-		
-func _on_area_entered(body:Node2D):
-	print(body.name)
-	if body.is_in_group("Player"):
-		player_in_area = true
-	
-func _on_area_exited(body:Node2D):
-	if body.is_in_group("Player"):
-		player_in_area = false
+func process_input(_event:InputEvent):
+	if _event is InputEventMouseButton:
+		navigation_agent.target_position = player.global_position
