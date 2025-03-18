@@ -4085,6 +4085,14 @@ position = Vector2(0, 8)
 position = Vector2(0, -8)
 position_smoothing_speed = 7.0
 
-[node name="ProductionUI" parent="." instance=ExtResource("5_0qqab")]
-offset_left = 240.0
-offset_right = 240.0
+[node name="production_ui_clothmaker" parent="." instance=ExtResource("5_0qqab")]
+offset_left = -88.0
+offset_top = -112.0
+offset_right = 25.0
+offset_bottom = -47.0
+
+[node name="production_ui_spindle" parent="." instance=ExtResource("5_0qqab")]
+offset_left = -24.0
+offset_top = -112.0
+offset_right = 89.0
+offset_bottom = -47.0
