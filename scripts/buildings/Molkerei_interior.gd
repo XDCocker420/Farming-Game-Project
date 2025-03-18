@@ -10,7 +10,7 @@ func _on_exit_area_body_entered(body):
 		# Store building ID to spawn at correct location
 		SaveGame.last_building_entered = 3
 		
-		# Switch back to main scene
-		get_tree().change_scene_to_file("res://scenes/maps/game_map.tscn")
+		# Switch back to main scene using call_deferred to avoid physics callback issues
+		get_tree().call_deferred("change_scene_to_file", "res://scenes/maps/game_map.tscn")
 	else:
 		print("MolkereiInterior: Non-player body entered exit area: ", body.name) 
