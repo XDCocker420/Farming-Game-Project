@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://b8j4k2m3n4o5p"]
 
-[ext_resource type="Script" uid="uid://b8drb1kjb6qkb" path="res://scripts/ui/market/ui_markt.gd" id="1_s8k31"]
+[ext_resource type="Script" path="res://scripts/ui/production/production_ui.gd" id="1_s8k31"]
 [ext_resource type="PackedScene" uid="uid://b24bo4ir8kd3p" path="res://scenes/ui/general/ui_slot.tscn" id="2_pltrf"]
 
 [node name="production_ui" type="PanelContainer"]

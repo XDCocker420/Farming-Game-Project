@@ -1,53 +1,84 @@
-extends Control
+extends PanelContainer
 
-@onready var title = $Menu/VBoxContainer/Title
-@onready var input_slot = $Menu/VBoxContainer/InputContainer/InputSlot
-@onready var input_label = $Menu/VBoxContainer/InputContainer/InputLabel
-@onready var output_slot = $Menu/VBoxContainer/OutputContainer/OutputSlot
-@onready var output_label = $Menu/VBoxContainer/OutputContainer/OutputLabel
-@onready var produce_button = $Menu/VBoxContainer/ProduceButton
+# References to all slots
+@onready var input_slots = [
+	$MarginContainer/slots/ui_slot,
+	$MarginContainer/slots/ui_slot2,
+	$MarginContainer/slots/ui_slot3,
+	$MarginContainer/slots/ui_slot4
+]
 
-var input_item: String = ""
-var output_item: String = ""
-var input_texture: Texture2D
-var output_texture: Texture2D
+@onready var output_slots = [
+	$MarginContainer/slots/ui_slot5,
+	$MarginContainer/slots/ui_slot6,
+	$MarginContainer/slots/ui_slot7,
+	$MarginContainer/slots/ui_slot8
+]
+
+# Current workstation information
+var current_workstation: String = ""
+var input_items = []
+var output_items = []
 
 func _ready():
-	produce_button.pressed.connect(_on_produce_button_pressed)
-	
-	# No need for font size overrides as we're using the theme directly in the scene
+	# You might want to connect the slot buttons to handle clicks
+	for slot in input_slots + output_slots:
+		if slot.has_node("button"):
+			slot.get_node("button").pressed.connect(_on_slot_pressed.bind(slot))
 
 func setup(workstation_name: String):
+	current_workstation = workstation_name
+	
+	# Clear all slots
+	for slot in input_slots + output_slots:
+		if slot.has_method("clear"):
+			slot.clear()
+	
+	# Reset our stored items
+	input_items.clear()
+	output_items.clear()
+	
+	# Set up recipes based on workstation
 	match workstation_name:
 		"butterchurn":
-			title.text = "Butter Churn"
-			input_item = "Milk"
-			output_item = "Butter"
+			input_items = ["Milk"]
+			output_items = ["Butter"]
 		"press_cheese":
-			title.text = "Cheese Press"
-			input_item = "Milk"
-			output_item = "Cheese"
+			input_items = ["Milk"]
+			output_items = ["Cheese"]
 		"mayomaker":
-			title.text = "Mayo Maker"
-			input_item = "Egg"
-			output_item = "Mayo"
+			input_items = ["Egg"]
+			output_items = ["Mayo"]
 		"clothmaker":
-			title.text = "Cloth Maker"
-			input_item = "Wool"
-			output_item = "Cloth"
+			input_items = ["Wool"]
+			output_items = ["Cloth"]
 		"spindle":
-			title.text = "Spinning Wheel"
-			input_item = "Wool"
-			output_item = "String"
+			input_items = ["Wool"]
+			output_items = ["String"]
 		"feed_mill":
-			title.text = "Feed Mill"
-			input_item = "Wheat"
-			output_item = "Feed"
+			input_items = ["Wheat"]
+			output_items = ["Feed"]
 	
-	input_label.text = "In: " + input_item
-	output_label.text = "Out: " + output_item
+	# Set up input slots
+	for i in range(min(input_items.size(), input_slots.size())):
+		if input_slots[i].has_method("setup"):
+			input_slots[i].setup(input_items[i], "", true, 1)
+	
+	# Set up output slots
+	for i in range(min(output_items.size(), output_slots.size())):
+		if output_slots[i].has_method("setup"):
+			output_slots[i].setup(output_items[i], "", true, 1)
 
-func _on_produce_button_pressed():
+func _on_slot_pressed(slot):
+	if slot in input_slots:
+		print("Input slot clicked: " + str(input_slots.find(slot)))
+		# Handle input slot interaction
+	elif slot in output_slots:
+		print("Output slot clicked: " + str(output_slots.find(slot)))
+		# Handle output slot interaction
+		_try_produce()
+
+func _try_produce():
 	# Here you would check if the player has enough input items
 	# and then give them the output item
-	print("Producing " + output_item + " from " + input_item) 
+	print("Trying to produce " + str(output_items) + " from " + str(input_items)) 
