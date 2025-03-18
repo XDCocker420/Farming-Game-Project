@@ -1,9 +1,10 @@
-[gd_scene load_steps=57 format=4 uid="uid://dil1h7oaii7qp"]
+[gd_scene load_steps=60 format=4 uid="uid://dil1h7oaii7qp"]
 
-[ext_resource type="Script" path="res://scripts/buildings/Weberei_interior.gd" id="1_def6r"]
+[ext_resource type="Script" uid="uid://gb217r5vd7fo" path="res://scripts/buildings/Weberei_interior.gd" id="1_def6r"]
 [ext_resource type="Texture2D" uid="uid://c7nypghvpck4n" path="res://assets/buildings/interior/interior.png" id="1_gyitn"]
 [ext_resource type="Texture2D" uid="uid://b8rdeaex1bm34" path="res://assets/farming/tools.png" id="2_6vdj5"]
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="4_tw5m4"]
+[ext_resource type="PackedScene" uid="uid://b8j4k2m3n4o5p" path="res://scenes/ui/production/production_ui.tscn" id="5_0qqab"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cqhbp"]
 texture = ExtResource("1_gyitn")
@@ -3955,6 +3956,8 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_xnwlk"]
+
 [sub_resource type="AtlasTexture" id="AtlasTexture_4m3t3"]
 atlas = ExtResource("2_6vdj5")
 region = Rect2(48, 12, 16, 20)
@@ -4026,6 +4029,8 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_0qqab"]
+
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_gyitn"]
 radius = 13.0
 height = 26.0
@@ -4047,11 +4052,23 @@ sprite_frames = SubResource("SpriteFrames_tw5m4")
 animation = &"clothmaker"
 frame_progress = 0.87461
 
+[node name="clothmakerArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="clothmakerArea"]
+position = Vector2(-32, -24)
+shape = SubResource("CapsuleShape2D_xnwlk")
+
 [node name="spindle" type="AnimatedSprite2D" parent="."]
 position = Vector2(32, -32)
 sprite_frames = SubResource("SpriteFrames_v44al")
 animation = &"spindle"
 frame_progress = 0.0554023
+
+[node name="spindleArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="spindleArea"]
+position = Vector2(32, -24)
+shape = SubResource("CapsuleShape2D_0qqab")
 
 [node name="ExitArea" type="Area2D" parent="."]
 
@@ -4067,3 +4084,7 @@ position = Vector2(0, 8)
 [node name="Camera" type="Camera2D" parent="Player"]
 position = Vector2(0, -8)
 position_smoothing_speed = 7.0
+
+[node name="ProductionUI" parent="." instance=ExtResource("5_0qqab")]
+offset_left = 240.0
+offset_right = 240.0
