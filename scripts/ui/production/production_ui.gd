@@ -41,33 +41,35 @@ func setup(workstation_name: String):
 	# Set up recipes based on workstation
 	match workstation_name:
 		"butterchurn":
-			input_items = ["Milk"]
-			output_items = ["Butter"]
+			input_items = ["milk"]
+			output_items = ["butter"]
 		"press_cheese":
-			input_items = ["Milk"]
-			output_items = ["Cheese"]
+			input_items = ["milk"]
+			output_items = ["cheese"]
 		"mayomaker":
-			input_items = ["Egg"]
-			output_items = ["Mayo"]
+			input_items = ["egg"]
+			output_items = ["mayo"]
 		"clothmaker":
-			input_items = ["Wool"]
-			output_items = ["Cloth"]
+			input_items = ["white_wool"]
+			output_items = ["white_cloth"]
 		"spindle":
-			input_items = ["Wool"]
-			output_items = ["String"]
+			input_items = ["white_wool"]
+			output_items = ["white_string"]
 		"feed_mill":
-			input_items = ["Wheat"]
-			output_items = ["Feed"]
+			input_items = ["wheat"]
+			output_items = ["feed"]
 	
 	# Set up input slots
 	for i in range(min(input_items.size(), input_slots.size())):
 		if input_slots[i].has_method("setup"):
-			input_slots[i].setup(input_items[i], "", true, 1)
+			# Get the actual inventory count
+			var count = SaveGame.get_item_count(input_items[i])
+			input_slots[i].setup(input_items[i], "", count > 0, count)
 	
 	# Set up output slots
 	for i in range(min(output_items.size(), output_slots.size())):
 		if output_slots[i].has_method("setup"):
-			output_slots[i].setup(output_items[i], "", true, 1)
+			output_slots[i].setup(output_items[i], "", true, 0)
 
 func _on_slot_pressed(slot):
 	if slot in input_slots:
@@ -79,6 +81,26 @@ func _on_slot_pressed(slot):
 		_try_produce()
 
 func _try_produce():
-	# Here you would check if the player has enough input items
-	# and then give them the output item
-	print("Trying to produce " + str(output_items) + " from " + str(input_items)) 
+	# Check if player has all required input items
+	var can_produce = true
+	
+	for item in input_items:
+		if SaveGame.get_item_count(item) <= 0:
+			can_produce = false
+			break
+	
+	if can_produce:
+		# Remove input items
+		for item in input_items:
+			SaveGame.remove_from_inventory(item, 1)
+		
+		# Add output items
+		for item in output_items:
+			SaveGame.add_to_inventory(item, 1)
+			
+		# Update UI
+		setup(current_workstation)
+		
+		print("Successfully produced " + str(output_items) + " from " + str(input_items))
+	else:
+		print("Not enough resources to produce " + str(output_items))

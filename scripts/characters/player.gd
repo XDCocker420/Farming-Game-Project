@@ -25,6 +25,25 @@ func _ready() -> void:
 	SaveGame.add_to_inventory("corn", 30)
 	SaveGame.add_to_inventory("eggplant", 3)
 	SaveGame.add_to_inventory("potatoe", 100)
+	
+	# Add input materials for production testing
+	SaveGame.add_to_inventory("milk", 100)
+	SaveGame.add_to_inventory("egg", 100)
+	SaveGame.add_to_inventory("white_wool", 100)
+	SaveGame.add_to_inventory("wheat", 100)
+	
+	# Add output products for production testing
+	SaveGame.add_to_inventory("butter", 100)
+	SaveGame.add_to_inventory("cheese", 100)
+	SaveGame.add_to_inventory("mayo", 100)
+	SaveGame.add_to_inventory("white_cloth", 100)
+	SaveGame.add_to_inventory("white_string", 100)
+	SaveGame.add_to_inventory("feed", 100)
+	
+	# Add money
+	SaveGame.add_money(10000)
+	
+	print("Testing items added to inventory!")
 
 
 func _input(event: InputEvent) -> void:

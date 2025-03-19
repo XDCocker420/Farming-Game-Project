@@ -4,7 +4,14 @@ var config = ConfigFile.new()
 
 var display_names = {
 	"cauliflower": "Cauli",
-	"aubergine": "Eggplant"
+	"aubergine": "Eggplant",
+	"white_wool": "Wool",
+	"white_cloth": "Cloth",
+	"white_string": "String",
+	"butter": "Butter",
+	"cheese": "Cheese",
+	"mayo": "Mayonnaise",
+	"feed": "Feed"
 }
 
 func _ready() -> void:

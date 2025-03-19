@@ -1,10 +1,11 @@
-[gd_scene load_steps=60 format=4 uid="uid://dil1h7oaii7qp"]
+[gd_scene load_steps=61 format=4 uid="uid://dil1h7oaii7qp"]
 
 [ext_resource type="Script" uid="uid://gb217r5vd7fo" path="res://scripts/buildings/Weberei_interior.gd" id="1_def6r"]
 [ext_resource type="Texture2D" uid="uid://c7nypghvpck4n" path="res://assets/buildings/interior/interior.png" id="1_gyitn"]
 [ext_resource type="Texture2D" uid="uid://b8rdeaex1bm34" path="res://assets/farming/tools.png" id="2_6vdj5"]
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="4_tw5m4"]
 [ext_resource type="PackedScene" uid="uid://b8j4k2m3n4o5p" path="res://scenes/ui/production/production_ui.tscn" id="5_0qqab"]
+[ext_resource type="PackedScene" uid="uid://cgv01xlihuvuq" path="res://scenes/ui/scheune/ui_scheune.tscn" id="6_j4yfu"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cqhbp"]
 texture = ExtResource("1_gyitn")
@@ -4096,3 +4097,15 @@ offset_left = -24.0
 offset_top = -112.0
 offset_right = 89.0
 offset_bottom = -47.0
+
+[node name="inventory_ui_clothmaker" parent="." instance=ExtResource("6_j4yfu")]
+offset_left = 32.0
+offset_top = -112.0
+offset_right = 107.0
+offset_bottom = -19.0
+
+[node name="inventory_ui_spindle" parent="." instance=ExtResource("6_j4yfu")]
+offset_left = -104.0
+offset_top = -112.0
+offset_right = -29.0
+offset_bottom = -19.0
