@@ -1,0 +1,22 @@
+join starter center
+starter: Howdy Freund. Wie gehts?
+label choice
+starter: Was möchtest du über das Spiel wissen?
+- Wie geht es dir?
+	starter: Mir gehts super!!
+	
+	jump choice
+- Wie bekomme ich mehr Pflanzen?
+	starter: Du musst einfach hoffen, dass der Bill das einbaut
+	jump choice
+- Wie funktionieren die Tiere?
+	starter: Man geht zu den Futterplätzen und drückt die E Taste
+	jump choice
+- Ich will selber etwas fragen
+	[text_input var="inputs.custom_question"]
+	[signal arg="trigger_ai"]
+	label uu88877385u956zzabwfh (label1)
+	if {inputs.custom_answer} == "":
+		[wait time="1.0"]
+		jump uu88877385u956zzabwfh
+	starter: {inputs.custom_answer}

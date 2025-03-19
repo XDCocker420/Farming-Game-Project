@@ -1,0 +1,70 @@
+[gd_scene load_steps=11 format=4 uid="uid://r75uh477j4dy"]
+
+[ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/tilesets/farm_buildings_tileset.tres" id="1_3njg8"]
+[ext_resource type="Script" uid="uid://b25kmlrl3v558" path="res://scripts/buildings/Molkerei.gd" id="1_8bkq5"]
+[ext_resource type="Texture2D" uid="uid://cohn1pgu6ly3p" path="res://assets/buildings/farm_buildings_all.png" id="2_fwgp6"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_3njg8"]
+size = Vector2(130, 67)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_fwgp6"]
+size = Vector2(92, 12)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_465h0"]
+atlas = ExtResource("2_fwgp6")
+region = Rect2(304, 971, 32, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nchej"]
+atlas = ExtResource("2_fwgp6")
+region = Rect2(336, 971, 32, 21)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3xbkf"]
+atlas = ExtResource("2_fwgp6")
+region = Rect2(368, 971, 32, 21)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fm0qy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_465h0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nchej")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3xbkf")
+}],
+"loop": false,
+"name": &"door",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fwgp6"]
+radius = 17.0
+height = 46.0
+
+[node name="Molkerei" type="StaticBody2D"]
+script = ExtResource("1_8bkq5")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD6//3/AAAJADkAAAD6//7/AAAJADoAAAD6////AAAJADsAAAD6/wAAAAAJADwAAAD6/wEAAAAJAD0AAAD7//z/AAAKADgAAAD7//3/AAAKADkAAAD7//7/AAAKADoAAAD7////AAAKADsAAAD7/wAAAAAKADwAAAD7/wEAAAAKAD0AAAD8//v/AAALADcAAAD8//z/AAALADgAAAD8//3/AAALADkAAAD8//7/AAALADoAAAD8////AAALADsAAAD8/wAAAAALADwAAAD8/wEAAAALAD0AAAD9//v/AAAMADcAAAD9//z/AAAMADgAAAD9//3/AAAMADkAAAD9//7/AAAMADoAAAD9////AAAMADsAAAD9/wAAAAAMADwAAAD9/wEAAAAMAD0AAAD+//v/AAANADcAAAD+//z/AAANADgAAAD+//3/AAANADkAAAD+//7/AAANADoAAAD+////AAANADsAAAD+/wAAAAANADwAAAD+/wEAAAANAD0AAAD///v/AAAOADcAAAD///z/AAAOADgAAAD///3/AAAOADkAAAD///7/AAAOADoAAAD/////AAAOADsAAAD//wAAAAAOADwAAAD//wEAAAAOAD0AAAAAAPv/AAAPADcAAAAAAPz/AAAPADgAAAAAAP3/AAAPADkAAAAAAP7/AAAPADoAAAAAAP//AAAPADsAAAAAAAAAAAAPADwAAAAAAAEAAAAPAD0AAAABAPv/AAAQADcAAAABAPz/AAAQADgAAAABAP3/AAAQADkAAAABAP7/AAAQADoAAAABAP//AAAQADsAAAABAAAAAAAQADwAAAABAAEAAAAQAD0AAAACAPv/AAARADcAAAACAPz/AAARADgAAAACAP3/AAARADkAAAACAP7/AAARADoAAAACAP//AAARADsAAAACAAAAAAARADwAAAACAAEAAAARAD0AAAA=")
+tile_set = ExtResource("1_3njg8")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-24, -15.5)
+shape = SubResource("RectangleShape2D_3njg8")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(-5, -55)
+shape = SubResource("RectangleShape2D_fwgp6")
+
+[node name="Door" type="AnimatedSprite2D" parent="."]
+position = Vector2(-5, 12)
+sprite_frames = SubResource("SpriteFrames_fm0qy")
+animation = &"door"
+
+[node name="DoorArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="DoorArea"]
+position = Vector2(-5, 19)
+shape = SubResource("CapsuleShape2D_fwgp6")

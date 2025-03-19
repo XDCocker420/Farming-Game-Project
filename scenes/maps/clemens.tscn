@@ -1,19 +1,20 @@
-[gd_scene load_steps=4 format=3 uid="uid://b57ax2p4r20ae"]
+[gd_scene load_steps=5 format=3 uid="uid://b57ax2p4r20ae"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_ipkwj"]
+[ext_resource type="PackedScene" uid="uid://nyttgrj1hid3" path="res://scenes/buildings/tierbereich.tscn" id="3_ibilp"]
 [ext_resource type="PackedScene" uid="uid://bkag1kuotq8kp" path="res://scenes/characters/npcs/thomas.tscn" id="4_o85ij"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_c3goq"]
-vertices = PackedVector2Array(1266.12, 260.289, 936.313, 222.32, 776.641, 125.813, 1043.35, 58.2188, 1283.96, 101.609, 1567.44, 232.453, 1557.82, 422.578, 1792, 433.57, 1536.15, 582.93, 1745.83, 649.023, 1545.48, 849.367, 1329.96, 672.492, 1388.97, 826.18, 1098.36, 751.117, 1145.2, 629.703)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5), PackedInt32Array(6, 0, 5, 7), PackedInt32Array(8, 6, 7, 9, 10), PackedInt32Array(11, 8, 10, 12), PackedInt32Array(11, 12, 13, 14)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(1043, 48, 1287, 92, 1573, 224, 1803, 430, 1755, 654, 1549, 860, 1387, 836, 1085, 758, 1139, 618, 1329, 662, 1527, 576, 1547, 428, 1263, 270, 933, 232, 751, 122)])
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_ibilp"]
+vertices = PackedVector2Array(74.9531, 135.047, 75.0313, 135.047, 40.2813, 138.43, 80.4688, 87.1875, 56.1484, 81.4688, 71.6797, 67.3516, 95.3281, 132.906, 30.7969, 122.82, 36.6563, 117.453, 48.1797, 107.57, 79.5, 103.969, 144, 98.4531, 47.1406, 52.6328, 48.5313, 48.6875, 67.0078, 45, 89.6328, 45, 144, 128.063, 142.422, 136.453, 129.922, 138.828, 146, 80.4375, 103.398, 45.9063, 122.469, 50.9375, 146, 65.0078, 139.82, 51.7578, 144.633, 58.1719)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2), PackedInt32Array(3, 4, 5), PackedInt32Array(6, 0, 2, 7, 8, 9, 10, 11), PackedInt32Array(5, 12, 13, 14, 15), PackedInt32Array(11, 16, 17, 18, 6), PackedInt32Array(19, 11, 3, 5, 15, 20, 21, 22), PackedInt32Array(11, 10, 3), PackedInt32Array(22, 21, 23, 24)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(44, 79, 55, 69, 35, 57, 41, 40, 66, 35, 90, 35, 105, 36, 124, 41, 145, 42, 154, 54, 156, 64, 156, 81, 154, 99, 154, 129, 151, 145, 130, 149, 95, 143, 76, 145, 35, 149, 18, 121, 30, 110, 44, 98, 70, 95, 36, 87)])
 
 [node name="Node2D" type="Node2D"]
 
 [node name="Player" parent="." instance=ExtResource("1_ipkwj")]
 unique_name_in_owner = true
 z_index = 5
-position = Vector2(982, 158)
+position = Vector2(132, 150)
 
 [node name="Camera" type="Camera2D" parent="Player"]
 position = Vector2(0, -43)
@@ -21,7 +22,10 @@ position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
 [node name="thomas" parent="." instance=ExtResource("4_o85ij")]
-position = Vector2(1263, 715)
+z_index = 7
+position = Vector2(129, 96)
+
+[node name="tierbereich" parent="." instance=ExtResource("3_ibilp")]
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-navigation_polygon = SubResource("NavigationPolygon_c3goq")
+navigation_polygon = SubResource("NavigationPolygon_ibilp")
