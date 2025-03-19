@@ -89,9 +89,11 @@ func _on_workstation_area_body_exited(body):
 
 func _unhandled_input(event):
 	if event.is_action_pressed("interact") and player_in_workstation_area and current_ui and current_inventory_ui:
-		# Show UIs
+		# Show production UI
 		current_ui.show()
-		current_inventory_ui.show()
+		
+		# Setup inventory UI with filtered items for this workstation
+		current_inventory_ui.setup_and_show(current_workstation)
 		
 		# Debug print to verify the UI is being shown
 		print("Showing inventory UI for " + current_workstation)
