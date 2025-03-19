@@ -7,10 +7,14 @@ extends StaticBody2D
 @onready var butterchurn_ui = $production_ui_butterchurn
 @onready var press_cheese_ui = $production_ui_press_cheese
 @onready var mayomaker_ui = $production_ui_mayomaker
+@onready var inventory_ui_butterchurn = $inventory_ui_butterchurn
+@onready var inventory_ui_press_cheese = $inventory_ui_press_cheese
+@onready var inventory_ui_mayomaker = $inventory_ui_mayomaker
 
 var player_in_workstation_area = false
 var current_workstation = null
 var current_ui = null
+var current_inventory_ui = null
 
 func _ready():
 	exit_area.body_entered.connect(_on_exit_area_body_entered)
@@ -30,11 +34,19 @@ func _ready():
 	
 	# Hide all production UIs initially
 	if butterchurn_ui:
-		butterchurn_ui.visible = false
+		butterchurn_ui.hide()
 	if press_cheese_ui:
-		press_cheese_ui.visible = false
+		press_cheese_ui.hide()
 	if mayomaker_ui:
-		mayomaker_ui.visible = false
+		mayomaker_ui.hide()
+	
+	# Hide all inventory UIs initially
+	if inventory_ui_butterchurn:
+		inventory_ui_butterchurn.hide()
+	if inventory_ui_press_cheese:
+		inventory_ui_press_cheese.hide()
+	if inventory_ui_mayomaker:
+		inventory_ui_mayomaker.hide()
 
 func _on_exit_area_body_entered(body):
 	if body.is_in_group("Player"):
@@ -55,10 +67,13 @@ func _on_workstation_area_body_entered(body, workstation_name):
 		match workstation_name:
 			"butterchurn":
 				current_ui = butterchurn_ui
+				current_inventory_ui = inventory_ui_butterchurn
 			"press_cheese":
 				current_ui = press_cheese_ui
+				current_inventory_ui = inventory_ui_press_cheese
 			"mayomaker":
 				current_ui = mayomaker_ui
+				current_inventory_ui = inventory_ui_mayomaker
 		
 		if body.has_method("show_interaction_prompt"):
 			var prompt_text = "Press E to use "
@@ -75,19 +90,28 @@ func _on_workstation_area_body_exited(body):
 	if body.is_in_group("Player"):
 		player_in_workstation_area = false
 		
-		# Hide current UI if any
+		# Hide current UIs if any
 		if current_ui:
-			current_ui.visible = false
+			current_ui.hide()
+		if current_inventory_ui:
+			current_inventory_ui.hide()
 		
 		current_workstation = null
 		current_ui = null
+		current_inventory_ui = null
 		
 		if body.has_method("hide_interaction_prompt"):
 			body.hide_interaction_prompt()
 
 func _unhandled_input(event):
-	if event.is_action_pressed("interact") and player_in_workstation_area and current_ui:
-		current_ui.visible = !current_ui.visible
+	if event.is_action_pressed("interact") and player_in_workstation_area and current_ui and current_inventory_ui:
+		# Show UIs
+		current_ui.show()
+		current_inventory_ui.show()
+		
+		# Debug print to verify the UI is being shown
+		print("Showing inventory UI for " + current_workstation)
+		
 		if current_ui.visible:
 			current_ui.setup(current_workstation)
 		# Optionally pause player movement when UI is open
