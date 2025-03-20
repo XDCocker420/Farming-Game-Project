@@ -94,9 +94,9 @@ func _on_visibility_changed():
         if not current_filter_copy.is_empty():
             current_filter = current_filter_copy
             print("Restoring filter after visibility change: ", current_filter)
-            reload_slots(false)
+            reload_slots(true)
 
-# New function to set filter based on workstation
+# Function to set filter based on workstation
 func set_workstation_filter(workstation: String) -> void:
     # Clear any existing filter first
     current_filter.clear()
@@ -117,7 +117,7 @@ func set_workstation_filter(workstation: String) -> void:
     
     # If already visible, reload the slots with the new filter
     if visible:
-        reload_slots()
+        reload_slots(true)
 
 # Method to both set filter and show UI
 func setup_and_show(workstation: String) -> void:
@@ -153,4 +153,4 @@ func _on_item_selected(item_name: String, _item_texture: Texture2D) -> void:
     item_selected.emit(item_name)
     
     # Reload slots to reflect any inventory changes
-    reload_slots()
+    reload_slots(true)
