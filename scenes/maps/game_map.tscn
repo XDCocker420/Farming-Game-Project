@@ -1,7 +1,7 @@
 [gd_scene load_steps=29 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
-[ext_resource type="Texture2D" uid="uid://ws1p1k2fdqqx" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
+[ext_resource type="Texture2D" uid="uid://b7f3cctim7uf0" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
 [ext_resource type="PackedScene" uid="uid://by8sfn1p2h5nh" path="res://scenes/buildings/player_house.tscn" id="4_1xy5d"]
 [ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="5_sdtop"]
 [ext_resource type="PackedScene" uid="uid://nyttgrj1hid3" path="res://scenes/buildings/tierbereich.tscn" id="7_8ejyj"]
@@ -3735,7 +3735,6 @@ tile_map_data = PackedByteArray("AAB7AAEAAAAEAC8AAAB7AAIAAAAEADAAAAB7AAMAAAAEADE
 tile_set = SubResource("TileSet_8do3e")
 
 [node name="TagUndNacht" type="CanvasModulate" parent="."]
-visible = false
 color = Color(0.133333, 0.14902, 0.258824, 1)
 script = ExtResource("10_6ts4f")
 gradient_texture = ExtResource("19_s3576")

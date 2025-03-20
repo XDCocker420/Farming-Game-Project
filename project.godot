@@ -26,14 +26,42 @@ Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 [dialogic]
 
 directories/dch_directory={
+"annabeth": "res://dialogs/characters/annabeth.dch",
+"armin": "res://dialogs/characters/armin.dch",
+"jeffrey": "res://dialogs/characters/jeffrey.dch",
+"joshua": "res://dialogs/characters/joshua.dch",
+"lara": "res://dialogs/characters/lara.dch",
 "marlene": "res://dialogs/characters/marlene.dch",
 "martha": "res://dialogs/characters/martha.dch",
+"melissa": "res://dialogs/characters/melissa.dch",
+"sabrina": "res://dialogs/characters/sabrina.dch",
 "starter": "res://dialogs/characters/starter/starter.dch",
-"theoden": "res://dialogs/characters/theoden.dch"
+"theoden": "res://dialogs/characters/theoden.dch",
+"thomas": "res://dialogs/characters/thomas.dch"
 }
 directories/dtl_directory={
+"annabeth": "res://dialogs/timelines/annabeth.dtl",
+"annabeth_night": "res://dialogs/timelines/annabeth_night.dtl",
+"armin": "res://dialogs/timelines/armin.dtl",
+"armin_night": "res://dialogs/timelines/armin_night.dtl",
 "intro": "res://dialogs/timelines/intro.dtl",
-"talking1": "res://dialogs/timelines/talking1.dtl"
+"jeffrey": "res://dialogs/timelines/jeffrey.dtl",
+"jeffrey_night": "res://dialogs/timelines/jeffrey_night.dtl",
+"joshua": "res://dialogs/timelines/joshua.dtl",
+"joshua_night": "res://dialogs/timelines/joshua_night.dtl",
+"lara": "res://dialogs/timelines/lara.dtl",
+"lara_night": "res://dialogs/timelines/lara_night.dtl",
+"martha": "res://dialogs/timelines/martha.dtl",
+"martha_night": "res://dialogs/timelines/martha_night.dtl",
+"melissa": "res://dialogs/timelines/melissa.dtl",
+"melissa_night": "res://dialogs/timelines/melissa_night.dtl",
+"sabrina": "res://dialogs/timelines/sabrina.dtl",
+"sabrina_night": "res://dialogs/timelines/sabrina_night.dtl",
+"talking1": "res://dialogs/timelines/talking1.dtl",
+"theoden": "res://dialogs/timelines/theoden.dtl",
+"theoden_night": "res://dialogs/timelines/theoden_night.dtl",
+"thomas": "res://dialogs/timelines/thomas.dtl",
+"thomas_night": "res://dialogs/timelines/thomas_night.dtl"
 }
 glossary/default_case_sensitive=true
 layout/style_list=["res://dialogs/styling/custom_styles.tres", "res://dialogs/styling/default.tres"]

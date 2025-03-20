@@ -1,0 +1,7 @@
+thomas: Hallo hallo {global.player_name}
+thomas: Wie gehts heute?
+- Gut
+- Super
+thomas: Freut mich zu höhren
+thomas: Viel Spaß noch!!!
+set {inputs.should_move} = true

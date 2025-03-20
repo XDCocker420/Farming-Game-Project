@@ -1,0 +1,2 @@
+joshua: Es ist schon so dunkel wie meine Seele
+set {inputs.should_move} = true

@@ -6,6 +6,7 @@ const INGAME_TO_REAL_MINUTE_DURATION = (2 * PI) / MINUTES_PER_DAY
 
 
 signal time_tick(day:int, hour:int, minute:int)
+#signal is_night()
 
 
 @export var gradient_texture:GradientTexture1D
@@ -30,7 +31,7 @@ func _process(delta: float) -> void:
 	var value = (sin(time - PI / 2.0) + 1.0) / 2.0
 	self.color = gradient_texture.gradient.sample(value)
 	
-	_recalculate_time()	
+	_recalculate_time()
 
 		
 func _recalculate_time() -> void:
@@ -45,4 +46,8 @@ func _recalculate_time() -> void:
 	
 	if past_minute != minute:
 		past_minute = minute
+		if hour == 19:
+			#is_night.emit()
+			print(19)
+		print("Hour ", hour)
 		time_tick.emit(day, hour, minute)

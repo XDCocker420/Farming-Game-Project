@@ -23,15 +23,25 @@ var history:Array[Vector2]
 # Timer zum Warten nach Zielerreichen
 @export var wait_timer: Timer
 
-var should_move:bool = true
-
 var player_in_area:bool = false
+
+var is_night:bool = false
+
+@export var day_and_night:CanvasModulate
+
+@export var items_to_buy:Array[String]
+
+var go_to_market:bool = false
 
 func _ready() -> void:
 	wait_timer.timeout.connect(_on_wait_timeout)
 	
 	SaveGame.items_added_to_market.connect(_added_to_market)
-	#navigation_agent.velocity_computed.connect(Callable(_on_velocity_computed))
+	
+	#DayDayCyle.is_night.connect(_on_is_night)
+	#day_and_night.is_night.connect(_on_is_night)
+	
+	navigation_agent.velocity_computed.connect(Callable(_on_velocity_computed))
 	
 	interaction_area.body_entered.connect(_on_area_entered)
 
@@ -45,27 +55,33 @@ func _physics_process(delta: float) -> void:
 		return
 
 	if navigation_agent.is_target_reached():
-		if wait_timer.is_stopped():
+		if go_to_market:
+			## TODO: Implement buying from the market
+			# SaveGame.remove_market_item(items_to_buy[ irgendwas halt ])
+			pass
+				
+		elif wait_timer.is_stopped():
 			wait_timer.start(2)
 
-	# Aktualisiere das Ziel des NavigationAgent2D, falls sich das Ziel geändert hat
 	if navigation_agent.target_position != current_target:
 		navigation_agent.target_position = current_target
 		
 	if NavigationServer2D.map_get_iteration_id(navigation_agent.get_navigation_map()) == 0:
 		return
 
-	# Wenn das Ziel noch nicht erreicht ist, folge dem Pfad
 	if not navigation_agent.is_target_reached() && Dialogic.VAR.inputs.should_move:
-		# Hole den nächsten Punkt auf dem berechneten Pfad
-	
+		
 		var next_position = navigation_agent.get_next_path_position()
 		var direction = (next_position - position).normalized()
 		# Setze die Geschwindigkeit des NPCs
-		velocity = direction * move_speed
-		
+		#var new_velocity = direction * move_speed
+		var new_velocity: Vector2 = global_position.direction_to(next_position) * move_speed
+		#velocity = direction * move_speed
+		if navigation_agent.avoidance_enabled:
+			navigation_agent.set_velocity(new_velocity)
+		else:
+			_on_velocity_computed(new_velocity)
 
-		# Bestimme anhand der Geschwindigkeit die passende Animation
 		if abs(velocity.x) > abs(velocity.y):
 			if velocity.x > 0:
 				_play_animation("right")
@@ -76,9 +92,8 @@ func _physics_process(delta: float) -> void:
 				_play_animation("down")
 			else:
 				_play_animation("up")
-		move_and_slide()
+		#move_and_slide()
 	else:
-		# Ziel erreicht: NPC stoppt und wechselt in einen "idle"-Zustand
 		velocity = Vector2.ZERO
 		_play_animation("idle")
 			
@@ -90,11 +105,6 @@ func _on_wait_timeout() -> void:
 	choose_new_target()
 
 func choose_new_target() -> void:
-	# Beispielhafte Logik:
-	# Falls es Nacht ist (hier könntest du deine Zeitlogik einbauen), wähle den Home-Punkt
-	# Andernfalls: Wähle zufällig einen der wichtigen Orte
-	# (Die Logik kann beliebig erweitert werden.)
-	var is_night = false  # Hier müsstest du deine Tageszeitlogik einbinden
 	if is_night and home_point:
 		current_target = home_point
 	else:
@@ -109,8 +119,7 @@ func choose_new_target() -> void:
 		else:
 			print("Please specify Important Points")
 			current_target = position
-	
-	# Aktualisiere den NavigationAgent2D
+
 	if navigation_agent:
 		navigation_agent.target_position = current_target
 		
@@ -120,17 +129,28 @@ func addToHistory(item):
 		history.pop_front()
 
 func _input(_event: InputEvent):
-	if _event.is_action_pressed("interact") && player_in_area && Dialogic.current_timeline == null:
+	if is_night && Dialogic.current_timeline == null:
 		Dialogic.VAR.inputs.should_move = false
 
-		var timeline:DialogicTimeline = preload("res://dialogs/timelines/talking1.dtl")
+		var file_path:String = "res://dialogs/timelines/" + name.to_lower() + "_night.dtl"
+		
+		var timeline:DialogicTimeline = load(file_path)
+		timeline.process()
+		
+		Dialogic.start(timeline)
+		
+	elif _event.is_action_pressed("interact") && player_in_area && Dialogic.current_timeline == null:
+		Dialogic.VAR.inputs.should_move = false
+
+		var file_path:String = "res://dialogs/timelines/" + name.to_lower() + ".dtl"
+		
+		var timeline:DialogicTimeline = load(file_path)
 		timeline.process()
 		
 		Dialogic.start(timeline)
 
 
 func _play_animation(anim_name: String) -> void:
-	# Annahme: Der NPC besitzt als Kind einen AnimatedSprite2D mit dem Namen "AnimatedSprite2D"
 	var sprite = get_node("AnimatedSprite2D")
 	if sprite:
 		sprite.play(anim_name)
@@ -144,4 +164,9 @@ func _on_area_exited(body:Node2D):
 		player_in_area = false
 
 func _added_to_market(item_name:String):
-	current_target = market.position
+	if item_name in items_to_buy:
+		go_to_market = true
+		current_target = market.position
+	
+func _on_is_night():
+	is_night = true

@@ -1,7 +1,7 @@
 [gd_scene load_steps=6 format=4 uid="uid://b57ax2p4r20ae"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_ipkwj"]
-[ext_resource type="PackedScene" uid="uid://b4t4doi85hxl1" path="res://scenes/characters/npcs/test.tscn" id="4_2bulj"]
+[ext_resource type="PackedScene" uid="uid://bbncnutg3tli0" path="res://scenes/characters/npcs/annabeth.tscn" id="4_2bulj"]
 [ext_resource type="PackedScene" uid="uid://exndmgultn3t" path="res://scenes/buildings/car_1.tscn" id="4_6i7ie"]
 [ext_resource type="TileSet" uid="uid://ns2vki3n45m" path="res://assets/tilesets/terrain_tileset.tres" id="4_vhguy"]
 
@@ -32,9 +32,6 @@ position_smoothing_speed = 7.0
 position = Vector2(28, 109)
 scale = Vector2(0.431745, 0.446083)
 
-[node name="Test" parent="." instance=ExtResource("4_2bulj")]
-position = Vector2(-25, 136)
-
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_6i7ie")
 
@@ -43,3 +40,6 @@ position = Vector2(32, 99)
 vertices = PackedVector2Array(-18, -13, 12, -13, 18, -4, 18, 12, -19, 12)
 affect_navigation_mesh = true
 carve_navigation_mesh = true
+
+[node name="Annabeth" parent="." instance=ExtResource("4_2bulj")]
+position = Vector2(-27, 131)

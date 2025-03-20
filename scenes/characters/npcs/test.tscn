@@ -1,6 +1,6 @@
 [gd_scene load_steps=39 format=3 uid="uid://b4t4doi85hxl1"]
 
-[ext_resource type="Script" uid="uid://qocsy8k1b0py" path="res://scripts/characters/npcs/test.gd" id="1_fdujt"]
+[ext_resource type="Script" uid="uid://qocsy8k1b0py" path="res://scripts/characters/npcs/default_npc.gd" id="1_fdujt"]
 [ext_resource type="Texture2D" uid="uid://cwb487jnocw48" path="res://assets/characters/named_characters/thomas/thomas_walk.png" id="2_fdujt"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_inw8d"]
