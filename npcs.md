@@ -1,8 +1,8 @@
 # NPC
 * [Thomas](#thomas)
 * [Jeffrey](#jeffrey)
-* [Hannah](#hannah)
-* [Anna](#anna)
+* [Annabeth](#annabeth)
+* [Sabrina](#sabrina)
 * [Armin](#armin)
 * [Martha](#martha)
 * [Theoden](#theoden)
@@ -99,84 +99,84 @@ Jeffrey lebt nach dem Motto: „Die Welt ist ein riesiges Buch, und wer an einem
 - **Negativ:** Etwas rastlos, neigt dazu, sich emotional zu verschließen  
 - **Interaktion:** Jeffrey spricht in einem ruhigen, aber eindringlichen Ton und verwendet oft Metaphern, um seine Gedanken auszudrücken. Zum Beispiel: „Manchmal gleicht das Leben einem Fluss – kämpfst du gegen die Strömung, wirst du nur müde. Lässt du dich treiben, wirst du erstaunt sein, wohin er dich bringt.“
 
-### Hannah
+### Annabeth
 #### Alter 
 17
 #### Hintergrundgeschichte
-Hannah ist 17 Jahre alt und die jüngste Tochter einer alteingesessenen Familie aus St. Catchpole. Ihre Eltern betreiben einen kleinen Gasthof am Stadtrand, der vor allem für seine gemütliche Atmosphäre und hausgemachte Speisen bekannt ist. Hannah wuchs in einer Umgebung auf, in der immer etwas los war – Reisende kamen und gingen, Geschichten wurden ausgetauscht, und die Luft war stets erfüllt von Lachen und dem Duft von frisch gebackenem Brot.
+Annabeth ist 17 Jahre alt und die jüngste Tochter einer alteingesessenen Familie aus St. Catchpole. Ihre Eltern betreiben einen kleinen Gasthof am Stadtrand, der vor allem für seine gemütliche Atmosphäre und hausgemachte Speisen bekannt ist. Annabeth wuchs in einer Umgebung auf, in der immer etwas los war – Reisende kamen und gingen, Geschichten wurden ausgetauscht, und die Luft war stets erfüllt von Lachen und dem Duft von frisch gebackenem Brot.
 
-Doch während ihre Eltern sie gerne in die Gastwirtschaft einbinden würden, hat Hannah andere Träume. Sie ist eine junge Frau voller Energie, Träumereien und Abenteuerlust, die es liebt, neue Dinge zu entdecken und ihre eigenen Wege zu gehen.
+Doch während ihre Eltern sie gerne in die Gastwirtschaft einbinden würden, hat Annabeth andere Träume. Sie ist eine junge Frau voller Energie, Träumereien und Abenteuerlust, die es liebt, neue Dinge zu entdecken und ihre eigenen Wege zu gehen.
 
 **Eine Naturverbundene Seele**
 
-Schon als kleines Kind hatte Hannah eine besondere Verbindung zur Natur. Während ihre Altersgenossen in der Stadt spielten, zog sie sich oft in die umliegenden Wälder und Felder zurück, um Blumen zu pflücken, Tiere zu beobachten oder an kleinen Projekten zu basteln. Sie hat eine erstaunliche Gabe, mit Tieren umzugehen – sogar die scheusten Kreaturen scheinen ihr Vertrauen zu schenken.
+Schon als kleines Kind hatte Annabeth eine besondere Verbindung zur Natur. Während ihre Altersgenossen in der Stadt spielten, zog sie sich oft in die umliegenden Wälder und Felder zurück, um Blumen zu pflücken, Tiere zu beobachten oder an kleinen Projekten zu basteln. Sie hat eine erstaunliche Gabe, mit Tieren umzugehen – sogar die scheusten Kreaturen scheinen ihr Vertrauen zu schenken.
 
-Hannah ist bekannt für ihre kreative Ader. Sie liebt es, aus Naturmaterialien kleine Kunstwerke zu schaffen, wie dekorative Kränze, geschnitzte Holzfiguren oder handgemachte Blumengestecke, die sie manchmal im Gasthof verkauft. Ihr Traum ist es, eines Tages ihren eigenen kleinen Laden zu eröffnen, in dem sie ihre Kreationen und gesammelte Naturfunde verkaufen kann.
+Annabeth ist bekannt für ihre kreative Ader. Sie liebt es, aus Naturmaterialien kleine Kunstwerke zu schaffen, wie dekorative Kränze, geschnitzte Holzfiguren oder handgemachte Blumengestecke, die sie manchmal im Gasthof verkauft. Ihr Traum ist es, eines Tages ihren eigenen kleinen Laden zu eröffnen, in dem sie ihre Kreationen und gesammelte Naturfunde verkaufen kann.
 
 **Ein freier Geist**
 
-Mit ihren 17 Jahren steht Hannah an der Schwelle zum Erwachsenwerden, doch sie ist sich nicht sicher, welchen Weg sie einschlagen soll. Soll sie den Gasthof ihrer Familie unterstützen, wie es ihre Eltern sich wünschen, oder soll sie ihren Träumen folgen und ein Leben als unabhängige Künstlerin und Naturliebhaberin führen? Diese innere Zerrissenheit spiegelt sich oft in ihrer Persönlichkeit wider – einer Mischung aus jugendlicher Unbeschwertheit und tiefen Gedanken über ihre Zukunft.
+Mit ihren 17 Jahren steht Annabeth an der Schwelle zum Erwachsenwerden, doch sie ist sich nicht sicher, welchen Weg sie einschlagen soll. Soll sie den Gasthof ihrer Familie unterstützen, wie es ihre Eltern sich wünschen, oder soll sie ihren Träumen folgen und ein Leben als unabhängige Künstlerin und Naturliebhaberin führen? Diese innere Zerrissenheit spiegelt sich oft in ihrer Persönlichkeit wider – einer Mischung aus jugendlicher Unbeschwertheit und tiefen Gedanken über ihre Zukunft.
 
-**Hannah heute**
+**Annabeth heute**
 
-Hannah ist oft im Freien anzutreffen, mit ihrem treuen Hund Pepper an ihrer Seite. Ob sie nun Blumen sammelt, Tierspuren verfolgt oder an neuen Dekorationen arbeitet – sie sprüht vor Energie und Kreativität. Ihr Gesicht leuchtet, wenn sie über ihre Projekte spricht, und ihre Begeisterung steckt an. Sie ist eine der wenigen in der Stadt, die die umliegende Natur wie ihre eigene Westentasche kennt, und teilt dieses Wissen gerne mit anderen.
+Annabeth ist oft im Freien anzutreffen, mit ihrem treuen Hund Pepper an ihrer Seite. Ob sie nun Blumen sammelt, Tierspuren verfolgt oder an neuen Dekorationen arbeitet – sie sprüht vor Energie und Kreativität. Ihr Gesicht leuchtet, wenn sie über ihre Projekte spricht, und ihre Begeisterung steckt an. Sie ist eine der wenigen in der Stadt, die die umliegende Natur wie ihre eigene Westentasche kennt, und teilt dieses Wissen gerne mit anderen.
 
 **Besonderheiten in der Spielmechanik**
 
-- **Dekorationen:** Spieler können bei Hannah handgefertigte Dekorationen kaufen, die aus natürlichen Materialien bestehen. Diese Objekte sind nicht nur schön, sondern können auch in der Wohnung platziert werden.
+- **Dekorationen:** Spieler können bei Annabeth handgefertigte Dekorationen kaufen, die aus natürlichen Materialien bestehen. Diese Objekte sind nicht nur schön, sondern können auch in der Wohnung platziert werden.
 
-- **Quests:** Hannah gibt regelmäßig Quests, bei denen Spieler seltene Pflanzen oder besondere Materialien für ihre Kreationen finden müssen.
+- **Quests:** Annabeth gibt regelmäßig Quests, bei denen Spieler seltene Pflanzen oder besondere Materialien für ihre Kreationen finden müssen.
 
-- **Tierschutz:** Hannah hat ein besonderes Interesse an Tieren. Spieler können von ihr lernen, wie man Tiere besser pflegt und betreut.
+- **Tierschutz:** Annabeth hat ein besonderes Interesse an Tieren. Spieler können von ihr lernen, wie man Tiere besser pflegt und betreut.
 
-- **Freundschaftsbonus:** Wenn Spieler sich mit Hannah anfreunden, lädt sie sie zu besonderen gemeinsamen Ausflügen ein, wie einem nächtlichen Spaziergang, um Glühwürmchen zu fangen.
+- **Freundschaftsbonus:** Wenn Spieler sich mit Annabeth anfreunden, lädt sie sie zu besonderen gemeinsamen Ausflügen ein, wie einem nächtlichen Spaziergang, um Glühwürmchen zu fangen.
 
-**Hannahs Philosophie**
+**Annabeths Philosophie**
 
-Hannah lebt nach dem Motto: „Die Welt ist voll von Wundern – wir müssen nur lernen, sie zu sehen.“ Sie erinnert andere daran, die Schönheit im Alltäglichen zu finden und die Natur zu schätzen. Ihre Worte sind oft einfach, aber voller Enthusiasmus und Leidenschaft.
+Annabeth lebt nach dem Motto: „Die Welt ist voll von Wundern – wir müssen nur lernen, sie zu sehen.“ Sie erinnert andere daran, die Schönheit im Alltäglichen zu finden und die Natur zu schätzen. Ihre Worte sind oft einfach, aber voller Enthusiasmus und Leidenschaft.
 
 **Charaktereigenschaften**
 
 - **Positiv:** Kreativ, abenteuerlustig, warmherzig  
 - **Negativ:** Manchmal unentschlossen, kann impulsiv sein  
-- **Interaktion:** Hannah spricht schnell und mit leuchtenden Augen, wenn sie begeistert ist. Sie neigt dazu, mitten in einem Satz neue Ideen zu entwickeln, was sie charmant, aber manchmal auch etwas sprunghaft wirken lässt.
+- **Interaktion:** Annabeth spricht schnell und mit leuchtenden Augen, wenn sie begeistert ist. Sie neigt dazu, mitten in einem Satz neue Ideen zu entwickeln, was sie charmant, aber manchmal auch etwas sprunghaft wirken lässt.
 
 
-### Anna
+### Sabrina
 #### Alter 
 31
 #### Hintergrundgeschichte
-Anna ist 31 Jahre alt und eine wahre Macherin. Geboren und aufgewachsen in St. Catchpole, kennt sie die Stadt wie ihre eigene Westentasche. Ihre Eltern waren einfache, aber fleißige Menschen: ihr Vater war Schmied, ihre Mutter führte einen kleinen Laden für Alltagswaren. Von ihnen lernte Anna früh den Wert harter Arbeit, aber auch, wie wichtig es ist, sich um andere zu kümmern.
+Sabrina ist 31 Jahre alt und eine wahre Macherin. Geboren und aufgewachsen in St. Catchpole, kennt sie die Stadt wie ihre eigene Westentasche. Ihre Eltern waren einfache, aber fleißige Menschen: ihr Vater war Schmied, ihre Mutter führte einen kleinen Laden für Alltagswaren. Von ihnen lernte Sabrina früh den Wert harter Arbeit, aber auch, wie wichtig es ist, sich um andere zu kümmern.
 
 **Ein Weg voller Herausforderungen**
 
-Nach ihrer Schulzeit entschied sich Anna, die Stadt zu verlassen, um in einer größeren Stadt eine Ausbildung zur Köchin zu machen. Sie hatte schon immer eine Leidenschaft für das Kochen und Träumen von neuen Rezepten. Die Jahre in der Stadt waren hart – sie arbeitete in einer hektischen Restaurantküche, sparte jeden Cent und lernte die Feinheiten der Gastronomie. Doch obwohl sie viel lernte, spürte sie, dass ihr Herz immer noch an St. Catchpole hing. Sie wollte nicht nur kochen, sondern etwas schaffen, das den Menschen in ihrer Heimatstadt Freude bringt.
+Nach ihrer Schulzeit entschied sich Sabrina, die Stadt zu verlassen, um in einer größeren Stadt eine Ausbildung zur Köchin zu machen. Sie hatte schon immer eine Leidenschaft für das Kochen und Träumen von neuen Rezepten. Die Jahre in der Stadt waren hart – sie arbeitete in einer hektischen Restaurantküche, sparte jeden Cent und lernte die Feinheiten der Gastronomie. Doch obwohl sie viel lernte, spürte sie, dass ihr Herz immer noch an St. Catchpole hing. Sie wollte nicht nur kochen, sondern etwas schaffen, das den Menschen in ihrer Heimatstadt Freude bringt.
 
-Vor drei Jahren kehrte Anna zurück nach St. Catchpole und erfüllte sich einen Traum: Sie eröffnete ein kleines, gemütliches Café im Zentrum der Stadt. Das Café wurde schnell zu einem beliebten Treffpunkt, bekannt für Annas hausgemachte Kuchen, Suppen und ihr berühmtes „Sommergartenbrot“, das sie mit Zutaten aus der Region backt.
+Vor drei Jahren kehrte Sabrina zurück nach St. Catchpole und erfüllte sich einen Traum: Sie eröffnete ein kleines, gemütliches Café im Zentrum der Stadt. Das Café wurde schnell zu einem beliebten Treffpunkt, bekannt für Annas hausgemachte Kuchen, Suppen und ihr berühmtes „Sommergartenbrot“, das sie mit Zutaten aus der Region backt.
 
-**Anna heute**
+**Sabrina heute**
 
-Anna ist eine leidenschaftliche und ehrgeizige Frau, die ihre Arbeit liebt. Sie beginnt ihre Tage früh, backt frisches Brot und kümmert sich um ihren kleinen Kräutergarten hinter dem Café. Sie kennt fast jeden in der Stadt und hat für jeden ein freundliches Wort oder eine aufmunternde Bemerkung übrig. Trotz ihrer warmen und freundlichen Art kann Anna sehr direkt sein – sie scheut sich nicht, ihre Meinung zu sagen, vor allem, wenn es darum geht, das Richtige zu tun.
+Sabrina ist eine leidenschaftliche und ehrgeizige Frau, die ihre Arbeit liebt. Sie beginnt ihre Tage früh, backt frisches Brot und kümmert sich um ihren kleinen Kräutergarten hinter dem Café. Sie kennt fast jeden in der Stadt und hat für jeden ein freundliches Wort oder eine aufmunternde Bemerkung übrig. Trotz ihrer warmen und freundlichen Art kann Sabrina sehr direkt sein – sie scheut sich nicht, ihre Meinung zu sagen, vor allem, wenn es darum geht, das Richtige zu tun.
 
-Ihr Café ist mehr als nur ein Ort zum Essen. Es ist ein Zentrum der Gemeinschaft, wo Neuigkeiten ausgetauscht, Ideen geteilt und Freundschaften geschlossen werden. Anna liebt es, neue Rezepte auszuprobieren und arbeitet oft mit den lokalen Bauern zusammen, um frische, saisonale Zutaten zu verwenden.
+Ihr Café ist mehr als nur ein Ort zum Essen. Es ist ein Zentrum der Gemeinschaft, wo Neuigkeiten ausgetauscht, Ideen geteilt und Freundschaften geschlossen werden. Sabrina liebt es, neue Rezepte auszuprobieren und arbeitet oft mit den lokalen Bauern zusammen, um frische, saisonale Zutaten zu verwenden.
 
 **Besonderheiten in der Spielmechanik**
 
-- **Rezepte und Kochen:** Spieler können bei Anna neue Rezepte lernen oder Zutaten abgeben, um spezielle Gerichte zu kochen. Diese Gerichte können besondere Effekte haben, wie erhöhte Energie oder eine schnellere Erntezeit.
+- **Rezepte und Kochen:** Spieler können bei Sabrina neue Rezepte lernen oder Zutaten abgeben, um spezielle Gerichte zu kochen. Diese Gerichte können besondere Effekte haben, wie erhöhte Energie oder eine schnellere Erntezeit.
 
-- **Quests:** Anna gibt regelmäßig Quests, bei denen Spieler bestimmte Zutaten oder besondere Kräuter anbauen müssen. Im Gegenzug teilt sie exklusive Rezepte oder besondere Belohnungen wie ihre beliebten Kochutensilien.
+- **Quests:** Sabrina gibt regelmäßig Quests, bei denen Spieler bestimmte Zutaten oder besondere Kräuter anbauen müssen. Im Gegenzug teilt sie exklusive Rezepte oder besondere Belohnungen wie ihre beliebten Kochutensilien.
 
 - **Freundschaftsbonus:** Wenn Spieler Annas Vertrauen gewinnen, bietet sie ihnen an, ihre Gerichte in ihrem Café zu verkaufen, was eine zusätzliche Einkommensquelle für den Spieler darstellen kann.
 
 **Annas Philosophie**
 
-Anna lebt nach dem Motto: „Gutes Essen bringt die Menschen zusammen.“ Sie glaubt fest daran, dass die einfachen Dinge im Leben – eine warme Mahlzeit, ein nettes Gespräch – die Grundlage für eine starke Gemeinschaft sind. Sie inspiriert andere, ihre Talente zu nutzen, um etwas Positives in die Welt zu bringen.
+Sabrina lebt nach dem Motto: „Gutes Essen bringt die Menschen zusammen.“ Sie glaubt fest daran, dass die einfachen Dinge im Leben – eine warme Mahlzeit, ein nettes Gespräch – die Grundlage für eine starke Gemeinschaft sind. Sie inspiriert andere, ihre Talente zu nutzen, um etwas Positives in die Welt zu bringen.
 
 **Charaktereigenschaften**
 
 - **Positiv:** Leidenschaftlich, herzlich, zielstrebig  
 - **Negativ:** Manchmal zu direkt, etwas perfektionistisch  
-- **Interaktion:** Anna spricht in einem freundlichen, lebhaften Ton, besonders wenn sie über Essen oder neue Ideen spricht. Sie neigt dazu, die Hände beim Sprechen viel zu bewegen, was ihre Begeisterung unterstreicht.
+- **Interaktion:** Sabrina spricht in einem freundlichen, lebhaften Ton, besonders wenn sie über Essen oder neue Ideen spricht. Sie neigt dazu, die Hände beim Sprechen viel zu bewegen, was ihre Begeisterung unterstreicht.
 
 
 ### Armin
