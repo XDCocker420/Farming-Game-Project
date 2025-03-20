@@ -24,13 +24,21 @@ var input_items = []
 var output_items = []
 
 func _ready():
-	# You might want to connect the slot buttons to handle clicks
+	# Connect button signals for all slots
 	for slot in input_slots + output_slots:
 		if slot.has_node("button"):
-			slot.get_node("button").pressed.connect(_on_slot_pressed.bind(slot))
+			var button = slot.get_node("button")
+			# Disconnect any existing connections first
+			if button.pressed.is_connected(_on_slot_pressed.bind(slot)):
+				button.pressed.disconnect(_on_slot_pressed.bind(slot))
+			# Connect the signal
+			button.pressed.connect(_on_slot_pressed.bind(slot))
+			print("Connected button signal for slot: " + str(slot.name))
 	
-	# Debug check to verify this object has the add_input_item method
+	# Debug check to verify this object has the required methods
 	print("PRODUCTION UI: Method check - has_method('add_input_item'): ", has_method("add_input_item"))
+	print("PRODUCTION UI: Method check - has_method('_process_single_item'): ", has_method("_process_single_item"))
+	print("PRODUCTION UI: Method check - has_method('_on_slot_pressed'): ", has_method("_on_slot_pressed"))
 
 func setup(workstation_name: String):
 	print("Setting up production UI for workstation: " + workstation_name)
@@ -40,7 +48,6 @@ func setup(workstation_name: String):
 	for slot in input_slots + output_slots:
 		if slot.has_method("clear"):
 			slot.clear()
-			print("Cleared slot")
 			
 			# Maintain production UI reference after clearing
 			if slot.has_method("set_production_ui"):
@@ -71,54 +78,92 @@ func setup(workstation_name: String):
 			input_items = ["wheat"]
 			output_items = ["feed"]
 	
-	print("Recipe: " + str(input_items) + " -> " + str(output_items))
-	
 	# Keep input slots empty initially
 	for i in range(min(input_items.size(), input_slots.size())):
 		if input_slots[i].has_method("clear"):
 			input_slots[i].clear()
-			print("Input slot " + str(i) + " cleared and ready for " + input_items[i])
 	
 	# Set up output slots (completely empty initially)
 	for i in range(min(output_items.size(), output_slots.size())):
 		if output_slots[i].has_method("clear"):
 			output_slots[i].clear()
-			print("Output slot " + str(i) + " cleared")
+	
+	# Reconnect button signals for all slots
+	for slot in input_slots + output_slots:
+		if slot.has_node("button"):
+			var button = slot.get_node("button")
+			# Disconnect any existing connections first
+			if button.pressed.is_connected(_on_slot_pressed.bind(slot)):
+				button.pressed.disconnect(_on_slot_pressed.bind(slot))
+			# Connect the signal
+			button.pressed.connect(_on_slot_pressed.bind(slot))
+	
+	print("Recipe: " + str(input_items) + " -> " + str(output_items))
+	
+	# Debug print to verify setup
+	print("Production UI setup complete for " + workstation_name)
+	print("Input slots: " + str(input_slots.size()))
+	print("Output slots: " + str(output_slots.size()))
+	print("Input items: " + str(input_items))
+	print("Output items: " + str(output_items))
+	
+	# Verify all slots have production UI reference
+	for i in range(input_slots.size()):
+		if input_slots[i].has_method("set_production_ui"):
+			input_slots[i].set_production_ui(self)
+			print("Verified production UI reference for input slot " + str(i))
+	
+	for i in range(output_slots.size()):
+		if output_slots[i].has_method("set_production_ui"):
+			output_slots[i].set_production_ui(self)
+			print("Verified production UI reference for output slot " + str(i))
 
 func _on_slot_pressed(slot):
+	print("=== SLOT PRESSED ===")
+	print("Slot name: " + str(slot.name))
+	print("Is input slot: " + str(slot in input_slots))
+	print("Is output slot: " + str(slot in output_slots))
+	
 	if slot in input_slots:
-		# Input slots should not be clickable to prevent item duplication
 		print("Input slot clicked: " + str(input_slots.find(slot)) + " (ignored)")
 		return
 	elif slot in output_slots:
-		print("==== OUTPUT SLOT CLICKED: " + str(output_slots.find(slot)) + " ====")
 		var output_index = output_slots.find(slot)
+		print("Output slot clicked: " + str(output_index))
+		
 		if output_index >= 0 and output_index < output_items.size():
 			var output_item = output_items[output_index]
-			print("Output slot clicked for item: " + output_item)
+			print("Processing output for: " + output_item)
 			
-			# Check if this is a processed item (not just a preview)
+			# Check if this is a processed item
 			var item_count = 0
 			if slot.amount_label.text != "":
 				item_count = int(slot.amount_label.text)
 			
 			if item_count > 0:
-				# This is a processed item that can be transferred back to inventory
-				print("Transferring " + str(item_count) + " " + output_item + " back to inventory")
+				print("Transferring 1 " + output_item + " back to inventory")
+				# Add just one item to inventory
+				SaveGame.add_to_inventory(output_item, 1)
 				
-				# We don't need to change the inventory as items are already there
-				# Just update the display to show 0 and clear the slot
-				slot.clear()
-				print("Reset output slot to empty state")
+				# Update the slot with one less item, or clear if it was the last one
+				if item_count > 1:
+					slot.setup(output_item, "", true, item_count - 1)
+					print("Updated output slot, remaining: " + str(item_count - 1))
+				else:
+					# Clear the output slot if this was the last item
+					slot.clear()
+					print("Cleared output slot (last item taken)")
 			else:
-				# This is an empty slot, try to process
-				print("Processing output at index " + str(output_index) + " for item " + output_items[output_index])
+				print("Processing output at index " + str(output_index))
 				_process_single_item(output_index)
+				# Don't transfer items immediately, let them stay in the output slot
 		else:
 			print("Invalid output index: " + str(output_index))
 
 func _process_single_item(output_index: int) -> void:
-	print("==== PROCESSING SINGLE ITEM FOR OUTPUT INDEX " + str(output_index) + " ====")
+	print("=== PROCESSING ITEM ===")
+	print("Output index: " + str(output_index))
+	print("Workstation: " + current_workstation)
 	
 	# Get corresponding input/output items
 	var input_item = ""
@@ -142,62 +187,52 @@ func _process_single_item(output_index: int) -> void:
 			"feed_mill":
 				input_item = "wheat"
 		
-		print("Recipe input: " + input_item + ", output: " + output_item)
+		print("Recipe: " + input_item + " -> " + output_item)
+	else:
+		print("ERROR: Invalid output index")
+		return
 	
 	if input_item == "" or output_item == "":
-		print("Invalid input/output combination")
+		print("ERROR: Invalid recipe")
 		return
 	
 	# Check if there's an item in the input slot
 	var found_input_slot = -1
 	var input_count = 0
-	for i in range(min(input_items.size(), input_slots.size())):
-		print("Checking slot " + str(i) + " with item_name: " + str(input_slots[i].item_name))
+	for i in range(input_slots.size()):
 		if input_slots[i].item_name == input_item:
 			found_input_slot = i
-			# Get the count of items in this slot
 			if input_slots[i].amount_label.text != "":
 				input_count = int(input_slots[i].amount_label.text)
 			else:
 				input_count = 1
 			print("Found " + str(input_count) + " " + input_item + " in slot " + str(i))
 			break
-			
+	
 	if found_input_slot == -1 or input_count <= 0:
-		print("No input items available to process")
+		print("ERROR: No input items available")
 		return
 	
-	print("Processing " + str(input_count) + " " + input_item + " from slot " + str(found_input_slot) + " into " + output_item)
+	# Process the items
+	print("Processing " + str(input_count) + " " + input_item + " into " + output_item)
 	
-	# Get current output count from inventory
-	var current_output_count = SaveGame.get_item_count(output_item)
-	
-	# Add the output item to inventory
-	SaveGame.add_to_inventory(output_item, input_count)
-	
-	# Update the output slot visually with the new count
+	# Update the output slot visually first
 	if output_slots[output_index].has_method("setup"):
 		output_slots[output_index].setup(output_item, "", true, input_count)
-		print("Updated output slot with count: " + str(input_count))
-		
-		# Ensure the production UI reference is maintained
-		if output_slots[output_index].has_method("set_production_ui"):
-			output_slots[output_index].set_production_ui(self)
-			print("Maintained production UI reference for output slot after processing")
-	
-	print("Successfully processed " + str(input_count) + " " + input_item + " into " + str(input_count) + " " + output_item)
-	print("New inventory count for " + output_item + ": " + str(current_output_count + input_count))
+		print("Updated output slot with " + str(input_count) + " " + output_item)
+	else:
+		print("ERROR: Output slot missing setup method")
+		return
 	
 	# Clear the input slot
-	print("Clearing input slot " + str(found_input_slot))
 	if input_slots[found_input_slot].has_method("clear"):
 		input_slots[found_input_slot].clear()
-		print("Input slot cleared successfully")
+		print("Cleared input slot")
 	else:
-		print("ERROR: input slot doesn't have clear method")
+		print("ERROR: Input slot missing clear method")
+		return
 	
 	# Emit signal to notify processing is complete
-	print("Emitting process_complete signal")
 	process_complete.emit()
 
 # New function to receive items from inventory UI

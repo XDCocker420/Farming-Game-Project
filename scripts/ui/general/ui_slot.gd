@@ -23,6 +23,7 @@ func _on_button_pressed() -> void:
 		return
 	
 	print("Slot pressed with item: " + item_name)
+	print("Slot has production UI reference: " + str(production_ui != null))
 	
 	# Add some visual feedback
 	button.modulate = Color(1.5, 1.5, 1.5, 1)  # Make it brighter when clicked
@@ -57,6 +58,7 @@ func _on_button_pressed() -> void:
 
 # Setup the slot with an item
 func setup(item: String, description: String = "", is_enabled: bool = true, item_count: int = 0) -> void:
+	print("Setting up slot with item: " + item + ", count: " + str(item_count))
 	item_name = item
 	
 	# Load the texture if item is provided
@@ -76,6 +78,9 @@ func setup(item: String, description: String = "", is_enabled: bool = true, item
 	
 	# Enable/disable the button
 	button.disabled = !is_enabled
+	
+	# Debug print
+	print("Slot setup complete. Has production UI: " + str(production_ui != null))
 
 # Clear the slot
 func clear() -> void:
@@ -86,6 +91,7 @@ func clear() -> void:
 	button.disabled = false
 	# Don't clear the production UI reference when clearing the slot
 	# This ensures we maintain the reference for future operations
+	print("Slot cleared. Has production UI: " + str(production_ui != null))
 
 # Set the reference to the production UI
 func set_production_ui(ui) -> void:
