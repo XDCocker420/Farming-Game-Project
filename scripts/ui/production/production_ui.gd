@@ -161,12 +161,18 @@ func _on_slot_pressed(slot):
 				# Find and update Scheune UI if it exists
 				var scheune_ui = _find_scheune_ui()
 				if scheune_ui and scheune_ui.has_method("reload_slots"):
-					# Temporarily clear the filter to show all items
+					# Force a complete slot refresh
+					for slot_item in scheune_ui.slot_list:
+						slot_item.queue_free()
+					scheune_ui.slot_list.clear()
+					
+					# Now reload with fresh data from SaveGame
 					scheune_ui.current_filter.clear()
-					scheune_ui.reload_slots(false)  # Don't reapply filter
-					# Restore the filter
+					scheune_ui.reload_slots(false)
+					
+					# Restore the correct filter
 					scheune_ui.set_workstation_filter(current_workstation)
-					print("Updated Scheune UI after item transfer")
+					print("Completely refreshed Scheune UI after item transfer")
 				else:
 					print("WARNING: Could not find or update Scheune UI")
 					
@@ -287,6 +293,47 @@ func add_input_item(item_name: String) -> void:
 				
 				# Remove the item from inventory
 				SaveGame.remove_from_inventory(item_name, 1)
+				
+				# Update the inventory UI - find ALL inventory UIs in the scene
+				print("=== REFRESHING ALL INVENTORY UIs ===")
+				
+				# First find the Scheune UI
+				var scheune_ui = _find_scheune_ui()
+				if scheune_ui and scheune_ui.has_method("reload_slots"):
+					print("Refreshing primary Scheune UI: " + str(scheune_ui.name))
+					
+					# Force complete rebuild of slots
+					for slot_item in scheune_ui.slot_list:
+						slot_item.queue_free()
+					scheune_ui.slot_list.clear()
+					scheune_ui.current_filter.clear()
+					scheune_ui.reload_slots(false)
+					scheune_ui.set_workstation_filter(current_workstation)
+				
+				# Find all potential inventory UIs in the scene
+				var all_nodes = []
+				_find_all_nodes(get_tree().root, all_nodes)
+				
+				# Update each inventory UI found
+				for node in all_nodes:
+					# Skip the one we already updated
+					if node == scheune_ui:
+						continue
+						
+					# Check if this might be an inventory UI
+					if node.name.begins_with("inventory_ui_") and node.has_method("reload_slots"):
+						print("Refreshing additional inventory UI: " + str(node.name))
+						# Force complete rebuild
+						if node.has_method("reload_slots"):
+							for slot_item in node.slot_list:
+								slot_item.queue_free()
+							node.slot_list.clear()
+							node.current_filter.clear()
+							node.reload_slots(false)
+							node.set_workstation_filter(current_workstation)
+				
+				# Force scene update
+				get_tree().call_group("inventory_slots", "queue_redraw")
 				
 				print("Successfully added " + item_name + " to input slot " + str(i))
 				print("New count in slot: " + str(current_count + 1))
