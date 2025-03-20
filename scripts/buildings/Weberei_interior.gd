@@ -89,16 +89,30 @@ func _on_workstation_area_body_exited(body):
 
 func _unhandled_input(event):
 	if event.is_action_pressed("interact") and player_in_workstation_area and current_ui and current_inventory_ui:
-		# Show production UI
+		# Show both UIs
 		current_ui.show()
+		current_inventory_ui.show()
+		
+		# Set up the production UI first
+		current_ui.setup(current_workstation)
+		print("Production UI set up for: " + current_workstation)
 		
 		# Setup inventory UI with filtered items for this workstation
+		print("Setting up inventory UI with filter")
 		current_inventory_ui.setup_and_show(current_workstation)
 		
-		# Debug print to verify the UI is being shown
-		print("Showing inventory UI for " + current_workstation)
+		# Set the active production UI in the inventory UI AFTER setting up the inventory UI
+		# This is critical because setup_and_show recreates all the slots
+		print("Setting active production UI in inventory UI AFTER inventory setup")
+		if current_inventory_ui.has_method("set_active_production_ui"):
+			current_inventory_ui.set_active_production_ui(current_ui)
+			print("Active production UI set in inventory UI")
+		else:
+			print("ERROR: inventory UI doesn't have set_active_production_ui method")
 		
-		if current_ui.visible:
-			current_ui.setup(current_workstation)
+		# Debug print to verify the UI is being shown
+		print("Both UIs now visible and connected for " + current_workstation)
+		
+		# No need to set up the production UI twice
 		# Optionally pause player movement when UI is open
 		# get_tree().get_first_node_in_group("Player").set_physics_process(!current_ui.visible)
