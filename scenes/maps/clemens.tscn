@@ -32,11 +32,8 @@ position_smoothing_speed = 7.0
 position = Vector2(28, 109)
 scale = Vector2(0.431745, 0.446083)
 
-[node name="Test" parent="." node_paths=PackedStringArray("player") instance=ExtResource("4_2bulj")]
-position = Vector2(-5, 105)
-motion_mode = 1
-wall_min_slide_angle = 0.0
-player = NodePath("../Player")
+[node name="Test" parent="." instance=ExtResource("4_2bulj")]
+position = Vector2(-25, 136)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
 navigation_polygon = SubResource("NavigationPolygon_6i7ie")

@@ -42,6 +42,11 @@ variables={
 "global": {
 "player_name": "",
 "tutorial": false
+},
+"inputs": {
+"custom_answer": "",
+"custom_question": "",
+"should_move": true
 }
 }
 extensions_folder="res://addons/dialogic_additions"

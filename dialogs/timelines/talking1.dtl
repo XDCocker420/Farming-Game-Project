@@ -1,0 +1,8 @@
+Sigma
+- End It
+	set {inputs.should_move} = true
+	[end_timeline]
+- Weiter reden
+	Na bro kein Bock muss nicht
+	set {inputs.should_move} = true
+	[end_timeline]

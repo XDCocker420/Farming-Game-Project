@@ -202,7 +202,10 @@ func get_contract_by_id(id:int) -> SavedContracts:
 			return i
 	return null
 
+signal items_added_to_market
+
 func add_market_item(id:int, item:String, count:int=1, amount_to_sell:int=1) -> SavedMarket:
+	items_added_to_market.emit(item)
 	var temp:SavedMarket = SavedMarket.new()
 	temp.id = id
 	temp.item = item
