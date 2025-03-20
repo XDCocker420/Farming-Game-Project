@@ -153,6 +153,13 @@ func _on_slot_pressed(slot):
 					# Clear the output slot if this was the last item
 					slot.clear()
 					print("Cleared output slot (last item taken)")
+				
+				# Trigger inventory UI update
+				if has_node("/root/Main/UI/InventoryUI"):
+					var inventory_ui = get_node("/root/Main/UI/InventoryUI")
+					if inventory_ui.has_method("reload_slots"):
+						inventory_ui.reload_slots()
+						print("Updated inventory UI")
 			else:
 				print("Processing output at index " + str(output_index))
 				_process_single_item(output_index)
