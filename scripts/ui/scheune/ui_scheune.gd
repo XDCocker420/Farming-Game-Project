@@ -44,37 +44,57 @@ func load_slots() -> void:
             add_slot(item, inventory[item])
         
     
-func reload_slots() -> void:
-    print("Reloading slots with active_production_ui: ", active_production_ui)
+func reload_slots(apply_filter: bool = true) -> void:
+    print("Reloading slots with filter: ", current_filter if apply_filter else "no filter")
     
-    # Store current references before clearing
+    # Store current production UI reference
     var current_production_ui = active_production_ui
-    var current_filter_copy = current_filter.duplicate()
     
-    # Clear the slot list
-    slot_list = []
+    # Get fresh inventory data
+    var inventory_data = SaveGame.get_inventory()
+    print("Current inventory state: ", inventory_data)
     
-    # Remove all slot children
+    # Clear existing slots
+    slot_list.clear()
     for slot in slots.get_children():
         slot.queue_free()
     
-    # Load new slots
-    load_slots()
+    # Add slots for all items if no filter
+    if not apply_filter or current_filter.is_empty():
+        for item in inventory_data:
+            add_slot(item, inventory_data[item])
+    else:
+        # Add slots only for filtered items
+        for item in inventory_data:
+            if current_filter.has(item):
+                add_slot(item, inventory_data[item])
     
-    # If we had a production UI reference, set it for the new slots
+    # Re-establish production UI reference if it exists
     if current_production_ui:
         set_active_production_ui(current_production_ui)
-        print("Re-established production UI reference after reload")
-        
-    # Restore filter if needed (shouldn't be necessary but added for safety)
-    if current_filter.is_empty() and not current_filter_copy.is_empty():
-        current_filter = current_filter_copy
-        print("Restored filter after reload: ", current_filter)
+    
+    print("Finished reloading slots. Total slots: ", slot_list.size())
 
 
 func _on_visibility_changed():
-    if visible == true:
-        reload_slots()
+    if visible:
+        print("Scheune UI became visible, reloading slots...")
+        
+        # Force a fresh reload from SaveGame
+        print("Current SaveGame inventory state: ", SaveGame.get_inventory())
+        
+        # Clear filter temporarily to show all items
+        var current_filter_copy = current_filter.duplicate()
+        current_filter.clear()
+        
+        # Force a complete reload of slots
+        reload_slots(false)
+        
+        # Restore filter if needed
+        if not current_filter_copy.is_empty():
+            current_filter = current_filter_copy
+            print("Restoring filter after visibility change: ", current_filter)
+            reload_slots(false)
 
 # New function to set filter based on workstation
 func set_workstation_filter(workstation: String) -> void:

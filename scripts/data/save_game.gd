@@ -40,6 +40,9 @@ func _ready() -> void:
 
 
 func save_game() -> void:
+	print("=== SAVING GAME ===")
+	print("Current inventory state: ", inventory.data)
+	
 	var save := SavedData.new()
 	if player:
 		save.player_position = player.global_position
@@ -53,14 +56,20 @@ func save_game() -> void:
 	get_tree().call_group("dynamic_elements", "on_save_game", saved_data)
 	
 	save.saved_data = saved_data
-	save.inventory = inventory
+	save.inventory = inventory.duplicate()  # Create a deep copy of the inventory
 	
-	ResourceSaver.save(save, SAVE_FILE_PATH)
+	var err = ResourceSaver.save(save, SAVE_FILE_PATH)
+	if err == OK:
+		print("Game saved successfully")
+	else:
+		print("Error saving game: ", err)
 
 
 func load_game() -> void:
+	print("=== LOADING GAME ===")
 	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
 	if saved_game == null:
+		print("No saved game found, using defaults")
 		level = 1
 		inventory.money = 100
 		last_building_entered = 0
@@ -68,13 +77,15 @@ func load_game() -> void:
 	
 	if player:
 		get_tree().call_group("dynamic_elements", "on_before_load_game")
-		inventory = saved_game.inventory
+		inventory = saved_game.inventory.duplicate()  # Create a deep copy of the loaded inventory
 		level = saved_game.player_level
 		exp_level = saved_game.player_experience_per_level
 		player.global_position = saved_game.player_position
 		con_sav = saved_game.contracts
 		market_sav = saved_game.market_items
 		last_building_entered = saved_game.last_building_entered
+		
+		print("Loaded inventory state: ", inventory.data)
 	
 	await get_tree().process_frame
 	

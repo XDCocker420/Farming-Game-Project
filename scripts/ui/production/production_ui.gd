@@ -44,14 +44,16 @@ func setup(workstation_name: String):
 	print("Setting up production UI for workstation: " + workstation_name)
 	current_workstation = workstation_name
 	
+	# Set production UI reference for all slots first
+	for slot in input_slots + output_slots:
+		if slot.has_method("set_production_ui"):
+			slot.set_production_ui(self)
+			print("Set production UI reference for slot: " + str(slot.name))
+	
 	# Clear all slots
 	for slot in input_slots + output_slots:
 		if slot.has_method("clear"):
 			slot.clear()
-			
-			# Maintain production UI reference after clearing
-			if slot.has_method("set_production_ui"):
-				slot.set_production_ui(self)
 	
 	# Reset our stored items
 	input_items.clear()
@@ -108,15 +110,10 @@ func setup(workstation_name: String):
 	print("Output items: " + str(output_items))
 	
 	# Verify all slots have production UI reference
-	for i in range(input_slots.size()):
-		if input_slots[i].has_method("set_production_ui"):
-			input_slots[i].set_production_ui(self)
-			print("Verified production UI reference for input slot " + str(i))
-	
-	for i in range(output_slots.size()):
-		if output_slots[i].has_method("set_production_ui"):
-			output_slots[i].set_production_ui(self)
-			print("Verified production UI reference for output slot " + str(i))
+	for slot in input_slots + output_slots:
+		if slot.has_method("get_production_ui"):
+			var ui = slot.get_production_ui()
+			print("Slot " + str(slot.name) + " has production UI reference: " + str(ui != null))
 
 func _on_slot_pressed(slot):
 	print("=== SLOT PRESSED ===")
@@ -160,6 +157,22 @@ func _on_slot_pressed(slot):
 					if inventory_ui.has_method("reload_slots"):
 						inventory_ui.reload_slots()
 						print("Updated inventory UI")
+				
+				# Find and update Scheune UI if it exists
+				var scheune_ui = _find_scheune_ui()
+				if scheune_ui and scheune_ui.has_method("reload_slots"):
+					# Temporarily clear the filter to show all items
+					scheune_ui.current_filter.clear()
+					scheune_ui.reload_slots(false)  # Don't reapply filter
+					# Restore the filter
+					scheune_ui.set_workstation_filter(current_workstation)
+					print("Updated Scheune UI after item transfer")
+				else:
+					print("WARNING: Could not find or update Scheune UI")
+					
+				# Save game to persist inventory changes
+				SaveGame.save_game()
+				print("Saved game after inventory update")
 			else:
 				print("Processing output at index " + str(output_index))
 				_process_single_item(output_index)
@@ -241,6 +254,9 @@ func _process_single_item(output_index: int) -> void:
 	
 	# Emit signal to notify processing is complete
 	process_complete.emit()
+	
+	# Save game to persist inventory changes
+	SaveGame.save_game()
 
 # New function to receive items from inventory UI
 func add_input_item(item_name: String) -> void:
@@ -360,3 +376,82 @@ func test_functionality() -> void:
 	print("Production UI test_functionality called!")
 	print("This object can process items: " + str(has_method("add_input_item")))
 	add_input_item("milk")
+
+# Helper method to find the Scheune UI in the scene tree
+func _find_scheune_ui():
+	print("=== SEARCHING FOR SCHEUNE UI ===")
+	
+	# Try typical paths
+	var possible_paths = [
+		"/root/Main/UI/ScheuneUI",
+		"/root/game_map/scheune/CanvasLayer/ui",
+		"/root/scheune/CanvasLayer/ui",
+		"/root/Main/UI/Scheune/ScheuneUI",
+		"/root/Main/UI/Scheune/ui",
+		"/root/Main/ScheuneUI",
+		"/root/Main/UI/ScheuneUI/ScheuneUI",
+		"/root/Main/UI/ScheuneUI/ui"
+	]
+	
+	for path in possible_paths:
+		print("Checking path: " + path)
+		if has_node(path):
+			print("Found Scheune UI at path: " + path)
+			return get_node(path)
+	
+	print("Not found by direct paths, searching scene tree...")
+	
+	# Try to find from the root node
+	var root = get_tree().root
+	if root:
+		print("Found root node: " + root.name)
+		
+		# First try to find Main node
+		var main = root.get_node_or_null("Main")
+		if main:
+			print("Found Main node")
+			
+			# Try to find UI node
+			var ui = main.get_node_or_null("UI")
+			if ui:
+				print("Found UI node")
+				
+				# Try to find ScheuneUI directly
+				var scheune_ui = ui.get_node_or_null("ScheuneUI")
+				if scheune_ui:
+					print("Found ScheuneUI in Main/UI")
+					return scheune_ui
+				
+				# Try to find in Scheune subdirectory
+				var scheune = ui.get_node_or_null("Scheune")
+				if scheune:
+					print("Found Scheune directory")
+					scheune_ui = scheune.get_node_or_null("ScheuneUI")
+					if scheune_ui:
+						print("Found ScheuneUI in Main/UI/Scheune")
+						return scheune_ui
+					scheune_ui = scheune.get_node_or_null("ui")
+					if scheune_ui:
+						print("Found ui in Main/UI/Scheune")
+						return scheune_ui
+	
+	# If we still haven't found it, try to find any node with the scheune script
+	var all_nodes = []
+	_find_all_nodes(get_tree().root, all_nodes)
+	
+	for node in all_nodes:
+		if node.get_script():
+			var script_path = node.get_script().resource_path
+			print("Checking node " + node.name + " with script: " + script_path)
+			if "scheune" in script_path.to_lower():
+				print("Found potential Scheune UI node: " + node.name)
+				return node
+	
+	print("Could not find Scheune UI in scene tree")
+	return null
+
+# Helper to find all nodes in the scene tree
+func _find_all_nodes(node: Node, result: Array) -> void:
+	result.append(node)
+	for child in node.get_children():
+		_find_all_nodes(child, result)
