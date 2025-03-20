@@ -7,11 +7,15 @@ extends StaticBody2D
 @onready var spindle_ui = $production_ui_spindle
 @onready var inventory_ui_clothmaker = $inventory_ui_clothmaker
 @onready var inventory_ui_spindle = $inventory_ui_spindle
+# Animation references
+@onready var clothmaker_anim = $clothmaker
+@onready var spindle_anim = $spindle
 
 var player_in_workstation_area = false
 var current_workstation = null
 var current_ui = null
 var current_inventory_ui = null
+var current_animation = null
 
 func _ready():
 	exit_area.body_entered.connect(_on_exit_area_body_entered)
@@ -36,6 +40,12 @@ func _ready():
 		inventory_ui_clothmaker.hide()
 	if inventory_ui_spindle:
 		inventory_ui_spindle.hide()
+		
+	# Stop all animations initially
+	if clothmaker_anim:
+		clothmaker_anim.stop()
+	if spindle_anim:
+		spindle_anim.stop()
 
 func _on_exit_area_body_entered(body):
 	if body.is_in_group("Player"):
@@ -57,9 +67,11 @@ func _on_workstation_area_body_entered(body, workstation_name):
 			"clothmaker":
 				current_ui = clothmaker_ui
 				current_inventory_ui = inventory_ui_clothmaker
+				current_animation = clothmaker_anim
 			"spindle":
 				current_ui = spindle_ui
 				current_inventory_ui = inventory_ui_spindle
+				current_animation = spindle_anim
 				
 		if body.has_method("show_interaction_prompt"):
 			var prompt_text = "Press E to use "
@@ -79,10 +91,15 @@ func _on_workstation_area_body_exited(body):
 			current_ui.hide()
 		if current_inventory_ui:
 			current_inventory_ui.hide()
+		
+		# Stop current animation if any
+		if current_animation:
+			current_animation.stop()
 			
 		current_workstation = null
 		current_ui = null
 		current_inventory_ui = null
+		current_animation = null
 		
 		if body.has_method("hide_interaction_prompt"):
 			body.hide_interaction_prompt()
@@ -110,9 +127,23 @@ func _unhandled_input(event):
 		else:
 			print("ERROR: inventory UI doesn't have set_active_production_ui method")
 		
+		# Start the animation for the current workstation
+		if current_animation:
+			var animation_name = current_workstation 
+			if current_animation.sprite_frames and current_animation.sprite_frames.has_animation(animation_name):
+				current_animation.play(animation_name)
+				print("Started animation for: " + current_workstation)
+			else:
+				print("ERROR: No animation found for " + current_workstation)
+				
 		# Debug print to verify the UI is being shown
 		print("Both UIs now visible and connected for " + current_workstation)
+	
+	# Close UIs and stop animation when ESC is pressed
+	if event.is_action_pressed("ui_cancel") and current_ui and current_ui.visible:
+		current_ui.hide()
+		current_inventory_ui.hide()
 		
-		# No need to set up the production UI twice
-		# Optionally pause player movement when UI is open
-		# get_tree().get_first_node_in_group("Player").set_physics_process(!current_ui.visible)
+		# Stop current animation
+		if current_animation:
+			current_animation.stop()
