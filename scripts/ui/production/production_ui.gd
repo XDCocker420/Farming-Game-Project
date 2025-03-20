@@ -1,5 +1,8 @@
 extends PanelContainer
 
+# Signal to notify when processing is complete
+signal process_complete
+
 # References to all slots
 @onready var input_slots = [
 	$MarginContainer/slots/ui_slot,
@@ -38,6 +41,10 @@ func setup(workstation_name: String):
 		if slot.has_method("clear"):
 			slot.clear()
 			print("Cleared slot")
+			
+			# Maintain production UI reference after clearing
+			if slot.has_method("set_production_ui"):
+				slot.set_production_ui(self)
 	
 	# Reset our stored items
 	input_items.clear()
@@ -72,33 +79,44 @@ func setup(workstation_name: String):
 			input_slots[i].clear()
 			print("Input slot " + str(i) + " cleared and ready for " + input_items[i])
 	
-	# Set up output slots (empty but showing what could be produced)
+	# Set up output slots (completely empty initially)
 	for i in range(min(output_items.size(), output_slots.size())):
-		if output_slots[i].has_method("setup"):
-			# Always set output slots as enabled to allow clicking
-			output_slots[i].setup(output_items[i], "", true, 0)
-			
-			# Make sure button is explicitly enabled
-			if output_slots[i].has_node("button"):
-				output_slots[i].get_node("button").disabled = false
-				
-			print("Output slot " + str(i) + " set up for " + output_items[i] + " (enabled)")
+		if output_slots[i].has_method("clear"):
+			output_slots[i].clear()
+			print("Output slot " + str(i) + " cleared")
 
 func _on_slot_pressed(slot):
 	if slot in input_slots:
-		print("Input slot clicked: " + str(input_slots.find(slot)))
-		# Handle input slot interaction
+		# Input slots should not be clickable to prevent item duplication
+		print("Input slot clicked: " + str(input_slots.find(slot)) + " (ignored)")
+		return
 	elif slot in output_slots:
 		print("==== OUTPUT SLOT CLICKED: " + str(output_slots.find(slot)) + " ====")
-		# Process the corresponding input into output
 		var output_index = output_slots.find(slot)
 		if output_index >= 0 and output_index < output_items.size():
-			print("Processing output at index " + str(output_index) + " for item " + output_items[output_index])
-			_process_single_item(output_index)
+			var output_item = output_items[output_index]
+			print("Output slot clicked for item: " + output_item)
+			
+			# Check if this is a processed item (not just a preview)
+			var item_count = 0
+			if slot.amount_label.text != "":
+				item_count = int(slot.amount_label.text)
+			
+			if item_count > 0:
+				# This is a processed item that can be transferred back to inventory
+				print("Transferring " + str(item_count) + " " + output_item + " back to inventory")
+				
+				# We don't need to change the inventory as items are already there
+				# Just update the display to show 0 and clear the slot
+				slot.clear()
+				print("Reset output slot to empty state")
+			else:
+				# This is an empty slot, try to process
+				print("Processing output at index " + str(output_index) + " for item " + output_items[output_index])
+				_process_single_item(output_index)
 		else:
 			print("Invalid output index: " + str(output_index))
 
-# Process a single item from input to output
 func _process_single_item(output_index: int) -> void:
 	print("==== PROCESSING SINGLE ITEM FOR OUTPUT INDEX " + str(output_index) + " ====")
 	
@@ -160,6 +178,12 @@ func _process_single_item(output_index: int) -> void:
 	# Update the output slot visually with the new count
 	if output_slots[output_index].has_method("setup"):
 		output_slots[output_index].setup(output_item, "", true, input_count)
+		print("Updated output slot with count: " + str(input_count))
+		
+		# Ensure the production UI reference is maintained
+		if output_slots[output_index].has_method("set_production_ui"):
+			output_slots[output_index].set_production_ui(self)
+			print("Maintained production UI reference for output slot after processing")
 	
 	print("Successfully processed " + str(input_count) + " " + input_item + " into " + str(input_count) + " " + output_item)
 	print("New inventory count for " + output_item + ": " + str(current_output_count + input_count))
@@ -171,6 +195,10 @@ func _process_single_item(output_index: int) -> void:
 		print("Input slot cleared successfully")
 	else:
 		print("ERROR: input slot doesn't have clear method")
+	
+	# Emit signal to notify processing is complete
+	print("Emitting process_complete signal")
+	process_complete.emit()
 
 # New function to receive items from inventory UI
 func add_input_item(item_name: String) -> void:

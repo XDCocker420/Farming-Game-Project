@@ -25,11 +25,13 @@ func _on_button_pressed() -> void:
 	print("Slot pressed with item: " + item_name)
 	
 	# Add some visual feedback
-	if button.has_method("set_modulate"):
-		button.modulate = Color(1.5, 1.5, 1.5, 1)  # Make it brighter when clicked
-		# Reset after a short delay
-		await get_tree().create_timer(0.1).timeout
-		button.modulate = Color(1, 1, 1, 1)  # Reset to normal
+	button.modulate = Color(1.5, 1.5, 1.5, 1)  # Make it brighter when clicked
+	# Reset after a short delay using a safe approach
+	var timer = get_tree().create_timer(0.1)
+	timer.timeout.connect(func(): 
+		if is_instance_valid(button): 
+			button.modulate = Color(1, 1, 1, 1)
+	)
 	
 	# First, emit the signals for compatibility
 	slot_selection.emit(self)
@@ -77,10 +79,13 @@ func setup(item: String, description: String = "", is_enabled: bool = true, item
 
 # Clear the slot
 func clear() -> void:
+	print("Clearing slot with item_name: " + item_name)
 	item_name = ""
 	item_texture.texture = null
 	amount_label.text = ""
 	button.disabled = false
+	# Don't clear the production UI reference when clearing the slot
+	# This ensures we maintain the reference for future operations
 
 # Set the reference to the production UI
 func set_production_ui(ui) -> void:
