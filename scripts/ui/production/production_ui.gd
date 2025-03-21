@@ -4,19 +4,8 @@ extends PanelContainer
 signal process_complete
 
 # References to all slots
-@onready var input_slots = [
-	$MarginContainer/slots/ui_slot,
-	$MarginContainer/slots/ui_slot2,
-	$MarginContainer/slots/ui_slot3,
-	$MarginContainer/slots/ui_slot4
-]
-
-@onready var output_slots = [
-	$MarginContainer/slots/ui_slot5,
-	$MarginContainer/slots/ui_slot6,
-	$MarginContainer/slots/ui_slot7,
-	$MarginContainer/slots/ui_slot8
-]
+@onready var input_slot = $MarginContainer/slots/ui_slot
+@onready var output_slot = $MarginContainer/slots/ui_slot2
 
 # Current workstation information
 var current_workstation: String = ""
@@ -24,9 +13,9 @@ var input_items = []
 var output_items = []
 
 func _ready():
-	# Connect button signals for all slots
-	for slot in input_slots + output_slots:
-		if slot.has_node("button"):
+	# Connect button signals for both slots
+	for slot in [input_slot, output_slot]:
+		if slot and slot.has_node("button"):
 			var button = slot.get_node("button")
 			# Disconnect any existing connections first
 			if button.pressed.is_connected(_on_slot_pressed.bind(slot)):
@@ -44,16 +33,21 @@ func setup(workstation_name: String):
 	print("Setting up production UI for workstation: " + workstation_name)
 	current_workstation = workstation_name
 	
-	# Set production UI reference for all slots first
-	for slot in input_slots + output_slots:
-		if slot.has_method("set_production_ui"):
-			slot.set_production_ui(self)
-			print("Set production UI reference for slot: " + str(slot.name))
+	# Set production UI reference for both slots
+	if input_slot and input_slot.has_method("set_production_ui"):
+		input_slot.set_production_ui(self)
+		print("Set production UI reference for input slot")
+	
+	if output_slot and output_slot.has_method("set_production_ui"):
+		output_slot.set_production_ui(self)
+		print("Set production UI reference for output slot")
 	
 	# Clear all slots
-	for slot in input_slots + output_slots:
-		if slot.has_method("clear"):
-			slot.clear()
+	if input_slot and input_slot.has_method("clear"):
+		input_slot.clear()
+	
+	if output_slot and output_slot.has_method("clear"):
+		output_slot.clear()
 	
 	# Reset our stored items
 	input_items.clear()
@@ -80,19 +74,9 @@ func setup(workstation_name: String):
 			input_items = ["wheat"]
 			output_items = ["feed"]
 	
-	# Keep input slots empty initially
-	for i in range(min(input_items.size(), input_slots.size())):
-		if input_slots[i].has_method("clear"):
-			input_slots[i].clear()
-	
-	# Set up output slots (completely empty initially)
-	for i in range(min(output_items.size(), output_slots.size())):
-		if output_slots[i].has_method("clear"):
-			output_slots[i].clear()
-	
-	# Reconnect button signals for all slots
-	for slot in input_slots + output_slots:
-		if slot.has_node("button"):
+	# Reconnect button signals for both slots
+	for slot in [input_slot, output_slot]:
+		if slot and slot.has_node("button"):
 			var button = slot.get_node("button")
 			# Disconnect any existing connections first
 			if button.pressed.is_connected(_on_slot_pressed.bind(slot)):
@@ -104,138 +88,90 @@ func setup(workstation_name: String):
 	
 	# Debug print to verify setup
 	print("Production UI setup complete for " + workstation_name)
-	print("Input slots: " + str(input_slots.size()))
-	print("Output slots: " + str(output_slots.size()))
 	print("Input items: " + str(input_items))
 	print("Output items: " + str(output_items))
-	
-	# Verify all slots have production UI reference
-	for slot in input_slots + output_slots:
-		if slot.has_method("get_production_ui"):
-			var ui = slot.get_production_ui()
-			print("Slot " + str(slot.name) + " has production UI reference: " + str(ui != null))
 
 func _on_slot_pressed(slot):
 	print("=== SLOT PRESSED ===")
 	print("Slot name: " + str(slot.name))
-	print("Is input slot: " + str(slot in input_slots))
-	print("Is output slot: " + str(slot in output_slots))
+	print("Is input slot: " + str(slot == input_slot))
+	print("Is output slot: " + str(slot == output_slot))
 	
-	if slot in input_slots:
-		print("Input slot clicked: " + str(input_slots.find(slot)) + " (ignored)")
+	if slot == input_slot:
+		print("Input slot clicked: (ignored)")
 		return
-	elif slot in output_slots:
-		var output_index = output_slots.find(slot)
-		print("Output slot clicked: " + str(output_index))
+	elif slot == output_slot:
+		print("Output slot clicked")
 		
-		if output_index >= 0 and output_index < output_items.size():
-			var output_item = output_items[output_index]
-			print("Processing output for: " + output_item)
+		# Check if this is a processed item
+		var item_count = 0
+		if slot.amount_label.text != "":
+			item_count = int(slot.amount_label.text)
+		
+		if item_count > 0:
+			print("Transferring 1 " + output_items[0] + " back to inventory")
+			# Add just one item to inventory
+			SaveGame.add_to_inventory(output_items[0], 1)
 			
-			# Check if this is a processed item
-			var item_count = 0
-			if slot.amount_label.text != "":
-				item_count = int(slot.amount_label.text)
-			
-			if item_count > 0:
-				print("Transferring 1 " + output_item + " back to inventory")
-				# Add just one item to inventory
-				SaveGame.add_to_inventory(output_item, 1)
-				
-				# Update the slot with one less item, or clear if it was the last one
-				if item_count > 1:
-					slot.setup(output_item, "", true, item_count - 1)
-					print("Updated output slot, remaining: " + str(item_count - 1))
-				else:
-					# Clear the output slot if this was the last item
-					slot.clear()
-					print("Cleared output slot (last item taken)")
-				
-				# Trigger inventory UI update
-				if has_node("/root/Main/UI/InventoryUI"):
-					var inventory_ui = get_node("/root/Main/UI/InventoryUI")
-					if inventory_ui.has_method("reload_slots"):
-						inventory_ui.reload_slots()
-						print("Updated inventory UI")
-				
-				# Find and update Scheune UI if it exists
-				var scheune_ui = _find_scheune_ui()
-				if scheune_ui and scheune_ui.has_method("reload_slots"):
-					# Force a complete slot refresh
-					for slot_item in scheune_ui.slot_list:
-						slot_item.queue_free()
-					scheune_ui.slot_list.clear()
-					
-					# Now reload with fresh data from SaveGame
-					scheune_ui.current_filter.clear()
-					scheune_ui.reload_slots(false)
-					
-					# Restore the correct filter
-					scheune_ui.set_workstation_filter(current_workstation)
-					print("Completely refreshed Scheune UI after item transfer")
-				else:
-					print("WARNING: Could not find or update Scheune UI")
-					
-				# Save game to persist inventory changes
-				SaveGame.save_game()
-				print("Saved game after inventory update")
+			# Update the slot with one less item, or clear if it was the last one
+			if item_count > 1:
+				slot.setup(output_items[0], "", true, item_count - 1)
+				print("Updated output slot, remaining: " + str(item_count - 1))
 			else:
-				print("Processing output at index " + str(output_index))
-				_process_single_item(output_index)
-				# Don't transfer items immediately, let them stay in the output slot
+				# Clear the output slot if this was the last item
+				slot.clear()
+				print("Cleared output slot (last item taken)")
+			
+			# Find and update Scheune UI if it exists
+			var scheune_ui = _find_scheune_ui()
+			if scheune_ui and scheune_ui.has_method("reload_slots"):
+				# Force a complete slot refresh
+				for slot_item in scheune_ui.slot_list:
+					slot_item.queue_free()
+				scheune_ui.slot_list.clear()
+				
+				# Now reload with fresh data from SaveGame
+				scheune_ui.current_filter.clear()
+				scheune_ui.reload_slots(false)
+				
+				# Restore the correct filter
+				scheune_ui.set_workstation_filter(current_workstation)
+				print("Completely refreshed Scheune UI after item transfer")
+			else:
+				print("WARNING: Could not find or update Scheune UI")
+				
+			# Save game to persist inventory changes
+			SaveGame.save_game()
+			print("Saved game after inventory update")
 		else:
-			print("Invalid output index: " + str(output_index))
+			print("Processing output")
+			_process_single_item()
+			# Don't transfer items immediately, let them stay in the output slot
 
-func _process_single_item(output_index: int) -> void:
+func _process_single_item() -> void:
 	print("=== PROCESSING ITEM ===")
-	print("Output index: " + str(output_index))
 	print("Workstation: " + current_workstation)
 	
 	# Get corresponding input/output items
-	var input_item = ""
-	var output_item = ""
-	
-	if output_index < output_items.size():
-		output_item = output_items[output_index]
-		
-		# Find the matching input item based on workstation
-		match current_workstation:
-			"butterchurn":
-				input_item = "milk"
-			"press_cheese":
-				input_item = "milk"
-			"mayomaker":
-				input_item = "egg"
-			"clothmaker":
-				input_item = "white_wool"
-			"spindle":
-				input_item = "white_wool"
-			"feed_mill":
-				input_item = "wheat"
-		
-		print("Recipe: " + input_item + " -> " + output_item)
-	else:
-		print("ERROR: Invalid output index")
+	if input_items.size() == 0 or output_items.size() == 0:
+		print("ERROR: No recipe defined")
 		return
+		
+	var input_item = input_items[0]
+	var output_item = output_items[0]
 	
-	if input_item == "" or output_item == "":
-		print("ERROR: Invalid recipe")
-		return
+	print("Recipe: " + input_item + " -> " + output_item)
 	
 	# Check if there's an item in the input slot
-	var found_input_slot = -1
 	var input_count = 0
-	for i in range(input_slots.size()):
-		if input_slots[i].item_name == input_item:
-			found_input_slot = i
-			if input_slots[i].amount_label.text != "":
-				input_count = int(input_slots[i].amount_label.text)
-			else:
-				input_count = 1
-			print("Found " + str(input_count) + " " + input_item + " in slot " + str(i))
-			break
+	if input_slot.item_name == input_item:
+		if input_slot.amount_label.text != "":
+			input_count = int(input_slot.amount_label.text)
+		else:
+			input_count = 1
+		print("Found " + str(input_count) + " " + input_item + " in input slot")
 	
-	if found_input_slot == -1 or input_count <= 0:
+	if input_count <= 0:
 		print("ERROR: No input items available")
 		return
 	
@@ -243,26 +179,25 @@ func _process_single_item(output_index: int) -> void:
 	print("Processing " + str(input_count) + " " + input_item + " into " + output_item)
 	
 	# Update the output slot visually first
-	if output_slots[output_index].has_method("setup"):
-		output_slots[output_index].setup(output_item, "", true, input_count)
+	if output_slot.has_method("setup"):
+		output_slot.setup(output_item, "", true, input_count)
 		print("Updated output slot with " + str(input_count) + " " + output_item)
 	else:
 		print("ERROR: Output slot missing setup method")
-		return
 	
-	# Clear the input slot
-	if input_slots[found_input_slot].has_method("clear"):
-		input_slots[found_input_slot].clear()
+	# Update the input slot - clear it since we've processed its contents
+	if input_slot.has_method("clear"):
+		input_slot.clear()
 		print("Cleared input slot")
 	else:
 		print("ERROR: Input slot missing clear method")
-		return
 	
-	# Emit signal to notify processing is complete
-	process_complete.emit()
-	
-	# Save game to persist inventory changes
+	# Save just to be safe
 	SaveGame.save_game()
+	print("Processing complete and game saved")
+	
+	# Emit signal that processing is complete
+	process_complete.emit()
 
 # New function to receive items from inventory UI
 func add_input_item(item_name: String) -> void:
@@ -274,231 +209,74 @@ func add_input_item(item_name: String) -> void:
 		if SaveGame.get_item_count(item_name) <= 0:
 			print("Not enough " + item_name + " in inventory")
 			return
+		
+		# Get current count if the slot already has this item
+		var current_count = 0
+		if input_slot.item_name == item_name and input_slot.amount_label.text != "":
+			current_count = int(input_slot.amount_label.text)
+		
+		# Update the slot with the item and increment count
+		input_slot.setup(item_name, "", true, current_count + 1)
+		
+		# Remove the item from inventory
+		SaveGame.remove_from_inventory(item_name, 1)
+		
+		# Update the inventory UI - find ALL inventory UIs in the scene
+		print("=== REFRESHING ALL INVENTORY UIs ===")
+		
+		# First find the Scheune UI
+		var scheune_ui = _find_scheune_ui()
+		if scheune_ui and scheune_ui.has_method("reload_slots"):
+			print("Refreshing primary Scheune UI: " + str(scheune_ui.name))
 			
-		# Find a slot for this item type
-		var slot_found = false
-		for i in range(min(input_items.size(), input_slots.size())):
-			if input_items[i] == item_name:
-				# Found a matching slot for this item type
-				print("Found slot for " + item_name + " at index " + str(i))
-				slot_found = true
-				
-				# Get current count if the slot already has this item
-				var current_count = 0
-				if input_slots[i].item_name == item_name and input_slots[i].amount_label.text != "":
-					current_count = int(input_slots[i].amount_label.text)
-				
-				# Update the slot with the item and increment count
-				input_slots[i].setup(item_name, "", true, current_count + 1)
-				
-				# Remove the item from inventory
-				SaveGame.remove_from_inventory(item_name, 1)
-				
-				# Update the inventory UI - find ALL inventory UIs in the scene
-				print("=== REFRESHING ALL INVENTORY UIs ===")
-				
-				# First find the Scheune UI
-				var scheune_ui = _find_scheune_ui()
-				if scheune_ui and scheune_ui.has_method("reload_slots"):
-					print("Refreshing primary Scheune UI: " + str(scheune_ui.name))
-					
-					# Force complete rebuild of slots
-					for slot_item in scheune_ui.slot_list:
-						slot_item.queue_free()
-					scheune_ui.slot_list.clear()
-					scheune_ui.current_filter.clear()
-					scheune_ui.reload_slots(false)
-					scheune_ui.set_workstation_filter(current_workstation)
-				
-				# Find all potential inventory UIs in the scene
-				var all_nodes = []
-				_find_all_nodes(get_tree().root, all_nodes)
-				
-				# Update each inventory UI found
-				for node in all_nodes:
-					# Skip the one we already updated
-					if node == scheune_ui:
-						continue
-						
-					# Check if this might be an inventory UI
-					if node.name.begins_with("inventory_ui_") and node.has_method("reload_slots"):
-						print("Refreshing additional inventory UI: " + str(node.name))
-						# Force complete rebuild
-						if node.has_method("reload_slots"):
-							for slot_item in node.slot_list:
-								slot_item.queue_free()
-							node.slot_list.clear()
-							node.current_filter.clear()
-							node.reload_slots(false)
-							node.set_workstation_filter(current_workstation)
-				
-				# Force scene update
-				get_tree().call_group("inventory_slots", "queue_redraw")
-				
-				print("Successfully added " + item_name + " to input slot " + str(i))
-				print("New count in slot: " + str(current_count + 1))
-				print("New inventory count: " + str(SaveGame.get_item_count(item_name)))
-				return
+			# Force complete rebuild of slots
+			for slot_item in scheune_ui.slot_list:
+				slot_item.queue_free()
+			scheune_ui.slot_list.clear()
+			scheune_ui.current_filter.clear()
+			scheune_ui.reload_slots(false)
+			scheune_ui.set_workstation_filter(current_workstation)
 		
-		if not slot_found:
-			print("No suitable slot found for " + item_name)
+		# Save game to persist inventory changes
+		SaveGame.save_game()
+		print("Saved game after inventory update")
 	else:
-		print("Item " + item_name + " is not valid for this workstation")
+		print("Item " + item_name + " not valid for " + current_workstation)
 
-# Process a specific item into its output
-func _process_item(item_name: String) -> void:
-	# Check if we have this item in inventory
-	if SaveGame.get_item_count(item_name) <= 0:
-		print("Not enough " + item_name + " in inventory")
-		return
-	
-	# Get the corresponding output item
-	var output_item = ""
-	match current_workstation:
-		"butterchurn":
-			if item_name == "milk":
-				output_item = "butter"
-		"press_cheese":
-			if item_name == "milk":
-				output_item = "cheese"
-		"mayomaker":
-			if item_name == "egg":
-				output_item = "mayo"
-		"clothmaker":
-			if item_name == "white_wool":
-				output_item = "white_cloth"
-		"spindle":
-			if item_name == "white_wool":
-				output_item = "white_string"
-		"feed_mill":
-			if item_name == "wheat":
-				output_item = "feed"
-	
-	if output_item == "":
-		print("No output recipe for " + item_name + " in " + current_workstation)
-		return
-	
-	# Process the item
-	SaveGame.remove_from_inventory(item_name, 1)
-	SaveGame.add_to_inventory(output_item, 1)
-	
-	# Update the output slot visually
-	for i in range(min(output_items.size(), output_slots.size())):
-		if output_items[i] == output_item:
-			if output_slots[i].has_method("setup"):
-				output_slots[i].setup(output_item, "", true, 1)
-	
-	print("Successfully processed " + item_name + " into " + output_item)
-	
-	# Update the UI
-	setup(current_workstation)
-
-func _try_produce():
-	# Check if player has all required input items
-	var can_produce = true
-	
-	for item in input_items:
-		if SaveGame.get_item_count(item) <= 0:
-			can_produce = false
-			break
-	
-	if can_produce:
-		# Remove input items
-		for item in input_items:
-			SaveGame.remove_from_inventory(item, 1)
-		
-		# Add output items
-		for item in output_items:
-			SaveGame.add_to_inventory(item, 1)
-			
-		# Update UI
-		setup(current_workstation)
-		
-		print("Successfully produced " + str(output_items) + " from " + str(input_items))
-	else:
-		print("Not enough resources to produce " + str(output_items))
-
-# New function to test if the production UI is functional
-func test_functionality() -> void:
-	print("Production UI test_functionality called!")
-	print("This object can process items: " + str(has_method("add_input_item")))
-	add_input_item("milk")
-
-# Helper method to find the Scheune UI in the scene tree
+# Helper function to find all Scheune UIs in the scene
 func _find_scheune_ui():
-	print("=== SEARCHING FOR SCHEUNE UI ===")
+	# First look for direct siblings
+	var parent = get_parent()
+	if parent:
+		for child in parent.get_children():
+			if "inventory_ui" in child.name and child.has_method("reload_slots"):
+				print("Found inventory UI as sibling: " + child.name)
+				return child
 	
-	# Try typical paths
-	var possible_paths = [
-		"/root/Main/UI/ScheuneUI",
-		"/root/game_map/scheune/CanvasLayer/ui",
-		"/root/scheune/CanvasLayer/ui",
-		"/root/Main/UI/Scheune/ScheuneUI",
-		"/root/Main/UI/Scheune/ui",
-		"/root/Main/ScheuneUI",
-		"/root/Main/UI/ScheuneUI/ScheuneUI",
-		"/root/Main/UI/ScheuneUI/ui"
-	]
-	
-	for path in possible_paths:
-		print("Checking path: " + path)
-		if has_node(path):
-			print("Found Scheune UI at path: " + path)
-			return get_node(path)
-	
-	print("Not found by direct paths, searching scene tree...")
-	
-	# Try to find from the root node
+	# If not found, look more broadly in the scene
 	var root = get_tree().root
-	if root:
-		print("Found root node: " + root.name)
+	var ui_found = null
+	
+	var search_queue = [root]
+	while search_queue.size() > 0:
+		var node = search_queue.pop_front()
 		
-		# First try to find Main node
-		var main = root.get_node_or_null("Main")
-		if main:
-			print("Found Main node")
+		if "inventory_ui" in node.name and node.has_method("reload_slots"):
+			ui_found = node
+			break
 			
-			# Try to find UI node
-			var ui = main.get_node_or_null("UI")
-			if ui:
-				print("Found UI node")
-				
-				# Try to find ScheuneUI directly
-				var scheune_ui = ui.get_node_or_null("ScheuneUI")
-				if scheune_ui:
-					print("Found ScheuneUI in Main/UI")
-					return scheune_ui
-				
-				# Try to find in Scheune subdirectory
-				var scheune = ui.get_node_or_null("Scheune")
-				if scheune:
-					print("Found Scheune directory")
-					scheune_ui = scheune.get_node_or_null("ScheuneUI")
-					if scheune_ui:
-						print("Found ScheuneUI in Main/UI/Scheune")
-						return scheune_ui
-					scheune_ui = scheune.get_node_or_null("ui")
-					if scheune_ui:
-						print("Found ui in Main/UI/Scheune")
-						return scheune_ui
+		for child in node.get_children():
+			search_queue.push_back(child)
 	
-	# If we still haven't found it, try to find any node with the scheune script
-	var all_nodes = []
-	_find_all_nodes(get_tree().root, all_nodes)
-	
-	for node in all_nodes:
-		if node.get_script():
-			var script_path = node.get_script().resource_path
-			print("Checking node " + node.name + " with script: " + script_path)
-			if "scheune" in script_path.to_lower():
-				print("Found potential Scheune UI node: " + node.name)
-				return node
-	
-	print("Could not find Scheune UI in scene tree")
-	return null
+	if ui_found:
+		print("Found inventory UI in scene: " + ui_found.name)
+	else:
+		print("No inventory UI found in scene")
+		
+	return ui_found
 
-# Helper to find all nodes in the scene tree
-func _find_all_nodes(node: Node, result: Array) -> void:
-	result.append(node)
+# Helper function to find all nodes in the scene
+func _find_all_nodes(node, result_array):
+	result_array.push_back(node)
 	for child in node.get_children():
-		_find_all_nodes(child, result)
+		_find_all_nodes(child, result_array)

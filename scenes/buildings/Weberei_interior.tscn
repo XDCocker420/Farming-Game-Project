@@ -4087,27 +4087,27 @@ position = Vector2(0, -8)
 position_smoothing_speed = 7.0
 
 [node name="production_ui_clothmaker" parent="." instance=ExtResource("5_0qqab")]
-visible = false
-offset_left = -88.0
-offset_top = -112.0
-offset_right = 25.0
-offset_bottom = -47.0
+offset_left = -48.0
+offset_top = -104.0
+offset_right = 13.0
+offset_bottom = -66.0
 
 [node name="production_ui_spindle" parent="." instance=ExtResource("5_0qqab")]
-offset_left = -24.0
-offset_top = -112.0
-offset_right = 89.0
-offset_bottom = -47.0
+visible = false
+offset_left = 16.0
+offset_top = -104.0
+offset_right = 77.0
+offset_bottom = -66.0
 
 [node name="inventory_ui_clothmaker" parent="." instance=ExtResource("6_j4yfu")]
-visible = false
-offset_left = 32.0
-offset_top = -112.0
-offset_right = 107.0
-offset_bottom = -19.0
+offset_left = -128.0
+offset_top = -104.0
+offset_right = -53.0
+offset_bottom = -11.0
 
 [node name="inventory_ui_spindle" parent="." instance=ExtResource("6_j4yfu")]
-offset_left = -112.0
-offset_top = -112.0
-offset_right = -37.0
-offset_bottom = -19.0
+visible = false
+offset_left = -64.0
+offset_top = -104.0
+offset_right = 11.0
+offset_bottom = -11.0

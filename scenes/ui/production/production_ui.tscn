@@ -1,11 +1,11 @@
 [gd_scene load_steps=3 format=3 uid="uid://b8j4k2m3n4o5p"]
 
-[ext_resource type="Script" path="res://scripts/ui/production/production_ui.gd" id="1_s8k31"]
+[ext_resource type="Script" uid="uid://deo8ymmv56p7u" path="res://scripts/ui/production/production_ui.gd" id="1_s8k31"]
 [ext_resource type="PackedScene" uid="uid://b24bo4ir8kd3p" path="res://scenes/ui/general/ui_slot.tscn" id="2_pltrf"]
 
 [node name="production_ui" type="PanelContainer"]
-offset_right = 97.0
-offset_bottom = 55.0
+offset_right = 61.0
+offset_bottom = 38.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
 script = ExtResource("1_s8k31")
@@ -25,22 +25,4 @@ columns = 4
 layout_mode = 2
 
 [node name="ui_slot2" parent="MarginContainer/slots" instance=ExtResource("2_pltrf")]
-layout_mode = 2
-
-[node name="ui_slot3" parent="MarginContainer/slots" instance=ExtResource("2_pltrf")]
-layout_mode = 2
-
-[node name="ui_slot4" parent="MarginContainer/slots" instance=ExtResource("2_pltrf")]
-layout_mode = 2
-
-[node name="ui_slot5" parent="MarginContainer/slots" instance=ExtResource("2_pltrf")]
-layout_mode = 2
-
-[node name="ui_slot6" parent="MarginContainer/slots" instance=ExtResource("2_pltrf")]
-layout_mode = 2
-
-[node name="ui_slot7" parent="MarginContainer/slots" instance=ExtResource("2_pltrf")]
-layout_mode = 2
-
-[node name="ui_slot8" parent="MarginContainer/slots" instance=ExtResource("2_pltrf")]
 layout_mode = 2
