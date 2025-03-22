@@ -33,6 +33,8 @@ var is_night:bool = false
 
 var go_to_market:bool = false
 
+var save_dialog_pos:Vector2
+
 func _ready() -> void:
 	wait_timer.timeout.connect(_on_wait_timeout)
 	
@@ -53,6 +55,9 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	if  not navigation_agent:
 		return
+		
+	if not Dialogic.VAR.inputs.should_move:
+		global_position = save_dialog_pos
 
 	if navigation_agent.is_target_reached():
 		if go_to_market:
@@ -131,6 +136,7 @@ func addToHistory(item):
 func _input(_event: InputEvent):
 	if is_night && Dialogic.current_timeline == null:
 		Dialogic.VAR.inputs.should_move = false
+		save_dialog_pos = global_position
 
 		var file_path:String = "res://dialogs/timelines/" + name.to_lower() + "_night.dtl"
 		
@@ -141,6 +147,7 @@ func _input(_event: InputEvent):
 		
 	elif _event.is_action_pressed("interact") && player_in_area && Dialogic.current_timeline == null:
 		Dialogic.VAR.inputs.should_move = false
+		save_dialog_pos = global_position
 
 		var file_path:String = "res://dialogs/timelines/" + name.to_lower() + ".dtl"
 		

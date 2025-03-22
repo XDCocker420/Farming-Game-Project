@@ -260,6 +260,7 @@ mouse_filter = 2
 
 [node name="Sizer" type="Control" parent="Anchor/AnimationParent"]
 unique_name_in_owner = true
+z_index = 15
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
