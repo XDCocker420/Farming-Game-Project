@@ -1,15 +1,15 @@
-[gd_scene load_steps=19 format=3 uid="uid://dv7x8burph27o"]
+[gd_scene load_steps=18 format=3 uid="uid://dv7x8burph27o"]
 
 [ext_resource type="Script" uid="uid://bf3l5yvpx47t1" path="res://dialogs/styling/VisualNovelTextbox/vn_textbox_layer.gd" id="1_bpydr"]
 [ext_resource type="Script" uid="uid://bf4gwn63gu0hs" path="res://dialogs/styling/VisualNovelTextbox/animations.gd" id="2_xy7a2"]
 [ext_resource type="Script" uid="uid://b5reupgxe251y" path="res://addons/dialogic/Modules/Text/node_dialog_text.gd" id="3_4634k"]
-[ext_resource type="Texture2D" uid="uid://c3ooqu3xfvgfm" path="res://assets/dialog/dialog_background.png" id="3_vhqpy"]
+[ext_resource type="Texture2D" uid="uid://c70bsgpqcwlmx" path="res://assets/dialog/dialog_background.png" id="3_vhqpy"]
 [ext_resource type="Script" uid="uid://6thq5tuvfi1u" path="res://addons/dialogic/Modules/Text/node_type_sound.gd" id="4_ma5mw"]
 [ext_resource type="Script" uid="uid://dsad7yugi6aml" path="res://addons/dialogic/Modules/Text/node_next_indicator.gd" id="5_40a50"]
 [ext_resource type="Script" uid="uid://bpsh4vfim37to" path="res://dialogs/styling/VisualNovelTextbox/autoadvance_indicator.gd" id="6_07xym"]
 [ext_resource type="Texture2D" uid="uid://b0rpqfg4fhebk" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Textbox/next.svg" id="6_uch03"]
 [ext_resource type="Script" uid="uid://souy45i73big" path="res://addons/dialogic/Modules/Text/node_name_label.gd" id="7_bi7sh"]
-[ext_resource type="Texture2D" uid="uid://cncr1kjoj1v2w" path="res://assets/dialog/choice_button.png" id="9_vhqpy"]
+[ext_resource type="StyleBox" uid="uid://bll2n2onkcqv0" path="res://dialogs/styling/VisualNovelTextbox/name_label.tres" id="9_vhqpy"]
 
 [sub_resource type="Animation" id="Animation_au0a2"]
 length = 0.001
@@ -202,20 +202,25 @@ _data = {
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y2a8l"]
 texture = ExtResource("3_vhqpy")
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_3c23b"]
-texture = ExtResource("9_vhqpy")
+texture_margin_left = 5.0
+texture_margin_top = 6.0
+texture_margin_right = 5.0
+texture_margin_bottom = 4.0
 
 [sub_resource type="FontVariation" id="FontVariation_v8y64"]
 
 [node name="VN_TextboxLayer" type="Control"]
 layout_mode = 3
-anchors_preset = 7
-anchor_left = 0.5
+anchors_preset = 3
+anchor_left = 1.0
 anchor_top = 1.0
-anchor_right = 0.5
+anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
+offset_left = 6.0
+offset_top = 87.0
+offset_right = 6.0
+offset_bottom = 87.0
+grow_horizontal = 0
 grow_vertical = 0
 mouse_filter = 2
 script = ExtResource("1_bpydr")
@@ -255,6 +260,7 @@ mouse_filter = 2
 
 [node name="Sizer" type="Control" parent="Anchor/AnimationParent"]
 unique_name_in_owner = true
+z_index = 15
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -266,7 +272,7 @@ offset_top = -50.0
 offset_right = 150.0
 grow_horizontal = 2
 grow_vertical = 0
-scale = Vector2(0.5, 0.5)
+scale = Vector2(0.35, 0.35)
 mouse_filter = 2
 
 [node name="DialogTextPanel" type="PanelContainer" parent="Anchor/AnimationParent/Sizer"]
@@ -335,12 +341,12 @@ mouse_filter = 2
 [node name="NameLabelPanel" type="PanelContainer" parent="Anchor/AnimationParent/Sizer/DialogTextPanel/NameLabelHolder"]
 unique_name_in_owner = true
 layout_mode = 0
-offset_left = 4.0
-offset_top = -30.0
-offset_right = 131.0
-offset_bottom = -5.0
+offset_left = 3.57145
+offset_top = -34.5714
+offset_right = 135.571
+offset_bottom = -7.57145
 mouse_filter = 2
-theme_override_styles/panel = SubResource("StyleBoxTexture_3c23b")
+theme_override_styles/panel = ExtResource("9_vhqpy")
 metadata/_edit_layout_mode = 1
 metadata/_edit_use_custom_anchors = true
 
@@ -351,5 +357,7 @@ theme_override_colors/font_color = Color(1, 1, 1, 1)
 theme_override_fonts/font = SubResource("FontVariation_v8y64")
 theme_override_font_sizes/font_size = 15
 text = "Starter Charakter"
+horizontal_alignment = 1
+vertical_alignment = 1
 script = ExtResource("7_bi7sh")
 name_label_root = NodePath("..")

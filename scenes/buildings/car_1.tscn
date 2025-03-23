@@ -3,7 +3,7 @@
 [ext_resource type="TileSet" uid="uid://er1084qjjvh3" path="res://assets/tilesets/town_buildings_tileset.tres" id="1_r1v0t"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mf0cy"]
-size = Vector2(76, 20)
+size = Vector2(76, 30)
 
 [node name="Car1" type="StaticBody2D"]
 
@@ -12,5 +12,5 @@ tile_map_data = PackedByteArray("AAD+//z/AAAAACAAAAD+//3/AAAAACEAAAD+//7/AAAAACI
 tile_set = ExtResource("1_r1v0t")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(8, -13)
+position = Vector2(8, -18)
 shape = SubResource("RectangleShape2D_mf0cy")

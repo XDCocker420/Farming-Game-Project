@@ -43,14 +43,7 @@
 - NPCs
 
 ## Endprodukt
-Ein Spiel das wie gefolgt ablauft: Der Spieler baut seine Pflanzen an und züchtet seine Tiere und verkauft die Produkte am Markt weiter. Nebenbei kann er noch Tasks für die NPCs bei dem Task Caravan erstellen wofür er extra Geld und sogar XP Punkte bekommt. Mit dem XP Punkten steigt sein Level. Mit bestimmten Leveln kann er bestimmte Sachen freischalten, wie z.B. neue Pflanzen. Diese kann er dann wieder anbauen und am Markt verkaufen. Bei dem Task Caravan wird oft nach Items gefragt, die man nicht einfach so bekommen kann. Dafür gibt es Produktionsgebäuden, wo man weitere Items herstellen kann (Milch -> Käse). Ziel des Spiels ist, alle Items freizuschalten um die Stadt mit immer besseren Lebensmittel zu versorgen.
+Spieler hat 500$ als Startkapital. Er muss sich zu Beginn die Scheune um 300$ und ein Feld um 100$ freikaufen. Die 100$ die übrig bleiben, kann er für Samen ausgeben. Am Anfang kann er sich nur Weizen kaufen für 10$ pro Stück. Er muss diese anpflanzen und dann wird ihm gezeigt, wie er sie gießen kann. Dann muss er diese Weizen verkaufen für mehr Geld und schon hat er sein erstes Einkommen. Es wird ihm nachher noch gezeigt, dass er Tasks erfüllen kann und somit wird das Tutorial beendet. Er muss jetzt beginnen selber Sachen freizuschalten und seine Farm erweitern um sich das Bier leisten zu können.
 
-
-# Fragen
-
-- Soll es einen Markt zum Kaufen geben?
-- Wie viele NPCs sollten im Spiel sein?
-- Sollen wir Bäume im Spiel haben?
-- Wie groß soll die Stadt sein?
-- Soll es eine kleine Story geben?
-- Wie genau sollen Produktionsgebäude dargestellt werden?
+# Ziel / Story
+Du gehts in dein lieblings Pub und sie bieten dir das beste Bier der Welt an. Allerdings kostet der Spaß 100.000$ und du kannst es dir nicht leisten. Deshalb kommst du auf logische Idee eine Farm zu gründen.

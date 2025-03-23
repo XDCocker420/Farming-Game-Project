@@ -35,8 +35,12 @@ func has_reached_level(item_name:String) -> bool:
     return SaveGame.get_current_level() >= config.get_value(item_name, "level_needed")
     
 func get_all_level() -> Array[String]:
-    var items:Array[String] = []
-    for i in config.get_sections():
-        if has_reached_level(i):
-            items.append(i)
-    return items
+	var items:Array[String] = []
+	for i in config.get_sections():
+		if has_reached_level(i):
+			items.append(i)
+	return items
+	
+func get_api_key() -> String:
+	var env = FileAccess.open("res://imp.env", FileAccess.READ)
+	return env.get_as_text().split("=")[1]

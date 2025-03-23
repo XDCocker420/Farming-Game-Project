@@ -11,6 +11,7 @@ config_version=5
 [application]
 
 config/name="Farming Game Project"
+config/tags=PackedStringArray("sehr_wichtig", "syp")
 run/main_scene="res://scenes/maps/game_map.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 run/max_fps=60
@@ -25,22 +26,55 @@ Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 [dialogic]
 
 directories/dch_directory={
+"annabeth": "res://dialogs/characters/annabeth.dch",
+"armin": "res://dialogs/characters/armin.dch",
+"jeffrey": "res://dialogs/characters/jeffrey.dch",
+"joshua": "res://dialogs/characters/joshua.dch",
+"lara": "res://dialogs/characters/lara.dch",
 "marlene": "res://dialogs/characters/marlene.dch",
 "martha": "res://dialogs/characters/martha.dch",
+"melissa": "res://dialogs/characters/melissa.dch",
+"sabrina": "res://dialogs/characters/sabrina.dch",
 "starter": "res://dialogs/characters/starter/starter.dch",
-"theoden": "res://dialogs/characters/theoden.dch"
+"theoden": "res://dialogs/characters/theoden.dch",
+"thomas": "res://dialogs/characters/thomas.dch"
 }
 directories/dtl_directory={
+"annabeth": "res://dialogs/timelines/annabeth.dtl",
+"annabeth_night": "res://dialogs/timelines/annabeth_night.dtl",
+"armin": "res://dialogs/timelines/armin.dtl",
+"armin_night": "res://dialogs/timelines/armin_night.dtl",
 "intro": "res://dialogs/timelines/intro.dtl",
-"talking1": "res://dialogs/timelines/talking1.dtl"
+"jeffrey": "res://dialogs/timelines/jeffrey.dtl",
+"jeffrey_night": "res://dialogs/timelines/jeffrey_night.dtl",
+"joshua": "res://dialogs/timelines/joshua.dtl",
+"joshua_night": "res://dialogs/timelines/joshua_night.dtl",
+"lara": "res://dialogs/timelines/lara.dtl",
+"lara_night": "res://dialogs/timelines/lara_night.dtl",
+"martha": "res://dialogs/timelines/martha.dtl",
+"martha_night": "res://dialogs/timelines/martha_night.dtl",
+"melissa": "res://dialogs/timelines/melissa.dtl",
+"melissa_night": "res://dialogs/timelines/melissa_night.dtl",
+"sabrina": "res://dialogs/timelines/sabrina.dtl",
+"sabrina_night": "res://dialogs/timelines/sabrina_night.dtl",
+"talking1": "res://dialogs/timelines/talking1.dtl",
+"theoden": "res://dialogs/timelines/theoden.dtl",
+"theoden_night": "res://dialogs/timelines/theoden_night.dtl",
+"thomas": "res://dialogs/timelines/thomas.dtl",
+"thomas_night": "res://dialogs/timelines/thomas_night.dtl"
 }
 glossary/default_case_sensitive=true
-layout/style_list=["res://dialogs/story/visual_novel_style.tres", "res://dialogs/story/speaker_style.tres", "res://dialogs/story/dialog_style.tres"]
-layout/default_style="res://dialogs/story/visual_novel_style.tres"
+layout/style_list=["res://dialogs/styling/custom_styles.tres", "res://dialogs/styling/default.tres"]
+layout/default_style="res://dialogs/styling/custom_styles.tres"
 variables={
 "global": {
 "player_name": "",
 "tutorial": false
+},
+"inputs": {
+"custom_answer": "",
+"custom_question": "",
+"should_move": true
 }
 }
 extensions_folder="res://addons/dialogic_additions"
@@ -63,7 +97,7 @@ choices/reveal_by_input=true
 save/autosave_delay=60.0
 save/encryption_on_exports_only=true
 text/autopauses={}
-save/autosave=true
+save/autosave=false
 glossary/glossary_files=["res://dialogs/story/glossary/glos1.tres", "res://dialogs/story/glossary/characters.tres"]
 translation/enabled=false
 translation/original_locale="de"
@@ -153,6 +187,11 @@ dialogic_default_action={
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":32,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 , Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":0,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":88,"physical_keycode":0,"key_label":0,"unicode":0,"location":0,"echo":false,"script":null)
 , Object(InputEventJoypadButton,"resource_local_to_scene":false,"resource_name":"","device":0,"button_index":0,"pressure":0.0,"pressed":false,"script":null)
+]
+}
+jump={
+"deadzone": 0.2,
+"events": [Object(InputEventKey,"resource_local_to_scene":false,"resource_name":"","device":-1,"window_id":0,"alt_pressed":false,"shift_pressed":false,"ctrl_pressed":false,"meta_pressed":false,"pressed":false,"keycode":0,"physical_keycode":32,"key_label":0,"unicode":32,"location":0,"echo":false,"script":null)
 ]
 }
 

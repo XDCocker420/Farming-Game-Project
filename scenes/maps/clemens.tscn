@@ -1,27 +1,45 @@
-[gd_scene load_steps=4 format=3 uid="uid://b57ax2p4r20ae"]
+[gd_scene load_steps=6 format=4 uid="uid://b57ax2p4r20ae"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_ipkwj"]
-[ext_resource type="PackedScene" uid="uid://bkag1kuotq8kp" path="res://scenes/characters/npcs/thomas.tscn" id="4_o85ij"]
+[ext_resource type="PackedScene" uid="uid://bbncnutg3tli0" path="res://scenes/characters/npcs/annabeth.tscn" id="4_2bulj"]
+[ext_resource type="PackedScene" uid="uid://exndmgultn3t" path="res://scenes/buildings/car_1.tscn" id="4_6i7ie"]
+[ext_resource type="TileSet" uid="uid://ns2vki3n45m" path="res://assets/tilesets/terrain_tileset.tres" id="4_vhguy"]
 
-[sub_resource type="NavigationPolygon" id="NavigationPolygon_c3goq"]
-vertices = PackedVector2Array(1266.12, 260.289, 936.313, 222.32, 776.641, 125.813, 1043.35, 58.2188, 1283.96, 101.609, 1567.44, 232.453, 1557.82, 422.578, 1792, 433.57, 1536.15, 582.93, 1745.83, 649.023, 1545.48, 849.367, 1329.96, 672.492, 1388.97, 826.18, 1098.36, 751.117, 1145.2, 629.703)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4, 5), PackedInt32Array(6, 0, 5, 7), PackedInt32Array(8, 6, 7, 9, 10), PackedInt32Array(11, 8, 10, 12), PackedInt32Array(11, 12, 13, 14)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(1043, 48, 1287, 92, 1573, 224, 1803, 430, 1755, 654, 1549, 860, 1387, 836, 1085, 758, 1139, 618, 1329, 662, 1527, 576, 1547, 428, 1263, 270, 933, 232, 751, 122)])
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_6i7ie"]
+vertices = PackedVector2Array(50, 111, 111.063, 169, -57, 169, 13, 111, 111.93, 33.9375, 50, 95, -57, 33.0469, 14, 86, 44, 86)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 1, 0, 5), PackedInt32Array(3, 2, 6, 7), PackedInt32Array(7, 6, 4, 8), PackedInt32Array(8, 4, 5)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(122, 24, 121, 179, -67, 179, -67, 23)])
 
 [node name="Node2D" type="Node2D"]
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+modulate = Color(0.828598, 0.892209, 0.894177, 1)
+position = Vector2(75, 101)
+tile_map_data = PackedByteArray("AAD7/wEAAAAGABcAAAD8/wEAAAAGABcAAAD8/wAAAAAGABcAAAD7/wAAAAAGABcAAAD6/wAAAAAGABcAAAD5/wAAAAAGABcAAAD4/wAAAAAGABcAAAD4////AAAGABcAAAD3////AAAGABcAAAD3//7/AAAGABcAAAD3//3/AAAGABcAAAD3//z/AAAGABcAAAD3//v/AAAGABcAAAD4//v/AAAGABcAAAD5//v/AAAGABcAAAD6//v/AAAGABcAAAD7//v/AAAGABcAAAD8//v/AAAGABcAAAD9//v/AAAGABcAAAD+//v/AAAGABcAAAD///v/AAAGABcAAAAAAPv/AAAGABcAAAABAPv/AAAGABcAAAACAPv/AAAGABcAAAACAPz/AAAGABcAAAACAP3/AAAGABcAAAACAP7/AAAGABcAAAACAP//AAAGABcAAAACAAAAAAAGABcAAAACAAEAAAAGABcAAAACAAIAAAAGABcAAAACAAMAAAAGABcAAAACAAQAAAAGABcAAAABAAQAAAAGABcAAAAAAAQAAAAGABcAAAD//wQAAAAGABcAAAD+/wQAAAAGABcAAAD9/wQAAAAGABcAAAD8/wQAAAAGABcAAAD8/wMAAAAGABcAAAD7/wQAAAAGABcAAAD6/wQAAAAGABcAAAD5/wQAAAAGABcAAAD4/wQAAAAGABcAAAD3/wQAAAAGABcAAAD3/wMAAAAGABcAAAD3/wIAAAAGABcAAAD3/wEAAAAGABcAAAD3/wAAAAAGABcAAAD4/wEAAAAGABcAAAD4/wIAAAAGABcAAAD4/wMAAAAGABcAAAD5/wMAAAAGABcAAAD5/wIAAAAGABcAAAD6/wIAAAAGABcAAAD6/wEAAAAGABcAAAD5/wEAAAAGABcAAAD6/wMAAAAGABcAAAD7/wMAAAAGABcAAAD7/wIAAAAGABcAAAD8/wIAAAAGABcAAAD9/wIAAAAGABcAAAD9/wMAAAAGABcAAAD+/wMAAAAGABcAAAD//wMAAAAGABcAAAAAAAMAAAAGABcAAAABAAMAAAAGABcAAAABAAIAAAAGABcAAAABAAEAAAAGABcAAAABAAAAAAAGABcAAAABAP//AAAGABcAAAABAP7/AAAGABcAAAABAP3/AAAGABcAAAABAPz/AAAGABcAAAAAAPz/AAAGABcAAAD///z/AAAGABcAAAD+//z/AAAGABcAAAD9//z/AAAGABcAAAD8//z/AAAGABcAAAD7//z/AAAGABcAAAD6//z/AAAGABcAAAD5//z/AAAGABcAAAD4//z/AAAGABcAAAD4//3/AAAGABcAAAD4//7/AAAGABcAAAD5//7/AAAGABcAAAD6//7/AAAGABcAAAD6//3/AAAGABcAAAD7//3/AAAGABcAAAD8//3/AAAGABcAAAD9//3/AAAGABcAAAD+//3/AAAGABcAAAD///3/AAAGABcAAAD///7/AAAGABcAAAAAAP7/AAAGABcAAAAAAP//AAAGABcAAAD/////AAAGABcAAAD//wAAAAAGABcAAAD+/wAAAAAGABcAAAD9/wAAAAAGABcAAAD8////AAAGABcAAAD7////AAAGABcAAAD5//3/AAAGABcAAAD5////AAAGABcAAAD6////AAAGABcAAAD7//7/AAAGABcAAAD8//7/AAAGABcAAAD9//7/AAAGABcAAAD9////AAAGABcAAAD+////AAAGABcAAAD+//7/AAAGABcAAAAAAP3/AAAGABcAAAAAAAAAAAAGABcAAAAAAAEAAAAGABcAAAAAAAIAAAAGABcAAAD//wIAAAAGABcAAAD+/wEAAAAGABcAAAD9/wEAAAAGABcAAAD//wEAAAAGABcAAAD+/wIAAAAGABcAAAA=")
+tile_set = ExtResource("4_vhguy")
 
 [node name="Player" parent="." instance=ExtResource("1_ipkwj")]
 unique_name_in_owner = true
 z_index = 5
-position = Vector2(982, 158)
+position = Vector2(109, 158)
 
 [node name="Camera" type="Camera2D" parent="Player"]
 position = Vector2(0, -43)
 position_smoothing_enabled = true
 position_smoothing_speed = 7.0
 
-[node name="thomas" parent="." instance=ExtResource("4_o85ij")]
-position = Vector2(1263, 715)
+[node name="Car1" parent="." instance=ExtResource("4_6i7ie")]
+position = Vector2(28, 109)
+scale = Vector2(0.431745, 0.446083)
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
-navigation_polygon = SubResource("NavigationPolygon_c3goq")
+navigation_polygon = SubResource("NavigationPolygon_6i7ie")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="NavigationRegion2D"]
+position = Vector2(32, 99)
+vertices = PackedVector2Array(-18, -13, 12, -13, 18, -4, 18, 12, -19, 12)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+
+[node name="Annabeth" parent="." instance=ExtResource("4_2bulj")]
+position = Vector2(-27, 131)
