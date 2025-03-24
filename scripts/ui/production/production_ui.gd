@@ -6,9 +6,8 @@ signal process_complete
 # References to all slots
 @onready var input_slot = $MarginContainer/slots/ui_slot
 @onready var output_slot = $MarginContainer/slots/ui_slot2
-# Reference to the new production button - try multiple possible paths
-@onready var produce_button = $MarginContainer/produce_button
-@onready var produce_button_alt = $produce_button
+# Reference to the new production button
+@onready var produce_button = $Control/produce_button
 
 # Current workstation information
 var current_workstation: String = ""
@@ -17,24 +16,19 @@ var output_items = []
 
 func _ready():
 	print("=== PRODUCTION UI READY ===")
-	print("Node name: " + name)
-	print("Node path: " + str(get_path()))
+	print("Checking button path: $MarginContainer/produce_button")
 	
 	# Debug print the node tree
-	print("\n=== NODE TREE DEBUG ===")
-	print_node_tree(self, 0)
-	
-	# Try to find the button
-	produce_button = find_button_in_tree()
-	if produce_button:
-		print("\nFound produce button at path: " + str(produce_button.get_path()))
-		if not produce_button.pressed.is_connected(_on_produce_button_pressed):
-			produce_button.pressed.connect(_on_produce_button_pressed)
-			print("Connected production button signal")
-		else:
-			print("Production button signal already connected")
+	var node = get_node("MarginContainer")
+	if node:
+		print("Found MarginContainer")
+		for child in node.get_children():
+			print("Child of MarginContainer: " + child.name)
+			# Also print children of children to find the button
+			for grandchild in child.get_children():
+				print("  - Grandchild: " + grandchild.name)
 	else:
-		print("\nWARNING: Could not find produce button in scene tree!")
+		print("WARNING: MarginContainer not found!")
 	
 	# Connect button signals for both slots
 	for slot in [input_slot, output_slot]:
@@ -47,20 +41,43 @@ func _ready():
 			button.pressed.connect(_on_slot_pressed.bind(slot))
 			print("Connected button signal for slot: " + str(slot.name))
 	
+	# Try multiple possible paths for the produce button
+	var possible_button_paths = [
+		"Control/produce_button",
+		"produce_button"
+	]
+	
+	var button_found = false
+	for path in possible_button_paths:
+		var button = get_node_or_null(path)
+		if button:
+			print("Found produce button at path: " + path)
+			produce_button = button
+			button_found = true
+			break
+	
+	if not button_found:
+		print("WARNING: Produce button not found at any expected path")
+		# Try to find the button in the scene tree
+		var found_button = find_button_in_tree()
+		if found_button:
+			print("Found button at alternative path: " + str(found_button.get_path()))
+			produce_button = found_button
+			button_found = true
+	
+	if button_found:
+		if not produce_button.pressed.is_connected(_on_produce_button_pressed):
+			produce_button.pressed.connect(_on_produce_button_pressed)
+			print("Connected production button signal")
+		else:
+			print("Production button signal already connected")
+	else:
+		print("ERROR: Could not find produce button anywhere in the scene!")
+	
 	# Debug check to verify this object has the required methods
-	print("\n=== METHOD CHECK ===")
 	print("PRODUCTION UI: Method check - has_method('add_input_item'): ", has_method("add_input_item"))
 	print("PRODUCTION UI: Method check - has_method('_process_single_item'): ", has_method("_process_single_item"))
 	print("PRODUCTION UI: Method check - has_method('_on_slot_pressed'): ", has_method("_on_slot_pressed"))
-
-# Helper function to print the node tree
-func print_node_tree(node, depth: int):
-	var indent = ""
-	for i in range(depth):
-		indent += "  "
-	print(indent + "- " + node.name + " (" + node.get_class() + ")")
-	for child in node.get_children():
-		print_node_tree(child, depth + 1)
 
 # Helper function to find the button in the scene tree
 func find_button_in_tree():
@@ -70,7 +87,7 @@ func find_button_in_tree():
 	while search_queue.size() > 0:
 		var node = search_queue.pop_front()
 		if node.name == "produce_button":
-			print("Found button at path: " + str(node.get_path()))
+			print("Found button in scene tree at: " + str(node.get_path()))
 			return node
 		for child in node.get_children():
 			search_queue.push_back(child)
@@ -78,7 +95,7 @@ func find_button_in_tree():
 
 # Handler for the produce button
 func _on_produce_button_pressed():
-	print("\n=== PRODUCE BUTTON PRESSED ===")
+	print("=== PRODUCE BUTTON PRESSED ===")
 	print("Current workstation: " + current_workstation)
 	print("Input items: " + str(input_items))
 	print("Output items: " + str(output_items))
