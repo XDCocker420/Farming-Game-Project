@@ -1,0 +1,3 @@
+thomas: Tschuldige es ist spät heute
+thomas: Morgen hab ich wieder Zeit für dich ja??
+set {inputs.should_move} = true

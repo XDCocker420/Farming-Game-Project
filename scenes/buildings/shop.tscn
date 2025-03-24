@@ -1,0 +1,79 @@
+[gd_scene load_steps=11 format=3 uid="uid://bnp1lhxbp8yo0"]
+
+[ext_resource type="Texture2D" uid="uid://bs34aotdeiude" path="res://assets/buildings/town_buildings_all.png" id="1_632wb"]
+[ext_resource type="Script" uid="uid://dfe4ah80j8uc4" path="res://scripts/buildings/shop.gd" id="1_sy4r7"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_632wb"]
+size = Vector2(163, 102)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_632wb"]
+atlas = ExtResource("1_632wb")
+region = Rect2(880, 944, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sy4r7"]
+atlas = ExtResource("1_632wb")
+region = Rect2(928, 944, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uh0so"]
+atlas = ExtResource("1_632wb")
+region = Rect2(976, 944, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rbx03"]
+atlas = ExtResource("1_632wb")
+region = Rect2(1024, 944, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pn0a2"]
+atlas = ExtResource("1_632wb")
+region = Rect2(1072, 944, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sq08f"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_632wb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sy4r7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uh0so")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rbx03")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pn0a2")
+}],
+"loop": false,
+"name": &"open",
+"speed": 5.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_sy4r7"]
+radius = 14.0
+height = 62.0
+
+[node name="shop" type="StaticBody2D"]
+script = ExtResource("1_sy4r7")
+
+[node name="house" type="Sprite2D" parent="."]
+position = Vector2(-1, -64)
+texture = ExtResource("1_632wb")
+region_enabled = true
+region_rect = Rect2(356, 945, 167, 127)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-0.5, -51)
+shape = SubResource("RectangleShape2D_632wb")
+
+[node name="door" type="Area2D" parent="."]
+position = Vector2(0, -16)
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="door"]
+sprite_frames = SubResource("SpriteFrames_sq08f")
+animation = &"open"
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="door"]
+position = Vector2(0, 10)
+rotation = 1.5708
+shape = SubResource("CapsuleShape2D_sy4r7")

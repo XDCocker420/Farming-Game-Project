@@ -13,6 +13,8 @@ func _ready() -> void:
 	Dialogic.signal_event.connect(_on_dialogic_signal)
 
 func _on_dialogic_signal(argument:String):
+	if argument == "exit_dialog":
+		transitioned.emit(self, "Wandering")
 	if argument == "trigger_ai":
 		
 		# Define your API key and URL.
@@ -40,11 +42,10 @@ func _on_dialogic_signal(argument:String):
 		
 		http_request.request_completed.connect(_on_request_completed)
 	
-	
-func process_input(_event: InputEvent):
-	if _event.is_action_pressed("interact") && Dialogic.current_timeline == null:
-		var timeline : DialogicTimeline = load("res://dialogs/timelines/talking1.dtl")
-		timeline.from_text("""
+		
+func enter() -> void:
+	var timeline : DialogicTimeline = load("res://dialogs/timelines/talking1.dtl")
+	timeline.from_text("""
 		join starter center
 		starter: Howdy Freund. Wie gehts?
 		label choice
@@ -69,9 +70,10 @@ func process_input(_event: InputEvent):
 			jump choice
 		- Danke ich hab keine Fragen mehr
 			[end_timeline]
+			[signal arg="exit_dialog"]
 		""")
-		timeline.process()
-		Dialogic.start(timeline)	
+	timeline.process()
+	Dialogic.start(timeline)
 		
 
 # This function is called when the request is completed.

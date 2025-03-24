@@ -3,6 +3,7 @@ extends PanelContainer
 
 signal slot_selection(slot: PanelContainer)
 signal item_selection(item_name: String, item_texture: Texture2D)
+signal slot_unlock(slot: PanelContainer, price: int)
 
 @onready var button: TextureButton = $button
 @onready var item_texture: TextureRect = $MarginContainer/item

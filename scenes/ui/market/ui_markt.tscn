@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://bgatkx86onbu6"]
+[gd_scene load_steps=4 format=3 uid="uid://bgatkx86onbu6"]
 
 [ext_resource type="Script" uid="uid://b8drb1kjb6qkb" path="res://scripts/ui/market/ui_markt.gd" id="1_hkeb5"]
 [ext_resource type="PackedScene" uid="uid://b24bo4ir8kd3p" path="res://scenes/ui/general/ui_slot.tscn" id="2_0n3vp"]
+[ext_resource type="PackedScene" uid="uid://b3i3aibbni210" path="res://scenes/ui/market/ui_slot_buy.tscn" id="3_0n3vp"]
 
 [node name="ui_markt" type="PanelContainer"]
 offset_right = 97.0
@@ -29,9 +30,13 @@ layout_mode = 2
 
 [node name="ui_slot3" parent="MarginContainer/slots" instance=ExtResource("2_0n3vp")]
 layout_mode = 2
+locked = true
+price = 100
 
 [node name="ui_slot4" parent="MarginContainer/slots" instance=ExtResource("2_0n3vp")]
 layout_mode = 2
+locked = true
+price = 500
 
 [node name="ui_slot5" parent="MarginContainer/slots" instance=ExtResource("2_0n3vp")]
 layout_mode = 2
@@ -41,6 +46,17 @@ layout_mode = 2
 
 [node name="ui_slot7" parent="MarginContainer/slots" instance=ExtResource("2_0n3vp")]
 layout_mode = 2
+locked = true
+price = 1500
 
 [node name="ui_slot8" parent="MarginContainer/slots" instance=ExtResource("2_0n3vp")]
+layout_mode = 2
+locked = true
+price = 3000
+
+[node name="CenterContainer" type="CenterContainer" parent="."]
+visible = false
+layout_mode = 2
+
+[node name="ui_slot_buy" parent="CenterContainer" instance=ExtResource("3_0n3vp")]
 layout_mode = 2

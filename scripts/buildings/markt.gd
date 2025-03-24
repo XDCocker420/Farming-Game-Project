@@ -56,6 +56,8 @@ func _on_accept(amount: int) -> void:
     
     selected_texture = null
     ui_selection.hide()
+    
+    SaveGame.add_market_slot(0, selected_name, amount, 0)
 
 
 func _on_player_entered(body: Node2D) -> void:
