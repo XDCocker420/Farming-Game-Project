@@ -3,7 +3,7 @@ extends PanelContainer
 
 signal slot_selection(slot: PanelContainer)
 signal item_selection(item_name: String, item_texture: Texture2D)
-signal slot_unlock(price: int)
+signal slot_unlock(slot: PanelContainer, price: int)
 
 @onready var button: TextureButton = $button
 @onready var item_texture: TextureRect = $MarginContainer/item
@@ -28,7 +28,7 @@ func _on_button_pressed() -> void:
         return
     
     if locked:
-        slot_unlock.emit(price)
+        slot_unlock.emit(self, price)
     else:
         slot_selection.emit(self)
         item_selection.emit(item_name, item_texture.texture)
@@ -40,5 +40,6 @@ func lock() -> void:
     
 
 func unlock() -> void:
+    locked = false
     button.texture_normal = load("res://assets/ui/general/slot.png")
     button.texture_pressed = load("res://assets/ui/general/slot_pressed.png")

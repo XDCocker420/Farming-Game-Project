@@ -26,12 +26,12 @@ func _ready() -> void:
 
 
 func _process(delta: float) -> void:
-	time += delta * INGAME_TO_REAL_MINUTE_DURATION * INGAME_SPEED
-	
-	var value = (sin(time - PI / 2.0) + 1.0) / 2.0
-	self.color = gradient_texture.gradient.sample(value)
-	
-	_recalculate_time()
+    time += delta * INGAME_TO_REAL_MINUTE_DURATION * INGAME_SPEED
+
+    var value = (sin(time - PI / 2.0) + 1.0) / 2.0
+    self.color = gradient_texture.gradient.sample(value)
+
+    _recalculate_time()
 
         
 func _recalculate_time() -> void:
@@ -41,13 +41,13 @@ func _recalculate_time() -> void:
 
     var current_day_minutes = total_minutes % MINUTES_PER_DAY
 
-	var hour = int(current_day_minutes / MINUTES_PER_HOUR)
-	var minute = int(current_day_minutes % MINUTES_PER_HOUR)
-	
-	if past_minute != minute:
-		past_minute = minute
-		if hour == 19:
-			#is_night.emit()
-			print(19)
-		print("Hour ", hour)
-		time_tick.emit(day, hour, minute)
+    var hour = int(current_day_minutes / MINUTES_PER_HOUR)
+    var minute = int(current_day_minutes % MINUTES_PER_HOUR)
+
+    if past_minute != minute:
+        past_minute = minute
+        if hour == 19:
+            #is_night.emit()
+            print(19)
+        print("Hour ", hour)
+        time_tick.emit(day, hour, minute)

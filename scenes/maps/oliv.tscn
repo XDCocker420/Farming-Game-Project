@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cpkipawsrp8tl"]
+[gd_scene load_steps=9 format=3 uid="uid://cpkipawsrp8tl"]
 
 [ext_resource type="PackedScene" uid="uid://ddeef2warcy2e" path="res://scenes/buildings/markt.tscn" id="1_53iql"]
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="2_14qoo"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://by8sfn1p2h5nh" path="res://scenes/buildings/player_house.tscn" id="5_dhanm"]
 [ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="6_6epel"]
 [ext_resource type="PackedScene" uid="uid://ddg4dek5yblxw" path="res://scenes/crops/eggplant.tscn" id="7_wgp6n"]
+[ext_resource type="PackedScene" uid="uid://bnp1lhxbp8yo0" path="res://scenes/buildings/shop.tscn" id="8_mb5cb"]
 
 [node name="Node2D" type="Node2D"]
 
@@ -36,3 +37,6 @@ position = Vector2(229, 133)
 
 [node name="eggplant" parent="." instance=ExtResource("7_wgp6n")]
 position = Vector2(178, 173)
+
+[node name="shop" parent="." instance=ExtResource("8_mb5cb")]
+position = Vector2(330, -22)

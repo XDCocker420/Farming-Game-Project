@@ -31,8 +31,10 @@ theme_override_constants/separation = 10
 
 [node name="accept" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+action_mode = 0
 texture_normal = ExtResource("1_tif2u")
 
 [node name="cancel" type="TextureButton" parent="MarginContainer/VBoxContainer/HBoxContainer"]
 layout_mode = 2
+action_mode = 0
 texture_normal = ExtResource("2_l45bn")
