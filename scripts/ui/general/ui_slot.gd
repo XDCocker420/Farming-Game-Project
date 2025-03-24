@@ -7,39 +7,94 @@ signal slot_unlock(slot: PanelContainer, price: int)
 
 @onready var button: TextureButton = $button
 @onready var item_texture: TextureRect = $MarginContainer/item
-
-var item_name: String
-var id: int
+@onready var amount_label: Label = $amount
+var item_name: String = ""
 
 var editable: bool = false
-@export var locked: bool = false
-@export var price: int
+var production_ui = null  # Reference to the production UI
 
 
 func _ready() -> void:
-    button.pressed.connect(_on_button_pressed)
-    if locked:
-        lock()
+	button.pressed.connect(_on_button_pressed)
 
 
 func _on_button_pressed() -> void:
-    if item_texture.texture != null and editable:
-        button.button_pressed = false
-        return
-    
-    if locked:
-        slot_unlock.emit(self, price)
-    else:
-        slot_selection.emit(self)
-        item_selection.emit(item_name, item_texture.texture)
-        
+	if item_texture.texture != null and editable:
+		button.button_pressed = false
+		return
+	
+	print("Slot pressed with item: " + item_name)
+	print("Slot has production UI reference: " + str(production_ui != null))
+	
+	# Add some visual feedback
+	button.modulate = Color(1.5, 1.5, 1.5, 1)  # Make it brighter when clicked
+	# Reset after a short delay using a safe approach
+	var timer = get_tree().create_timer(0.1)
+	timer.timeout.connect(func(): 
+		if is_instance_valid(button): 
+			button.modulate = Color(1, 1, 1, 1)
+	)
+	
+	# First, emit the signals for compatibility
+	slot_selection.emit(self)
+	item_selection.emit(item_name, item_texture.texture)
+	
+	# Check if we have a valid production UI reference and item
+	if production_ui != null:
+		print("Production UI reference exists: ", production_ui)
+		if item_name != "":
+			print("DIRECT CALL: Slot calling add_input_item on production UI with " + item_name)
+			# First, try the direct method call
+			if production_ui.has_method("add_input_item"):
+				print("Using direct method call to add_input_item")
+				production_ui.add_input_item(item_name)
+			# If that fails, try the call method which is more flexible
+			else:
+				print("Using call method to add_input_item")
+				production_ui.call("add_input_item", item_name)
+		else:
+			print("ERROR: No item_name in this slot")
+	else:
+		print("ERROR: No production_ui reference in slot")
 
-func lock() -> void:
-    button.texture_normal = load("res://assets/ui/general/slot_locked.png")
-    button.texture_pressed = null
-    
+# Setup the slot with an item
+func setup(item: String, description: String = "", is_enabled: bool = true, item_count: int = 0) -> void:
+	print("Setting up slot with item: " + item + ", count: " + str(item_count))
+	item_name = item
+	
+	# Load the texture if item is provided
+	if item != "":
+		item_texture.texture = load("res://assets/ui/icons/" + item + ".png")
+	else:
+		item_texture.texture = null
+	
+	# Set amount if provided and enhance visibility
+	if item_count > 0:
+		amount_label.text = str(item_count)
+		# Make the count more visible
+		amount_label.add_theme_color_override("font_color", Color(1, 1, 1, 1)) # White text
+		amount_label.add_theme_font_size_override("font_size", 14) # Slightly larger font
+	else:
+		amount_label.text = ""
+	
+	# Enable/disable the button
+	button.disabled = !is_enabled
+	
+	# Debug print
+	print("Slot setup complete. Has production UI: " + str(production_ui != null))
 
-func unlock() -> void:
-    locked = false
-    button.texture_normal = load("res://assets/ui/general/slot.png")
-    button.texture_pressed = load("res://assets/ui/general/slot_pressed.png")
+# Clear the slot
+func clear() -> void:
+	print("Clearing slot with item_name: " + item_name)
+	item_name = ""
+	item_texture.texture = null
+	amount_label.text = ""
+	button.disabled = false
+	# Don't clear the production UI reference when clearing the slot
+	# This ensures we maintain the reference for future operations
+	print("Slot cleared. Has production UI: " + str(production_ui != null))
+
+# Set the reference to the production UI
+func set_production_ui(ui) -> void:
+	production_ui = ui
+	print("Slot now has reference to production UI: ", production_ui)

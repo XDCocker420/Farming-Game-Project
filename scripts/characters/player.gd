@@ -19,15 +19,36 @@ var is_jump: bool
 func _ready() -> void:
 	current_speed = normal_speed
 	
-	SaveGame.clear_inventory()
-	
-	SaveGame.add_to_inventory("carrot", 50)
-	SaveGame.add_to_inventory("corn", 30)
-	SaveGame.add_to_inventory("eggplant", 3)
-	SaveGame.add_to_inventory("potatoe", 100)
-	if SaveGame.get_money() != 0:
-		SaveGame.remove_money(SaveGame.get_money())
-	SaveGame.add_money(3100)
+	# Only initialize inventory if it's empty
+	if SaveGame.get_item_count("carrot") <= 0:
+		print("Initializing empty inventory with test items")
+		SaveGame.clear_inventory()
+		
+		SaveGame.add_to_inventory("carrot", 20)
+		SaveGame.add_to_inventory("corn", 20)
+		SaveGame.add_to_inventory("eggplant", 20)
+		SaveGame.add_to_inventory("potatoe", 20)
+		
+		# Add input materials for production testing
+		SaveGame.add_to_inventory("milk", 20)
+		SaveGame.add_to_inventory("egg", 20)
+		SaveGame.add_to_inventory("white_wool", 20)
+		SaveGame.add_to_inventory("wheat", 20)
+		
+		# Add output products for production testing
+		SaveGame.add_to_inventory("butter", 20)
+		SaveGame.add_to_inventory("cheese", 20)
+		SaveGame.add_to_inventory("mayo", 20)
+		SaveGame.add_to_inventory("white_cloth", 20)
+		SaveGame.add_to_inventory("white_string", 20)
+		SaveGame.add_to_inventory("feed", 20)
+		
+		# Add money
+		SaveGame.add_money(10000)
+		
+		print("Testing items added to inventory!")
+	else:
+		print("Inventory already exists, skipping initialization")
 
 
 func _input(event: InputEvent) -> void:

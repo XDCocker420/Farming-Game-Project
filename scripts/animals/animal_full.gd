@@ -71,7 +71,15 @@ func on_kill():
 	get_parent().get_parent().queue_free()
 	
 func on_interaction():
-	SaveGame.add_to_inventory(animal.name.to_lower().rstrip("1234567890"))
+	var animal_type = animal.name.to_lower().rstrip("1234567890")
+	match animal_type:
+		"cow":
+			SaveGame.add_to_inventory("milk", 1)
+		"chicken":
+			SaveGame.add_to_inventory("egg", 1)
+		"sheep":
+			SaveGame.add_to_inventory("white_wool", 1)
+	
 	print(SaveGame.get_inventory())
 	transitioned.emit(self, "Hungry")
 		
