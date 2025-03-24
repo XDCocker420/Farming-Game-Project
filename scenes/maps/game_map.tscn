@@ -1,7 +1,7 @@
 [gd_scene load_steps=31 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
-[ext_resource type="Texture2D" uid="uid://c4yorbk70t6ed" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
+[ext_resource type="Texture2D" uid="uid://b7f3cctim7uf0" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
 [ext_resource type="PackedScene" uid="uid://by8sfn1p2h5nh" path="res://scenes/buildings/player_house.tscn" id="4_1xy5d"]
 [ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="5_sdtop"]
 [ext_resource type="PackedScene" uid="uid://nyttgrj1hid3" path="res://scenes/buildings/tierbereich.tscn" id="7_8ejyj"]
@@ -3738,13 +3738,17 @@ tile_set = SubResource("TileSet_8do3e")
 
 [node name="NPCs" type="Node2D" parent="Map"]
 
-[node name="Annabeth" parent="Map/NPCs" instance=ExtResource("22_congb")]
+[node name="Annabeth" parent="Map/NPCs" node_paths=PackedStringArray("market", "day_and_night") instance=ExtResource("22_congb")]
 position = Vector2(5410, -401)
 important_points = Array[Vector2]([Vector2(5480, -965), Vector2(4660, -823), Vector2(4649, -444), Vector2(5410, -401)])
+market = NodePath("../../Town/Markt")
+day_and_night = NodePath("../../../TagUndNacht")
 
-[node name="Thomas" parent="Map/NPCs" instance=ExtResource("23_d2gmw")]
+[node name="Thomas" parent="Map/NPCs" node_paths=PackedStringArray("market", "day_and_night") instance=ExtResource("23_d2gmw")]
 position = Vector2(5291, -496)
 important_points = Array[Vector2]([Vector2(5865, -830), Vector2(6531, -445), Vector2(6070, -11), Vector2(5291, -496)])
+market = NodePath("../../Town/Markt")
+day_and_night = NodePath("../../../TagUndNacht")
 
 [node name="Obstacles" type="Node2D" parent="Map"]
 
