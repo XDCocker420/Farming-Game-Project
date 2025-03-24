@@ -122,23 +122,8 @@ func _on_slot_pressed(slot):
 				slot.clear()
 				print("Cleared output slot (last item taken)")
 			
-			# Find and update Scheune UI if it exists
-			var scheune_ui = _find_scheune_ui()
-			if scheune_ui and scheune_ui.has_method("reload_slots"):
-				# Force a complete slot refresh
-				for slot_item in scheune_ui.slot_list:
-					slot_item.queue_free()
-				scheune_ui.slot_list.clear()
-				
-				# Now reload with fresh data from SaveGame
-				scheune_ui.current_filter.clear()
-				scheune_ui.reload_slots(false)
-				
-				# Restore the correct filter
-				scheune_ui.set_workstation_filter(current_workstation)
-				print("Completely refreshed Scheune UI after item transfer")
-			else:
-				print("WARNING: Could not find or update Scheune UI")
+			# Refresh all inventory UIs to show the updated inventory
+			_refresh_all_inventory_uis(current_workstation)
 				
 			# Save game to persist inventory changes
 			SaveGame.save_game()
@@ -192,6 +177,9 @@ func _process_single_item() -> void:
 	else:
 		print("ERROR: Input slot missing clear method")
 	
+	# Make sure to update any inventory UIs to reflect these changes
+	_refresh_all_inventory_uis(current_workstation)
+	
 	# Save just to be safe
 	SaveGame.save_game()
 	print("Processing complete and game saved")
@@ -215,33 +203,60 @@ func add_input_item(item_name: String) -> void:
 		if input_slot.item_name == item_name and input_slot.amount_label.text != "":
 			current_count = int(input_slot.amount_label.text)
 		
+		# Remove the item from inventory FIRST
+		SaveGame.remove_from_inventory(item_name, 1)
+		print("Removed 1 " + item_name + " from inventory")
+		
 		# Update the slot with the item and increment count
 		input_slot.setup(item_name, "", true, current_count + 1)
-		
-		# Remove the item from inventory
-		SaveGame.remove_from_inventory(item_name, 1)
+		print("Added to input slot, new count: " + str(current_count + 1))
 		
 		# Update the inventory UI - find ALL inventory UIs in the scene
 		print("=== REFRESHING ALL INVENTORY UIs ===")
 		
-		# First find the Scheune UI
-		var scheune_ui = _find_scheune_ui()
-		if scheune_ui and scheune_ui.has_method("reload_slots"):
-			print("Refreshing primary Scheune UI: " + str(scheune_ui.name))
-			
-			# Force complete rebuild of slots
-			for slot_item in scheune_ui.slot_list:
-				slot_item.queue_free()
-			scheune_ui.slot_list.clear()
-			scheune_ui.current_filter.clear()
-			scheune_ui.reload_slots(false)
-			scheune_ui.set_workstation_filter(current_workstation)
+		# First find the Scheune UI through comprehensive search
+		_refresh_all_inventory_uis(current_workstation)
 		
 		# Save game to persist inventory changes
 		SaveGame.save_game()
 		print("Saved game after inventory update")
 	else:
 		print("Item " + item_name + " not valid for " + current_workstation)
+
+# New function to refresh ALL inventory UIs in the scene
+func _refresh_all_inventory_uis(workstation: String):
+	var all_nodes = []
+	_find_all_nodes(get_tree().root, all_nodes)
+	
+	var found_any_ui = false
+	
+	for node in all_nodes:
+		if "inventory_ui" in node.name and node.has_method("reload_slots"):
+			print("Found inventory UI to refresh: " + node.name)
+			found_any_ui = true
+			
+			# Force complete rebuild of slots
+			if node.has_method("reload_slots"):
+				# Check if it has slot_list property in a safe way
+				if "slot_list" in node:
+					for slot_item in node.slot_list:
+						slot_item.queue_free()
+					node.slot_list.clear()
+				
+				# Even if we couldn't clear slots individually, try to reload
+				if "current_filter" in node:
+					node.current_filter.clear()
+				node.reload_slots(false) # First load all items
+				
+				# Then apply the filter if the method exists
+				if node.has_method("set_workstation_filter"):
+					node.set_workstation_filter(workstation)
+	
+	if !found_any_ui:
+		print("WARNING: No inventory UIs found to refresh!")
+	
+	# Force UI update
+	call_deferred("_force_ui_update")
 
 # Helper function to find all Scheune UIs in the scene
 func _find_scheune_ui():
@@ -280,3 +295,8 @@ func _find_all_nodes(node, result_array):
 	result_array.push_back(node)
 	for child in node.get_children():
 		_find_all_nodes(child, result_array)
+		
+# Helper function to force UI update
+func _force_ui_update():
+	# This empty method is called deferred to force the UI to update in the next frame
+	pass
