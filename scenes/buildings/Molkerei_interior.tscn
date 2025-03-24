@@ -3846,22 +3846,22 @@ position_smoothing_speed = 7.0
 [node name="production_ui_butterchurn" parent="." instance=ExtResource("5_trsac")]
 offset_left = -40.0
 offset_top = -104.0
-offset_right = 21.0
-offset_bottom = -66.0
+offset_right = 80.0
+offset_bottom = -48.0
 
 [node name="production_ui_press_cheese" parent="." instance=ExtResource("5_trsac")]
 visible = false
 offset_left = -8.0
 offset_top = -104.0
-offset_right = 53.0
-offset_bottom = -66.0
+offset_right = 112.0
+offset_bottom = -48.0
 
 [node name="production_ui_mayomaker" parent="." instance=ExtResource("5_trsac")]
 visible = false
 offset_left = 24.0
 offset_top = -104.0
-offset_right = 85.0
-offset_bottom = -66.0
+offset_right = 144.0
+offset_bottom = -48.0
 
 [node name="inventory_ui_butterchurn" parent="." instance=ExtResource("6_ruoo0")]
 offset_left = -120.0

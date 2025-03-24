@@ -6,6 +6,9 @@ signal process_complete
 # References to all slots
 @onready var input_slot = $MarginContainer/slots/ui_slot
 @onready var output_slot = $MarginContainer/slots/ui_slot2
+# Reference to the new production button - try multiple possible paths
+@onready var produce_button = $MarginContainer/produce_button
+@onready var produce_button_alt = $produce_button
 
 # Current workstation information
 var current_workstation: String = ""
@@ -13,6 +16,26 @@ var input_items = []
 var output_items = []
 
 func _ready():
+	print("=== PRODUCTION UI READY ===")
+	print("Node name: " + name)
+	print("Node path: " + str(get_path()))
+	
+	# Debug print the node tree
+	print("\n=== NODE TREE DEBUG ===")
+	print_node_tree(self, 0)
+	
+	# Try to find the button
+	produce_button = find_button_in_tree()
+	if produce_button:
+		print("\nFound produce button at path: " + str(produce_button.get_path()))
+		if not produce_button.pressed.is_connected(_on_produce_button_pressed):
+			produce_button.pressed.connect(_on_produce_button_pressed)
+			print("Connected production button signal")
+		else:
+			print("Production button signal already connected")
+	else:
+		print("\nWARNING: Could not find produce button in scene tree!")
+	
 	# Connect button signals for both slots
 	for slot in [input_slot, output_slot]:
 		if slot and slot.has_node("button"):
@@ -25,10 +48,93 @@ func _ready():
 			print("Connected button signal for slot: " + str(slot.name))
 	
 	# Debug check to verify this object has the required methods
+	print("\n=== METHOD CHECK ===")
 	print("PRODUCTION UI: Method check - has_method('add_input_item'): ", has_method("add_input_item"))
 	print("PRODUCTION UI: Method check - has_method('_process_single_item'): ", has_method("_process_single_item"))
 	print("PRODUCTION UI: Method check - has_method('_on_slot_pressed'): ", has_method("_on_slot_pressed"))
 
+# Helper function to print the node tree
+func print_node_tree(node, depth: int):
+	var indent = ""
+	for i in range(depth):
+		indent += "  "
+	print(indent + "- " + node.name + " (" + node.get_class() + ")")
+	for child in node.get_children():
+		print_node_tree(child, depth + 1)
+
+# Helper function to find the button in the scene tree
+func find_button_in_tree():
+	var root = get_tree().root
+	var search_queue = [root]
+	
+	while search_queue.size() > 0:
+		var node = search_queue.pop_front()
+		if node.name == "produce_button":
+			print("Found button at path: " + str(node.get_path()))
+			return node
+		for child in node.get_children():
+			search_queue.push_back(child)
+	return null
+
+# Handler for the produce button
+func _on_produce_button_pressed():
+	print("\n=== PRODUCE BUTTON PRESSED ===")
+	print("Current workstation: " + current_workstation)
+	print("Input items: " + str(input_items))
+	print("Output items: " + str(output_items))
+	
+	# Check if we have valid input
+	if input_slot and input_slot.item_name:
+		print("Input slot has item: " + input_slot.item_name)
+		if input_slot.amount_label.text != "":
+			print("Input slot amount: " + input_slot.amount_label.text)
+	else:
+		print("No item in input slot")
+	
+	# Process the input items into output
+	_process_single_item()
+
+func _on_slot_pressed(slot):
+	print("=== SLOT PRESSED ===")
+	print("Slot name: " + str(slot.name))
+	print("Is input slot: " + str(slot == input_slot))
+	print("Is output slot: " + str(slot == output_slot))
+	
+	if slot == input_slot:
+		print("Input slot clicked: (ignored)")
+		return
+	elif slot == output_slot:
+		print("Output slot clicked")
+		
+		# Check if this is a processed item
+		var item_count = 0
+		if slot.amount_label.text != "":
+			item_count = int(slot.amount_label.text)
+		
+		if item_count > 0:
+			print("Transferring 1 " + output_items[0] + " back to inventory")
+			# Add just one item to inventory
+			SaveGame.add_to_inventory(output_items[0], 1)
+			
+			# Update the slot with one less item, or clear if it was the last one
+			if item_count > 1:
+				slot.setup(output_items[0], "", true, item_count - 1)
+				print("Updated output slot, remaining: " + str(item_count - 1))
+			else:
+				# Clear the output slot if this was the last item
+				slot.clear()
+				print("Cleared output slot (last item taken)")
+			
+			# Refresh all inventory UIs to show the updated inventory
+			_refresh_all_inventory_uis(current_workstation)
+				
+			# Save game to persist inventory changes
+			SaveGame.save_game()
+			print("Saved game after inventory update")
+		else:
+			# No longer process when clicking the output slot since we have a dedicated button
+			print("Output slot is empty")
+			
 func setup(workstation_name: String):
 	print("Setting up production UI for workstation: " + workstation_name)
 	current_workstation = workstation_name
@@ -84,54 +190,16 @@ func setup(workstation_name: String):
 			# Connect the signal
 			button.pressed.connect(_on_slot_pressed.bind(slot))
 	
+	# Update produce button state - enable only if there are valid recipes
+	if produce_button:
+		produce_button.disabled = (input_items.size() == 0 or output_items.size() == 0)
+	
 	print("Recipe: " + str(input_items) + " -> " + str(output_items))
 	
 	# Debug print to verify setup
 	print("Production UI setup complete for " + workstation_name)
 	print("Input items: " + str(input_items))
 	print("Output items: " + str(output_items))
-
-func _on_slot_pressed(slot):
-	print("=== SLOT PRESSED ===")
-	print("Slot name: " + str(slot.name))
-	print("Is input slot: " + str(slot == input_slot))
-	print("Is output slot: " + str(slot == output_slot))
-	
-	if slot == input_slot:
-		print("Input slot clicked: (ignored)")
-		return
-	elif slot == output_slot:
-		print("Output slot clicked")
-		
-		# Check if this is a processed item
-		var item_count = 0
-		if slot.amount_label.text != "":
-			item_count = int(slot.amount_label.text)
-		
-		if item_count > 0:
-			print("Transferring 1 " + output_items[0] + " back to inventory")
-			# Add just one item to inventory
-			SaveGame.add_to_inventory(output_items[0], 1)
-			
-			# Update the slot with one less item, or clear if it was the last one
-			if item_count > 1:
-				slot.setup(output_items[0], "", true, item_count - 1)
-				print("Updated output slot, remaining: " + str(item_count - 1))
-			else:
-				# Clear the output slot if this was the last item
-				slot.clear()
-				print("Cleared output slot (last item taken)")
-			
-			# Refresh all inventory UIs to show the updated inventory
-			_refresh_all_inventory_uis(current_workstation)
-				
-			# Save game to persist inventory changes
-			SaveGame.save_game()
-			print("Saved game after inventory update")
-		else:
-			print("Processing output")
-			_process_single_item()
-			# Don't transfer items immediately, let them stay in the output slot
 
 func _process_single_item() -> void:
 	print("=== PROCESSING ITEM ===")
@@ -140,6 +208,8 @@ func _process_single_item() -> void:
 	# Get corresponding input/output items
 	if input_items.size() == 0 or output_items.size() == 0:
 		print("ERROR: No recipe defined")
+		if produce_button:
+			produce_button.disabled = true
 		return
 		
 	var input_item = input_items[0]
@@ -155,18 +225,26 @@ func _process_single_item() -> void:
 		else:
 			input_count = 1
 		print("Found " + str(input_count) + " " + input_item + " in input slot")
+	else:
+		print("Input slot has wrong item or is empty. Expected: " + input_item + ", Got: " + str(input_slot.item_name))
 	
 	if input_count <= 0:
 		print("ERROR: No input items available")
 		return
 	
+	# Check if the output slot already has items
+	var current_output_count = 0
+	if output_slot.item_name == output_item and output_slot.amount_label.text != "":
+		current_output_count = int(output_slot.amount_label.text)
+		print("Current output count: " + str(current_output_count))
+	
 	# Process the items
 	print("Processing " + str(input_count) + " " + input_item + " into " + output_item)
 	
-	# Update the output slot visually first
+	# Update the output slot visually
 	if output_slot.has_method("setup"):
-		output_slot.setup(output_item, "", true, input_count)
-		print("Updated output slot with " + str(input_count) + " " + output_item)
+		output_slot.setup(output_item, "", true, current_output_count + input_count)
+		print("Updated output slot with " + str(current_output_count + input_count) + " " + output_item)
 	else:
 		print("ERROR: Output slot missing setup method")
 	
@@ -183,6 +261,11 @@ func _process_single_item() -> void:
 	# Save just to be safe
 	SaveGame.save_game()
 	print("Processing complete and game saved")
+	
+	# Disable the produce button until more input is added
+	if produce_button:
+		produce_button.disabled = true
+		print("Disabled produce button")
 	
 	# Emit signal that processing is complete
 	process_complete.emit()
@@ -210,6 +293,10 @@ func add_input_item(item_name: String) -> void:
 		# Update the slot with the item and increment count
 		input_slot.setup(item_name, "", true, current_count + 1)
 		print("Added to input slot, new count: " + str(current_count + 1))
+		
+		# Enable the produce button since we now have valid input
+		if produce_button:
+			produce_button.disabled = false
 		
 		# Update the inventory UI - find ALL inventory UIs in the scene
 		print("=== REFRESHING ALL INVENTORY UIs ===")
