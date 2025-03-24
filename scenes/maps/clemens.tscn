@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=4 uid="uid://b57ax2p4r20ae"]
+[gd_scene load_steps=7 format=4 uid="uid://b57ax2p4r20ae"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_ipkwj"]
 [ext_resource type="PackedScene" uid="uid://bbncnutg3tli0" path="res://scenes/characters/npcs/annabeth.tscn" id="4_2bulj"]
 [ext_resource type="PackedScene" uid="uid://exndmgultn3t" path="res://scenes/buildings/car_1.tscn" id="4_6i7ie"]
 [ext_resource type="TileSet" uid="uid://ns2vki3n45m" path="res://assets/tilesets/terrain_tileset.tres" id="4_vhguy"]
+[ext_resource type="PackedScene" uid="uid://bc6sudr6mtykj" path="res://scenes/buildings/task_caravan.tscn" id="5_vhguy"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_6i7ie"]
 vertices = PackedVector2Array(50, 111, 111.063, 169, -57, 169, 13, 111, 111.93, 33.9375, 50, 95, -57, 33.0469, 14, 86, 44, 86)
@@ -43,3 +44,6 @@ carve_navigation_mesh = true
 
 [node name="Annabeth" parent="." instance=ExtResource("4_2bulj")]
 position = Vector2(-27, 131)
+
+[node name="task_caravan" parent="." instance=ExtResource("5_vhguy")]
+position = Vector2(155, 115)

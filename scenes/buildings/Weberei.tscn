@@ -1,8 +1,8 @@
 [gd_scene load_steps=10 format=4 uid="uid://d0ph6w1i7nk5f"]
 
 [ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/tilesets/farm_buildings_tileset.tres" id="1_ixems"]
-[ext_resource type="Script" uid="uid://wlydxvoagbmp" path="res://scripts/buildings/Weberei.gd" id="1_lc7rd"]
-[ext_resource type="Texture2D" uid="uid://cohn1pgu6ly3p" path="res://assets/buildings/farm_buildings_all.png" id="2_uqtd2"]
+[ext_resource type="Script" uid="uid://02r1sy6x7yq0" path="res://scripts/buildings/Weberei.gd" id="1_lc7rd"]
+[ext_resource type="Texture2D" uid="uid://dvfngkj6gf87v" path="res://assets/buildings/farm_buildings_all.png" id="2_uqtd2"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ixems"]
 size = Vector2(65, 42)
@@ -60,3 +60,6 @@ animation = &"door"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DoorArea"]
 position = Vector2(-8, 11)
 shape = SubResource("CapsuleShape2D_uqtd2")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+vertices = PackedVector2Array(-39, -32, 26, -32, 26, 10, -39, 10)

@@ -1,10 +1,10 @@
 [gd_scene load_steps=9 format=3 uid="uid://u44hmkynjs5r"]
 
-[ext_resource type="Texture2D" uid="uid://bpuil56qayupb" path="res://assets/ui/general/control_panel_fram_alt.png" id="1_songl"]
+[ext_resource type="Texture2D" uid="uid://2nol4fs08o6y" path="res://assets/ui/general/control_panel_fram_alt.png" id="1_songl"]
 [ext_resource type="Script" uid="uid://c0v2bdvqclm7r" path="res://scripts/ui/task_caravan/ui_task_caravan_task.gd" id="2_3lpne"]
-[ext_resource type="Texture2D" uid="uid://jh2tjgm620iy" path="res://assets/ui/icons/carrot.png" id="2_eoh1t"]
-[ext_resource type="Texture2D" uid="uid://cj38gy811gcyy" path="res://assets/ui/icons/corn.png" id="3_ek8yn"]
-[ext_resource type="Texture2D" uid="uid://c7a727mlpooee" path="res://assets/ui/icons/eggplant.png" id="4_cn2qe"]
+[ext_resource type="Texture2D" uid="uid://dmv5dginhgv06" path="res://assets/ui/icons/carrot.png" id="2_eoh1t"]
+[ext_resource type="Texture2D" uid="uid://bxpchdob50k4b" path="res://assets/ui/icons/corn.png" id="3_ek8yn"]
+[ext_resource type="Texture2D" uid="uid://rxfl1avmxc4q" path="res://assets/ui/icons/eggplant.png" id="4_cn2qe"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_eoh1t"]
 texture = ExtResource("1_songl")
@@ -126,4 +126,4 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_ek8yn")
 
 [node name="Button" type="Button" parent="VBoxContainer2/MarginContainer3/PanelContainer"]
 layout_mode = 2
-text = "Done"
+text = "Erledigen"

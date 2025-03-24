@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://cjo2tht8bf4ad"]
 
-[ext_resource type="Texture2D" uid="uid://cbofvk7hb1eul" path="res://assets/ui/general/contract_board_frame.png" id="1_ki84q"]
+[ext_resource type="Texture2D" uid="uid://b5q50y1ohyvqt" path="res://assets/ui/general/contract_board_frame.png" id="1_ki84q"]
 [ext_resource type="Script" uid="uid://bsolm0vqjx8vk" path="res://scripts/ui/task_caravan/ui_task_caravan.gd" id="2_0m8mx"]
 [ext_resource type="PackedScene" uid="uid://ddms0lic2yxdt" path="res://scenes/ui/task_caravan/ui_task_caravan_slot.tscn" id="2_8fpjj"]
 [ext_resource type="PackedScene" uid="uid://u44hmkynjs5r" path="res://scenes/ui/task_caravan/ui_task_caravan_task.tscn" id="3_0m8mx"]

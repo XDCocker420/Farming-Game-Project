@@ -1,7 +1,7 @@
 [gd_scene load_steps=8 format=4 uid="uid://by8sfn1p2h5nh"]
 
 [ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/tilesets/farm_buildings_tileset.tres" id="1_t2qka"]
-[ext_resource type="Texture2D" uid="uid://d2x7ebuybkcby" path="res://assets/buildings/farm_buildings_all.png" id="2_cs51h"]
+[ext_resource type="Texture2D" uid="uid://dvfngkj6gf87v" path="res://assets/buildings/farm_buildings_all.png" id="2_cs51h"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lt4ku"]
 atlas = ExtResource("2_cs51h")
@@ -50,3 +50,6 @@ animation = &"open"
 z_index = 6
 position = Vector2(-0.25, -28.25)
 shape = SubResource("RectangleShape2D_t2qka")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+vertices = PackedVector2Array(-27, -49, 27, -49, 27, -8, -27, -8)

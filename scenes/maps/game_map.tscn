@@ -3740,9 +3740,11 @@ tile_set = SubResource("TileSet_8do3e")
 
 [node name="Annabeth" parent="Map/NPCs" node_paths=PackedStringArray("market", "day_and_night") instance=ExtResource("22_congb")]
 position = Vector2(5410, -401)
+wall_min_slide_angle = 0.261799
 important_points = Array[Vector2]([Vector2(5480, -965), Vector2(4660, -823), Vector2(4649, -444), Vector2(5410, -401)])
 market = NodePath("../../Town/Markt")
 day_and_night = NodePath("../../../TagUndNacht")
+items_to_buy = Array[String](["carrot"])
 
 [node name="Thomas" parent="Map/NPCs" node_paths=PackedStringArray("market", "day_and_night") instance=ExtResource("23_d2gmw")]
 position = Vector2(5291, -496)
@@ -3753,8 +3755,12 @@ day_and_night = NodePath("../../../TagUndNacht")
 [node name="Obstacles" type="Node2D" parent="Map"]
 
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="Map/Obstacles"]
-position = Vector2(5184, -409)
-vertices = PackedVector2Array(-36, -20, 44, -20, 43, 27, -31, 28)
+vertices = PackedVector2Array(5238, -457, 5238, -450, 5245, -450, 5245, -456, 5244, -459)
+affect_navigation_mesh = true
+carve_navigation_mesh = true
+
+[node name="NavigationObstacle2D2" type="NavigationObstacle2D" parent="Map/Obstacles"]
+vertices = PackedVector2Array(5228, -437, 5152, -431, 5153, -383, 5224, -383)
 affect_navigation_mesh = true
 carve_navigation_mesh = true
 

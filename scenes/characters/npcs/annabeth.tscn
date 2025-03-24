@@ -270,6 +270,8 @@ height = 22.0
 size = Vector2(49.5, 29)
 
 [node name="Annabeth" type="CharacterBody2D" node_paths=PackedStringArray("wait_timer")]
+motion_mode = 1
+wall_min_slide_angle = 0.0
 script = ExtResource("1_8nqqp")
 wait_timer = NodePath("Timer")
 
@@ -286,9 +288,10 @@ wait_time = 2.0
 one_shot = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+target_desired_distance = 2.0
 avoidance_enabled = true
-radius = 15.0
-max_neighbors = 20
+radius = 5.0
+max_neighbors = 100
 max_speed = 50.0
 debug_enabled = true
 debug_use_custom = true
