@@ -32,14 +32,39 @@ func _ready():
 	
 	# Connect button signals for both slots
 	for slot in [input_slot, output_slot]:
-		if slot and slot.has_node("button"):
-			var button = slot.get_node("button")
-			# Disconnect any existing connections first
-			if button.pressed.is_connected(_on_slot_pressed.bind(slot)):
-				button.pressed.disconnect(_on_slot_pressed.bind(slot))
-			# Connect the signal
-			button.pressed.connect(_on_slot_pressed.bind(slot))
-			print("Connected button signal for slot: " + str(slot.name))
+		if slot:
+			print("Setting up slot: " + str(slot.name))
+			# Enable input processing
+			slot.mouse_filter = Control.MOUSE_FILTER_STOP
+			slot.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+			
+			# Connect button signal if it exists
+			if slot.has_node("button"):
+				var button = slot.get_node("button")
+				print("Found button for slot: " + str(slot.name))
+				# Disconnect any existing connections first
+				if button.pressed.is_connected(_on_slot_pressed.bind(slot)):
+					button.pressed.disconnect(_on_slot_pressed.bind(slot))
+				# Connect the signal
+				button.pressed.connect(_on_slot_pressed.bind(slot))
+				print("Connected button signal for slot: " + str(slot.name))
+			else:
+				print("WARNING: No button found for slot: " + str(slot.name))
+			
+			# For output slot, also connect direct input handling
+			if slot == output_slot:
+				print("Setting up direct input handling for output slot")
+				if slot.gui_input.is_connected(_on_output_slot_input):
+					slot.gui_input.disconnect(_on_output_slot_input)
+				slot.gui_input.connect(_on_output_slot_input)
+				# Also connect to the button if it exists
+				if slot.has_node("button"):
+					var button = slot.get_node("button")
+					if button.pressed.is_connected(_on_output_slot_input):
+						button.pressed.disconnect(_on_output_slot_input)
+					button.pressed.connect(_on_output_slot_input)
+		else:
+			print("WARNING: Slot is null")
 	
 	# Try multiple possible paths for the produce button
 	var possible_button_paths = [
@@ -111,47 +136,128 @@ func _on_produce_button_pressed():
 	# Process the input items into output
 	_process_single_item()
 
+# Direct input handler for output slot
+func _on_output_slot_input(event):
+	print("=== OUTPUT SLOT INPUT EVENT ===")
+	print("Event type: " + str(event.get_class()))
+	if event is InputEventMouseButton:
+		print("Mouse button event:")
+		print("- Button index: " + str(event.button_index))
+		print("- Pressed: " + str(event.pressed))
+		print("- Position: " + str(event.position))
+		print("- Global position: " + str(event.global_position))
+		
+		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			print("=== DIRECT OUTPUT SLOT CLICK DETECTED ===")
+			print("Output slot state:")
+			print("- Item name: " + str(output_slot.item_name))
+			print("- Has amount label: " + str(output_slot.has_node("amount")))
+			if output_slot.has_node("amount"):
+				print("- Amount label text: " + str(output_slot.get_node("amount").text))
+			_handle_output_slot_click()
+
 func _on_slot_pressed(slot):
 	print("=== SLOT PRESSED ===")
 	print("Slot name: " + str(slot.name))
 	print("Is input slot: " + str(slot == input_slot))
 	print("Is output slot: " + str(slot == output_slot))
+	print("Slot state:")
+	print("- Item name: " + str(slot.item_name))
+	print("- Has amount label: " + str(slot.has_node("amount")))
+	if slot.has_node("amount"):
+		print("- Amount label text: " + str(slot.get_node("amount").text))
 	
 	if slot == input_slot:
 		print("Input slot clicked: (ignored)")
 		return
 	elif slot == output_slot:
 		print("Output slot clicked")
+		_handle_output_slot_click()
+
+# New consolidated function to handle output slot clicks
+func _handle_output_slot_click():
+	print("=== HANDLING OUTPUT SLOT CLICK ===")
+	print("Output slot state:")
+	print("- Item name: " + str(output_slot.item_name))
+	print("- Has amount label: " + str(output_slot.has_node("amount")))
+	
+	# Get the correct amount label
+	var amount_label = _get_amount_label(output_slot)
+	if not amount_label:
+		print("ERROR: Could not find amount label for output slot")
+		return
 		
-		# Check if this is a processed item
-		var item_count = 0
-		if slot.amount_label.text != "":
-			item_count = int(slot.amount_label.text)
+	var item_count = 0
+	if amount_label.text.strip_edges() != "":
+		item_count = int(amount_label.text)
+		print("Found amount label with text: " + amount_label.text)
+	else:
+		print("No amount found in output slot")
+	
+	if item_count > 0 and output_items.size() > 0:
+		print("Transferring 1 " + output_items[0] + " back to inventory")
+		# Add just one item to inventory
+		SaveGame.add_to_inventory(output_items[0], 1)
 		
-		if item_count > 0:
-			print("Transferring 1 " + output_items[0] + " back to inventory")
-			# Add just one item to inventory
-			SaveGame.add_to_inventory(output_items[0], 1)
-			
-			# Update the slot with one less item, or clear if it was the last one
-			if item_count > 1:
-				slot.setup(output_items[0], "", true, item_count - 1)
-				print("Updated output slot, remaining: " + str(item_count - 1))
-			else:
-				# Clear the output slot if this was the last item
-				slot.clear()
-				print("Cleared output slot (last item taken)")
-			
-			# Refresh all inventory UIs to show the updated inventory
-			_refresh_all_inventory_uis(current_workstation)
-				
-			# Save game to persist inventory changes
-			SaveGame.save_game()
-			print("Saved game after inventory update")
+		# Update the slot with one less item, or clear if it was the last one
+		if item_count > 1:
+			output_slot.setup(output_items[0], "", true, item_count - 1)
+			print("Updated output slot, remaining: " + str(item_count - 1))
 		else:
-			# No longer process when clicking the output slot since we have a dedicated button
-			print("Output slot is empty")
+			# Clear the output slot if this was the last item
+			output_slot.clear()
+			print("Cleared output slot (last item taken)")
+		
+		# Refresh all inventory UIs to show the updated inventory
+		_refresh_all_inventory_uis(current_workstation)
 			
+		# Save game to persist inventory changes
+		SaveGame.save_game()
+		print("Saved game after inventory update")
+	else:
+		print("Output slot is empty or no output items defined")
+
+# Helper function to get the amount label from a slot
+func _get_amount_label(slot) -> Label:
+	if not slot:
+		print("ERROR: Slot is null")
+		return null
+		
+	print("Getting amount label for slot:")
+	print("- Slot name: " + str(slot.name))
+	print("- Has amount node: " + str(slot.has_node("amount")))
+	
+	# Try direct path first
+	if slot.has_node("amount"):
+		var label = slot.get_node("amount")
+		if label is Label:
+			print("Found amount label at direct path")
+			return label
+		else:
+			print("Found amount node but it's not a Label")
+		
+	# Try alternative paths
+	var possible_paths = ["MarginContainer/amount", "amount_label", "MarginContainer/amount_label"]
+	for path in possible_paths:
+		if slot.has_node(path):
+			var label = slot.get_node(path)
+			if label is Label:
+				print("Found amount label at path: " + path)
+				return label
+			else:
+				print("Found node at " + path + " but it's not a Label")
+				
+	# Try accessing the property directly if it exists
+	if "amount_label" in slot and slot.amount_label != null:
+		if slot.amount_label is Label:
+			print("Found amount label as property")
+			return slot.amount_label
+		else:
+			print("Found amount_label property but it's not a Label")
+			
+	print("ERROR: Could not find valid amount label")
+	return null
+
 func setup(workstation_name: String):
 	print("Setting up production UI for workstation: " + workstation_name)
 	current_workstation = workstation_name
@@ -206,6 +312,16 @@ func setup(workstation_name: String):
 				button.pressed.disconnect(_on_slot_pressed.bind(slot))
 			# Connect the signal
 			button.pressed.connect(_on_slot_pressed.bind(slot))
+			print("(Re)connected button signal for slot: " + str(slot.name))
+		else:
+			print("WARNING: Failed to reconnect button for slot: " + (str(slot.name) if slot else "null"))
+	
+	# Reconnect the direct input handling for output slot
+	if output_slot:
+		print("Reconnecting gui_input handling for output slot")
+		if output_slot.gui_input.is_connected(_on_output_slot_input):
+			output_slot.gui_input.disconnect(_on_output_slot_input)
+		output_slot.gui_input.connect(_on_output_slot_input)
 	
 	# Update produce button state - enable only if there are valid recipes
 	if produce_button:
@@ -404,3 +520,38 @@ func _find_all_nodes(node, result_array):
 func _force_ui_update():
 	# This empty method is called deferred to force the UI to update in the next frame
 	pass
+
+func _input(event):
+	print("=== GLOBAL INPUT EVENT ===")
+	print("Event type: " + str(event.get_class()))
+	if event is InputEventMouseButton:
+		print("Mouse button event:")
+		print("- Button index: " + str(event.button_index))
+		print("- Pressed: " + str(event.pressed))
+		print("- Position: " + str(event.position))
+		print("- Global position: " + str(event.global_position))
+		
+		# Check if the click is within the output slot's bounds
+		if output_slot:
+			# Get the output slot's global position and size
+			var slot_global_pos = output_slot.global_position
+			var slot_size = output_slot.size
+			print("Output slot:")
+			print("- Global position: " + str(slot_global_pos))
+			print("- Size: " + str(slot_size))
+			print("- Local position: " + str(output_slot.position))
+			print("- Parent: " + str(output_slot.get_parent().name if output_slot.get_parent() else "none"))
+			
+			# Convert global click position to local position relative to the slot
+			var local_pos = output_slot.get_global_mouse_position() - slot_global_pos
+			print("Click local position: " + str(local_pos))
+			
+			# Check if the click is within the slot's bounds
+			if local_pos.x >= 0 and local_pos.x < slot_size.x and local_pos.y >= 0 and local_pos.y < slot_size.y:
+				print("Click is within output slot bounds!")
+				_handle_output_slot_click()
+			else:
+				print("Click is outside output slot bounds")
+				print("Bounds check:")
+				print("- X: " + str(local_pos.x) + " >= 0 && " + str(local_pos.x) + " < " + str(slot_size.x))
+				print("- Y: " + str(local_pos.y) + " >= 0 && " + str(local_pos.y) + " < " + str(slot_size.y))
