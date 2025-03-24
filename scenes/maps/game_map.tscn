@@ -1,9 +1,12 @@
-[gd_scene load_steps=31 format=4 uid="uid://7401yxdfc7e2"]
+[gd_scene load_steps=34 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
-[ext_resource type="Texture2D" uid="uid://b7f3cctim7uf0" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
+[ext_resource type="Texture2D" uid="uid://b1nbjqmtu0csy" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
 [ext_resource type="PackedScene" uid="uid://by8sfn1p2h5nh" path="res://scenes/buildings/player_house.tscn" id="4_1xy5d"]
+[ext_resource type="PackedScene" uid="uid://r75uh477j4dy" path="res://scenes/buildings/Molkerei.tscn" id="5_d2gmw"]
 [ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="5_sdtop"]
+[ext_resource type="PackedScene" uid="uid://d0ph6w1i7nk5f" path="res://scenes/buildings/Weberei.tscn" id="6_rr4h2"]
+[ext_resource type="PackedScene" uid="uid://bcqltpe3a1fi2" path="res://scenes/buildings/Futterhaus.tscn" id="7_1gimy"]
 [ext_resource type="PackedScene" uid="uid://nyttgrj1hid3" path="res://scenes/buildings/tierbereich.tscn" id="7_8ejyj"]
 [ext_resource type="PackedScene" uid="uid://bc6sudr6mtykj" path="res://scenes/buildings/task_caravan.tscn" id="8_1t62h"]
 [ext_resource type="PackedScene" uid="uid://d0fhk2wsiigef" path="res://scenes/buildings/CoffeeHouse.tscn" id="8_d4r37"]
@@ -3447,6 +3450,15 @@ position = Vector2(635, -110)
 
 [node name="player_house" parent="Map/gebäude" instance=ExtResource("4_1xy5d")]
 position = Vector2(8, -125)
+
+[node name="Molkerei" parent="Map/gebäude" instance=ExtResource("5_d2gmw")]
+position = Vector2(192, -144)
+
+[node name="Weberei" parent="Map/gebäude" instance=ExtResource("6_rr4h2")]
+position = Vector2(312, -136)
+
+[node name="Futterhaus" parent="Map/gebäude" instance=ExtResource("7_1gimy")]
+position = Vector2(416, -136)
 
 [node name="Fields" type="Node2D" parent="Map"]
 
