@@ -60,6 +60,7 @@ animation = &"grow"
 offset = Vector2(0, -32)
 script = ExtResource("2_afa4b")
 crop_type = "corn"
+default_time = 180.0
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

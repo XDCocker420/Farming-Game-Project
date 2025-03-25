@@ -58,7 +58,9 @@ scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_iukti")
 animation = &"grow"
 script = ExtResource("2_0x7rt")
-crop_type = "berry"
+crop_type = "carrot"
+default_time = 60.0
+is_watered = true
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

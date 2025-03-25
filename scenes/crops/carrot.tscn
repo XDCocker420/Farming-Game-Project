@@ -59,6 +59,7 @@ sprite_frames = SubResource("SpriteFrames_67loh")
 animation = &"grow"
 script = ExtResource("2_2t3df")
 crop_type = "carrot"
+default_time = 60.0
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

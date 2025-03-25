@@ -5,27 +5,27 @@
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_rmov8"]
 atlas = ExtResource("1_xwprp")
-region = Rect2(0, 160, 16, 16)
+region = Rect2(0, 240, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_3c15b"]
 atlas = ExtResource("1_xwprp")
-region = Rect2(16, 160, 16, 16)
+region = Rect2(16, 240, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_c1bla"]
 atlas = ExtResource("1_xwprp")
-region = Rect2(32, 160, 16, 16)
+region = Rect2(32, 240, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_slp0y"]
 atlas = ExtResource("1_xwprp")
-region = Rect2(48, 160, 16, 16)
+region = Rect2(48, 240, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vc6dy"]
 atlas = ExtResource("1_xwprp")
-region = Rect2(64, 160, 16, 16)
+region = Rect2(64, 240, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_gu8fl"]
 atlas = ExtResource("1_xwprp")
-region = Rect2(80, 160, 16, 16)
+region = Rect2(80, 240, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_hofo3"]
 animations = [{
@@ -53,12 +53,15 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Eggplant_wet" type="AnimatedSprite2D" groups=["dynamic_elements"]]
+[node name="eggplant_wet" type="AnimatedSprite2D" groups=["dynamic_elements"]]
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_hofo3")
 animation = &"grow"
+offset = Vector2(0, -32)
 script = ExtResource("2_4qwsi")
-crop_type = "berry"
+crop_type = "eggplant"
+default_time = 180.0
+is_watered = true
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

@@ -59,6 +59,7 @@ sprite_frames = SubResource("SpriteFrames_67loh")
 animation = &"grow"
 script = ExtResource("2_bjhxg")
 crop_type = "cauliflower"
+default_time = 150.0
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
