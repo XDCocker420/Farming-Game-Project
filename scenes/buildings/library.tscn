@@ -39,3 +39,6 @@ shape = SubResource("RectangleShape2D_2fhr6")
 [node name="CollisionShape2D5" type="CollisionShape2D" parent="."]
 position = Vector2(26, -19)
 shape = SubResource("RectangleShape2D_2fhr6")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+vertices = PackedVector2Array(-70, -65, 69, -65, 69, -37, 31, -38, 30, -31, 32, -29, 33, -9, 18, -9, 18, -20, -18, -20, -18, -10, -33, -9, -33, -21, -34, -38, -69, -38)

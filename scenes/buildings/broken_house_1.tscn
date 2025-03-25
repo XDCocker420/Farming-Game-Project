@@ -14,3 +14,6 @@ tile_set = ExtResource("1_mv7de")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-0.5, -22.875)
 shape = SubResource("RectangleShape2D_4mnvj")
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+vertices = PackedVector2Array(-30, -43, 28, -43, 28, -4, -29, -4)
