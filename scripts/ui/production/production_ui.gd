@@ -300,7 +300,7 @@ func setup(workstation_name: String):
 			input_items = ["white_wool"]
 			output_items = ["white_string"]
 		"feed_mill":
-			input_items = ["wheat"]
+			input_items = ["corn"]
 			output_items = ["feed"]
 	
 	# Reconnect button signals for both slots

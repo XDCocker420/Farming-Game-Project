@@ -110,7 +110,7 @@ func set_workstation_filter(workstation: String) -> void:
         "clothmaker", "spindle":
             current_filter = ["white_wool"]
         "feed_mill":
-            current_filter = ["wheat"]
+            current_filter = ["corn"]
         _:
             # Default case - no filter
             current_filter = []
