@@ -1,10 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://bnp1lhxbp8yo0"]
+[gd_scene load_steps=14 format=4 uid="uid://bnp1lhxbp8yo0"]
 
 [ext_resource type="Texture2D" uid="uid://bs34aotdeiude" path="res://assets/buildings/town_buildings_all.png" id="1_632wb"]
 [ext_resource type="Script" uid="uid://dfe4ah80j8uc4" path="res://scripts/buildings/shop.gd" id="1_sy4r7"]
+[ext_resource type="TileSet" uid="uid://er1084qjjvh3" path="res://assets/tilesets/town_buildings_tileset.tres" id="2_uh0so"]
+[ext_resource type="PackedScene" uid="uid://cwyvv2ew2pv6j" path="res://scenes/ui/shop/ui_shop.tscn" id="4_rbx03"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_632wb"]
-size = Vector2(163, 102)
+size = Vector2(165, 65)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rbx03"]
+size = Vector2(129.5, 15)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_632wb"]
 atlas = ExtResource("1_632wb")
@@ -56,24 +61,44 @@ height = 62.0
 [node name="shop" type="StaticBody2D"]
 script = ExtResource("1_sy4r7")
 
-[node name="house" type="Sprite2D" parent="."]
-position = Vector2(-1, -64)
-texture = ExtResource("1_632wb")
-region_enabled = true
-region_rect = Rect2(356, 945, 167, 127)
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAD6//j/AAAWADsAAAD6//n/AAAWADwAAAD6//r/AAAWAD0AAAD6//v/AAAWAD4AAAD6//z/AAAWAD8AAAD6//3/AAAWAEAAAAD6//7/AAAWAEEAAAD6////AAAWAEIAAAD7//j/AAAXADsAAAD7//n/AAAXADwAAAD7//r/AAAXAD0AAAD7//v/AAAXAD4AAAD7//z/AAAXAD8AAAD7//3/AAAXAEAAAAD7//7/AAAXAEEAAAD7////AAAXAEIAAAD8//j/AAAYADsAAAD8//n/AAAYADwAAAD8//r/AAAYAD0AAAD8//v/AAAYAD4AAAD8//z/AAAYAD8AAAD8//3/AAAYAEAAAAD8//7/AAAYAEEAAAD8////AAAYAEIAAAD9//j/AAAZADsAAAD9//n/AAAZADwAAAD9//r/AAAZAD0AAAD9//v/AAAZAD4AAAD9//z/AAAZAD8AAAD9//3/AAAZAEAAAAD9//7/AAAZAEEAAAD9////AAAZAEIAAAD+//j/AAAaADsAAAD+//n/AAAaADwAAAD+//r/AAAaAD0AAAD+//v/AAAaAD4AAAD+//z/AAAaAD8AAAD+//3/AAAaAEAAAAD+//7/AAAaAEEAAAD+////AAAaAEIAAAD///j/AAAbADsAAAD///n/AAAbADwAAAD///r/AAAbAD0AAAD///v/AAAbAD4AAAD///z/AAAbAD8AAAD///3/AAAbAEAAAAD///7/AAAbAEEAAAD/////AAAbAEIAAAAAAPj/AAAcADsAAAAAAPn/AAAcADwAAAAAAPr/AAAcAD0AAAAAAPv/AAAcAD4AAAAAAPz/AAAcAD8AAAAAAP3/AAAcAEAAAAAAAP7/AAAcAEEAAAAAAP//AAAcAEIAAAABAPj/AAAdADsAAAABAPn/AAAdADwAAAABAPr/AAAdAD0AAAABAPv/AAAdAD4AAAABAPz/AAAdAD8AAAABAP3/AAAdAEAAAAABAP7/AAAdAEEAAAABAP//AAAdAEIAAAACAPj/AAAeADsAAAACAPn/AAAeADwAAAACAPr/AAAeAD0AAAACAPv/AAAeAD4AAAACAPz/AAAeAD8AAAACAP3/AAAeAEAAAAACAP7/AAAeAEEAAAACAP//AAAeAEIAAAADAPj/AAAfADsAAAADAPn/AAAfADwAAAADAPr/AAAfAD0AAAADAPv/AAAfAD4AAAADAPz/AAAfAD8AAAADAP3/AAAfAEAAAAADAP7/AAAfAEEAAAADAP//AAAfAEIAAAAEAPj/AAAgADsAAAAEAPn/AAAgADwAAAAEAPr/AAAgAD0AAAAEAPv/AAAgAD4AAAAEAPz/AAAgAD8AAAAEAP3/AAAgAEAAAAAEAP7/AAAgAEEAAAAEAP//AAAgAEIAAAA=")
+tile_set = ExtResource("2_uh0so")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(-0.5, -51)
+z_index = 6
+position = Vector2(-8.5, -53.5)
 shape = SubResource("RectangleShape2D_632wb")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(9.5, -13.5)
+shape = SubResource("RectangleShape2D_rbx03")
 
 [node name="door" type="Area2D" parent="."]
 position = Vector2(0, -16)
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="door"]
+position = Vector2(-8, 0)
 sprite_frames = SubResource("SpriteFrames_sq08f")
 animation = &"open"
 
 [node name="CollisionShape2D2" type="CollisionShape2D" parent="door"]
-position = Vector2(0, 10)
+position = Vector2(-8, 10)
 rotation = 1.5708
 shape = SubResource("CapsuleShape2D_sy4r7")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ui_shop" parent="CanvasLayer" instance=ExtResource("4_rbx03")]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -48.5
+offset_top = -46.0
+offset_right = 48.5
+offset_bottom = 46.0
+grow_horizontal = 2
+grow_vertical = 2
