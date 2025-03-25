@@ -1,0 +1,59 @@
+[gd_scene load_steps=9 format=3 uid="uid://djcqnk0v7vo7v"]
+
+[ext_resource type="Texture2D" uid="uid://dss4qao2xk3gr" path="res://assets/farming/crops_wet.png" id="1_4epjd"]
+[ext_resource type="Script" uid="uid://h5ktdbskdgtv" path="res://scripts/crops/crop.gd" id="2_gc1o1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_v80tn"]
+atlas = ExtResource("1_4epjd")
+region = Rect2(0, 560, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tb68p"]
+atlas = ExtResource("1_4epjd")
+region = Rect2(16, 560, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u8ers"]
+atlas = ExtResource("1_4epjd")
+region = Rect2(32, 560, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_77hnf"]
+atlas = ExtResource("1_4epjd")
+region = Rect2(48, 560, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_45kpr"]
+atlas = ExtResource("1_4epjd")
+region = Rect2(64, 560, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qm0iw"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_v80tn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tb68p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u8ers")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_77hnf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_45kpr")
+}],
+"loop": true,
+"name": &"grow",
+"speed": 5.0
+}]
+
+[node name="Grape_wet" type="AnimatedSprite2D" groups=["dynamic_elements"]]
+scale = Vector2(0.8, 0.8)
+sprite_frames = SubResource("SpriteFrames_qm0iw")
+animation = &"grow"
+script = ExtResource("2_gc1o1")
+crop_type = "berry"
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
