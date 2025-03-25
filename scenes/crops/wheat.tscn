@@ -57,10 +57,10 @@ animations = [{
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_67loh")
 animation = &"grow"
-offset = Vector2(0, -32)
+frame = 5
+frame_progress = 0.520594
 script = ExtResource("2_drmck")
 crop_type = "wheat"
-default_time = 120.0
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

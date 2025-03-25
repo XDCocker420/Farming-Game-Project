@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3 uid="uid://c9j4q6k3d7dit"]
+[gd_scene load_steps=10 format=3 uid="uid://daj4q6k3d7dit"]
 
 [ext_resource type="Texture2D" uid="uid://dss4qao2xk3gr" path="res://assets/farming/crops_wet.png" id="1_be03b"]
 [ext_resource type="Script" uid="uid://h5ktdbskdgtv" path="res://scripts/crops/crop.gd" id="2_sr4xr"]
@@ -57,11 +57,8 @@ animations = [{
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_u0dco")
 animation = &"grow"
-offset = Vector2(0, -32)
 script = ExtResource("2_sr4xr")
 crop_type = "cauliflower"
-default_time = 150.0
-is_watered = true
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

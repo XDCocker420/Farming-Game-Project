@@ -57,11 +57,8 @@ animations = [{
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_hofo3")
 animation = &"grow"
-offset = Vector2(0, -32)
 script = ExtResource("2_4qwsi")
 crop_type = "eggplant"
-default_time = 180.0
-is_watered = true
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
