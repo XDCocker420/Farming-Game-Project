@@ -3,13 +3,11 @@ extends StaticBody2D
 @onready var exit_area = $ExitArea
 @onready var production_ui = $production_ui_feed
 @onready var inventory_ui = $inventory_ui_feed
-@onready var feed_mill_anim = $feed_mill
 @onready var feed_area = $feedArea
 
 var player_in_workstation_area = false
 var current_ui = null
 var current_inventory_ui = null
-var current_animation = null
 
 func _ready():
 	exit_area.body_entered.connect(_on_exit_area_body_entered)
@@ -19,17 +17,12 @@ func _ready():
 	# Set up current references
 	current_ui = production_ui
 	current_inventory_ui = inventory_ui
-	current_animation = feed_mill_anim
 	
 	# Hide UIs initially
 	if current_ui:
 		current_ui.hide()
 	if current_inventory_ui:
 		current_inventory_ui.hide()
-	
-	# Stop animation initially
-	if current_animation:
-		current_animation.stop()
 
 func _on_feed_area_body_entered(body):
 	if body.is_in_group("Player"):
@@ -46,10 +39,6 @@ func _on_feed_area_body_exited(body):
 			current_ui.hide()
 		if current_inventory_ui:
 			current_inventory_ui.hide()
-		
-		# Stop current animation if any
-		if current_animation:
-			current_animation.stop()
 		
 		if body.has_method("hide_interaction_prompt"):
 			body.hide_interaction_prompt()
@@ -69,10 +58,6 @@ func _on_exit_area_body_entered(body):
 		if current_inventory_ui and current_inventory_ui.visible:
 			current_inventory_ui.hide()
 		
-		# Stop animation if playing
-		if current_animation and current_animation.is_playing():
-			current_animation.stop()
-			
 		# Store building ID to spawn at correct location
 		SaveGame.last_building_entered = 1
 		
@@ -96,7 +81,6 @@ func _unhandled_input(event):
 		current_inventory_ui.setup_and_show("feed_mill")
 		
 		# Set the active production UI in the inventory UI AFTER setting up the inventory UI
-		# This is critical because setup_and_show recreates all the slots
 		print("Setting active production UI in inventory UI AFTER inventory setup")
 		if current_inventory_ui.has_method("set_active_production_ui"):
 			current_inventory_ui.set_active_production_ui(current_ui)
@@ -104,22 +88,10 @@ func _unhandled_input(event):
 		else:
 			print("ERROR: inventory UI doesn't have set_active_production_ui method")
 		
-		# Start the animation
-		if current_animation:
-			if current_animation.sprite_frames and current_animation.sprite_frames.has_animation("feed_mill"):
-				current_animation.play("feed_mill")
-				print("Started animation for feed mill")
-			else:
-				print("ERROR: No animation found for feed mill")
-		
 		# Debug print to verify the UI is being shown
 		print("Both UIs now visible and connected for feed mill")
 	
-	# Close UIs and stop animation when ESC is pressed
+	# Close UIs when ESC is pressed
 	if event.is_action_pressed("ui_cancel") and current_ui and current_ui.visible:
 		current_ui.hide()
 		current_inventory_ui.hide()
-		
-		# Stop animation
-		if current_animation:
-			current_animation.stop()
