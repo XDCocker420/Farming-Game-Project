@@ -1,8 +1,10 @@
-[gd_scene load_steps=8 format=4 uid="uid://cw7oka1jj10dh"]
+[gd_scene load_steps=11 format=4 uid="uid://cw7oka1jj10dh"]
 
 [ext_resource type="Script" uid="uid://vuunhnbu0hv2" path="res://scripts/buildings/Futterhaus_interior.gd" id="1_abc5q"]
 [ext_resource type="Texture2D" uid="uid://c7nypghvpck4n" path="res://assets/buildings/interior/interior.png" id="1_reu2h"]
+[ext_resource type="PackedScene" uid="uid://cgv01xlihuvuq" path="res://scenes/ui/scheune/ui_scheune.tscn" id="4_3gvq8"]
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="4_11ytb"]
+[ext_resource type="PackedScene" uid="uid://b8j4k2m3n4o5p" path="res://scenes/ui/production/production_ui.tscn" id="5_yjwf1"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cqhbp"]
 texture = ExtResource("1_reu2h")
@@ -3691,6 +3693,9 @@ size = Vector2(128, 32)
 radius = 13.0
 height = 26.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0l4y8"]
+size = Vector2(128, 72)
+
 [node name="Futterhaus_interior" type="StaticBody2D"]
 script = ExtResource("1_abc5q")
 
@@ -3716,3 +3721,21 @@ position = Vector2(0, 8)
 [node name="Camera" type="Camera2D" parent="Player"]
 position = Vector2(0, -8)
 position_smoothing_speed = 7.0
+
+[node name="feedArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="feedArea"]
+position = Vector2(0, -12)
+shape = SubResource("RectangleShape2D_0l4y8")
+
+[node name="inventory_ui_feed" parent="." instance=ExtResource("4_3gvq8")]
+offset_left = -88.0
+offset_top = -72.0
+offset_right = -13.0
+offset_bottom = 21.0
+
+[node name="production_ui_feed" parent="." instance=ExtResource("5_yjwf1")]
+offset_left = -8.0
+offset_top = -72.0
+offset_right = 112.0
+offset_bottom = -16.0

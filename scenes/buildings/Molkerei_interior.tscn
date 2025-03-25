@@ -1,9 +1,11 @@
-[gd_scene load_steps=22 format=4 uid="uid://dfr6ka3sk2wes"]
+[gd_scene load_steps=24 format=4 uid="uid://dfr6ka3sk2wes"]
 
 [ext_resource type="Texture2D" uid="uid://c7nypghvpck4n" path="res://assets/buildings/interior/interior.png" id="1_58pth"]
 [ext_resource type="Script" uid="uid://c120qm76kcnw3" path="res://scripts/buildings/Molkerei_interior.gd" id="1_ghi7s"]
 [ext_resource type="Texture2D" uid="uid://b8rdeaex1bm34" path="res://assets/farming/tools.png" id="2_y1hoa"]
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="4_4m3t3"]
+[ext_resource type="PackedScene" uid="uid://b8j4k2m3n4o5p" path="res://scenes/ui/production/production_ui.tscn" id="5_trsac"]
+[ext_resource type="PackedScene" uid="uid://cgv01xlihuvuq" path="res://scenes/ui/scheune/ui_scheune.tscn" id="6_ruoo0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_cqhbp"]
 texture = ExtResource("1_58pth")
@@ -3840,3 +3842,43 @@ position = Vector2(0, 8)
 [node name="Camera" type="Camera2D" parent="Player"]
 position = Vector2(0, -8)
 position_smoothing_speed = 7.0
+
+[node name="production_ui_butterchurn" parent="." instance=ExtResource("5_trsac")]
+offset_left = -40.0
+offset_top = -104.0
+offset_right = 80.0
+offset_bottom = -48.0
+
+[node name="production_ui_press_cheese" parent="." instance=ExtResource("5_trsac")]
+visible = false
+offset_left = -8.0
+offset_top = -104.0
+offset_right = 112.0
+offset_bottom = -48.0
+
+[node name="production_ui_mayomaker" parent="." instance=ExtResource("5_trsac")]
+visible = false
+offset_left = 24.0
+offset_top = -104.0
+offset_right = 144.0
+offset_bottom = -48.0
+
+[node name="inventory_ui_butterchurn" parent="." instance=ExtResource("6_ruoo0")]
+offset_left = -120.0
+offset_top = -104.0
+offset_right = -45.0
+offset_bottom = -11.0
+
+[node name="inventory_ui_press_cheese" parent="." instance=ExtResource("6_ruoo0")]
+visible = false
+offset_left = -88.0
+offset_top = -104.0
+offset_right = -13.0
+offset_bottom = -11.0
+
+[node name="inventory_ui_mayomaker" parent="." instance=ExtResource("6_ruoo0")]
+visible = false
+offset_left = -56.0
+offset_top = -104.0
+offset_right = 19.0
+offset_bottom = -11.0

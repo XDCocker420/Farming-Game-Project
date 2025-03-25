@@ -62,6 +62,7 @@ func _physics_process(delta: float) -> void:
 	if navigation_agent.is_target_reached():
 		if go_to_market:
 			## TODO: Implement buying from the market
+			print("kaufen")
 			# SaveGame.remove_market_item(items_to_buy[ irgendwas halt ])
 			pass
 				
@@ -173,7 +174,7 @@ func _on_area_exited(body:Node2D):
 func _added_to_market(item_name:String):
 	if item_name in items_to_buy:
 		go_to_market = true
-		current_target = market.position
+		current_target = market.global_position
 	
 func _on_is_night():
 	is_night = true

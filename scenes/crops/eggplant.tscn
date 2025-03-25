@@ -106,5 +106,9 @@ sprite_frames = SubResource("SpriteFrames_al8y3")
 animation = &"grow"
 script = ExtResource("1_7sga0")
 crop_type = "eggplant"
+default_time = 180.0
 
 [node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

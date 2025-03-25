@@ -7,13 +7,11 @@ signal slot_unlock(slot: PanelContainer, price: int)
 
 @onready var button: TextureButton = $button
 @onready var item_texture: TextureRect = $MarginContainer/item
-
-var item_name: String
-var id: int
+@onready var amount_label: Label = $amount
+var item_name: String = ""
 
 var editable: bool = false
-@export var locked: bool = false
-@export var price: int
+var production_ui = null  # Reference to the production UI
 
 
 func _ready() -> void:

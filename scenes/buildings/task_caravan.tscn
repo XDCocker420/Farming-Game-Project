@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://dj0rn07xqryrx" path="res://scripts/buildings/task_caravan.gd" id="1_akif0"]
 [ext_resource type="TileSet" uid="uid://er1084qjjvh3" path="res://assets/tilesets/town_buildings_tileset.tres" id="2_hrwff"]
 [ext_resource type="PackedScene" uid="uid://cjo2tht8bf4ad" path="res://scenes/ui/task_caravan/ui_task_caravan.tscn" id="3_6kx0e"]
-[ext_resource type="Texture2D" uid="uid://bs34aotdeiude" path="res://assets/buildings/town_buildings_all.png" id="3_elecb"]
+[ext_resource type="Texture2D" uid="uid://baajt4nkycnwo" path="res://assets/buildings/town_buildings_all.png" id="3_elecb"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hrwff"]
 size = Vector2(86, 43)
@@ -83,3 +83,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+vertices = PackedVector2Array(-43, -51, 43, -51, 44, -5, -45, -5)

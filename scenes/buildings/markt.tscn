@@ -1,7 +1,7 @@
 [gd_scene load_steps=12 format=4 uid="uid://ddeef2warcy2e"]
 
 [ext_resource type="Script" uid="uid://rrcf3dtn54ky" path="res://scripts/buildings/markt.gd" id="1_watet"]
-[ext_resource type="Texture2D" uid="uid://d2x7ebuybkcby" path="res://assets/buildings/farm_buildings_all.png" id="2_kk4sm"]
+[ext_resource type="Texture2D" uid="uid://dvfngkj6gf87v" path="res://assets/buildings/farm_buildings_all.png" id="2_kk4sm"]
 [ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/tilesets/farm_buildings_tileset.tres" id="2_v8obc"]
 [ext_resource type="PackedScene" uid="uid://bgatkx86onbu6" path="res://scenes/ui/market/ui_markt.tscn" id="3_ui650"]
 [ext_resource type="PackedScene" uid="uid://dqljx4yrs6ttv" path="res://scenes/ui/market/ui_selection.tscn" id="4_jpnmi"]
@@ -101,3 +101,6 @@ grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
+
+[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
+vertices = PackedVector2Array(-40, -63, 39, -63, 40, -17, -40, -17)
