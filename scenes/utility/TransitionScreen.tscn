@@ -1,0 +1,71 @@
+[gd_scene load_steps=6 format=3 uid="uid://c0o85fxsiivwd"]
+
+[ext_resource type="Script" uid="uid://8qrlfke7xqhg" path="res://scripts/utility/transition_scene.gd" id="1_xqjdy"]
+
+[sub_resource type="Animation" id="Animation_hn7bc"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4c1sw"]
+resource_name = "fade_to_black"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_j8v81"]
+resource_name = "fade_to_normal"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 1), Color(0, 0, 0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_4c1sw"]
+_data = {
+&"RESET": SubResource("Animation_hn7bc"),
+&"fade_to_black": SubResource("Animation_4c1sw"),
+&"fade_to_normal": SubResource("Animation_j8v81")
+}
+
+[node name="TransitionScreen" type="CanvasLayer"]
+script = ExtResource("1_xqjdy")
+
+[node name="ColorRect" type="ColorRect" parent="."]
+offset_left = -87.0
+offset_top = -55.0
+offset_right = 428.0
+offset_bottom = 263.0
+color = Color(0, 0, 0, 0)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../ColorRect")
+libraries = {
+&"": SubResource("AnimationLibrary_4c1sw")
+}
