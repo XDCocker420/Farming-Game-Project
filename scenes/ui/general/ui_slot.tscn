@@ -2,8 +2,8 @@
 
 [ext_resource type="Script" uid="uid://dwvptup3a6fmx" path="res://scripts/ui/general/ui_slot.gd" id="1_pbvnn"]
 [ext_resource type="ButtonGroup" uid="uid://cramxeopijy2h" path="res://scripts/ui/slot_button_group.tres" id="2_c33en"]
-[ext_resource type="Texture2D" uid="uid://dieghubef14c2" path="res://assets/ui/general/slot.png" id="3_k2d31"]
-[ext_resource type="Texture2D" uid="uid://bf23wl0ql4cs8" path="res://assets/ui/general/slot_pressed.png" id="4_xly0h"]
+[ext_resource type="Texture2D" uid="uid://btehl6m8fdl2b" path="res://assets/ui/general/slot.png" id="3_k2d31"]
+[ext_resource type="Texture2D" uid="uid://dg8lhf574fcim" path="res://assets/ui/general/slot_pressed.png" id="4_xly0h"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_oeedi"]
 

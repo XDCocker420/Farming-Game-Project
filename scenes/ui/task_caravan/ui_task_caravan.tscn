@@ -1,9 +1,10 @@
-[gd_scene load_steps=6 format=3 uid="uid://cjo2tht8bf4ad"]
+[gd_scene load_steps=8 format=3 uid="uid://cjo2tht8bf4ad"]
 
-[ext_resource type="Texture2D" uid="uid://b5q50y1ohyvqt" path="res://assets/ui/general/contract_board_frame.png" id="1_ki84q"]
+[ext_resource type="Texture2D" uid="uid://j2l10jjifc2g" path="res://assets/ui/general/contract_board_frame.png" id="1_ki84q"]
 [ext_resource type="Script" uid="uid://bsolm0vqjx8vk" path="res://scripts/ui/task_caravan/ui_task_caravan.gd" id="2_0m8mx"]
 [ext_resource type="PackedScene" uid="uid://ddms0lic2yxdt" path="res://scenes/ui/task_caravan/ui_task_caravan_slot.tscn" id="2_8fpjj"]
 [ext_resource type="PackedScene" uid="uid://u44hmkynjs5r" path="res://scenes/ui/task_caravan/ui_task_caravan_task.tscn" id="3_0m8mx"]
+[ext_resource type="Texture2D" uid="uid://cnw3k8g4co7p3" path="res://assets/ui/general/control_panel_fram_alt.png" id="5_lhm3p"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_piwo4"]
 texture = ExtResource("1_ki84q")
@@ -13,6 +14,13 @@ texture_margin_right = 4.0
 texture_margin_bottom = 4.0
 axis_stretch_horizontal = 1
 axis_stretch_vertical = 1
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_syvjc"]
+texture = ExtResource("5_lhm3p")
+texture_margin_left = 3.0
+texture_margin_top = 4.0
+texture_margin_right = 3.0
+texture_margin_bottom = 2.0
 
 [node name="ui_task_caravan" type="PanelContainer"]
 offset_right = 8.0
@@ -63,3 +71,4 @@ layout_mode = 2
 
 [node name="ui_task_caravan_task" parent="MarginContainer/HBoxContainer" instance=ExtResource("3_0m8mx")]
 layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxTexture_syvjc")

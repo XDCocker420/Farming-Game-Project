@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dicb31drtx0o1" path="res://scripts/buildings/scheune.gd" id="2_ac5ql"]
 [ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/tilesets/farm_buildings_tileset.tres" id="2_yhfpl"]
-[ext_resource type="Texture2D" uid="uid://dvfngkj6gf87v" path="res://assets/buildings/farm_buildings_all.png" id="3_yhfpl"]
+[ext_resource type="Texture2D" uid="uid://4dbiygs5np07" path="res://assets/buildings/farm_buildings_all.png" id="3_yhfpl"]
 [ext_resource type="PackedScene" uid="uid://cgv01xlihuvuq" path="res://scenes/ui/scheune/ui_scheune.tscn" id="4_ny552"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_yhfpl"]

@@ -7,16 +7,13 @@ signal slot_unlock(slot: PanelContainer, price: int)
 
 @onready var button: TextureButton = $button
 @onready var item_texture: TextureRect = $MarginContainer/item
-@onready var amount_label: Label = $amount
-var item_name: String = ""
+
+var item_name: String
+var id: int
 
 var editable: bool = false
-var production_ui = null  # Reference to the production UI
-
-## Tried fixing error to run the main map sorry for interfiernce
-# TODO: Remove AI Pfusch
-var locked:bool = false
-var price:int = 0
+@export var locked: bool = false
+@export var price: int
 
 
 func _ready() -> void:
