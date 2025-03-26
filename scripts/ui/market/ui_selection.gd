@@ -66,7 +66,7 @@ func _on_slot_selected(slot: PanelContainer) -> void:
 	amount_spinbox.value = 1
 
 
-func _on_item_selected(item_name: String, item_texture: Texture2D) -> void:
+func _on_item_selected(item_name: String, price: int, item_texture: Texture2D) -> void:
 	put_item.emit(item_name, item_texture)
 	
 	

@@ -24,33 +24,48 @@ columns = 4
 
 [node name="ui_slot" parent="MarginContainer/slots" instance=ExtResource("2_0n3vp")]
 layout_mode = 2
+editable = true
 
 [node name="ui_slot2" parent="MarginContainer/slots" instance=ExtResource("2_0n3vp")]
 layout_mode = 2
+editable = true
+id = 1
 
 [node name="ui_slot3" parent="MarginContainer/slots" instance=ExtResource("2_0n3vp")]
 layout_mode = 2
+editable = true
+id = 2
 locked = true
 price = 100
 
 [node name="ui_slot4" parent="MarginContainer/slots" instance=ExtResource("2_0n3vp")]
 layout_mode = 2
+editable = true
+id = 3
 locked = true
 price = 500
 
 [node name="ui_slot5" parent="MarginContainer/slots" instance=ExtResource("2_0n3vp")]
 layout_mode = 2
+editable = true
+id = 4
 
 [node name="ui_slot6" parent="MarginContainer/slots" instance=ExtResource("2_0n3vp")]
 layout_mode = 2
+editable = true
+id = 5
 
 [node name="ui_slot7" parent="MarginContainer/slots" instance=ExtResource("2_0n3vp")]
 layout_mode = 2
+editable = true
+id = 6
 locked = true
 price = 1500
 
 [node name="ui_slot8" parent="MarginContainer/slots" instance=ExtResource("2_0n3vp")]
 layout_mode = 2
+editable = true
+id = 7
 locked = true
 price = 3000
 

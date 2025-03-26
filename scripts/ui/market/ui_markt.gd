@@ -16,7 +16,6 @@ func _ready() -> void:
 	
 	ui_slot_buy.buy.connect(_buy_slot)
 	for slot: PanelContainer in slot_list:
-		slot.set("editable", true)
 		slot.slot_selection.connect(_on_slot_selected)
 		slot.slot_unlock.connect(_on_slot_unlock)
 

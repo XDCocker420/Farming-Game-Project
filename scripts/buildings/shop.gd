@@ -33,3 +33,4 @@ func _on_player_exited(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		player_in_area = false
 		door_sprite.play_backwards("open")
+		ui_shop.hide()
