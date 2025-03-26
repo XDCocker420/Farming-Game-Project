@@ -20,6 +20,10 @@ func _on_player_interact() -> void:
 		SaveGame.last_exterior_position = player.global_position
 		# Wechsle zur Innenszene
 		get_tree().change_scene_to_file(interior_scene_path)
+		
+		## For SceneSwitcher
+		#print("Fading black")
+		#SceneSwitcher.transition_to_new_scene.emit("molkerei", player.position)
 
 func _on_door_area_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
