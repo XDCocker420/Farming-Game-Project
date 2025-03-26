@@ -48,7 +48,7 @@ func _ready() -> void:
 	interaction_area.body_entered.connect(_on_area_entered)
 
 	interaction_area.body_exited.connect(_on_area_exited)
-		
+	
 	choose_new_target()
 	
 

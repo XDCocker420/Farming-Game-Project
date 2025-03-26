@@ -13,6 +13,11 @@ var item_name: String = ""
 var editable: bool = false
 var production_ui = null  # Reference to the production UI
 
+## Tried fixing error to run the main map sorry for interfiernce
+# TODO: Remove AI Pfusch
+var locked:bool = false
+var price:int = 0
+
 
 func _ready() -> void:
 	button.pressed.connect(_on_button_pressed)
