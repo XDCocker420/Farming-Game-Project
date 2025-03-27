@@ -200,8 +200,20 @@ func _handle_output_slot_click():
 	
 	if item_count > 0 and output_items.size() > 0:
 		print("Transferring 1 " + output_items[0] + " back to inventory")
+		# Prüfe den aktuellen Inventarstand
+		var before_count = SaveGame.get_item_count(output_items[0])
+		print("Inventory before transfer: " + output_items[0] + " x" + str(before_count))
+		
 		# Add just one item to inventory
 		SaveGame.add_to_inventory(output_items[0], 1)
+		
+		# Überprüfe, ob das Item tatsächlich hinzugefügt wurde
+		var after_count = SaveGame.get_item_count(output_items[0])
+		print("Inventory after transfer: " + output_items[0] + " x" + str(after_count))
+		print("Change: " + str(after_count - before_count))
+		
+		if after_count <= before_count:
+			print("WARNING: Item may not have been added correctly to inventory!")
 		
 		# Update the slot with one less item, or clear if it was the last one
 		if item_count > 1:
@@ -218,6 +230,15 @@ func _handle_output_slot_click():
 		# Save game to persist inventory changes
 		SaveGame.save_game()
 		print("Saved game after inventory update")
+		
+		# Doppelte Überprüfung nach dem Speichern
+		print("Verifying save was successful...")
+		var final_count = SaveGame.get_item_count(output_items[0])
+		print("Final inventory count after save: " + output_items[0] + " x" + str(final_count))
+		if final_count != after_count:
+			print("ERROR: Saved inventory count doesn't match expected count!")
+		else:
+			print("Save verification successful!")
 	else:
 		print("Output slot is empty or no output items defined")
 
@@ -351,6 +372,11 @@ func _process_single_item() -> void:
 	
 	print("Recipe: " + input_item + " -> " + output_item)
 	
+	# Überprüfe den aktuellen Status im Inventar
+	print("Current inventory status:")
+	print("- Input item (" + input_item + "): " + str(SaveGame.get_item_count(input_item)))
+	print("- Output item (" + output_item + "): " + str(SaveGame.get_item_count(output_item)))
+	
 	# Check if there's an item in the input slot
 	var input_count = 0
 	if input_slot.item_name == input_item:
@@ -392,9 +418,20 @@ func _process_single_item() -> void:
 	# Make sure to update any inventory UIs to reflect these changes
 	_refresh_all_inventory_uis(current_workstation)
 	
+	# Überprüfe den aktualisierten Status im Inventar
+	print("Updated inventory status:")
+	print("- Input item (" + input_item + "): " + str(SaveGame.get_item_count(input_item)))
+	print("- Output item (" + output_item + "): " + str(SaveGame.get_item_count(output_item)))
+	
 	# Save just to be safe
 	SaveGame.save_game()
 	print("Processing complete and game saved")
+	
+	# Double check that the save was successful
+	print("Verifying save was successful...")
+	print("Final inventory status after save:")
+	print("- Input item (" + input_item + "): " + str(SaveGame.get_item_count(input_item)))
+	print("- Output item (" + output_item + "): " + str(SaveGame.get_item_count(output_item)))
 	
 	# Disable the produce button until more input is added
 	if produce_button:

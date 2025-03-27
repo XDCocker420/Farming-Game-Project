@@ -19,31 +19,43 @@ var is_jump: bool
 func _ready() -> void:
 	current_speed = normal_speed
 	
-	SaveGame.clear_inventory()
+	# Überprüfe, ob das Inventar bereits Elemente enthält
+	var inventory = SaveGame.get_inventory()
+	print("Initial inventory state:", inventory)
 	
-	SaveGame.add_to_inventory("carrot", 20)
-	SaveGame.add_to_inventory("corn", 20)
-	SaveGame.add_to_inventory("eggplant", 20)
-	SaveGame.add_to_inventory("potatoe", 20)
-	
-	# Add input materials for production testing
-	SaveGame.add_to_inventory("milk", 20)
-	SaveGame.add_to_inventory("egg", 20)
-	SaveGame.add_to_inventory("white_wool", 20)
-	SaveGame.add_to_inventory("wheat", 20)
-	
-	# Add output products for production testing
-	SaveGame.add_to_inventory("butter", 20)
-	SaveGame.add_to_inventory("cheese", 20)
-	SaveGame.add_to_inventory("mayo", 20)
-	SaveGame.add_to_inventory("white_cloth", 20)
-	SaveGame.add_to_inventory("white_string", 20)
-	SaveGame.add_to_inventory("feed", 20)
-	
-	if SaveGame.get_money() > 0:
-		SaveGame.remove_money(SaveGame.get_money())
-	
-	SaveGame.add_money(5000)
+	# Nur initialisieren, wenn das Inventar leer ist (neues Spiel)
+	if inventory.size() == 0:
+		print("Initializing new player inventory")
+		
+		SaveGame.add_to_inventory("carrot", 20)
+		SaveGame.add_to_inventory("corn", 20)
+		SaveGame.add_to_inventory("eggplant", 20)
+		SaveGame.add_to_inventory("potatoe", 20)
+		
+		# Add input materials for production testing
+		SaveGame.add_to_inventory("milk", 20)
+		SaveGame.add_to_inventory("egg", 20)
+		SaveGame.add_to_inventory("white_wool", 20)
+		SaveGame.add_to_inventory("wheat", 20)
+		
+		# Add output products for production testing
+		SaveGame.add_to_inventory("butter", 20)
+		SaveGame.add_to_inventory("cheese", 20)
+		SaveGame.add_to_inventory("mayo", 20)
+		SaveGame.add_to_inventory("white_cloth", 20)
+		SaveGame.add_to_inventory("white_string", 20)
+		SaveGame.add_to_inventory("feed", 20)
+		
+		if SaveGame.get_money() <= 0:
+			SaveGame.add_money(5000)
+		
+		# Speichere das initialisierte Inventar
+		SaveGame.save_game()
+		print("New player inventory initialized and saved")
+	else:
+		print("Using existing inventory, not initializing")
+		
+	print("Final inventory state:", SaveGame.get_inventory())
 
 
 func _input(event: InputEvent) -> void:
