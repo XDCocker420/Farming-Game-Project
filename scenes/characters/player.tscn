@@ -1,10 +1,11 @@
-[gd_scene load_steps=88 format=3 uid="uid://cckq6n703hhfn"]
+[gd_scene load_steps=89 format=3 uid="uid://cckq6n703hhfn"]
 
 [ext_resource type="Script" uid="uid://0s136t8ba4g7" path="res://scripts/characters/player.gd" id="1_v4iti"]
-[ext_resource type="Texture2D" uid="uid://3xe7gwgivvl" path="res://assets/characters/named_characters/main/main_walk.png" id="2_yewv4"]
-[ext_resource type="Texture2D" uid="uid://7b0bd35ajqle" path="res://assets/characters/named_characters/main/main_water.png" id="3_76oj4"]
-[ext_resource type="Texture2D" uid="uid://bpxqbajrxosyr" path="res://assets/characters/named_characters/main/main_hoe.png" id="3_atpat"]
-[ext_resource type="Texture2D" uid="uid://eled07tghwno" path="res://assets/characters/named_characters/main/main_jump.png" id="4_kqtwu"]
+[ext_resource type="Texture2D" uid="uid://cux3vkaoxopuk" path="res://assets/characters/named_characters/main/main_walk.png" id="2_yewv4"]
+[ext_resource type="Texture2D" uid="uid://c23lyxb0frmbc" path="res://assets/characters/named_characters/main/main_water.png" id="3_76oj4"]
+[ext_resource type="Texture2D" uid="uid://ck5ef6q8aqdvs" path="res://assets/characters/named_characters/main/main_hoe.png" id="3_atpat"]
+[ext_resource type="Texture2D" uid="uid://d4h70kc8dmhfk" path="res://assets/characters/named_characters/main/main_jump.png" id="4_kqtwu"]
+[ext_resource type="Texture2D" uid="uid://cvvfcje3el367" path="res://assets/ui_unprocessed/UI.png" id="6_kqtwu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_76oj4"]
 atlas = ExtResource("2_yewv4")
@@ -665,3 +666,17 @@ animation = &"down"
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -8)
 shape = SubResource("CapsuleShape2D_kx7bk")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("6_kqtwu")
