@@ -1,4 +1,4 @@
-[gd_scene load_steps=155 format=3 uid="uid://cckq6n703hhfn"]
+[gd_scene load_steps=159 format=3 uid="uid://cckq6n703hhfn"]
 
 [ext_resource type="Script" uid="uid://0s136t8ba4g7" path="res://scripts/characters/player.gd" id="1_v4iti"]
 [ext_resource type="Texture2D" uid="uid://cux3vkaoxopuk" path="res://assets/characters/named_characters/main/main_walk.png" id="2_yewv4"]
@@ -10,6 +10,10 @@
 [ext_resource type="Texture2D" uid="uid://dij4o7oxu4ftl" path="res://assets/ui/general/time_20.png" id="8_7vyk4"]
 [ext_resource type="Texture2D" uid="uid://lhojm3knqnly" path="res://assets/ui/general/time_00.png" id="9_2l4js"]
 [ext_resource type="Texture2D" uid="uid://rnj1imv8lqcp" path="res://assets/ui/general/time_30.png" id="10_jk2m4"]
+[ext_resource type="Texture2D" uid="uid://byqu8eojf223c" path="res://assets/ui/general/settings.png" id="11_jk2m4"]
+[ext_resource type="Texture2D" uid="uid://dptfb31dywyn3" path="res://assets/ui/general/exit_btn.png" id="12_k4v7y"]
+[ext_resource type="Texture2D" uid="uid://8qwxvo0d0f4g" path="res://assets/ui/general/exit_btn_normal.png" id="12_xrqxk"]
+[ext_resource type="Texture2D" uid="uid://dpbajfpygcytk" path="res://assets/ui/general/back_btn.png" id="13_xrqxk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_76oj4"]
 atlas = ExtResource("2_yewv4")
@@ -1197,3 +1201,52 @@ position = Vector2(42, 11)
 sprite_frames = SubResource("SpriteFrames_recyi")
 frame = 1
 frame_progress = 0.988743
+
+[node name="SettingsBtn" type="TextureButton" parent="CanvasLayer"]
+process_mode = 3
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 19.0
+offset_bottom = 19.0
+size_flags_horizontal = 0
+texture_normal = ExtResource("11_jk2m4")
+
+[node name="ExitMenu" type="Control" parent="CanvasLayer"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 20.0
+offset_right = 300.0
+offset_bottom = 180.0
+
+[node name="ExitBtn" type="TextureButton" parent="CanvasLayer/ExitMenu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -26.5
+offset_top = -86.0
+offset_right = 26.5
+offset_bottom = -45.0
+grow_horizontal = 2
+grow_vertical = 0
+texture_normal = ExtResource("12_xrqxk")
+texture_hover = ExtResource("12_k4v7y")
+
+[node name="BackBtn" type="TextureButton" parent="CanvasLayer/ExitMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -26.5
+offset_top = 45.0
+offset_right = 26.5
+offset_bottom = 86.0
+grow_horizontal = 2
+texture_normal = ExtResource("13_xrqxk")
+
+[connection signal="pressed" from="CanvasLayer/SettingsBtn" to="." method="_on_settings_btn_pressed"]
+[connection signal="pressed" from="CanvasLayer/ExitMenu/ExitBtn" to="." method="_on_exit_btn_pressed"]

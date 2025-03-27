@@ -126,3 +126,19 @@ func set_position_from_exterior(pos: Vector2) -> void:
 	# Setze sowohl die globale als auch die lokale Position
 	global_position = pos
 	position = pos
+
+
+func _on_settings_btn_pressed() -> void:
+	if $CanvasLayer/ExitMenu.visible:
+		$CanvasLayer/ExitMenu.visible = false
+		get_tree().paused = false
+		
+
+	else:
+		$CanvasLayer/ExitMenu.visible = true
+		get_tree().paused = true
+
+
+func _on_exit_btn_pressed() -> void:
+	SaveGame.save_game()
+	get_tree().quit()
