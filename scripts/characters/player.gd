@@ -142,3 +142,8 @@ func _on_settings_btn_pressed() -> void:
 func _on_exit_btn_pressed() -> void:
 	SaveGame.save_game()
 	get_tree().quit()
+
+
+func _on_back_btn_pressed() -> void:
+	$CanvasLayer/ExitMenu.visible = false
+	get_tree().paused = false
