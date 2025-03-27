@@ -147,6 +147,8 @@ func _on_output_slot_input(event):
 		print("- Position: " + str(event.position))
 		print("- Global position: " + str(event.global_position))
 		
+		# Nur bei Mouse-Down (pressed=true) die Aktion ausführen, nicht bei Mouse-Up
+		# UND nur bei linker Maustaste (MOUSE_BUTTON_LEFT)
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			print("=== DIRECT OUTPUT SLOT CLICK DETECTED ===")
 			print("Output slot state:")
@@ -154,7 +156,9 @@ func _on_output_slot_input(event):
 			print("- Has amount label: " + str(output_slot.has_node("amount")))
 			if output_slot.has_node("amount"):
 				print("- Amount label text: " + str(output_slot.get_node("amount").text))
-			_handle_output_slot_click()
+			# Wir brauchen diese Aktion nicht auszuführen, da _on_slot_pressed sie bereits ausführt
+			# _handle_output_slot_click()
+			pass
 
 func _on_slot_pressed(slot):
 	print("=== SLOT PRESSED ===")
@@ -557,9 +561,13 @@ func _input(event):
 			# Check if the click is within the slot's bounds
 			if local_pos.x >= 0 and local_pos.x < slot_size.x and local_pos.y >= 0 and local_pos.y < slot_size.y:
 				print("Click is within output slot bounds!")
-				_handle_output_slot_click()
-			else:
-				print("Click is outside output slot bounds")
-				print("Bounds check:")
-				print("- X: " + str(local_pos.x) + " >= 0 && " + str(local_pos.x) + " < " + str(slot_size.x))
-				print("- Y: " + str(local_pos.y) + " >= 0 && " + str(local_pos.y) + " < " + str(slot_size.y))
+				# Nur bei Mausklick nach unten und nur bei linker Maustaste verarbeiten
+				# Ohne diese Bedingung würde es sowohl bei pressed=true als auch
+				# bei pressed=false ausgelöst werden (doppelt)
+				if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+					_handle_output_slot_click()
+				else:
+					print("Click is outside output slot bounds")
+					print("Bounds check:")
+					print("- X: " + str(local_pos.x) + " >= 0 && " + str(local_pos.x) + " < " + str(slot_size.x))
+					print("- Y: " + str(local_pos.y) + " >= 0 && " + str(local_pos.y) + " < " + str(slot_size.y))
