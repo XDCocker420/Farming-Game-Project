@@ -7,6 +7,14 @@
 
 [node name="Bill_Map" type="Node2D"]
 
+[node name="Player" parent="." instance=ExtResource("1_7s4qw")]
+unique_name_in_owner = true
+z_index = 5
+position = Vector2(216, 22)
+
+[node name="Camera" type="Camera2D" parent="Player"]
+position_smoothing_speed = 7.0
+
 [node name="Weberei" parent="." instance=ExtResource("2_c2s6q")]
 position = Vector2(14, -11)
 
@@ -15,11 +23,3 @@ position = Vector2(181, -44)
 
 [node name="Futterhaus" parent="." instance=ExtResource("4_0fh7d")]
 position = Vector2(328, -24)
-
-[node name="Player" parent="." instance=ExtResource("1_7s4qw")]
-unique_name_in_owner = true
-z_index = 5
-position = Vector2(216, 22)
-
-[node name="Camera" type="Camera2D" parent="Player"]
-position_smoothing_speed = 7.0

@@ -1,7 +1,7 @@
 [gd_scene load_steps=14 format=4 uid="uid://bnp1lhxbp8yo0"]
 
-[ext_resource type="Texture2D" uid="uid://rcm6x3v7ffgu" path="res://assets/buildings/town_buildings_all.png" id="1_632wb"]
-[ext_resource type="Script" uid="uid://cy20c7f147wts" path="res://scripts/buildings/shop.gd" id="1_sy4r7"]
+[ext_resource type="Texture2D" uid="uid://bs34aotdeiude" path="res://assets/buildings/town_buildings_all.png" id="1_632wb"]
+[ext_resource type="Script" uid="uid://dfe4ah80j8uc4" path="res://scripts/buildings/shop.gd" id="1_sy4r7"]
 [ext_resource type="TileSet" uid="uid://er1084qjjvh3" path="res://assets/tilesets/town_buildings_tileset.tres" id="2_uh0so"]
 [ext_resource type="PackedScene" uid="uid://cwyvv2ew2pv6j" path="res://scenes/ui/shop/ui_shop.tscn" id="4_rbx03"]
 
