@@ -11,11 +11,15 @@
 custom_minimum_size = Vector2(22, 23)
 offset_right = 22.0
 offset_bottom = 23.0
+mouse_filter = 0
+mouse_default_cursor_shape = 2
 theme_override_styles/panel = SubResource("StyleBoxEmpty_oeedi")
 script = ExtResource("1_pbvnn")
 
 [node name="button" type="TextureButton" parent="."]
 layout_mode = 2
+mouse_filter = 0
+mouse_default_cursor_shape = 2
 toggle_mode = true
 action_mode = 0
 button_group = ExtResource("2_c33en")

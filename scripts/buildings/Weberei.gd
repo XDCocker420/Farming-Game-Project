@@ -17,7 +17,7 @@ func _ready() -> void:
 func _on_player_interact() -> void:
     if in_door_area:
         # Speichere die aktuelle Position des Spielers
-        SaveGame.last_exterior_position = player.global_position
+        SaveGame.set_last_exterior_position(player.global_position)
         # Wechsle zur Innenszene
         get_tree().change_scene_to_file(interior_scene_path)
 

@@ -19,31 +19,50 @@ var is_jump: bool
 func _ready() -> void:
 	current_speed = normal_speed
 	
-	SaveGame.clear_inventory()
+	# Überprüfe, ob wir aus einem Gebäude kommen
+	if SaveGame.last_exterior_position != Vector2.ZERO:
+		# Direktes Setzen der Position im Ready, wenn eine gespeicherte Position vorhanden ist
+		call_deferred("_check_position_after_building_exit")
 	
-	SaveGame.add_to_inventory("carrot", 20)
-	SaveGame.add_to_inventory("corn", 20)
-	SaveGame.add_to_inventory("eggplant", 20)
-	SaveGame.add_to_inventory("potatoe", 20)
+	# Nur initialisieren, wenn das Inventar leer ist (neues Spiel)
+	if SaveGame.get_inventory().size() == 0:
+		SaveGame.add_to_inventory("carrot", 20)
+		SaveGame.add_to_inventory("corn", 20)
+		SaveGame.add_to_inventory("eggplant", 20)
+		SaveGame.add_to_inventory("potatoe", 20)
+		
+		# Add input materials for production testing
+		SaveGame.add_to_inventory("milk", 20)
+		SaveGame.add_to_inventory("egg", 20)
+		SaveGame.add_to_inventory("white_wool", 20)
+		SaveGame.add_to_inventory("wheat", 20)
+		
+		# Add output products for production testing
+		SaveGame.add_to_inventory("butter", 20)
+		SaveGame.add_to_inventory("cheese", 20)
+		SaveGame.add_to_inventory("mayo", 20)
+		SaveGame.add_to_inventory("white_cloth", 20)
+		SaveGame.add_to_inventory("white_string", 20)
+		SaveGame.add_to_inventory("feed", 20)
+		
+		if SaveGame.get_money() <= 0:
+			SaveGame.add_money(5000)
+		
+		# Speichere das initialisierte Inventar
+		SaveGame.save_game()
 	
-	# Add input materials for production testing
-	SaveGame.add_to_inventory("milk", 20)
-	SaveGame.add_to_inventory("egg", 20)
-	SaveGame.add_to_inventory("white_wool", 20)
-	SaveGame.add_to_inventory("wheat", 20)
-	
-	# Add output products for production testing
-	SaveGame.add_to_inventory("butter", 20)
-	SaveGame.add_to_inventory("cheese", 20)
-	SaveGame.add_to_inventory("mayo", 20)
-	SaveGame.add_to_inventory("white_cloth", 20)
-	SaveGame.add_to_inventory("white_string", 20)
-	SaveGame.add_to_inventory("feed", 20)
-	
-	if SaveGame.get_money() > 0:
-		SaveGame.remove_money(SaveGame.get_money())
-	
-	SaveGame.add_money(5000)
+	# Registriere Signal für Änderungen der Außenposition
+	if SaveGame.has_signal("exterior_position_changed"):
+		SaveGame.exterior_position_changed.connect(_on_exterior_position_changed)
+
+func _on_exterior_position_changed(pos: Vector2) -> void:
+	pass
+
+# Überprüft die Position nach dem Verlassen eines Gebäudes
+func _check_position_after_building_exit() -> void:
+	# Wenn die aktuelle Position (0,0) oder nahe daran ist, verwende die gespeicherte Position
+	if global_position.length() < 1.0:  # Nahe am Ursprung (0,0)
+		set_position_from_exterior(SaveGame.last_exterior_position)
 
 	$CanvasLayer/TextureRect/Money.text = str(SaveGame.get_money())
 
@@ -101,3 +120,9 @@ func update_animation(direction: Vector2) -> void:
 			body.play(looking_direction, 1.5)
 	else:
 		body.stop()
+
+# Hilfsfunktion, die von der game_map aufgerufen werden kann, um die Position zu setzen
+func set_position_from_exterior(pos: Vector2) -> void:
+	# Setze sowohl die globale als auch die lokale Position
+	global_position = pos
+	position = pos

@@ -23,6 +23,9 @@ var last_exterior_position: Vector2 = Vector2.ZERO
 var last_interior_position: Vector2 = Vector2.ZERO
 var last_building_entered: int = 0  # Speichert die ID des zuletzt betretenen Gebäudes
 
+# Debug signal für Position tracking
+signal exterior_position_changed(position)
+
 func _ready() -> void:
 	# Versuche die Map-Node zu bekommen
 	var map_nodes = get_tree().get_nodes_in_group("game_map")
@@ -48,6 +51,7 @@ func save_game() -> void:
 		save.contracts = con_sav
 		save.market_items = market_sav
 		save.last_building_entered = last_building_entered
+		save.last_exterior_position = last_exterior_position
 
 	var saved_data:Array[ItemSaves] = []
 	get_tree().call_group("dynamic_elements", "on_save_game", saved_data)
@@ -55,6 +59,7 @@ func save_game() -> void:
 	save.saved_data = saved_data
 	save.inventory = inventory
 	
+	# Stelle sicher, dass die Inventardaten korrekt übergeben werden
 	ResourceSaver.save(save, SAVE_FILE_PATH)
 
 
@@ -64,16 +69,34 @@ func load_game() -> void:
 		level = 1
 		inventory.money = 100
 		last_building_entered = 0
+		last_exterior_position = Vector2.ZERO
 		return
 	
 	if player:
 		get_tree().call_group("dynamic_elements", "on_before_load_game")
+		
+		# Sichern einer Kopie des alten Inventars zum Vergleich
+		var old_inventory = {}
+		if inventory and inventory.data:
+			old_inventory = inventory.data.duplicate()
+		
 		inventory = saved_game.inventory
+		
 		level = saved_game.player_level
 		exp_level = saved_game.player_experience_per_level
 		player.global_position = saved_game.player_position
 		con_sav = saved_game.contracts
 		market_sav = saved_game.market_items
+		last_building_entered = saved_game.last_building_entered
+		
+		# Lade die gespeicherte Außenposition
+		if saved_game.has_method("get") and saved_game.get("last_exterior_position") != null:
+			last_exterior_position = saved_game.last_exterior_position
+	else:
+		# Lade trotzdem die Daten für die Außenposition und Gebäude-ID
+		if saved_game.has_method("get") and saved_game.get("last_exterior_position") != null:
+			last_exterior_position = saved_game.last_exterior_position
+		
 		last_building_entered = saved_game.last_building_entered
 	
 	await get_tree().process_frame
@@ -122,6 +145,7 @@ func remove_from_inventory(item: String, count:int=1, remove_completly:bool=fals
 	if inventory == null or not inventory.data.has(item):
 		push_error("Item not found in Inventory. Add it first")
 		get_tree().quit()
+		
 	if remove_completly:
 		inventory.data.erase(item)
 		return
@@ -129,7 +153,6 @@ func remove_from_inventory(item: String, count:int=1, remove_completly:bool=fals
 	inventory.data[item] -= count
 	if inventory.data[item] <= 0:
 		inventory.data.erase(item)
-		
 		
 func get_inventory() -> Dictionary:
 	return inventory.data
@@ -248,3 +271,13 @@ func _notification(what):
 		call_deferred("save_game")
 		# Allow the application to quit
 		get_tree().quit()
+
+# Setter für die Außenposition mit Debug-Signalisierung
+func set_last_exterior_position(pos: Vector2) -> void:
+	if pos != last_exterior_position:
+		last_exterior_position = pos
+		# Signal auslösen, damit andere Skripte reagieren können
+		exterior_position_changed.emit(pos)
+		
+	# Automatisch speichern, wenn sich die Position ändert
+	save_game()
