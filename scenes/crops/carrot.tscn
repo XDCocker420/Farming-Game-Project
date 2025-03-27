@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://22y65o5xnnk2"]
+[gd_scene load_steps=17 format=3 uid="uid://22y65o5xnnk2"]
 
 [ext_resource type="Texture2D" uid="uid://dy6lfwttgebhw" path="res://assets/farming/crops.png" id="1_a46ks"]
 [ext_resource type="Script" uid="uid://h5ktdbskdgtv" path="res://scripts/crops/crop.gd" id="2_2t3df"]
+[ext_resource type="Texture2D" uid="uid://dss4qao2xk3gr" path="res://assets/farming/crops_wet.png" id="2_j7hiy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_j7hiy"]
 atlas = ExtResource("1_a46ks")
@@ -25,6 +26,30 @@ region = Rect2(64, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cw6fc"]
 atlas = ExtResource("1_a46ks")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rnl7j"]
+atlas = ExtResource("2_j7hiy")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ttv7"]
+atlas = ExtResource("2_j7hiy")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oyfa6"]
+atlas = ExtResource("2_j7hiy")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nembl"]
+atlas = ExtResource("2_j7hiy")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kqnvl"]
+atlas = ExtResource("2_j7hiy")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w47kr"]
+atlas = ExtResource("2_j7hiy")
 region = Rect2(80, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_67loh"]
@@ -51,15 +76,37 @@ animations = [{
 "loop": true,
 "name": &"grow",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rnl7j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ttv7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oyfa6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nembl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kqnvl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w47kr")
+}],
+"loop": true,
+"name": &"grow_wet",
+"speed": 5.0
 }]
 
 [node name="Carrot" type="AnimatedSprite2D" groups=["dynamic_elements"]]
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_67loh")
-animation = &"grow"
+animation = &"grow_wet"
 script = ExtResource("2_2t3df")
 crop_type = "carrot"
-default_time = 60.0
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true

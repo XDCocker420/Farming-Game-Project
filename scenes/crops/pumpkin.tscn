@@ -1,6 +1,7 @@
-[gd_scene load_steps=10 format=3 uid="uid://bnr3kriot5vm5"]
+[gd_scene load_steps=17 format=3 uid="uid://bnr3kriot5vm5"]
 
 [ext_resource type="Texture2D" uid="uid://dy6lfwttgebhw" path="res://assets/farming/crops.png" id="1_3srjn"]
+[ext_resource type="Texture2D" uid="uid://dss4qao2xk3gr" path="res://assets/farming/crops_wet.png" id="2_lyy8c"]
 [ext_resource type="Script" uid="uid://h5ktdbskdgtv" path="res://scripts/crops/crop.gd" id="2_qtdld"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lyy8c"]
@@ -27,6 +28,30 @@ region = Rect2(64, 48, 16, 16)
 atlas = ExtResource("1_3srjn")
 region = Rect2(80, 48, 16, 16)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_22sce"]
+atlas = ExtResource("2_lyy8c")
+region = Rect2(0, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p3kmi"]
+atlas = ExtResource("2_lyy8c")
+region = Rect2(16, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yt3jo"]
+atlas = ExtResource("2_lyy8c")
+region = Rect2(32, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vnxnn"]
+atlas = ExtResource("2_lyy8c")
+region = Rect2(48, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dvhcd"]
+atlas = ExtResource("2_lyy8c")
+region = Rect2(64, 48, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ypycw"]
+atlas = ExtResource("2_lyy8c")
+region = Rect2(80, 48, 16, 16)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_67loh"]
 animations = [{
 "frames": [{
@@ -51,15 +76,37 @@ animations = [{
 "loop": true,
 "name": &"grow",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_22sce")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p3kmi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yt3jo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vnxnn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dvhcd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ypycw")
+}],
+"loop": true,
+"name": &"grow_wet",
+"speed": 5.0
 }]
 
 [node name="Pumpkin" type="AnimatedSprite2D" groups=["dynamic_elements"]]
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_67loh")
-animation = &"grow"
+animation = &"grow_wet"
 script = ExtResource("2_qtdld")
 crop_type = "pumpkin"
-default_time = 240.0
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
