@@ -1,7 +1,8 @@
-[gd_scene load_steps=10 format=3 uid="uid://bl8oyox6f4b5j"]
+[gd_scene load_steps=17 format=3 uid="uid://bl8oyox6f4b5j"]
 
 [ext_resource type="Texture2D" uid="uid://dy6lfwttgebhw" path="res://assets/farming/crops.png" id="1_th2w3"]
 [ext_resource type="Script" uid="uid://h5ktdbskdgtv" path="res://scripts/crops/crop.gd" id="2_4k6t8"]
+[ext_resource type="Texture2D" uid="uid://dss4qao2xk3gr" path="res://assets/farming/crops_wet.png" id="2_r2vmc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r2vmc"]
 atlas = ExtResource("1_th2w3")
@@ -25,6 +26,30 @@ region = Rect2(64, 32, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k6kri"]
 atlas = ExtResource("1_th2w3")
+region = Rect2(80, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6ik6"]
+atlas = ExtResource("2_r2vmc")
+region = Rect2(0, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_60jfy"]
+atlas = ExtResource("2_r2vmc")
+region = Rect2(16, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r1whx"]
+atlas = ExtResource("2_r2vmc")
+region = Rect2(32, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jaq26"]
+atlas = ExtResource("2_r2vmc")
+region = Rect2(48, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uflci"]
+atlas = ExtResource("2_r2vmc")
+region = Rect2(64, 32, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ervb"]
+atlas = ExtResource("2_r2vmc")
 region = Rect2(80, 32, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_67loh"]
@@ -51,15 +76,37 @@ animations = [{
 "loop": true,
 "name": &"grow",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e6ik6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_60jfy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r1whx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jaq26")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uflci")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ervb")
+}],
+"loop": true,
+"name": &"grow_wet",
+"speed": 5.0
 }]
 
 [node name="Berry" type="AnimatedSprite2D" groups=["dynamic_elements"]]
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_67loh")
-animation = &"grow"
+animation = &"grow_wet"
 script = ExtResource("2_4k6t8")
 crop_type = "berry"
-default_time = 90.0
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
