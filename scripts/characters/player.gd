@@ -45,6 +45,8 @@ func _ready() -> void:
 	
 	SaveGame.add_money(5000)
 
+	$CanvasLayer/TextureRect/Money.text = str(SaveGame.get_money())
+
 
 func _input(event: InputEvent) -> void:
 	# Check if the interaction key is pressed

@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://c23lyxb0frmbc" path="res://assets/characters/named_characters/main/main_water.png" id="3_76oj4"]
 [ext_resource type="Texture2D" uid="uid://ck5ef6q8aqdvs" path="res://assets/characters/named_characters/main/main_hoe.png" id="3_atpat"]
 [ext_resource type="Texture2D" uid="uid://d4h70kc8dmhfk" path="res://assets/characters/named_characters/main/main_jump.png" id="4_kqtwu"]
-[ext_resource type="Texture2D" uid="uid://cvvfcje3el367" path="res://assets/ui_unprocessed/UI.png" id="6_kqtwu"]
+[ext_resource type="Texture2D" uid="uid://d1otnyewa7aw" path="res://assets/ui/general/hud.png" id="6_kqtwu"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_76oj4"]
 atlas = ExtResource("2_yewv4")
@@ -667,16 +667,31 @@ animation = &"down"
 position = Vector2(0, -8)
 shape = SubResource("CapsuleShape2D_kx7bk")
 
+[node name="Camera2D" type="Camera2D" parent="."]
+
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="Control" type="Control" parent="CanvasLayer"]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Control"]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -64.0
+offset_bottom = 64.0
+grow_horizontal = 0
 texture = ExtResource("6_kqtwu")
+
+[node name="Money" type="Label" parent="CanvasLayer/TextureRect"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -14.0
+offset_top = -17.0
+offset_right = 23.0
+offset_bottom = -4.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "1000"
+horizontal_alignment = 1
