@@ -61,6 +61,12 @@ func _on_exit_area_body_entered(body):
 		# Store building ID to spawn at correct location
 		SaveGame.last_building_entered = 1
 		
+		# Debug: Log der gespeicherten Position
+		print("Verlasse Futterhaus. Gespeicherte Außenposition: ", SaveGame.last_exterior_position)
+		
+		# Wir müssen sicherstellen, dass die Speicherung erfolgt, bevor wir die Szene wechseln
+		SaveGame.save_game()
+		
 		# Switch back to main scene using call_deferred to avoid physics callback issues
 		get_tree().call_deferred("change_scene_to_file", "res://scenes/maps/game_map.tscn")
 	else:

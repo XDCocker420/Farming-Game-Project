@@ -23,6 +23,9 @@ var last_exterior_position: Vector2 = Vector2.ZERO
 var last_interior_position: Vector2 = Vector2.ZERO
 var last_building_entered: int = 0  # Speichert die ID des zuletzt betretenen Gebäudes
 
+# Debug signal für Position tracking
+signal exterior_position_changed(position)
+
 func _ready() -> void:
 	# Versuche die Map-Node zu bekommen
 	var map_nodes = get_tree().get_nodes_in_group("game_map")
@@ -48,6 +51,7 @@ func save_game() -> void:
 		save.contracts = con_sav
 		save.market_items = market_sav
 		save.last_building_entered = last_building_entered
+		save.last_exterior_position = last_exterior_position
 
 	var saved_data:Array[ItemSaves] = []
 	get_tree().call_group("dynamic_elements", "on_save_game", saved_data)
@@ -57,6 +61,8 @@ func save_game() -> void:
 	
 	print("=== SAVING GAME ===")
 	print("Inventory state before save: ", inventory.data)
+	print("Last exterior position: ", last_exterior_position)
+	print("Last building entered: ", last_building_entered)
 	
 	# Stelle sicher, dass die Inventardaten korrekt übergeben werden
 	var result = ResourceSaver.save(save, SAVE_FILE_PATH)
@@ -70,6 +76,7 @@ func save_game() -> void:
 	var test_load = ResourceLoader.load(SAVE_FILE_PATH)
 	if test_load:
 		print("Inventory state after save: ", test_load.inventory.data)
+		print("Saved last exterior position: ", test_load.last_exterior_position)
 	else:
 		print("ERROR: Could not verify saved data - file may be corrupted")
 
@@ -82,6 +89,7 @@ func load_game() -> void:
 		level = 1
 		inventory.money = 100
 		last_building_entered = 0
+		last_exterior_position = Vector2.ZERO
 		return
 	
 	print("Saved game found, loading data")
@@ -115,11 +123,24 @@ func load_game() -> void:
 		market_sav = saved_game.market_items
 		last_building_entered = saved_game.last_building_entered
 		
+		# Lade die gespeicherte Außenposition
+		if saved_game.has_method("get") and saved_game.get("last_exterior_position") != null:
+			last_exterior_position = saved_game.last_exterior_position
+			print("Loaded last exterior position: ", last_exterior_position)
+		
 		print("Loaded player level: " + str(level))
 		print("Loaded money: " + str(inventory.money))
 		print("Loaded player position: " + str(player.global_position))
+		print("Loaded last building entered: " + str(last_building_entered))
 	else:
 		print("WARNING: Player not found, skipping player-related data")
+		
+		# Lade trotzdem die Daten für die Außenposition und Gebäude-ID
+		if saved_game.has_method("get") and saved_game.get("last_exterior_position") != null:
+			last_exterior_position = saved_game.last_exterior_position
+			print("Loaded last exterior position (without player): ", last_exterior_position)
+		
+		last_building_entered = saved_game.last_building_entered
 	
 	print("Game loaded successfully")
 	
@@ -307,3 +328,14 @@ func _notification(what):
 		call_deferred("save_game")
 		# Allow the application to quit
 		get_tree().quit()
+
+# Setter für die Außenposition mit Debug-Signalisierung
+func set_last_exterior_position(pos: Vector2) -> void:
+	if pos != last_exterior_position:
+		print("Updating last exterior position from: ", last_exterior_position, " to: ", pos)
+		last_exterior_position = pos
+		# Signal auslösen, damit andere Skripte reagieren können
+		exterior_position_changed.emit(pos)
+		
+	# Automatisch speichern, wenn sich die Position ändert
+	save_game()

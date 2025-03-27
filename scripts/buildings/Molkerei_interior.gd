@@ -63,8 +63,20 @@ func _ready():
 
 func _on_exit_area_body_entered(body):
 	if body.is_in_group("Player"):
-		# Store building ID to spawn at correct location
+		# Hide UIs if they're visible
+		if current_ui and current_ui.visible:
+			current_ui.hide()
+		if current_inventory_ui and current_inventory_ui.visible:
+			current_inventory_ui.hide()
+		
+		# Store building ID for correct exterior spawning
 		SaveGame.last_building_entered = 3
+		
+		# Debug: Log der gespeicherten Position
+		print("Verlasse Molkerei. Gespeicherte Außenposition: ", SaveGame.last_exterior_position)
+		
+		# Wir müssen sicherstellen, dass die Speicherung erfolgt, bevor wir die Szene wechseln
+		SaveGame.save_game()
 		
 		# Switch back to main scene using call_deferred to avoid physics callback issues
 		get_tree().call_deferred("change_scene_to_file", "res://scenes/maps/game_map.tscn")
