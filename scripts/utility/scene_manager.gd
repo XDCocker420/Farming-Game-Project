@@ -3,7 +3,7 @@ extends Node2D
 ## TODO: Add all interior scenes here
 @onready var trans_screen = $TransitionScreen
 
-@onready var current_scene:Node2D = $CurrenScene
+@onready var current_scene:Node2D = $CurrentScene
 
 ## TODO: Refactor all to Node2D
 const main_map = preload("res://scenes/maps/game_map.tscn")
@@ -31,7 +31,21 @@ func _transiton_to_game_map():
 	trans_screen.transition()
 	
 func _on_transition_finished():
-	current_scene.get_child(0).queue_free()
+	if next_name == "game_map":
+		current_scene.get_child(1).queue_free()
+	else:
+		current_scene.get_child(0).hide()
+		for i in current_scene.get_child(0).get_children():
+				if i.name == "Map":
+					for j in i.get_children():	
+						if j.is_in_group("Player"):
+							j.hide()
+							j.get_child(0).hide()
+							#i.global_position = main_map_player_global_positon
+							#i.call_deferred("set_position", Vector2(250,80))
+							#print(i.global_position)
+							break
+					break
 	
 	match next_name:
 		"weberei":
@@ -41,14 +55,17 @@ func _on_transition_finished():
 		"molkerei":
 			current_scene.add_child(molkerei.instantiate())
 		"game_map":
-			var instance_map = main_map.instantiate()
-			current_scene.add_child(instance_map)
+			current_scene.get_child(0).show()
+			#var instance_map = main_map.instantiate()
+			#current_scene.add_child(instance_map)
 			
 			for i in current_scene.get_child(0).get_children():
 				if i.name == "Map":
 					for j in i.get_children():	
 						if j.is_in_group("Player"):
-							i.global_position = Vector2(250,500)
+							j.show()
+							j.get_child(0).show()
+							i.global_position = main_map_player_global_positon
 							#i.call_deferred("set_position", Vector2(250,80))
 							print(i.global_position)
 							break
