@@ -39,21 +39,13 @@ func _ready() -> void:
 
 
 func _on_button_pressed() -> void:
-	print("=== UI SLOT BUTTON PRESSED ===")
-	print("- Item name: " + str(item_name))
-	print("- Has texture: " + str(item_texture.texture != null))
-	print("- Is editable: " + str(editable))
-	print("- Is locked: " + str(locked))
-	
 	if item_texture.texture != null and editable:
 		button.button_pressed = false
 		return
 	
 	if locked:
-		print("Emitting slot_unlock signal")
 		slot_unlock.emit(self, price)
 	else:
-		print("Emitting slot_selection and item_selection signals")
 		slot_selection.emit(self)
 		item_selection.emit(item_name, price, item_texture.texture)
 
@@ -76,12 +68,9 @@ func unlock() -> void:
 # Function to store a reference to the production UI
 func set_production_ui(ui) -> void:
 	production_ui = ui
-	print("Set production UI reference in slot: " + str(item_name))
 
 # Add the missing setup function that's called in production_ui.gd
 func setup(new_item_name: String, new_texture_path: String = "", show_amount: bool = true, amount: int = 1) -> void:
-	print("Setting up slot with: " + new_item_name)
-	
 	# Set the item name
 	item_name = new_item_name
 	
@@ -105,7 +94,6 @@ func setup(new_item_name: String, new_texture_path: String = "", show_amount: bo
 
 # Add a clear function to reset the slot
 func clear() -> void:
-	print("Clearing slot: " + str(item_name))
 	item_name = ""
 	item_texture.texture = null
 	amount_label.text = ""

@@ -72,9 +72,6 @@ func _on_exit_area_body_entered(body):
 		# Store building ID for correct exterior spawning
 		SaveGame.last_building_entered = 3
 		
-		# Debug: Log der gespeicherten Position
-		print("Verlasse Molkerei. Gespeicherte Außenposition: ", SaveGame.last_exterior_position)
-		
 		# Wir müssen sicherstellen, dass die Speicherung erfolgt, bevor wir die Szene wechseln
 		SaveGame.save_game()
 		
@@ -82,10 +79,9 @@ func _on_exit_area_body_entered(body):
 		get_tree().call_deferred("change_scene_to_file", "res://scenes/maps/game_map.tscn")
 		
 		## For scene switcher
-		#print("Fading back")
 		#SceneSwitcher.transition_to_main.emit()
 	else:
-		print("MolkereiInterior: Non-player body entered exit area: ", body.name) 
+		pass
 
 func _on_workstation_area_body_entered(body, workstation_name):
 	if body.is_in_group("Player"):
@@ -148,18 +144,14 @@ func _unhandled_input(event):
 		
 		# Set up the production UI first
 		current_ui.setup(current_workstation)
-		print("Production UI set up for: " + current_workstation)
 		
 		# Setup inventory UI with filtered items for this workstation
-		print("Setting up inventory UI with filter")
 		current_inventory_ui.setup_and_show(current_workstation)
 		
 		# Set the active production UI in the inventory UI AFTER setting up the inventory UI
 		# This is critical because setup_and_show recreates all the slots
-		print("Setting active production UI in inventory UI AFTER inventory setup")
 		if current_inventory_ui.has_method("set_active_production_ui"):
 			current_inventory_ui.set_active_production_ui(current_ui)
-			print("Active production UI set in inventory UI")
 			
 			# Connect the inventory UI's item_selected signal to the production UI's add_input_item method
 			if current_inventory_ui.has_signal("item_selected") and current_ui.has_method("add_input_item"):
@@ -168,23 +160,12 @@ func _unhandled_input(event):
 					current_inventory_ui.item_selected.disconnect(current_ui.add_input_item)
 				# Connect the signal
 				current_inventory_ui.item_selected.connect(current_ui.add_input_item)
-				print("Connected inventory UI item_selected signal to production UI add_input_item method")
-			else:
-				print("ERROR: Cannot connect item_selected signal to add_input_item method")
-		else:
-			print("ERROR: inventory UI doesn't have set_active_production_ui method")
 		
 		# Start the animation for the current workstation
 		if current_animation:
 			var animation_name = current_workstation
 			if current_animation.sprite_frames and current_animation.sprite_frames.has_animation(animation_name):
 				current_animation.play(animation_name)
-				print("Started animation for: " + current_workstation)
-			else:
-				print("ERROR: No animation found for " + current_workstation)
-		
-		# Debug print to verify the UI is being shown
-		print("Both UIs now visible and connected for " + current_workstation)
 	
 	# Close UIs and stop animation when ESC is pressed
 	if event.is_action_pressed("ui_cancel") and current_ui and current_ui.visible:
