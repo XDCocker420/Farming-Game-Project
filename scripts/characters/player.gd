@@ -64,6 +64,8 @@ func _check_position_after_building_exit() -> void:
 	if global_position.length() < 1.0:  # Nahe am Ursprung (0,0)
 		set_position_from_exterior(SaveGame.last_exterior_position)
 
+	$CanvasLayer/TextureRect/Money.text = str(SaveGame.get_money())
+
 
 func _input(event: InputEvent) -> void:
 	# Check if the interaction key is pressed
