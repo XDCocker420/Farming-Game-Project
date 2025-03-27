@@ -1,4 +1,4 @@
-[gd_scene load_steps=154 format=3 uid="uid://cckq6n703hhfn"]
+[gd_scene load_steps=155 format=3 uid="uid://cckq6n703hhfn"]
 
 [ext_resource type="Script" uid="uid://0s136t8ba4g7" path="res://scripts/characters/player.gd" id="1_v4iti"]
 [ext_resource type="Texture2D" uid="uid://cux3vkaoxopuk" path="res://assets/characters/named_characters/main/main_walk.png" id="2_yewv4"]
@@ -7,6 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://d4h70kc8dmhfk" path="res://assets/characters/named_characters/main/main_jump.png" id="4_kqtwu"]
 [ext_resource type="Texture2D" uid="uid://d1otnyewa7aw" path="res://assets/ui/general/hud.png" id="6_kqtwu"]
 [ext_resource type="Texture2D" uid="uid://cvvfcje3el367" path="res://assets/ui_unprocessed/UI.png" id="7_6eyoc"]
+[ext_resource type="Texture2D" uid="uid://dij4o7oxu4ftl" path="res://assets/ui/general/time_20.png" id="8_7vyk4"]
+[ext_resource type="Texture2D" uid="uid://lhojm3knqnly" path="res://assets/ui/general/time_00.png" id="9_2l4js"]
+[ext_resource type="Texture2D" uid="uid://rnj1imv8lqcp" path="res://assets/ui/general/time_30.png" id="10_jk2m4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_76oj4"]
 atlas = ExtResource("2_yewv4")
@@ -1102,6 +1105,9 @@ animations = [{
 "texture": SubResource("AtlasTexture_vwyh1")
 }, {
 "duration": 1.0,
+"texture": ExtResource("8_7vyk4")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_1b3jp")
 }, {
 "duration": 1.0,
@@ -1115,22 +1121,14 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dbv10"]
-atlas = ExtResource("7_6eyoc")
-region = Rect2(368, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lc50l"]
-atlas = ExtResource("7_6eyoc")
-region = Rect2(288, 32, 16, 16)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_recyi"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dbv10")
+"texture": ExtResource("9_2l4js")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lc50l")
+"texture": ExtResource("10_jk2m4")
 }],
 "loop": true,
 "name": &"default",
@@ -1182,7 +1180,7 @@ horizontal_alignment = 1
 [node name="Day" type="AnimatedSprite2D" parent="CanvasLayer/TextureRect"]
 position = Vector2(24, 30)
 sprite_frames = SubResource("SpriteFrames_bl5np")
-animation = &"donnerstag"
+animation = &"samstag"
 
 [node name="Date" type="AnimatedSprite2D" parent="CanvasLayer/TextureRect"]
 position = Vector2(49, 29)
@@ -1195,7 +1193,7 @@ frame = 11
 frame_progress = 0.648373
 
 [node name="Minute" type="AnimatedSprite2D" parent="CanvasLayer/TextureRect"]
-position = Vector2(43, 11)
+position = Vector2(42, 11)
 sprite_frames = SubResource("SpriteFrames_recyi")
 frame = 1
-frame_progress = 0.396733
+frame_progress = 0.988743
