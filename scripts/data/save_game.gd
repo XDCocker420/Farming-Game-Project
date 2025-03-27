@@ -59,40 +59,18 @@ func save_game() -> void:
 	save.saved_data = saved_data
 	save.inventory = inventory
 	
-	print("=== SAVING GAME ===")
-	print("Inventory state before save: ", inventory.data)
-	print("Last exterior position: ", last_exterior_position)
-	print("Last building entered: ", last_building_entered)
-	
 	# Stelle sicher, dass die Inventardaten korrekt übergeben werden
-	var result = ResourceSaver.save(save, SAVE_FILE_PATH)
-	
-	if result == OK:
-		print("Game saved successfully")
-	else:
-		print("ERROR: Failed to save game, error code: ", result)
-	
-	# Überprüfe sofort nach dem Speichern, ob die Daten korrekt gespeichert wurden
-	var test_load = ResourceLoader.load(SAVE_FILE_PATH)
-	if test_load:
-		print("Inventory state after save: ", test_load.inventory.data)
-		print("Saved last exterior position: ", test_load.last_exterior_position)
-	else:
-		print("ERROR: Could not verify saved data - file may be corrupted")
+	ResourceSaver.save(save, SAVE_FILE_PATH)
 
 
 func load_game() -> void:
-	print("=== LOADING GAME ===")
 	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
 	if saved_game == null:
-		print("No saved game found, initializing with default values")
 		level = 1
 		inventory.money = 100
 		last_building_entered = 0
 		last_exterior_position = Vector2.ZERO
 		return
-	
-	print("Saved game found, loading data")
 	
 	if player:
 		get_tree().call_group("dynamic_elements", "on_before_load_game")
@@ -104,18 +82,6 @@ func load_game() -> void:
 		
 		inventory = saved_game.inventory
 		
-		print("Loaded inventory data:")
-		print(inventory.data)
-		
-		# Vergleich mit altem Inventar
-		if old_inventory.size() > 0:
-			print("Comparison with previous inventory:")
-			for item in inventory.data:
-				if old_inventory.has(item):
-					print("- " + item + ": " + str(old_inventory[item]) + " -> " + str(inventory.data[item]))
-				else:
-					print("- " + item + ": (new) " + str(inventory.data[item]))
-		
 		level = saved_game.player_level
 		exp_level = saved_game.player_experience_per_level
 		player.global_position = saved_game.player_position
@@ -126,23 +92,12 @@ func load_game() -> void:
 		# Lade die gespeicherte Außenposition
 		if saved_game.has_method("get") and saved_game.get("last_exterior_position") != null:
 			last_exterior_position = saved_game.last_exterior_position
-			print("Loaded last exterior position: ", last_exterior_position)
-		
-		print("Loaded player level: " + str(level))
-		print("Loaded money: " + str(inventory.money))
-		print("Loaded player position: " + str(player.global_position))
-		print("Loaded last building entered: " + str(last_building_entered))
 	else:
-		print("WARNING: Player not found, skipping player-related data")
-		
 		# Lade trotzdem die Daten für die Außenposition und Gebäude-ID
 		if saved_game.has_method("get") and saved_game.get("last_exterior_position") != null:
 			last_exterior_position = saved_game.last_exterior_position
-			print("Loaded last exterior position (without player): ", last_exterior_position)
 		
 		last_building_entered = saved_game.last_building_entered
-	
-	print("Game loaded successfully")
 	
 	await get_tree().process_frame
 	
@@ -175,17 +130,12 @@ func add_to_inventory(item:String, count:int=1) -> void:
 	if count > 99:
 		count = 99
 	
-	print("Adding to inventory: " + item + " x" + str(count))
-	print("Current inventory before add: ", inventory.data)
-	
 	if inventory.data.has(item):
 		inventory.data[item] += count
 		if inventory.data[item] > 99:
 			inventory.data[item] = 99
 	else:
 		inventory.data[item] = count
-		
-	print("Current inventory after add: ", inventory.data)
 
 # removes something
 func remove_from_inventory(item: String, count:int=1, remove_completly:bool=false) -> void:
@@ -196,20 +146,13 @@ func remove_from_inventory(item: String, count:int=1, remove_completly:bool=fals
 		push_error("Item not found in Inventory. Add it first")
 		get_tree().quit()
 		
-	print("Removing from inventory: " + item + " x" + str(count))
-	print("Current inventory before remove: ", inventory.data)
-	
 	if remove_completly:
 		inventory.data.erase(item)
-		print("Item completely removed")
 		return
 
 	inventory.data[item] -= count
 	if inventory.data[item] <= 0:
 		inventory.data.erase(item)
-		print("Item quantity reached zero, removing from inventory")
-	
-	print("Current inventory after remove: ", inventory.data)
 		
 func get_inventory() -> Dictionary:
 	return inventory.data
@@ -332,7 +275,6 @@ func _notification(what):
 # Setter für die Außenposition mit Debug-Signalisierung
 func set_last_exterior_position(pos: Vector2) -> void:
 	if pos != last_exterior_position:
-		print("Updating last exterior position from: ", last_exterior_position, " to: ", pos)
 		last_exterior_position = pos
 		# Signal auslösen, damit andere Skripte reagieren können
 		exterior_position_changed.emit(pos)

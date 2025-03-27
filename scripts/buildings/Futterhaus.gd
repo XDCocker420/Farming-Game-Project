@@ -11,8 +11,6 @@ var in_garage_door_area = false
 var interior_scene_path = "res://scenes/buildings/Futterhaus_interior.tscn"
 
 func _ready() -> void:
-	print("=== Futterhaus initialisiert ===")
-	
 	# Verbinde die Signale
 	player.interact.connect(_on_player_interact)
 	
@@ -36,7 +34,6 @@ func _on_player_interact() -> void:
 	if in_door_area or in_garage_door_area:
 		# Speichere die aktuelle Position des Spielers
 		SaveGame.set_last_exterior_position(player.global_position)
-		print("Spieler betritt Futterhaus von Position: ", player.global_position)
 		# Wechsle zur Innenszene
 		get_tree().change_scene_to_file(interior_scene_path)
 

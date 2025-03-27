@@ -19,22 +19,13 @@ var is_jump: bool
 func _ready() -> void:
 	current_speed = normal_speed
 	
-	# Überprüfe, ob das Inventar bereits Elemente enthält
-	var inventory = SaveGame.get_inventory()
-	print("Initial inventory state:", inventory)
-	
 	# Überprüfe, ob wir aus einem Gebäude kommen
 	if SaveGame.last_exterior_position != Vector2.ZERO:
-		print("Player is coming from a building. Position should be set by game_map.gd")
-		print("Last exterior position: ", SaveGame.last_exterior_position)
-		
 		# Direktes Setzen der Position im Ready, wenn eine gespeicherte Position vorhanden ist
 		call_deferred("_check_position_after_building_exit")
 	
 	# Nur initialisieren, wenn das Inventar leer ist (neues Spiel)
-	if inventory.size() == 0:
-		print("Initializing new player inventory")
-		
+	if SaveGame.get_inventory().size() == 0:
 		SaveGame.add_to_inventory("carrot", 20)
 		SaveGame.add_to_inventory("corn", 20)
 		SaveGame.add_to_inventory("eggplant", 20)
@@ -59,31 +50,19 @@ func _ready() -> void:
 		
 		# Speichere das initialisierte Inventar
 		SaveGame.save_game()
-		print("New player inventory initialized and saved")
-	else:
-		print("Using existing inventory, not initializing")
-		
-	print("Final inventory state:", SaveGame.get_inventory())
 	
 	# Registriere Signal für Änderungen der Außenposition
 	if SaveGame.has_signal("exterior_position_changed"):
 		SaveGame.exterior_position_changed.connect(_on_exterior_position_changed)
 
 func _on_exterior_position_changed(pos: Vector2) -> void:
-	print("Player received exterior_position_changed signal: ", pos)
+	pass
 
 # Überprüft die Position nach dem Verlassen eines Gebäudes
 func _check_position_after_building_exit() -> void:
-	print("=== CHECKING PLAYER POSITION AFTER BUILDING EXIT ===")
-	print("Current position: ", global_position)
-	print("Saved exterior position: ", SaveGame.last_exterior_position)
-	
 	# Wenn die aktuelle Position (0,0) oder nahe daran ist, verwende die gespeicherte Position
 	if global_position.length() < 1.0:  # Nahe am Ursprung (0,0)
 		set_position_from_exterior(SaveGame.last_exterior_position)
-		print("Position corrected to saved exterior position")
-	
-	print("Final position: ", global_position)
 
 
 func _input(event: InputEvent) -> void:
@@ -142,13 +121,6 @@ func update_animation(direction: Vector2) -> void:
 
 # Hilfsfunktion, die von der game_map aufgerufen werden kann, um die Position zu setzen
 func set_position_from_exterior(pos: Vector2) -> void:
-	print("Player.set_position_from_exterior called with pos: ", pos)
-	
 	# Setze sowohl die globale als auch die lokale Position
 	global_position = pos
 	position = pos
-	
-	# Überprüfe, ob die Position korrekt gesetzt wurde
-	print("Position after setting in player script:")
-	print("- Global position: ", global_position)
-	print("- Local position: ", position)
