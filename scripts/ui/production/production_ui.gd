@@ -224,9 +224,6 @@ func _get_amount_label(slot) -> Label:
 		return null
 		
 	print("Getting amount label for slot:")
-	print("- Slot name: " + str(slot.name))
-	print("- Has amount node: " + str(slot.has_node("amount")))
-	
 	# Try direct path first
 	if slot.has_node("amount"):
 		var label = slot.get_node("amount")
@@ -406,11 +403,22 @@ func _process_single_item() -> void:
 # New function to receive items from inventory UI
 func add_input_item(item_name: String) -> void:
 	print("====== PRODUCTION UI ADD_INPUT_ITEM CALLED WITH: " + item_name + " ======")
+	print("Current workstation: " + current_workstation)
+	print("Input items allowed: " + str(input_items))
+	print("Input slot state:")
+	if input_slot:
+		print("- Current item: " + str(input_slot.item_name))
+		print("- Current amount: " + str(input_slot.amount_label.text if input_slot.amount_label and input_slot.amount_label.text != "" else "0"))
+	else:
+		print("- Input slot is null!")
 	
 	# Check if this item is valid for this workstation
 	if item_name in input_items:
 		# Make sure we have this item in inventory
-		if SaveGame.get_item_count(item_name) <= 0:
+		var inventory_count = SaveGame.get_item_count(item_name)
+		print("Inventory has " + str(inventory_count) + " of " + item_name)
+		
+		if inventory_count <= 0:
 			print("Not enough " + item_name + " in inventory")
 			return
 		

@@ -19,17 +19,28 @@ func add_slot(item: String, amount: int) -> void:
 	var slot_item: TextureRect = slot.get_node("MarginContainer/item")
 	var slot_amount: Label = slot.get_node("amount")
 	
-	# Connect the slot's signals
+	# Connect the slot's signals - disconnect first to avoid duplicates
+	if slot.item_selection.is_connected(_on_item_selected):
+		slot.item_selection.disconnect(_on_item_selected)
 	slot.item_selection.connect(_on_item_selected)
+	
+	# Ensure the button uses the proper mouse filter for input
+	var button = slot.get_node("button")
+	if button:
+		button.mouse_filter = Control.MOUSE_FILTER_STOP
 	
 	# Setup slot
 	slot.item_name = item
 	slot_item.texture = load("res://assets/ui/icons/" + item + ".png")
 	slot_amount.text = str(amount)
 	
+	# Ensure proper cursor shape for better UX
+	slot.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+	
 	# Set the production UI reference if we have one
 	if active_production_ui:
 		slot.set_production_ui(active_production_ui)
+		print("Set production UI for slot " + item + " during creation")
 	
 	slots.add_child(slot)
 	slot_list.append(slot)
@@ -147,10 +158,18 @@ func set_active_production_ui(ui) -> void:
 			print("Set production UI for slot in slots container")
 
 # Handle item selection from a slot
-func _on_item_selected(item_name: String, _item_texture: Texture2D) -> void:
-	print("Item selected in inventory: " + item_name)
-	# This signal will be connected to production UI's add_input_item method
-	item_selected.emit(item_name)
+func _on_item_selected(item_name: String, _price: int, _item_texture: Texture2D) -> void:
+	print("=== ITEM SELECTED IN INVENTORY: " + item_name + " ===")
+	
+	# Direct call to production UI if available
+	if active_production_ui and active_production_ui.has_method("add_input_item"):
+		print("Directly calling add_input_item on production UI")
+		active_production_ui.add_input_item(item_name)
+	else:
+		print("WARNING: No active production UI or it doesn't have add_input_item method")
+		# Still emit the signal in case it's connected elsewhere
+		print("Emitting item_selected signal")
+		item_selected.emit(item_name)
 	
 	# Reload slots to reflect any inventory changes
 	reload_slots(true)
