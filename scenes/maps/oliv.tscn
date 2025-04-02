@@ -16,17 +16,13 @@ unique_name_in_owner = true
 z_index = 5
 position = Vector2(190, 99)
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(0, -8)
-position_smoothing_speed = 10.0
-
 [node name="Markt" parent="." instance=ExtResource("1_53iql")]
 position = Vector2(-58, 67)
 
 [node name="scheune" parent="." instance=ExtResource("3_pyjc0")]
 position = Vector2(93, 34)
 
-[node name="contract_board" parent="." instance=ExtResource("4_bnllk")]
+[node name="task_caravan" parent="." instance=ExtResource("4_bnllk")]
 position = Vector2(240, 74)
 
 [node name="player_house" parent="." instance=ExtResource("5_dhanm")]

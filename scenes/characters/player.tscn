@@ -1,12 +1,12 @@
 [gd_scene load_steps=154 format=3 uid="uid://cckq6n703hhfn"]
 
 [ext_resource type="Script" uid="uid://0s136t8ba4g7" path="res://scripts/characters/player.gd" id="1_v4iti"]
-[ext_resource type="Texture2D" uid="uid://cux3vkaoxopuk" path="res://assets/characters/named_characters/main/main_walk.png" id="2_yewv4"]
-[ext_resource type="Texture2D" uid="uid://c23lyxb0frmbc" path="res://assets/characters/named_characters/main/main_water.png" id="3_76oj4"]
-[ext_resource type="Texture2D" uid="uid://ck5ef6q8aqdvs" path="res://assets/characters/named_characters/main/main_hoe.png" id="3_atpat"]
-[ext_resource type="Texture2D" uid="uid://d4h70kc8dmhfk" path="res://assets/characters/named_characters/main/main_jump.png" id="4_kqtwu"]
-[ext_resource type="Texture2D" uid="uid://d1otnyewa7aw" path="res://assets/ui/general/hud.png" id="6_kqtwu"]
-[ext_resource type="Texture2D" uid="uid://cvvfcje3el367" path="res://assets/ui_unprocessed/UI.png" id="7_6eyoc"]
+[ext_resource type="Texture2D" uid="uid://deid60o5tde5d" path="res://assets/characters/named_characters/main/main_walk.png" id="2_yewv4"]
+[ext_resource type="Texture2D" uid="uid://cfdfo4auwpgla" path="res://assets/characters/named_characters/main/main_water.png" id="3_76oj4"]
+[ext_resource type="Texture2D" uid="uid://dbjrf6kj5ke3g" path="res://assets/characters/named_characters/main/main_hoe.png" id="3_atpat"]
+[ext_resource type="Texture2D" uid="uid://cq4isofcwvp8s" path="res://assets/characters/named_characters/main/main_jump.png" id="4_kqtwu"]
+[ext_resource type="Texture2D" uid="uid://sprj5gnrfs8a" path="res://assets/ui/general/hud.png" id="6_kqtwu"]
+[ext_resource type="Texture2D" uid="uid://dx00urcs4ug7j" path="res://assets/ui_unprocessed/UI.png" id="7_6eyoc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_76oj4"]
 atlas = ExtResource("2_yewv4")

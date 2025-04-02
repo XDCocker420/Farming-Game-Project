@@ -39,54 +39,63 @@ columns = 3
 
 [node name="slot_bg" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
 layout_mode = 2
+mouse_default_cursor_shape = 0
 item_name = "carrot"
 price = 3
 def_texture = ExtResource("2_npjpc")
 
 [node name="slot_bg2" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
 layout_mode = 2
+mouse_default_cursor_shape = 0
 item_name = "potatoe"
 price = 5
 def_texture = ExtResource("3_10w74")
 
 [node name="slot_bg3" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
 layout_mode = 2
+mouse_default_cursor_shape = 0
 item_name = "corn"
 price = 10
 def_texture = ExtResource("4_g6w5w")
 
 [node name="slot_bg4" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
 layout_mode = 2
+mouse_default_cursor_shape = 0
 item_name = "eggplant"
 price = 20
 def_texture = ExtResource("5_vf14d")
 
 [node name="slot_bg5" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
 layout_mode = 2
+mouse_default_cursor_shape = 0
 item_name = "lettuce"
 price = 30
 def_texture = ExtResource("6_xk6pj")
 
 [node name="slot_bg6" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
 layout_mode = 2
+mouse_default_cursor_shape = 0
 item_name = "pumpkin"
 price = 50
 def_texture = ExtResource("7_75kwg")
 
 [node name="slot_bg7" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
 layout_mode = 2
+mouse_default_cursor_shape = 0
 item_name = "wheat"
 price = 1
 def_texture = ExtResource("8_10w74")
 
 [node name="slot_bg8" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
 layout_mode = 2
+mouse_default_cursor_shape = 0
 item_name = "watermelon"
 price = 50
 def_texture = ExtResource("9_rsyj8")
 
 [node name="slot_bg9" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
 layout_mode = 2
+mouse_default_cursor_shape = 0
 item_name = "tomatoe"
 price = 25
 def_texture = ExtResource("11_75kwg")

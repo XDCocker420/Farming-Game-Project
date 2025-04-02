@@ -1,9 +1,9 @@
 [gd_resource type="Theme" load_steps=18 format=3 uid="uid://oj1fluymoaa1"]
 
-[ext_resource type="FontFile" uid="uid://c85pgue3ccxt5" path="res://fonts/m3x6.ttf" id="1_5a86k"]
-[ext_resource type="Texture2D" uid="uid://bfj1f8ci5knnq" path="res://assets/ui/general/control_panel_frame.png" id="2_5a86k"]
-[ext_resource type="Texture2D" uid="uid://tjyxld83mk1d" path="res://assets/ui/general/arrow_left.png" id="3_v6e8s"]
-[ext_resource type="Texture2D" uid="uid://cv8ivb2s28k7h" path="res://assets/ui/general/arrow_right.png" id="4_n00e4"]
+[ext_resource type="FontFile" uid="uid://cijn8bae4ptxc" path="res://fonts/m3x6.ttf" id="1_5a86k"]
+[ext_resource type="Texture2D" uid="uid://bn2na2nxdvk6p" path="res://assets/ui/general/control_panel_frame.png" id="2_5a86k"]
+[ext_resource type="Texture2D" uid="uid://c5w2ottfovfxp" path="res://assets/ui/general/arrow_left.png" id="3_v6e8s"]
+[ext_resource type="Texture2D" uid="uid://x8hp502enyf" path="res://assets/ui/general/arrow_right.png" id="4_n00e4"]
 
 [sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_v6e8s"]
 

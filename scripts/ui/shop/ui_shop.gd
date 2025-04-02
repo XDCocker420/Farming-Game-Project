@@ -16,8 +16,7 @@ var amount: int
 
 
 func _ready() -> void:
-	for slot in slots.get_children():
-		slot_list.append(slot)
+	slot_list = slots.get_children()
 	
 	for slot in slot_list:
 		slot.item_selection.connect(_on_item_selected)

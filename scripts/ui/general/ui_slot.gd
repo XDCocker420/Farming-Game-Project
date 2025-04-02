@@ -27,9 +27,6 @@ func _ready() -> void:
 	button.mouse_filter = Control.MOUSE_FILTER_STOP
 	button.pressed.connect(_on_button_pressed)
 	
-	# Also connect directly to gui_input to capture all input events
-	gui_input.connect(_on_gui_input)
-	
 	# Configure the rest
 	if locked:
 		lock()
@@ -48,12 +45,7 @@ func _on_button_pressed() -> void:
 	else:
 		slot_selection.emit(self)
 		item_selection.emit(item_name, price, item_texture.texture)
-
-# New function to handle direct gui input
-func _on_gui_input(event: InputEvent) -> void:
-	# We don't need to handle gui_input separately since the button will handle the press
-	# This prevents double-triggering of the item transfer
-	pass
+		
 
 func lock() -> void:
 	button.texture_normal = load("res://assets/ui/general/slot_locked.png")

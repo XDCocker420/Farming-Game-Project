@@ -1,12 +1,15 @@
-[gd_scene load_steps=4 format=4 uid="uid://bqogj2noiv4ya"]
+[gd_scene load_steps=6 format=4 uid="uid://bqogj2noiv4ya"]
 
+[ext_resource type="Script" uid="uid://chedjllhentso" path="res://scripts/farming/farming_area.gd" id="1_5bhd8"]
 [ext_resource type="TileSet" uid="uid://ns2vki3n45m" path="res://assets/tilesets/terrain_tileset.tres" id="1_rcopo"]
 [ext_resource type="PackedScene" uid="uid://c1i6syqlhigpc" path="res://scenes/farming/field.tscn" id="1_woii0"]
+[ext_resource type="PackedScene" uid="uid://bvkdluscnj1eo" path="res://scenes/ui/farming/ui_farming.tscn" id="4_v3nk0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rcopo"]
 size = Vector2(112, 112)
 
-[node name="Area2D" type="Area2D"]
+[node name="farming_area" type="Area2D"]
+script = ExtResource("1_5bhd8")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAAAAAAAAAADAAoAAAAAAAYAAAADAAsAAAAAAAUAAAACAAoAAAAAAAQAAAACAAoAAAAAAAMAAAACAAoAAAAAAAIAAAACAAoAAAAAAAEAAAACAAoAAAABAAAAAAABAAsAAAACAAAAAAABAAsAAAADAAAAAAABAAsAAAAEAAAAAAABAAsAAAAFAAAAAAABAAsAAAAGAAAAAAAEAAoAAAAGAAEAAAAAAAoAAAAGAAIAAAAAAAoAAAAGAAMAAAAAAAoAAAAGAAQAAAAAAAoAAAAGAAUAAAAAAAoAAAABAAYAAAABAAkAAAACAAYAAAABAAkAAAADAAYAAAABAAkAAAAEAAYAAAABAAkAAAAFAAYAAAABAAkAAAAGAAYAAAAEAAsAAAA=")
@@ -91,6 +94,22 @@ position = Vector2(56, 72)
 position = Vector2(72, 72)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(56, 56)
 shape = SubResource("RectangleShape2D_rcopo")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="ui_farming" parent="CanvasLayer" instance=ExtResource("4_v3nk0")]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -103.0
+offset_top = -40.0
+offset_right = 103.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
