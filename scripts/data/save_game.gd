@@ -19,10 +19,6 @@ var market_sav:Array[SavedMarket] = []
 var map = null
 @onready var player = get_tree().get_first_node_in_group("Player")
 
-var last_exterior_position: Vector2 = Vector2.ZERO
-var last_interior_position: Vector2 = Vector2.ZERO
-var last_building_entered: int = 0  # Speichert die ID des zuletzt betretenen Gebäudes
-
 # Debug signal für Position tracking
 signal exterior_position_changed(position)
 
@@ -50,8 +46,6 @@ func save_game() -> void:
 		save.player_experience_per_level = exp_level
 		save.contracts = con_sav
 		save.market_items = market_sav
-		save.last_building_entered = last_building_entered
-		save.last_exterior_position = last_exterior_position
 
 	var saved_data:Array[ItemSaves] = []
 	get_tree().call_group("dynamic_elements", "on_save_game", saved_data)
@@ -68,8 +62,6 @@ func load_game() -> void:
 	if saved_game == null:
 		level = 1
 		inventory.money = 100
-		last_building_entered = 0
-		last_exterior_position = Vector2.ZERO
 		return
 	
 	if player:
@@ -87,17 +79,6 @@ func load_game() -> void:
 		player.global_position = saved_game.player_position
 		con_sav = saved_game.contracts
 		market_sav = saved_game.market_items
-		last_building_entered = saved_game.last_building_entered
-		
-		# Lade die gespeicherte Außenposition
-		if saved_game.has_method("get") and saved_game.get("last_exterior_position") != null:
-			last_exterior_position = saved_game.last_exterior_position
-	else:
-		# Lade trotzdem die Daten für die Außenposition und Gebäude-ID
-		if saved_game.has_method("get") and saved_game.get("last_exterior_position") != null:
-			last_exterior_position = saved_game.last_exterior_position
-		
-		last_building_entered = saved_game.last_building_entered
 	
 	await get_tree().process_frame
 	
@@ -271,13 +252,3 @@ func _notification(what):
 		call_deferred("save_game")
 		# Allow the application to quit
 		get_tree().quit()
-
-# Setter für die Außenposition mit Debug-Signalisierung
-func set_last_exterior_position(pos: Vector2) -> void:
-	if pos != last_exterior_position:
-		last_exterior_position = pos
-		# Signal auslösen, damit andere Skripte reagieren können
-		exterior_position_changed.emit(pos)
-		
-	# Automatisch speichern, wenn sich die Position ändert
-	save_game()

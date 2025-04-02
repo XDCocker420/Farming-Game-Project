@@ -32,10 +32,7 @@ func _process(_delta: float) -> void:
 
 func _on_player_interact() -> void:
 	if in_door_area or in_garage_door_area:
-		# Speichere die aktuelle Position des Spielers
-		SaveGame.set_last_exterior_position(player.global_position)
-		# Wechsle zur Innenszene
-		get_tree().change_scene_to_file(interior_scene_path)
+		SceneSwitcher.transition_to_new_scene.emit(name.to_lower(), player.global_position)
 
 func _on_door_area_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):

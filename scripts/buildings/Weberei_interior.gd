@@ -62,14 +62,7 @@ func _on_exit_area_body_entered(body):
 		if spindle_anim:
 			spindle_anim.stop()
 		
-		# Store building ID for correct exterior spawning
-		SaveGame.last_building_entered = 2
-		
-		# Wir müssen sicherstellen, dass die Speicherung erfolgt, bevor wir die Szene wechseln
-		SaveGame.save_game()
-		
-		# Change scene back to main map
-		get_tree().call_deferred("change_scene_to_file", "res://scenes/maps/game_map.tscn")
+		SceneSwitcher.transition_to_main.emit()
 	else:
 		pass
 

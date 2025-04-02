@@ -12,7 +12,6 @@ const weberei = preload("res://scenes/buildings/Weberei_interior.tscn")
 const molkerei = preload("res://scenes/buildings/Molkerei_interior.tscn")
 const futterhaus = preload("res://scenes/buildings/Futterhaus_interior.tscn")
 
-var main_map_player_global_positon:Vector2 = Vector2(0,0)
 var next_name:String = ""
 
 func _ready() -> void:
@@ -21,8 +20,7 @@ func _ready() -> void:
 	SceneSwitcher.transition_to_main.connect(_transiton_to_game_map)
 
 func _on_transition_to_new_scene(new_scene_name:String, global_player_pos:Vector2):
-	print(global_player_pos)
-	main_map_player_global_positon = global_player_pos
+	SceneSwitcher.player_position = global_player_pos
 	next_name = new_scene_name
 	trans_screen.transition()
 	
@@ -31,21 +29,7 @@ func _transiton_to_game_map():
 	trans_screen.transition()
 	
 func _on_transition_finished():
-	if next_name == "game_map":
-		current_scene.get_child(1).queue_free()
-	else:
-		current_scene.get_child(0).hide()
-		for i in current_scene.get_child(0).get_children():
-				if i.name == "Map":
-					for j in i.get_children():	
-						if j.is_in_group("Player"):
-							j.hide()
-							j.get_child(0).hide()
-							#i.global_position = main_map_player_global_positon
-							#i.call_deferred("set_position", Vector2(250,80))
-							#print(i.global_position)
-							break
-					break
+	current_scene.get_child(0).queue_free()
 	
 	match next_name:
 		"weberei":
@@ -55,29 +39,5 @@ func _on_transition_finished():
 		"molkerei":
 			current_scene.add_child(molkerei.instantiate())
 		"game_map":
-			current_scene.get_child(0).show()
-			#var instance_map = main_map.instantiate()
-			#current_scene.add_child(instance_map)
+			current_scene.add_child(main_map.instantiate())
 			
-			for i in current_scene.get_child(0).get_children():
-				if i.name == "Map":
-					for j in i.get_children():	
-						if j.is_in_group("Player"):
-							j.show()
-							j.get_child(0).show()
-							i.global_position = main_map_player_global_positon
-							#i.call_deferred("set_position", Vector2(250,80))
-							print(i.global_position)
-							break
-					break
-			"""
-			for i in instance_map.get_children():
-				if i.name == "Map":
-					for j in i.get_children():	
-						if j.is_in_group("Player"):
-							i.global_position = Vector2(250,500)
-							#i.call_deferred("set_position", Vector2(250,80))
-							print(i.global_position)
-							break
-					break
-					"""

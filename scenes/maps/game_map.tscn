@@ -1,7 +1,8 @@
-[gd_scene load_steps=34 format=4 uid="uid://7401yxdfc7e2"]
+[gd_scene load_steps=35 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
-[ext_resource type="Texture2D" uid="uid://ws1p1k2fdqqx" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
+[ext_resource type="Script" uid="uid://estt5r2l0vu4" path="res://scripts/utility/game_map_load.gd" id="1_dnbah"]
+[ext_resource type="Texture2D" uid="uid://b7f3cctim7uf0" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
 [ext_resource type="PackedScene" uid="uid://by8sfn1p2h5nh" path="res://scenes/buildings/player_house.tscn" id="4_1xy5d"]
 [ext_resource type="PackedScene" uid="uid://r75uh477j4dy" path="res://scenes/buildings/Molkerei.tscn" id="5_d2gmw"]
 [ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="5_sdtop"]
@@ -3494,6 +3495,7 @@ physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_6ts4f")
 
 [node name="Game" type="Node2D"]
+script = ExtResource("1_dnbah")
 
 [node name="Map" type="Node2D" parent="." groups=["Map"]]
 unique_name_in_owner = true

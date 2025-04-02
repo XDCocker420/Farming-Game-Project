@@ -19,9 +19,7 @@ var is_jump: bool
 func _ready() -> void:
 	current_speed = normal_speed
 	
-	# Überprüfe, ob wir aus einem Gebäude kommen
-	if SaveGame.last_exterior_position != Vector2.ZERO:
-		# Direktes Setzen der Position im Ready, wenn eine gespeicherte Position vorhanden ist
+	if SceneSwitcher.player_position != Vector2.ZERO:
 		call_deferred("_check_position_after_building_exit")
 	
 	# Nur initialisieren, wenn das Inventar leer ist (neues Spiel)
@@ -47,22 +45,15 @@ func _ready() -> void:
 		
 		if SaveGame.get_money() <= 0:
 			SaveGame.add_money(5000)
-		
-		# Speichere das initialisierte Inventar
-		SaveGame.save_game()
-	
-	# Registriere Signal für Änderungen der Außenposition
-	if SaveGame.has_signal("exterior_position_changed"):
-		SaveGame.exterior_position_changed.connect(_on_exterior_position_changed)
 
-func _on_exterior_position_changed(pos: Vector2) -> void:
-	pass
+	
 
 # Überprüft die Position nach dem Verlassen eines Gebäudes
 func _check_position_after_building_exit() -> void:
 	# Wenn die aktuelle Position (0,0) oder nahe daran ist, verwende die gespeicherte Position
 	if global_position.length() < 1.0:  # Nahe am Ursprung (0,0)
-		set_position_from_exterior(SaveGame.last_exterior_position)
+		print("sigma")
+		set_position_from_exterior(SceneSwitcher.player_position)
 
 	$CanvasLayer/TextureRect/Money.text = str(SaveGame.get_money())
 
