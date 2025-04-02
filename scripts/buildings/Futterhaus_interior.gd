@@ -58,17 +58,7 @@ func _on_exit_area_body_entered(body):
 		if current_inventory_ui and current_inventory_ui.visible:
 			current_inventory_ui.hide()
 		
-		# Store building ID to spawn at correct location
-		SaveGame.last_building_entered = 1
-		
-		# Debug: Log der gespeicherten Position
-		print("Verlasse Futterhaus. Gespeicherte Außenposition: ", SaveGame.last_exterior_position)
-		
-		# Wir müssen sicherstellen, dass die Speicherung erfolgt, bevor wir die Szene wechseln
-		SaveGame.save_game()
-		
-		# Switch back to main scene using call_deferred to avoid physics callback issues
-		get_tree().call_deferred("change_scene_to_file", "res://scenes/maps/game_map.tscn")
+		SceneSwitcher.transition_to_main.emit()
 	else:
 		print("FutterhausInterior: Non-player body entered exit area: ", body.name)
 

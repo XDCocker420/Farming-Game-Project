@@ -1,12 +1,19 @@
-[gd_scene load_steps=154 format=3 uid="uid://cckq6n703hhfn"]
+[gd_scene load_steps=161 format=3 uid="uid://cckq6n703hhfn"]
 
 [ext_resource type="Script" uid="uid://0s136t8ba4g7" path="res://scripts/characters/player.gd" id="1_v4iti"]
-[ext_resource type="Texture2D" uid="uid://deid60o5tde5d" path="res://assets/characters/named_characters/main/main_walk.png" id="2_yewv4"]
-[ext_resource type="Texture2D" uid="uid://cfdfo4auwpgla" path="res://assets/characters/named_characters/main/main_water.png" id="3_76oj4"]
-[ext_resource type="Texture2D" uid="uid://dbjrf6kj5ke3g" path="res://assets/characters/named_characters/main/main_hoe.png" id="3_atpat"]
-[ext_resource type="Texture2D" uid="uid://cq4isofcwvp8s" path="res://assets/characters/named_characters/main/main_jump.png" id="4_kqtwu"]
-[ext_resource type="Texture2D" uid="uid://sprj5gnrfs8a" path="res://assets/ui/general/hud.png" id="6_kqtwu"]
-[ext_resource type="Texture2D" uid="uid://dx00urcs4ug7j" path="res://assets/ui_unprocessed/UI.png" id="7_6eyoc"]
+[ext_resource type="Texture2D" uid="uid://cux3vkaoxopuk" path="res://assets/characters/named_characters/main/main_walk.png" id="2_yewv4"]
+[ext_resource type="Texture2D" uid="uid://c23lyxb0frmbc" path="res://assets/characters/named_characters/main/main_water.png" id="3_76oj4"]
+[ext_resource type="Texture2D" uid="uid://ck5ef6q8aqdvs" path="res://assets/characters/named_characters/main/main_hoe.png" id="3_atpat"]
+[ext_resource type="Texture2D" uid="uid://d4h70kc8dmhfk" path="res://assets/characters/named_characters/main/main_jump.png" id="4_kqtwu"]
+[ext_resource type="Texture2D" uid="uid://d1otnyewa7aw" path="res://assets/ui/general/hud.png" id="6_kqtwu"]
+[ext_resource type="Texture2D" uid="uid://cvvfcje3el367" path="res://assets/ui_unprocessed/UI.png" id="7_6eyoc"]
+[ext_resource type="Texture2D" uid="uid://dij4o7oxu4ftl" path="res://assets/ui/general/time_20.png" id="8_7vyk4"]
+[ext_resource type="Texture2D" uid="uid://lhojm3knqnly" path="res://assets/ui/general/time_00.png" id="9_2l4js"]
+[ext_resource type="Texture2D" uid="uid://rnj1imv8lqcp" path="res://assets/ui/general/time_30.png" id="10_jk2m4"]
+[ext_resource type="Texture2D" uid="uid://byqu8eojf223c" path="res://assets/ui/general/settings.png" id="11_jk2m4"]
+[ext_resource type="Texture2D" uid="uid://dptfb31dywyn3" path="res://assets/ui/general/exit_btn.png" id="12_k4v7y"]
+[ext_resource type="Texture2D" uid="uid://8qwxvo0d0f4g" path="res://assets/ui/general/exit_btn_normal.png" id="12_xrqxk"]
+[ext_resource type="Texture2D" uid="uid://dpbajfpygcytk" path="res://assets/ui/general/back_btn.png" id="13_xrqxk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_76oj4"]
 atlas = ExtResource("2_yewv4")
@@ -1102,6 +1109,9 @@ animations = [{
 "texture": SubResource("AtlasTexture_vwyh1")
 }, {
 "duration": 1.0,
+"texture": ExtResource("8_7vyk4")
+}, {
+"duration": 1.0,
 "texture": SubResource("AtlasTexture_1b3jp")
 }, {
 "duration": 1.0,
@@ -1115,27 +1125,26 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_dbv10"]
-atlas = ExtResource("7_6eyoc")
-region = Rect2(368, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_lc50l"]
-atlas = ExtResource("7_6eyoc")
-region = Rect2(288, 32, 16, 16)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_recyi"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_dbv10")
+"texture": ExtResource("9_2l4js")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_lc50l")
+"texture": ExtResource("10_jk2m4")
 }],
 "loop": true,
 "name": &"default",
 "speed": 5.0
 }]
+
+[sub_resource type="InputEventKey" id="InputEventKey_k4v7y"]
+device = -1
+keycode = 4194305
+
+[sub_resource type="Shortcut" id="Shortcut_xrqxk"]
+events = [SubResource("InputEventKey_k4v7y")]
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 motion_mode = 1
@@ -1182,7 +1191,7 @@ horizontal_alignment = 1
 [node name="Day" type="AnimatedSprite2D" parent="CanvasLayer/TextureRect"]
 position = Vector2(24, 30)
 sprite_frames = SubResource("SpriteFrames_bl5np")
-animation = &"donnerstag"
+animation = &"samstag"
 
 [node name="Date" type="AnimatedSprite2D" parent="CanvasLayer/TextureRect"]
 position = Vector2(49, 29)
@@ -1195,7 +1204,58 @@ frame = 11
 frame_progress = 0.648373
 
 [node name="Minute" type="AnimatedSprite2D" parent="CanvasLayer/TextureRect"]
-position = Vector2(43, 11)
+position = Vector2(42, 11)
 sprite_frames = SubResource("SpriteFrames_recyi")
 frame = 1
-frame_progress = 0.396733
+frame_progress = 0.988743
+
+[node name="SettingsBtn" type="TextureButton" parent="CanvasLayer"]
+process_mode = 3
+offset_left = 3.0
+offset_top = 3.0
+offset_right = 19.0
+offset_bottom = 19.0
+size_flags_horizontal = 0
+shortcut = SubResource("Shortcut_xrqxk")
+texture_normal = ExtResource("11_jk2m4")
+
+[node name="ExitMenu" type="Control" parent="CanvasLayer"]
+process_mode = 3
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_left = 20.0
+offset_right = 300.0
+offset_bottom = 180.0
+
+[node name="ExitBtn" type="TextureButton" parent="CanvasLayer/ExitMenu"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -26.5
+offset_top = -86.0
+offset_right = 26.5
+offset_bottom = -45.0
+grow_horizontal = 2
+grow_vertical = 0
+texture_normal = ExtResource("12_xrqxk")
+texture_hover = ExtResource("12_k4v7y")
+
+[node name="BackBtn" type="TextureButton" parent="CanvasLayer/ExitMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -26.5
+offset_top = 45.0
+offset_right = 26.5
+offset_bottom = 86.0
+grow_horizontal = 2
+texture_normal = ExtResource("13_xrqxk")
+
+[connection signal="pressed" from="CanvasLayer/SettingsBtn" to="." method="_on_settings_btn_pressed"]
+[connection signal="pressed" from="CanvasLayer/ExitMenu/ExitBtn" to="." method="_on_exit_btn_pressed"]
+[connection signal="pressed" from="CanvasLayer/ExitMenu/BackBtn" to="." method="_on_back_btn_pressed"]

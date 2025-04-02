@@ -23,7 +23,7 @@ func _on_player_interact() -> void:
 		
 		## For SceneSwitcher
 		print("Fading black")
-		SceneSwitcher.transition_to_new_scene.emit("molkerei", player.position)
+		SceneSwitcher.transition_to_new_scene.emit("molkerei", player.global_position)
 
 func _on_door_area_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):

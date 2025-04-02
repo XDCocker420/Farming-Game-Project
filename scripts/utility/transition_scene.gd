@@ -5,7 +5,6 @@ signal transitioned
 @onready var anim_player:AnimationPlayer = $AnimationPlayer
 
 func _ready() -> void:
-	print("snafu")
 	anim_player.animation_finished.connect(_on_animation_finished)
 
 func transition():

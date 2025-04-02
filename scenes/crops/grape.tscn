@@ -1,7 +1,8 @@
-[gd_scene load_steps=9 format=3 uid="uid://c5qr8p87stfmr"]
+[gd_scene load_steps=15 format=3 uid="uid://c5qr8p87stfmr"]
 
 [ext_resource type="Texture2D" uid="uid://dy6lfwttgebhw" path="res://assets/farming/crops.png" id="1_npbm1"]
 [ext_resource type="Script" uid="uid://h5ktdbskdgtv" path="res://scripts/crops/crop.gd" id="2_5ecqq"]
+[ext_resource type="Texture2D" uid="uid://dss4qao2xk3gr" path="res://assets/farming/crops_wet.png" id="2_g0256"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_g0256"]
 atlas = ExtResource("1_npbm1")
@@ -21,6 +22,26 @@ region = Rect2(48, 560, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_k0qb5"]
 atlas = ExtResource("1_npbm1")
+region = Rect2(64, 560, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3aaxr"]
+atlas = ExtResource("2_g0256")
+region = Rect2(0, 560, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fo07o"]
+atlas = ExtResource("2_g0256")
+region = Rect2(16, 560, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f28l5"]
+atlas = ExtResource("2_g0256")
+region = Rect2(32, 560, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uf11p"]
+atlas = ExtResource("2_g0256")
+region = Rect2(48, 560, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_oqk7l"]
+atlas = ExtResource("2_g0256")
 region = Rect2(64, 560, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_67loh"]
@@ -44,15 +65,34 @@ animations = [{
 "loop": true,
 "name": &"grow",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3aaxr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fo07o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f28l5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uf11p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_oqk7l")
+}],
+"loop": true,
+"name": &"grow_wet",
+"speed": 5.0
 }]
 
 [node name="Grape" type="AnimatedSprite2D" groups=["dynamic_elements"]]
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_67loh")
-animation = &"grow"
+animation = &"grow_wet"
 script = ExtResource("2_5ecqq")
 crop_type = "grape"
-default_time = 300.0
 
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
