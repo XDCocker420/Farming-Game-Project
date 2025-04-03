@@ -49,8 +49,9 @@ func _ready() -> void:
 	# Make sure we're visible
 	visible = true
 	
-	# Make sure our mouse detection works
-	mouse_filter = MOUSE_FILTER_STOP
+	# Set mouse filter to PASS to allow scroll events through, but still capture other inputs
+	# This is important for making scrolling work in container
+	mouse_filter = Control.MOUSE_FILTER_PASS
 
 
 func _process(_delta):
@@ -108,15 +109,22 @@ func _on_slot_gui_input(event: InputEvent) -> void:
 
 # Add direct click handling as a fallback
 func _input(event: InputEvent) -> void:
-	if not visible or click_cooldown:
+	if not visible:
 		return
 		
-	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		var global_rect = get_global_rect()
-		var mouse_pos = get_global_mouse_position()
-		
-		if global_rect.has_point(mouse_pos) and item_name != "" and not locked:
-			_handle_click()
+	if event is InputEventMouseButton:
+		# For scroll wheel events, we want to make sure they pass through
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			# Skip processing to allow parent containers to handle scrolling
+			return
+			
+		# For click events, process normally if not on cooldown
+		if not click_cooldown and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			var global_rect = get_global_rect()
+			var mouse_pos = get_global_mouse_position()
+			
+			if global_rect.has_point(mouse_pos) and item_name != "" and not locked:
+				_handle_click()
 
 
 func lock() -> void:
