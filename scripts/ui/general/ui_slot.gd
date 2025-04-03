@@ -25,7 +25,11 @@ var production_ui = null
 func _ready() -> void:
 	# Make sure the button is configured properly
 	button.mouse_filter = Control.MOUSE_FILTER_STOP
-	button.pressed.connect(_on_button_pressed)
+	if not button.pressed.is_connected(_on_button_pressed):
+		button.pressed.connect(_on_button_pressed)
+	
+	# Make the item texture clickable
+	item_texture.mouse_filter = Control.MOUSE_FILTER_PASS
 	
 	# Configure the rest
 	if locked:
@@ -33,6 +37,26 @@ func _ready() -> void:
 		
 	if def_texture != null:
 		item_texture.texture = def_texture
+		
+	# Connect the direct item input handling
+	gui_input.connect(_on_slot_gui_input)
+	
+	# Make sure we're visible
+	visible = true
+	
+	# Make sure our mouse detection works
+	mouse_filter = MOUSE_FILTER_STOP
+
+
+func _process(_delta):
+	# Add direct click detection for debugging
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and visible:
+		var mouse_pos = get_global_mouse_position()
+		if get_global_rect().has_point(mouse_pos):
+			# This will fire continuously while button is held, so add a cooldown
+			if Engine.get_physics_frames() % 20 == 0: # Every ~1/3 second
+				print("Continuous click detection on slot with item: ", item_name)
+				_handle_click()
 
 
 func _on_button_pressed() -> void:
@@ -43,9 +67,28 @@ func _on_button_pressed() -> void:
 	if locked:
 		slot_unlock.emit(self, price)
 	else:
-		slot_selection.emit(self)
-		item_selection.emit(item_name, price, item_texture.texture)
-		
+		print("Button pressed on slot with item: ", item_name)
+		_handle_click()
+
+
+# Centralized click handler
+func _handle_click() -> void:
+	# Direct call to production UI if available
+	if production_ui != null and production_ui.has_method("add_input_item"):
+		print("Directly calling add_input_item on production UI for item: ", item_name)
+		production_ui.add_input_item(item_name)
+	
+	# Still emit signals
+	slot_selection.emit(self)
+	item_selection.emit(item_name, price, item_texture.texture)
+
+
+# Handle direct GUI input on the slot
+func _on_slot_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		print("Direct click detected on slot with item: ", item_name)
+		_handle_click()
+
 
 func lock() -> void:
 	button.texture_normal = load("res://assets/ui/general/slot_locked.png")

@@ -11,8 +11,11 @@ var active_production_ui = null
 
 func _ready() -> void:
 	visibility_changed.connect(_on_visibility_changed)
+	
+	# Connect direct input handling for the entire slots container
+	slots.gui_input.connect(_on_slots_gui_input)
+	
 	load_slots()
-
 
 func add_slot(item: String, amount: int) -> void:
 	var slot: PanelContainer = slot_scenen.instantiate()
@@ -20,14 +23,31 @@ func add_slot(item: String, amount: int) -> void:
 	var slot_amount: Label = slot.get_node("amount")
 	
 	# Connect the slot's signals - disconnect first to avoid duplicates
-	if slot.item_selection.is_connected(_on_item_selected):
-		slot.item_selection.disconnect(_on_item_selected)
-	slot.item_selection.connect(_on_item_selected)
+	if slot.has_signal("item_selection"):
+		if slot.item_selection.is_connected(_on_item_selected):
+			slot.item_selection.disconnect(_on_item_selected)
+		slot.item_selection.connect(_on_item_selected)
+		print("Connected item_selection signal for slot: ", item)
+	else:
+		print("ERROR: Slot missing item_selection signal for item: ", item)
 	
 	# Ensure the button uses the proper mouse filter for input
 	var button = slot.get_node("button")
 	if button:
 		button.mouse_filter = Control.MOUSE_FILTER_STOP
+		
+		# Make sure button is visible and enabled
+		button.visible = true
+		button.disabled = false
+		button.toggle_mode = true
+		
+		# Directly connect the button press event as a fallback
+		if button.pressed.is_connected(_on_slot_button_pressed.bind(slot, item)):
+			button.pressed.disconnect(_on_slot_button_pressed.bind(slot, item))
+		button.pressed.connect(_on_slot_button_pressed.bind(slot, item))
+		print("Connected direct button press for slot: ", item)
+	else:
+		print("ERROR: Slot missing button node for item: ", item)
 	
 	# Setup slot
 	slot.item_name = item
@@ -39,11 +59,27 @@ func add_slot(item: String, amount: int) -> void:
 	
 	# Set the production UI reference if we have one
 	if active_production_ui:
-		slot.set_production_ui(active_production_ui)
+		if slot.has_method("set_production_ui"):
+			slot.set_production_ui(active_production_ui)
+			print("Set production UI reference in slot: ", item)
+		else:
+			print("ERROR: Slot missing set_production_ui method for item: ", item)
 	
 	slots.add_child(slot)
 	slot_list.append(slot)
 
+# New handler for direct button press as fallback
+func _on_slot_button_pressed(slot, item_name) -> void:
+	print("Direct button press on slot: ", item_name)
+	if active_production_ui and active_production_ui.has_method("add_input_item"):
+		print("Calling add_input_item directly from button handler")
+		active_production_ui.call_deferred("add_input_item", item_name)
+	else:
+		print("No active production UI found or missing add_input_item method")
+		item_selected.emit(item_name)
+	
+	# Reload slots to reflect inventory changes
+	reload_slots(true)
 
 func load_slots() -> void:
 	var inventory = SaveGame.get_inventory()
@@ -128,12 +164,20 @@ func setup_and_show(workstation: String) -> void:
 
 # Set the production UI reference for all slots
 func set_active_production_ui(ui) -> void:
+	if ui == null:
+		print("WARNING: Attempting to set null production UI")
+		return
+		
+	print("Setting active production UI reference in inventory UI")
 	active_production_ui = ui
 	
 	# Update all existing slots in the slot_list
 	for slot in slot_list:
 		if slot.has_method("set_production_ui"):
 			slot.set_production_ui(active_production_ui)
+			print("Updated production UI reference in existing slot: ", slot.item_name)
+		else:
+			print("ERROR: Slot missing set_production_ui method")
 	
 	# Also update all slots directly in the slots container
 	# This ensures we catch any slots that might have been added
@@ -141,15 +185,52 @@ func set_active_production_ui(ui) -> void:
 	for slot in slots.get_children():
 		if slot.has_method("set_production_ui"):
 			slot.set_production_ui(active_production_ui)
+			if "item_name" in slot:
+				print("Updated production UI reference in child slot: ", slot.item_name)
+		else:
+			print("ERROR: Child slot missing set_production_ui method")
+			
+	# Directly connect the production UI's add_input_item method to our item_selected signal
+	if ui.has_method("add_input_item"):
+		# Disconnect any existing connection first
+		if item_selected.is_connected(ui.add_input_item):
+			item_selected.disconnect(ui.add_input_item)
+		# Connect the signal
+		item_selected.connect(ui.add_input_item)
+		print("Connected item_selected signal directly to production UI's add_input_item method")
+	else:
+		print("ERROR: Production UI missing add_input_item method")
 
 # Handle item selection from a slot
 func _on_item_selected(item_name: String, _price: int, _item_texture: Texture2D) -> void:
 	# Direct call to production UI if available
 	if active_production_ui and active_production_ui.has_method("add_input_item"):
+		print("Adding item to production UI: ", item_name)
 		active_production_ui.add_input_item(item_name)
 	else:
+		print("No active production UI found or missing add_input_item method")
 		# Still emit the signal in case it's connected elsewhere
 		item_selected.emit(item_name)
 	
 	# Reload slots to reflect any inventory changes
 	reload_slots(true)
+
+# Direct input handler for slots container
+func _on_slots_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		# Convert click position to find which slot was clicked
+		var click_pos = slots.get_local_mouse_position()
+		
+		# Check each slot to see if it was clicked
+		for slot in slots.get_children():
+			if slot.get_rect().has_point(click_pos):
+				print("Direct click detected on slot at ", click_pos)
+				# Get the item name from the slot
+				if "item_name" in slot and slot.item_name != "":
+					print("Direct click on item: ", slot.item_name)
+					# Call add_input_item directly on production UI
+					if active_production_ui and active_production_ui.has_method("add_input_item"):
+						print("Directly calling add_input_item from container click handler")
+						# Use call instead of call_deferred for immediate execution
+						active_production_ui.add_input_item(slot.item_name)
+					break

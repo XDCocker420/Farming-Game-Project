@@ -130,20 +130,25 @@ func _on_workstation_area_body_exited(body):
 
 func _unhandled_input(event):
 	if event.is_action_pressed("interact") and player_in_workstation_area and current_ui and current_inventory_ui:
+		print("Interaction detected with workstation: ", current_workstation)
+		
 		# Show both UIs
 		current_ui.show()
 		current_inventory_ui.show()
 		
 		# Set up the production UI first
 		current_ui.setup(current_workstation)
+		print("Production UI setup for: ", current_workstation)
 		
 		# Setup inventory UI with filtered items for this workstation
 		current_inventory_ui.setup_and_show(current_workstation)
+		print("Inventory UI setup and shown for: ", current_workstation)
 		
 		# Set the active production UI in the inventory UI AFTER setting up the inventory UI
 		# This is critical because setup_and_show recreates all the slots
 		if current_inventory_ui.has_method("set_active_production_ui"):
 			current_inventory_ui.set_active_production_ui(current_ui)
+			print("Set active production UI in inventory UI")
 			
 			# Connect the inventory UI's item_selected signal to the production UI's add_input_item method
 			if current_inventory_ui.has_signal("item_selected") and current_ui.has_method("add_input_item"):
@@ -152,6 +157,15 @@ func _unhandled_input(event):
 					current_inventory_ui.item_selected.disconnect(current_ui.add_input_item)
 				# Connect the signal
 				current_inventory_ui.item_selected.connect(current_ui.add_input_item)
+				print("Connected item_selected signal to add_input_item")
+			else:
+				print("ERROR: Missing signal or method for connection")
+				if not current_inventory_ui.has_signal("item_selected"):
+					print("inventory_ui lacks item_selected signal")
+				if not current_ui.has_method("add_input_item"):
+					print("production_ui lacks add_input_item method")
+		else:
+			print("ERROR: inventory_ui lacks set_active_production_ui method")
 		
 		# Start the animation for the current workstation
 		if current_animation:
