@@ -20,12 +20,19 @@ signal slot_unlock(slot: PanelContainer, price: int)
 @export var def_texture: Texture2D
 
 var production_ui = null
+var click_cooldown = false  # To prevent double processing of same click
+var cooldown_time = 0.12    # Moderate cooldown similar to output slot clicks
 
 
 func _ready() -> void:
 	# Make sure the button is configured properly
 	button.mouse_filter = Control.MOUSE_FILTER_STOP
+	if button.pressed.is_connected(_on_button_pressed):
+		button.pressed.disconnect(_on_button_pressed)
 	button.pressed.connect(_on_button_pressed)
+	
+	# Make the item texture clickable
+	item_texture.mouse_filter = Control.MOUSE_FILTER_PASS
 	
 	# Configure the rest
 	if locked:
@@ -33,6 +40,28 @@ func _ready() -> void:
 		
 	if def_texture != null:
 		item_texture.texture = def_texture
+		
+	# Connect the direct item input handling
+	if gui_input.is_connected(_on_slot_gui_input):
+		gui_input.disconnect(_on_slot_gui_input)
+	gui_input.connect(_on_slot_gui_input)
+	
+	# Make sure we're visible
+	visible = true
+	
+	# Set mouse filter to PASS to allow scroll events through, but still capture other inputs
+	# This is important for making scrolling work in container
+	mouse_filter = Control.MOUSE_FILTER_PASS
+
+
+func _process(_delta):
+	# Add direct click detection
+	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and visible:
+		var mouse_pos = get_global_mouse_position()
+		if get_global_rect().has_point(mouse_pos):
+			# This will fire continuously while button is held, so add a cooldown
+			if Engine.get_physics_frames() % 15 == 0: # Moderate pace (~1/4 second)
+				_handle_click()
 
 
 func _on_button_pressed() -> void:
@@ -43,9 +72,60 @@ func _on_button_pressed() -> void:
 	if locked:
 		slot_unlock.emit(self, price)
 	else:
-		slot_selection.emit(self)
-		item_selection.emit(item_name, price, item_texture.texture)
+		# Always trigger signals
+		if item_name != "":
+			slot_selection.emit(self)
+			item_selection.emit(item_name, price, item_texture.texture)
+
+
+# Centralized click handler
+func _handle_click() -> void:
+	if locked or item_name == "" or click_cooldown:
+		return
 		
+	# Set cooldown to prevent processing the same click multiple times
+	click_cooldown = true
+	
+	# Only emit signals
+	slot_selection.emit(self)
+	item_selection.emit(item_name, price, item_texture.texture)
+	
+	# Reset cooldown after a short delay
+	await get_tree().create_timer(cooldown_time).timeout
+	click_cooldown = false
+
+
+# Handle direct GUI input on the slot
+func _on_slot_gui_input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		if not locked and item_name != "" and not click_cooldown:
+			# Handle the click directly
+			_handle_click()
+			
+			# Only set the button pressed state for visual feedback
+			button.button_pressed = true
+			await get_tree().create_timer(0.05).timeout
+			button.button_pressed = false
+
+# Add direct click handling as a fallback
+func _input(event: InputEvent) -> void:
+	if not visible:
+		return
+		
+	if event is InputEventMouseButton:
+		# For scroll wheel events, we want to make sure they pass through
+		if event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
+			# Skip processing to allow parent containers to handle scrolling
+			return
+			
+		# For click events, process normally if not on cooldown
+		if not click_cooldown and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+			var global_rect = get_global_rect()
+			var mouse_pos = get_global_mouse_position()
+			
+			if global_rect.has_point(mouse_pos) and item_name != "" and not locked:
+				_handle_click()
+
 
 func lock() -> void:
 	button.texture_normal = load("res://assets/ui/general/slot_locked.png")

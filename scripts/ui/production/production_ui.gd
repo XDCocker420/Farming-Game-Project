@@ -46,7 +46,10 @@ func _ready():
 	# Try multiple possible paths for the produce button
 	var possible_button_paths = [
 		"Control/produce_button",
-		"produce_button"
+		"produce_button",
+		"/Control/produce_button",
+		"../Control/produce_button",
+		"../../Control/produce_button"
 	]
 	
 	var button_found = false
@@ -58,15 +61,80 @@ func _ready():
 			break
 	
 	if not button_found:
-		# Try to find the button in the scene tree
-		var found_button = find_button_in_tree()
+		# Try to find the button by name
+		var found_button = find_button_by_name()
 		if found_button:
 			produce_button = found_button
 			button_found = true
+		else:
+			# Try to find the button in the scene tree
+			found_button = find_button_in_tree()
+			if found_button:
+				produce_button = found_button
+				button_found = true
 	
 	if button_found:
-		if not produce_button.pressed.is_connected(_on_produce_button_pressed):
+		# Make sure the button is properly set up
+		produce_button.mouse_filter = Control.MOUSE_FILTER_STOP
+		produce_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		
+		# Disconnect any existing connections
+		if produce_button.pressed.is_connected(_on_produce_button_pressed):
+			produce_button.pressed.disconnect(_on_produce_button_pressed)
+		
+		# Connect to the pressed signal
+		produce_button.pressed.connect(_on_produce_button_pressed)
+		
+		# Make sure button is visible and enabled
+		produce_button.visible = true
+		produce_button.disabled = false
+		
+		# Add direct input handling as a fallback
+		if produce_button.gui_input.is_connected(_on_produce_button_input):
+			produce_button.gui_input.disconnect(_on_produce_button_input)
+		produce_button.gui_input.connect(_on_produce_button_input)
+	else:
+		# Try to find any button in the scene that might be the produce button
+		var parent_buttons = find_buttons_in_parent()
+		if parent_buttons.size() > 0:
+			# Use the first button as a fallback
+			produce_button = parent_buttons[0]
 			produce_button.pressed.connect(_on_produce_button_pressed)
+
+# Helper function to find buttons in the parent nodes
+func find_buttons_in_parent():
+	var buttons = []
+	var parent = get_parent()
+	
+	while parent:
+		for child in parent.get_children():
+			if child is Button or child is TextureButton:
+				buttons.append(child)
+				
+		parent = parent.get_parent()
+	
+	return buttons
+
+# Helper function to find the button by name
+func find_button_by_name():
+	var root = get_tree().root
+	var possible_names = ["produce_button", "start_button", "start", "produce"]
+	
+	var stack = [root]
+	while stack.size() > 0:
+		var node = stack.pop_front()
+		
+		# Check if this node's name matches any of our possible names
+		if node is Button or node is TextureButton:
+			for name in possible_names:
+				if name.to_lower() in node.name.to_lower():
+					return node
+		
+		# Add children to the stack
+		for child in node.get_children():
+			stack.append(child)
+	
+	return null
 
 # Helper function to find the button in the scene tree
 func find_button_in_tree():
@@ -75,11 +143,16 @@ func find_button_in_tree():
 	
 	while search_queue.size() > 0:
 		var node = search_queue.pop_front()
-		if node.name == "produce_button":
+		if node.name == "produce_button" or (node is Button or node is TextureButton):
 			return node
 		for child in node.get_children():
 			search_queue.push_back(child)
 	return null
+
+# Direct input handler for produce button as a fallback
+func _on_produce_button_input(event):
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		_on_produce_button_pressed()
 
 # Handler for the produce button
 func _on_produce_button_pressed():
@@ -95,7 +168,7 @@ func _on_output_slot_input(event):
 		# UND nur bei linker Maustaste (MOUSE_BUTTON_LEFT)
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 			# Wir brauchen diese Aktion nicht auszuführen, da _on_slot_pressed sie bereits ausführt
-			pass
+			_handle_output_slot_click()
 
 func _on_slot_pressed(slot):
 	if slot == input_slot:
@@ -125,11 +198,11 @@ func _handle_output_slot_click():
 			# Clear the output slot if this was the last item
 			output_slot.clear()
 		
-		# Refresh all inventory UIs to show the updated inventory
-		_refresh_all_inventory_uis(current_workstation)
+		# Use the optimized refresh method
+		_refresh_targeted_inventory_ui(current_workstation)
 			
-		# Save game to persist inventory changes
-		SaveGame.save_game()
+		# Save game to persist inventory changes - but deferred for better performance
+		call_deferred("_save_game_deferred")
 
 # Helper function to get the amount label from a slot
 func _get_amount_label(slot) -> Label:
@@ -232,8 +305,12 @@ func _process_single_item() -> void:
 	# Check if there's an item in the input slot
 	var input_count = 0
 	if input_slot.item_name == input_item:
-		if input_slot.amount_label.text != "":
+		if "amount_label" in input_slot and input_slot.amount_label and input_slot.amount_label.text != "":
 			input_count = int(input_slot.amount_label.text)
+		elif input_slot.has_node("amount"):
+			var amount_label = input_slot.get_node("amount")
+			if amount_label.text != "":
+				input_count = int(amount_label.text)
 		else:
 			input_count = 1
 	
@@ -242,22 +319,47 @@ func _process_single_item() -> void:
 	
 	# Check if the output slot already has items
 	var current_output_count = 0
-	if output_slot.item_name == output_item and output_slot.amount_label.text != "":
-		current_output_count = int(output_slot.amount_label.text)
+	if output_slot.item_name == output_item:
+		if "amount_label" in output_slot and output_slot.amount_label and output_slot.amount_label.text != "":
+			current_output_count = int(output_slot.amount_label.text)
+		elif output_slot.has_node("amount"):
+			var amount_label = output_slot.get_node("amount")
+			if amount_label.text != "":
+				current_output_count = int(amount_label.text)
 	
 	# Update the output slot visually
+	# Direct manipulation first
+	output_slot.item_name = output_item
+	if output_slot.has_node("MarginContainer/item"):
+		var texture_path = "res://assets/ui/icons/" + output_item + ".png"
+		output_slot.get_node("MarginContainer/item").texture = load(texture_path)
+	
+	if output_slot.has_node("amount"):
+		output_slot.get_node("amount").text = str(current_output_count + input_count)
+		output_slot.get_node("amount").show()
+	
+	# Also try the method
 	if output_slot.has_method("setup"):
 		output_slot.setup(output_item, "", true, current_output_count + input_count)
 	
-	# Update the input slot - clear it since we've processed its contents
+	# Clear the input slot - both directly and via method
+	input_slot.item_name = ""
+	if input_slot.has_node("MarginContainer/item"):
+		input_slot.get_node("MarginContainer/item").texture = null
+	
+	if input_slot.has_node("amount"):
+		input_slot.get_node("amount").text = ""
+		input_slot.get_node("amount").hide()
+	
+	# Also try the method
 	if input_slot.has_method("clear"):
 		input_slot.clear()
 	
-	# Make sure to update any inventory UIs to reflect these changes
-	_refresh_all_inventory_uis(current_workstation)
+	# Use the optimized refresh method for better performance
+	_refresh_targeted_inventory_ui(current_workstation)
 	
-	# Save just to be safe
-	SaveGame.save_game()
+	# Save just to be safe - but deferred for better performance
+	call_deferred("_save_game_deferred")
 	
 	# Disable the produce button until more input is added
 	if produce_button:
@@ -269,33 +371,153 @@ func _process_single_item() -> void:
 # New function to receive items from inventory UI
 func add_input_item(item_name: String) -> void:
 	# Check if this item is valid for this workstation
-	if item_name in input_items:
-		# Make sure we have this item in inventory
-		var inventory_count = SaveGame.get_item_count(item_name)
+	if not (item_name in input_items):
+		return
 		
-		if inventory_count <= 0:
-			return
+	# Make sure we have this item in inventory - do this FIRST to avoid race conditions
+	var inventory_count = SaveGame.get_item_count(item_name)
+	
+	if inventory_count <= 0:
+		return
 		
-		# Get current count if the slot already has this item
-		var current_count = 0
-		if input_slot.item_name == item_name and input_slot.amount_label.text != "":
-			current_count = int(input_slot.amount_label.text)
+	# Verify input_slot is properly initialized
+	if not input_slot:
+		return
+	
+	# Get current count if the slot already has this item
+	var current_count = 0
+	if input_slot.item_name == item_name:
+		if input_slot.has_node("amount"):
+			var amount_label = input_slot.get_node("amount")
+			if amount_label.text.strip_edges() != "":
+				current_count = int(amount_label.text)
+		elif "amount_label" in input_slot and input_slot.amount_label:
+			if input_slot.amount_label.text.strip_edges() != "":
+				current_count = int(input_slot.amount_label.text)
+		else:
+			current_count = 1
+	
+	# Calculate new count
+	var new_count = current_count + 1
+	
+	# Remove the item from inventory FIRST - this must be done before updating UI
+	# to avoid race conditions with reload_slots
+	SaveGame.remove_from_inventory(item_name, 1)
+	
+	# IMPORTANT: Save game IMMEDIATELY after inventory modification to prevent
+	# race conditions with reload_slots
+	SaveGame.save_game()
+	
+	# Update the UI immediately for better responsiveness with rapid clicks
+	_update_input_slot(item_name, new_count)
+	
+	# Enable the produce button since we now have valid input
+	if produce_button:
+		produce_button.disabled = false
+	
+	# Use a very short timer to refresh inventory UI to handle rapid clicks better
+	var refresh_timer = get_tree().create_timer(0.12)
+	refresh_timer.timeout.connect(func(): _refresh_targeted_inventory_ui(current_workstation))
+
+# Method to update the input slot safely in deferred context
+func _update_input_slot(item_name, new_count):
+	# Use the setup method whenever possible as it's most reliable
+	if input_slot.has_method("setup"):
+		input_slot.setup(item_name, "", true, new_count)
+	else:
+		# Fallback to direct property updates
+		input_slot.item_name = item_name
 		
-		# Remove the item from inventory FIRST
-		SaveGame.remove_from_inventory(item_name, 1)
+		# Try multiple paths to update the texture
+		var texture_path = "res://assets/ui/icons/" + item_name + ".png"
+		var texture = load(texture_path)
 		
-		# Update the slot with the item and increment count
-		input_slot.setup(item_name, "", true, current_count + 1)
+		if input_slot.has_node("MarginContainer/item"):
+			input_slot.get_node("MarginContainer/item").texture = texture
 		
-		# Enable the produce button since we now have valid input
-		if produce_button:
-			produce_button.disabled = false
+		# Try multiple paths to update the amount label
+		var amount_updated = false
 		
-		# Update the inventory UI - find ALL inventory UIs in the scene
-		_refresh_all_inventory_uis(current_workstation)
+		if input_slot.has_node("amount"):
+			var amount_label = input_slot.get_node("amount")
+			amount_label.text = str(new_count)
+			amount_label.show()
+			amount_updated = true
 		
-		# Save game to persist inventory changes
-		SaveGame.save_game()
+		if not amount_updated and "amount_label" in input_slot and input_slot.amount_label:
+			input_slot.amount_label.text = str(new_count)
+			input_slot.amount_label.show()
+
+# Helper function to find all Scheune UIs in the scene
+func _find_scheune_ui():
+	# First look for direct siblings with priority for ones matching the workstation name
+	var parent = get_parent()
+	if parent:
+		# First look for inventory UIs that match our current workstation
+		for child in parent.get_children():
+			if current_workstation in child.name and "inventory_ui" in child.name and child.has_method("reload_slots"):
+				return child
+				
+		# If not found, look for any inventory UI
+		for child in parent.get_children():
+			if "inventory_ui" in child.name and child.has_method("reload_slots"):
+				return child
+	
+	# If not found, look more broadly in the scene
+	var root = get_tree().root
+	var ui_found = null
+	
+	var search_queue = [root]
+	while search_queue.size() > 0:
+		var node = search_queue.pop_front()
+		
+		if "inventory_ui" in node.name and node.has_method("reload_slots"):
+			ui_found = node
+			break
+			
+		for child in node.get_children():
+			search_queue.push_back(child)
+		
+	return ui_found
+
+# More efficient function to refresh just the relevant inventory UI
+func _refresh_targeted_inventory_ui(workstation: String):
+	# First try to find the inventory UI directly - prioritize exact match
+	var scheune_ui = null
+	
+	# Get parent node
+	var parent = get_parent()
+	if parent:
+		# First try exact match with workstation name
+		for child in parent.get_children():
+			if workstation in child.name and "inventory_ui" in child.name and child.has_method("reload_slots"):
+				scheune_ui = child
+				break
+				
+		# If not found, try any inventory UI
+		if not scheune_ui:
+			for child in parent.get_children():
+				if "inventory_ui" in child.name and child.has_method("reload_slots"):
+					scheune_ui = child
+					break
+	
+	if scheune_ui and scheune_ui.has_method("reload_slots"):
+		# Update this specific inventory UI
+		if scheune_ui.has_method("set_workstation_filter"):
+			scheune_ui.set_workstation_filter(workstation)
+		scheune_ui.reload_slots(true)
+		return
+	
+	# Fallback method - use find_scheune_ui as backup
+	scheune_ui = _find_scheune_ui()
+	if scheune_ui and scheune_ui.has_method("reload_slots"):
+		if scheune_ui.has_method("set_workstation_filter"):
+			scheune_ui.set_workstation_filter(workstation)
+		scheune_ui.reload_slots(true)
+
+# Deferred save game function to improve performance
+func _save_game_deferred():
+	SaveGame.save_game()
 
 # New function to refresh ALL inventory UIs in the scene
 func _refresh_all_inventory_uis(workstation: String):
@@ -324,32 +546,6 @@ func _refresh_all_inventory_uis(workstation: String):
 	# Force UI update
 	call_deferred("_force_ui_update")
 
-# Helper function to find all Scheune UIs in the scene
-func _find_scheune_ui():
-	# First look for direct siblings
-	var parent = get_parent()
-	if parent:
-		for child in parent.get_children():
-			if "inventory_ui" in child.name and child.has_method("reload_slots"):
-				return child
-	
-	# If not found, look more broadly in the scene
-	var root = get_tree().root
-	var ui_found = null
-	
-	var search_queue = [root]
-	while search_queue.size() > 0:
-		var node = search_queue.pop_front()
-		
-		if "inventory_ui" in node.name and node.has_method("reload_slots"):
-			ui_found = node
-			break
-			
-		for child in node.get_children():
-			search_queue.push_back(child)
-		
-	return ui_found
-
 # Helper function to find all nodes in the scene
 func _find_all_nodes(node, result_array):
 	result_array.push_back(node)
@@ -362,7 +558,18 @@ func _force_ui_update():
 	pass
 
 func _input(event):
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		# First, check for clicks on the produce button
+		if produce_button:
+			var button_global_pos = produce_button.global_position
+			var button_size = produce_button.size
+			var mouse_pos = produce_button.get_global_mouse_position()
+			
+			# Check if click is within button bounds
+			if mouse_pos.x >= button_global_pos.x and mouse_pos.x < button_global_pos.x + button_size.x and \
+			   mouse_pos.y >= button_global_pos.y and mouse_pos.y < button_global_pos.y + button_size.y:
+				_on_produce_button_pressed()
+		
 		# Check if the click is within the output slot's bounds
 		if output_slot:
 			# Get the output slot's global position and size
@@ -374,8 +581,4 @@ func _input(event):
 			
 			# Check if the click is within the slot's bounds
 			if local_pos.x >= 0 and local_pos.x < slot_size.x and local_pos.y >= 0 and local_pos.y < slot_size.y:
-				# Nur bei Mausklick nach unten und nur bei linker Maustaste verarbeiten
-				# Ohne diese Bedingung würde es sowohl bei pressed=true als auch
-				# bei pressed=false ausgelöst werden (doppelt)
-				if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-					_handle_output_slot_click()
+				_handle_output_slot_click()
