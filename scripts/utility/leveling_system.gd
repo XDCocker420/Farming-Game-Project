@@ -2,7 +2,7 @@ extends Node
 
 var _level:int = 1
 var _exp_level:int = 0
-signal exp_changed(exp_count:int)
+signal exp_changed(exp_count:int, exp_sum:int)
 signal level_changed(level:int)
 
 
@@ -37,9 +37,9 @@ func add_experience_points(count:int=1) -> void:
 		push_error("count musst be bigger or equal 1")
 		get_tree().quit()
 	_exp_level += count
-	_check_new_level()
+	_check_new_level(count)
 
-func _check_new_level() -> void:
+func _check_new_level(added_exp:int) -> void:
 	var xp_needed = xp_for_level(_level)
 	if(_exp_level >= xp_needed):
 		_level += 1
@@ -47,7 +47,7 @@ func _check_new_level() -> void:
 		if(_exp_level < 0):
 			_exp_level = 0
 		level_changed.emit(_level)
-	exp_changed.emit(_exp_level)
+	exp_changed.emit(added_exp, _exp_level)
 	
 func xp_for_level(level: int) -> float:
 	if level < 1:

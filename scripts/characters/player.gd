@@ -18,6 +18,10 @@ signal interact2
 @onready var exp_animation_val:Label = $CanvasLayer/TextureProgressBar/ExpAdded/Amount
 @onready var exp_animation_control:Control = $CanvasLayer/TextureProgressBar/ExpAdded
 
+@onready var new_lvl_anim:AnimationPlayer = $CanvasLayer/NewLevelReached/AnimationPlayer
+@onready var new_lvl_anim_val:Label = $CanvasLayer/NewLevelReached/TextureRect/LevelVal
+@onready var new_lvl_anim_control:Control = $CanvasLayer/NewLevelReached
+
 @export var normal_speed: float = 50.0
 @export var sprint_speed: float = 100.0
 @export var cant_move: bool = false
@@ -26,13 +30,18 @@ var selected_crop: String = "carrot"  # Default crop
 var looking_direction: String = "down"
 var current_speed: float
 var is_jump: bool
+
 var temp_money:int
 
-@export var addMoney: bool:
+@export var AM: bool:
 	set(value):
 		SaveGame.add_money(20)
 		
-@export var addEXP: bool:
+@export var RM: bool:
+	set(value):
+		SaveGame.remove_money(20)
+		
+@export var AE: bool:
 	set(value):
 		LevelingHandler.add_experience_points(50)
 
@@ -46,6 +55,7 @@ func _ready() -> void:
 	
 	money_animation.animation_finished.connect(_on_money_anim_finished)
 	exp_animation.animation_finished.connect(_on_exp_anim_finished)
+	new_lvl_anim.animation_finished.connect(_on_new_lvl_finished)
 	
 	money_label.text = str(SaveGame.get_money())
 	
@@ -173,13 +183,21 @@ func _on_back_btn_pressed() -> void:
 	get_tree().paused = false
 	
 func _on_level_changed(level:int):
+	new_lvl_anim_val.text = _format_level(level)
+	new_lvl_anim_control.show()
+	new_lvl_anim.play("fade_in")
 	lvl_label.text = _format_level(level)
 	lvl_bar.min_value = 0
 	lvl_bar.value = LevelingHandler.get_experience_in_current_level()
 	lvl_bar.max_value = LevelingHandler.xp_for_level(level)
+
 	
-func _on_exp_changed(exp_count:int):
-	lvl_bar.value = exp_count
+func _on_exp_changed(exp_count:int, sum_exp:int):
+	exp_animation_control.show()
+	exp_animation_val.text = "+" + str(exp_count)
+	exp_animation.play("fade_up")
+	lvl_bar.value = sum_exp
+	
 	
 func _on_money_added(money:int, added_value:int):
 	temp_money = money
@@ -194,7 +212,7 @@ func _on_money_removed(money:int, removed_value:int):
 	money_label.hide()
 	money_animation_control.show()
 	money_animation_val.text = "-" + str(removed_value)
-	money_animation.play("fade_up")
+	money_animation.play("fade_down")
 	
 func _on_money_anim_finished(anim_name):
 	money_label.show()
@@ -202,4 +220,12 @@ func _on_money_anim_finished(anim_name):
 	money_label.text = str(temp_money)
 
 func _on_exp_anim_finished(anim_name):
-	pass
+	exp_animation_control.hide()
+	
+func _on_new_lvl_finished(anim_name):
+	if anim_name == "fade_in":
+		await get_tree().create_timer(1.5).timeout
+		new_lvl_anim.play("fade_out")
+		
+	if anim_name == "fade_out":
+		new_lvl_anim_control.hide()

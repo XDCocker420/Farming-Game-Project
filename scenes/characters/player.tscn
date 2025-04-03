@@ -1,4 +1,4 @@
-[gd_scene load_steps=164 format=3 uid="uid://cckq6n703hhfn"]
+[gd_scene load_steps=165 format=3 uid="uid://cckq6n703hhfn"]
 
 [ext_resource type="Script" uid="uid://0s136t8ba4g7" path="res://scripts/characters/player.gd" id="1_v4iti"]
 [ext_resource type="Texture2D" uid="uid://drvb7hqfpmk4k" path="res://assets/characters/named_characters/main/main_walk.png" id="2_yewv4"]
@@ -15,8 +15,9 @@
 [ext_resource type="Texture2D" uid="uid://3n5vo584axf3" path="res://assets/ui/general/settings.png" id="11_jk2m4"]
 [ext_resource type="Texture2D" uid="uid://cakv2kqfcj53o" path="res://assets/ui/general/exit_btn.png" id="12_k4v7y"]
 [ext_resource type="Texture2D" uid="uid://m54se3v0kfh6" path="res://assets/ui/general/exit_btn_normal.png" id="12_xrqxk"]
-[ext_resource type="PackedScene" uid="uid://sv7mp643njq3" path="res://scenes/utility/money_changed.tscn" id="13_rpnd8"]
+[ext_resource type="PackedScene" uid="uid://sv7mp643njq3" path="res://scenes/ui/level_money/money_changed.tscn" id="13_rpnd8"]
 [ext_resource type="Texture2D" uid="uid://dpq6qeyhh16im" path="res://assets/ui/general/back_btn.png" id="13_xrqxk"]
+[ext_resource type="PackedScene" uid="uid://epb5qvr7pwmn" path="res://scenes/ui/level_money/new_level_reached.tscn" id="18_d6tgn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_76oj4"]
 atlas = ExtResource("2_yewv4")
@@ -1152,6 +1153,7 @@ events = [SubResource("InputEventKey_k4v7y")]
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 motion_mode = 1
 script = ExtResource("1_v4iti")
+AM = true
 
 [node name="AnimationBody" type="AnimatedSprite2D" parent="."]
 position = Vector2(0, -16)
@@ -1191,10 +1193,10 @@ text = "00"
 [node name="ExpAdded" parent="CanvasLayer/TextureProgressBar" instance=ExtResource("13_rpnd8")]
 visible = false
 layout_mode = 1
-offset_left = -4.0
-offset_top = 1.0
-offset_right = -4.0
-offset_bottom = 1.0
+offset_left = 12.0
+offset_top = 23.0
+offset_right = 12.0
+offset_bottom = 23.0
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 anchors_preset = 1
@@ -1307,6 +1309,9 @@ size_flags_horizontal = 0
 size_flags_vertical = 4
 texture = ExtResource("6_g66nw")
 expand_mode = 4
+
+[node name="NewLevelReached" parent="CanvasLayer" instance=ExtResource("18_d6tgn")]
+visible = false
 
 [connection signal="pressed" from="CanvasLayer/SettingsBtn" to="." method="_on_settings_btn_pressed"]
 [connection signal="pressed" from="CanvasLayer/ExitMenu/ExitBtn" to="." method="_on_exit_btn_pressed"]
