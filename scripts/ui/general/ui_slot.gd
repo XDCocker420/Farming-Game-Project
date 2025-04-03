@@ -67,8 +67,12 @@ func _on_button_pressed() -> void:
 	if locked:
 		slot_unlock.emit(self, price)
 	else:
-		print("Button pressed on slot with item: ", item_name)
-		_handle_click()
+		slot_selection.emit(self)
+		item_selection.emit(item_name, price, item_texture.texture)
+		
+		# Direct call to production UI if available
+		if production_ui != null and production_ui.has_method("add_input_item"):
+			production_ui.add_input_item(item_name)
 
 
 # Centralized click handler
@@ -86,8 +90,14 @@ func _handle_click() -> void:
 # Handle direct GUI input on the slot
 func _on_slot_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		print("Direct click detected on slot with item: ", item_name)
-		_handle_click()
+		if not locked and item_name != "":
+			# Direct call to production UI
+			if production_ui != null and production_ui.has_method("add_input_item"):
+				production_ui.add_input_item(item_name)
+			else:
+				# Manually trigger the button press as fallback
+				button.button_pressed = true
+				_on_button_pressed()
 
 
 func lock() -> void:

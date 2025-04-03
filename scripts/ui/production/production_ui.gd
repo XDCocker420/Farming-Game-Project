@@ -52,14 +52,12 @@ func _ready():
 		"../../Control/produce_button"
 	]
 	
-	print("Looking for production button...")
 	var button_found = false
 	for path in possible_button_paths:
 		var button = get_node_or_null(path)
 		if button:
 			produce_button = button
 			button_found = true
-			print("Found produce button at path: ", path)
 			break
 	
 	if not button_found:
@@ -68,14 +66,12 @@ func _ready():
 		if found_button:
 			produce_button = found_button
 			button_found = true
-			print("Found produce button by name: ", found_button.name)
 		else:
 			# Try to find the button in the scene tree
 			found_button = find_button_in_tree()
 			if found_button:
 				produce_button = found_button
 				button_found = true
-				print("Found produce button in scene tree: ", found_button.name)
 	
 	if button_found:
 		# Make sure the button is properly set up
@@ -88,7 +84,6 @@ func _ready():
 		
 		# Connect to the pressed signal
 		produce_button.pressed.connect(_on_produce_button_pressed)
-		print("Connected produce button pressed signal")
 		
 		# Make sure button is visible and enabled
 		produce_button.visible = true
@@ -98,22 +93,13 @@ func _ready():
 		if produce_button.gui_input.is_connected(_on_produce_button_input):
 			produce_button.gui_input.disconnect(_on_produce_button_input)
 		produce_button.gui_input.connect(_on_produce_button_input)
-		print("Added fallback input handling to produce button")
 	else:
-		print("WARNING: Could not find produce button!")
-		print("Looking for buttons in parent...")
 		# Try to find any button in the scene that might be the produce button
 		var parent_buttons = find_buttons_in_parent()
 		if parent_buttons.size() > 0:
-			print("Found ", parent_buttons.size(), " buttons in parent:")
-			for i in range(parent_buttons.size()):
-				var btn = parent_buttons[i]
-				print("Button ", i, ": ", btn.name, " path: ", btn.get_path())
-			
 			# Use the first button as a fallback
 			produce_button = parent_buttons[0]
 			produce_button.pressed.connect(_on_produce_button_pressed)
-			print("Connected to first button as fallback: ", produce_button.name)
 
 # Helper function to find buttons in the parent nodes
 func find_buttons_in_parent():
@@ -166,20 +152,14 @@ func find_button_in_tree():
 # Direct input handler for produce button as a fallback
 func _on_produce_button_input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		print("Direct click detected on produce button")
 		_on_produce_button_pressed()
 
 # Handler for the produce button
 func _on_produce_button_pressed():
-	print("===== PRODUCE BUTTON PRESSED =====")
 	# Check if we have valid input
 	if input_slot and input_slot.item_name:
-		print("Input slot has item: ", input_slot.item_name)
 		# Process the input items into output
 		_process_single_item()
-	else:
-		print("No valid item in input slot")
-	print("===== PRODUCE BUTTON PROCESSING COMPLETE =====")
 
 # Direct input handler for output slot
 func _on_output_slot_input(event):
@@ -313,59 +293,41 @@ func setup(workstation_name: String):
 		produce_button.disabled = (input_items.size() == 0 or output_items.size() == 0)
 
 func _process_single_item() -> void:
-	print("Starting to process item...")
 	# Get corresponding input/output items
 	if input_items.size() == 0 or output_items.size() == 0:
-		print("No valid input/output items defined")
 		if produce_button:
 			produce_button.disabled = true
 		return
 		
 	var input_item = input_items[0]
 	var output_item = output_items[0]
-	print("Processing ", input_item, " into ", output_item)
 	
 	# Check if there's an item in the input slot
 	var input_count = 0
 	if input_slot.item_name == input_item:
-		print("Input slot contains correct item: ", input_item)
 		if "amount_label" in input_slot and input_slot.amount_label and input_slot.amount_label.text != "":
 			input_count = int(input_slot.amount_label.text)
-			print("Input count from amount_label: ", input_count)
 		elif input_slot.has_node("amount"):
 			var amount_label = input_slot.get_node("amount")
 			if amount_label.text != "":
 				input_count = int(amount_label.text)
-				print("Input count from amount node: ", input_count)
 		else:
 			input_count = 1
-			print("Using default input count: 1")
-	else:
-		print("Input slot item doesn't match recipe: ", input_slot.item_name, " vs expected ", input_item)
 	
 	if input_count <= 0:
-		print("Input count is zero or negative, cannot process")
 		return
-	
-	print("Processing ", input_count, " items")
 	
 	# Check if the output slot already has items
 	var current_output_count = 0
 	if output_slot.item_name == output_item:
 		if "amount_label" in output_slot and output_slot.amount_label and output_slot.amount_label.text != "":
 			current_output_count = int(output_slot.amount_label.text)
-			print("Current output count from amount_label: ", current_output_count)
 		elif output_slot.has_node("amount"):
 			var amount_label = output_slot.get_node("amount")
 			if amount_label.text != "":
 				current_output_count = int(amount_label.text)
-				print("Current output count from amount node: ", current_output_count)
-	
-	print("Current output count: ", current_output_count)
 	
 	# Update the output slot visually
-	print("Setting up output slot with item: ", output_item, " count: ", current_output_count + input_count)
-	
 	# Direct manipulation first
 	output_slot.item_name = output_item
 	if output_slot.has_node("MarginContainer/item"):
@@ -393,8 +355,6 @@ func _process_single_item() -> void:
 	if input_slot.has_method("clear"):
 		input_slot.clear()
 	
-	print("Input slot cleared, output slot updated")
-	
 	# Make sure to update any inventory UIs to reflect these changes
 	_refresh_all_inventory_uis(current_workstation)
 	
@@ -404,36 +364,23 @@ func _process_single_item() -> void:
 	# Disable the produce button until more input is added
 	if produce_button:
 		produce_button.disabled = true
-		print("Disabled produce button")
 	
 	# Emit signal that processing is complete
 	process_complete.emit()
-	print("Processing complete!")
 
 # New function to receive items from inventory UI
 func add_input_item(item_name: String) -> void:
-	print("===== PRODUCTION UI RECEIVED ITEM =====")
-	print("Production UI received item: ", item_name)
-	print("Current workstation: ", current_workstation)
-	print("Input items available: ", input_items)
-	
 	# Check if this item is valid for this workstation
 	if item_name in input_items:
-		print("Item is valid for workstation: ", current_workstation)
 		# Make sure we have this item in inventory
 		var inventory_count = SaveGame.get_item_count(item_name)
-		print("Inventory count for ", item_name, ": ", inventory_count)
 		
 		if inventory_count <= 0:
-			print("Inventory count is zero, cannot add")
 			return
 			
 		# Verify input_slot is properly initialized
 		if not input_slot:
-			print("ERROR: Input slot not initialized!")
 			return
-			
-		print("Input slot exists: ", input_slot.name)
 		
 		# Get current count if the slot already has this item
 		var current_count = 0
@@ -442,22 +389,16 @@ func add_input_item(item_name: String) -> void:
 				var amount_label = input_slot.get_node("amount")
 				if amount_label.text != "":
 					current_count = int(amount_label.text)
-					print("Current count in input slot: ", current_count)
 			elif "amount_label" in input_slot and input_slot.amount_label:
 				if input_slot.amount_label.text != "":
 					current_count = int(input_slot.amount_label.text)
-					print("Current count from amount_label property: ", current_count)
 			else:
-				print("Using default count of 1")
 				current_count = 1
 		
 		# Remove the item from inventory FIRST
 		SaveGame.remove_from_inventory(item_name, 1)
-		print("Removed 1 ", item_name, " from inventory")
 		
 		# Update the slot with the item and increment count
-		print("Setting up input slot with item: ", item_name, " count: ", current_count + 1)
-		
 		# Force a direct setup without relying on methods
 		input_slot.item_name = item_name
 		if input_slot.has_node("MarginContainer/item"):
@@ -475,21 +416,12 @@ func add_input_item(item_name: String) -> void:
 		# Enable the produce button since we now have valid input
 		if produce_button:
 			produce_button.disabled = false
-			print("Enabled produce button")
-		else:
-			print("WARNING: Produce button not found")
 		
 		# Update the inventory UI - find ALL inventory UIs in the scene
 		_refresh_all_inventory_uis(current_workstation)
 		
 		# Save game to persist inventory changes
 		SaveGame.save_game()
-		
-		print("Successfully added item to input slot")
-		print("===== ITEM PROCESSING COMPLETE =====")
-	else:
-		print("Item not valid for this workstation: ", item_name, " not in ", input_items)
-		print("===== ITEM PROCESSING FAILED =====")
 
 # New function to refresh ALL inventory UIs in the scene
 func _refresh_all_inventory_uis(workstation: String):
@@ -566,7 +498,6 @@ func _input(event):
 			# Check if click is within button bounds
 			if mouse_pos.x >= button_global_pos.x and mouse_pos.x < button_global_pos.x + button_size.x and \
 			   mouse_pos.y >= button_global_pos.y and mouse_pos.y < button_global_pos.y + button_size.y:
-				print("Direct click detected on produce button region")
 				_on_produce_button_pressed()
 		
 		# Check if the click is within the output slot's bounds
@@ -580,7 +511,4 @@ func _input(event):
 			
 			# Check if the click is within the slot's bounds
 			if local_pos.x >= 0 and local_pos.x < slot_size.x and local_pos.y >= 0 and local_pos.y < slot_size.y:
-				# Nur bei Mausklick nach unten und nur bei linker Maustaste verarbeiten
-				# Ohne diese Bedingung würde es sowohl bei pressed=true als auch
-				# bei pressed=false ausgelöst werden (doppelt)
 				_handle_output_slot_click()
