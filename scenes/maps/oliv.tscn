@@ -28,7 +28,7 @@ position = Vector2(240, 74)
 [node name="player_house" parent="." instance=ExtResource("5_dhanm")]
 position = Vector2(78, 159)
 
-[node name="Area2D" parent="." instance=ExtResource("6_6epel")]
+[node name="farming_area" parent="." instance=ExtResource("6_6epel")]
 position = Vector2(229, 133)
 
 [node name="eggplant" parent="." instance=ExtResource("7_wgp6n")]
