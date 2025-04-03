@@ -70,19 +70,16 @@ func _on_button_pressed() -> void:
 		slot_selection.emit(self)
 		item_selection.emit(item_name, price, item_texture.texture)
 		
-		# Direct call to production UI if available
-		if production_ui != null and production_ui.has_method("add_input_item"):
-			production_ui.add_input_item(item_name)
+		# Remove direct call to prevent double additions
+		# Signal connection in ui_scheune.gd will handle this
 
 
 # Centralized click handler
 func _handle_click() -> void:
-	# Direct call to production UI if available
-	if production_ui != null and production_ui.has_method("add_input_item"):
-		print("Directly calling add_input_item on production UI for item: ", item_name)
-		production_ui.add_input_item(item_name)
+	# Remove direct call to prevent double additions
+	# Signal connection in ui_scheune.gd will handle this
 	
-	# Still emit signals
+	# Only emit signals
 	slot_selection.emit(self)
 	item_selection.emit(item_name, price, item_texture.texture)
 
@@ -91,13 +88,10 @@ func _handle_click() -> void:
 func _on_slot_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
 		if not locked and item_name != "":
-			# Direct call to production UI
-			if production_ui != null and production_ui.has_method("add_input_item"):
-				production_ui.add_input_item(item_name)
-			else:
-				# Manually trigger the button press as fallback
-				button.button_pressed = true
-				_on_button_pressed()
+			# Remove direct call to prevent double additions
+			# Instead use button press mechanism which will emit signals
+			button.button_pressed = true
+			_on_button_pressed()
 
 
 func lock() -> void:

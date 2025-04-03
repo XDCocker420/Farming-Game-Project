@@ -144,14 +144,6 @@ func _unhandled_input(event):
 		# This is critical because setup_and_show recreates all the slots
 		if current_inventory_ui.has_method("set_active_production_ui"):
 			current_inventory_ui.set_active_production_ui(current_ui)
-			
-			# Connect the inventory UI's item_selected signal to the production UI's add_input_item method
-			if current_inventory_ui.has_signal("item_selected") and current_ui.has_method("add_input_item"):
-				# Disconnect any existing connection first to avoid duplicates
-				if current_inventory_ui.item_selected.is_connected(current_ui.add_input_item):
-					current_inventory_ui.item_selected.disconnect(current_ui.add_input_item)
-				# Connect the signal
-				current_inventory_ui.item_selected.connect(current_ui.add_input_item)
 		
 		# Start the animation for the current workstation
 		if current_animation:

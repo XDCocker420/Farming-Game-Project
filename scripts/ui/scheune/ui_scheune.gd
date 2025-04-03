@@ -67,10 +67,8 @@ func add_slot(item: String, amount: int) -> void:
 
 # New handler for direct button press as fallback
 func _on_slot_button_pressed(slot, item_name) -> void:
-	if active_production_ui and active_production_ui.has_method("add_input_item"):
-		active_production_ui.call_deferred("add_input_item", item_name)
-	else:
-		item_selected.emit(item_name)
+	# Only emit the signal, don't call directly to avoid double addition
+	item_selected.emit(item_name)
 	
 	# Reload slots to reflect inventory changes
 	reload_slots(true)
@@ -91,6 +89,53 @@ func reload_slots(apply_filter: bool = true) -> void:
 	# Get fresh inventory data
 	var inventory_data = SaveGame.get_inventory()
 	
+	# Only rebuild slots if needed
+	if apply_filter and not current_filter.is_empty():
+		# For filtered reloads, more selective approach
+		var filtered_items = []
+		for item in inventory_data:
+			if current_filter.has(item):
+				filtered_items.append(item)
+		
+		# If we're only showing a few items, do a selective update
+		if filtered_items.size() <= 6:
+			_selective_slot_update(filtered_items, inventory_data)
+			return
+	
+	# Standard rebuild approach for larger sets
+	_full_slot_rebuild(inventory_data, apply_filter)
+	
+	# Re-establish production UI reference if it exists
+	if current_production_ui:
+		set_active_production_ui(current_production_ui)
+
+# Helper method for selective slot updates (more efficient)
+func _selective_slot_update(filtered_items, inventory_data):
+	var updated_items = {}
+	
+	# First pass: Update existing slots or mark for removal
+	for slot in slots.get_children():
+		if "item_name" in slot:
+			var item_name = slot.item_name
+			if item_name in filtered_items:
+				# Update amount if needed
+				var amount_label = slot.get_node("amount")
+				if amount_label and str(inventory_data[item_name]) != amount_label.text:
+					amount_label.text = str(inventory_data[item_name])
+				# Mark as updated
+				updated_items[item_name] = true
+			else:
+				# Not in filter, remove
+				slot.queue_free()
+				slot_list.erase(slot)
+	
+	# Second pass: Add new slots for filtered items not already shown
+	for item in filtered_items:
+		if not updated_items.has(item):
+			add_slot(item, inventory_data[item])
+
+# Helper method for full rebuild (original approach)
+func _full_slot_rebuild(inventory_data, apply_filter):
 	# Clear existing slots
 	slot_list.clear()
 	for slot in slots.get_children():
@@ -105,11 +150,6 @@ func reload_slots(apply_filter: bool = true) -> void:
 		for item in inventory_data:
 			if current_filter.has(item):
 				add_slot(item, inventory_data[item])
-	
-	# Re-establish production UI reference if it exists
-	if current_production_ui:
-		set_active_production_ui(current_production_ui)
-
 
 func _on_visibility_changed() -> void:
 	if visible:
@@ -187,12 +227,8 @@ func set_active_production_ui(ui) -> void:
 
 # Handle item selection from a slot
 func _on_item_selected(item_name: String, _price: int, _item_texture: Texture2D) -> void:
-	# Direct call to production UI if available
-	if active_production_ui and active_production_ui.has_method("add_input_item"):
-		active_production_ui.add_input_item(item_name)
-	else:
-		# Still emit the signal in case it's connected elsewhere
-		item_selected.emit(item_name)
+	# Only emit the signal, don't call directly to avoid double addition
+	item_selected.emit(item_name)
 	
 	# Reload slots to reflect any inventory changes
 	reload_slots(true)
@@ -208,7 +244,6 @@ func _on_slots_gui_input(event: InputEvent) -> void:
 			if slot.get_rect().has_point(click_pos):
 				# Get the item name from the slot
 				if "item_name" in slot and slot.item_name != "":
-					# Call add_input_item directly on production UI
-					if active_production_ui and active_production_ui.has_method("add_input_item"):
-						active_production_ui.add_input_item(slot.item_name)
+					# Only emit the signal, don't call directly to avoid double addition
+					item_selected.emit(slot.item_name)
 					break

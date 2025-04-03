@@ -198,11 +198,11 @@ func _handle_output_slot_click():
 			# Clear the output slot if this was the last item
 			output_slot.clear()
 		
-		# Refresh all inventory UIs to show the updated inventory
-		_refresh_all_inventory_uis(current_workstation)
+		# Use the optimized refresh method
+		_refresh_targeted_inventory_ui(current_workstation)
 			
-		# Save game to persist inventory changes
-		SaveGame.save_game()
+		# Save game to persist inventory changes - but deferred for better performance
+		call_deferred("_save_game_deferred")
 
 # Helper function to get the amount label from a slot
 func _get_amount_label(slot) -> Label:
@@ -355,11 +355,11 @@ func _process_single_item() -> void:
 	if input_slot.has_method("clear"):
 		input_slot.clear()
 	
-	# Make sure to update any inventory UIs to reflect these changes
-	_refresh_all_inventory_uis(current_workstation)
+	# Use the optimized refresh method for better performance
+	_refresh_targeted_inventory_ui(current_workstation)
 	
-	# Save just to be safe
-	SaveGame.save_game()
+	# Save just to be safe - but deferred for better performance
+	call_deferred("_save_game_deferred")
 	
 	# Disable the produce button until more input is added
 	if produce_button:
@@ -417,11 +417,31 @@ func add_input_item(item_name: String) -> void:
 		if produce_button:
 			produce_button.disabled = false
 		
-		# Update the inventory UI - find ALL inventory UIs in the scene
-		_refresh_all_inventory_uis(current_workstation)
+		# Use a more efficient approach to refresh only relevant inventory UIs
+		_refresh_targeted_inventory_ui(current_workstation)
 		
-		# Save game to persist inventory changes
-		SaveGame.save_game()
+		# Save game to persist inventory changes - but defer it to avoid performance impact
+		call_deferred("_save_game_deferred")
+
+# More efficient function to refresh just the relevant inventory UI
+func _refresh_targeted_inventory_ui(workstation: String):
+	# Get parent node
+	var parent = get_parent()
+	if not parent:
+		return
+	
+	# Look for inventory UIs that are direct siblings (much more efficient)
+	for node in parent.get_children():
+		if "inventory_ui" in node.name and node.has_method("reload_slots"):
+			# Update this specific inventory UI
+			if node.has_method("set_workstation_filter") and node.has_method("reload_slots"):
+				# Only reload the slots with proper filter
+				node.reload_slots(true)
+				return
+
+# Deferred save game function to improve performance
+func _save_game_deferred():
+	SaveGame.save_game()
 
 # New function to refresh ALL inventory UIs in the scene
 func _refresh_all_inventory_uis(workstation: String):
