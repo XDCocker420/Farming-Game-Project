@@ -1,6 +1,8 @@
 extends Node
 
 var config = ConfigFile.new()
+var lvl_config = ConfigFile.new()
+var build_config = ConfigFile.new()
 
 var display_names = {
 	"cauliflower": "Cauli",
@@ -16,9 +18,13 @@ var display_names = {
 
 func _ready() -> void:
 	var err = config.load("res://scripts/config/item_config.cfg")
+	
+	var err2 = lvl_config.load("res://scripts/config/level_config.cfg")
+	
+	var err3 = build_config.load("res://scripts/config/buildings.cfg")
 
 	# If the file didn't load, ignore it.
-	if err != OK:
+	if err != OK or err2 != OK or err3 != OK:
 		return
 
 func get_display_name(item_name: String) -> String:
@@ -39,12 +45,22 @@ func get_max_price(item_name:String) -> int:
 	return config.get_value(item_name, "maxPrice")
 
 func has_reached_level(item_name:String) -> bool:
-	return SaveGame.get_current_level() >= config.get_value(item_name, "level_needed")
+	return LevelingHandler.get_current_level() >= config.get_value(item_name, "level_needed")
 	
-func get_all_level() -> Array[String]:
+func has_reached_level_building(building_name:String) -> bool:
+	return LevelingHandler.get_current_level() >= build_config.get_value(building_name, "level_needed")
+	
+func get_all_items_for_level() -> Array[String]:
 	var items:Array[String] = []
 	for i in config.get_sections():
 		if has_reached_level(i):
+			items.append(i)
+	return items
+	
+func get_all_buildings_for_level() -> Array[String]:
+	var items:Array[String] = []
+	for i in build_config.get_sections():
+		if has_reached_level_building(i):
 			items.append(i)
 	return items
 

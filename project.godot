@@ -23,6 +23,7 @@ SaveGame="*res://scripts/data/save_game.gd"
 ConfigReader="*res://scripts/config/ConfigReader.gd"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 SceneSwitcher="*res://scripts/utility/scene_switcher.gd"
+LevelingHandler="*res://scripts/utility/leveling_system.gd"
 
 [dialogic]
 

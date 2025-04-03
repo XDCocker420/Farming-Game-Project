@@ -1,4 +1,4 @@
-[gd_scene load_steps=163 format=3 uid="uid://cckq6n703hhfn"]
+[gd_scene load_steps=164 format=3 uid="uid://cckq6n703hhfn"]
 
 [ext_resource type="Script" uid="uid://0s136t8ba4g7" path="res://scripts/characters/player.gd" id="1_v4iti"]
 [ext_resource type="Texture2D" uid="uid://drvb7hqfpmk4k" path="res://assets/characters/named_characters/main/main_walk.png" id="2_yewv4"]
@@ -8,13 +8,14 @@
 [ext_resource type="Texture2D" uid="uid://b6b4f3v74xknn" path="res://assets/ui/general/progressbar_frame.png" id="6_g66nw"]
 [ext_resource type="Texture2D" uid="uid://d2ro2kmk8nbyj" path="res://assets/ui/general/hud.png" id="6_kqtwu"]
 [ext_resource type="Texture2D" uid="uid://ud4r55i4lesh" path="res://assets/ui_unprocessed/UI.png" id="7_6eyoc"]
-[ext_resource type="Texture2D" uid="uid://dppy42qatmtcn" path="res://assets/ui/general/progressbar.png" id="7_rpnd8"]
+[ext_resource type="Texture2D" uid="uid://chv88msdgx8vr" path="res://assets/ui/general/progressbar_blue.png" id="7_g66nw"]
 [ext_resource type="Texture2D" uid="uid://dryhmb1vxbgvv" path="res://assets/ui/general/time_20.png" id="8_7vyk4"]
 [ext_resource type="Texture2D" uid="uid://f7icq5lplgv6" path="res://assets/ui/general/time_00.png" id="9_2l4js"]
 [ext_resource type="Texture2D" uid="uid://drqo5c0t8tkgh" path="res://assets/ui/general/time_30.png" id="10_jk2m4"]
 [ext_resource type="Texture2D" uid="uid://3n5vo584axf3" path="res://assets/ui/general/settings.png" id="11_jk2m4"]
 [ext_resource type="Texture2D" uid="uid://cakv2kqfcj53o" path="res://assets/ui/general/exit_btn.png" id="12_k4v7y"]
 [ext_resource type="Texture2D" uid="uid://m54se3v0kfh6" path="res://assets/ui/general/exit_btn_normal.png" id="12_xrqxk"]
+[ext_resource type="PackedScene" uid="uid://sv7mp643njq3" path="res://scenes/utility/money_changed.tscn" id="13_rpnd8"]
 [ext_resource type="Texture2D" uid="uid://dpq6qeyhh16im" path="res://assets/ui/general/back_btn.png" id="13_xrqxk"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_76oj4"]
@@ -1174,10 +1175,9 @@ offset_top = -26.0
 offset_right = 20.0
 offset_bottom = 26.0
 grow_vertical = 2
-value = 100.0
 fill_mode = 3
 texture_under = ExtResource("6_g66nw")
-texture_progress = ExtResource("7_rpnd8")
+texture_progress = ExtResource("7_g66nw")
 texture_progress_offset = Vector2(4, 16)
 
 [node name="Label" type="Label" parent="CanvasLayer/TextureProgressBar"]
@@ -1186,7 +1186,15 @@ offset_left = 4.0
 offset_top = 1.0
 offset_right = 12.0
 offset_bottom = 14.0
-text = "50"
+text = "00"
+
+[node name="ExpAdded" parent="CanvasLayer/TextureProgressBar" instance=ExtResource("13_rpnd8")]
+visible = false
+layout_mode = 1
+offset_left = -4.0
+offset_top = 1.0
+offset_right = -4.0
+offset_bottom = 1.0
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 anchors_preset = 1
@@ -1233,6 +1241,14 @@ position = Vector2(42, 11)
 sprite_frames = SubResource("SpriteFrames_recyi")
 frame = 1
 frame_progress = 0.988743
+
+[node name="MoneyAnim" parent="CanvasLayer/TextureRect" instance=ExtResource("13_rpnd8")]
+visible = false
+layout_mode = 1
+offset_left = 23.0
+offset_top = 37.0
+offset_right = 23.0
+offset_bottom = 37.0
 
 [node name="SettingsBtn" type="TextureButton" parent="CanvasLayer"]
 process_mode = 3
