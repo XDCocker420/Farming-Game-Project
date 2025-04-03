@@ -51,25 +51,19 @@ func _ready() -> void:
 	
 	# Make sure our mouse detection works
 	mouse_filter = MOUSE_FILTER_STOP
-	
-	# Debug
-	print("Slot ready with item: ", item_name)
 
 
 func _process(_delta):
-	# Add direct click detection for debugging
+	# Add direct click detection
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and visible:
 		var mouse_pos = get_global_mouse_position()
 		if get_global_rect().has_point(mouse_pos):
 			# This will fire continuously while button is held, so add a cooldown
 			if Engine.get_physics_frames() % 15 == 0: # Moderate pace (~1/4 second)
-				print("Continuous click detection on slot with item: ", item_name)
 				_handle_click()
 
 
 func _on_button_pressed() -> void:
-	print("Button pressed in slot with item: ", item_name)
-	
 	if item_texture.texture != null and editable:
 		button.button_pressed = false
 		return
@@ -79,7 +73,6 @@ func _on_button_pressed() -> void:
 	else:
 		# Always trigger signals
 		if item_name != "":
-			print("Emitting item selection signal for: ", item_name)
 			slot_selection.emit(self)
 			item_selection.emit(item_name, price, item_texture.texture)
 
@@ -89,8 +82,6 @@ func _handle_click() -> void:
 	if locked or item_name == "" or click_cooldown:
 		return
 		
-	print("Handle click for item: ", item_name)
-	
 	# Set cooldown to prevent processing the same click multiple times
 	click_cooldown = true
 	
@@ -98,7 +89,7 @@ func _handle_click() -> void:
 	slot_selection.emit(self)
 	item_selection.emit(item_name, price, item_texture.texture)
 	
-	# Reset cooldown after a short delay - much shorter to allow rapid clicks
+	# Reset cooldown after a short delay
 	await get_tree().create_timer(cooldown_time).timeout
 	click_cooldown = false
 
@@ -106,7 +97,6 @@ func _handle_click() -> void:
 # Handle direct GUI input on the slot
 func _on_slot_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		print("GUI input on slot: ", item_name)
 		if not locked and item_name != "" and not click_cooldown:
 			# Handle the click directly
 			_handle_click()

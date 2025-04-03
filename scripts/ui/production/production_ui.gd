@@ -370,24 +370,18 @@ func _process_single_item() -> void:
 
 # New function to receive items from inventory UI
 func add_input_item(item_name: String) -> void:
-	print("Production UI received add_input_item signal for: ", item_name)
-	
 	# Check if this item is valid for this workstation
 	if not (item_name in input_items):
-		print("Item not valid for this workstation")
 		return
 		
 	# Make sure we have this item in inventory - do this FIRST to avoid race conditions
 	var inventory_count = SaveGame.get_item_count(item_name)
-	print("Inventory count for ", item_name, ": ", inventory_count)
 	
 	if inventory_count <= 0:
-		print("No items in inventory!")
 		return
 		
 	# Verify input_slot is properly initialized
 	if not input_slot:
-		print("Input slot not initialized!")
 		return
 	
 	# Get current count if the slot already has this item
@@ -402,8 +396,6 @@ func add_input_item(item_name: String) -> void:
 				current_count = int(input_slot.amount_label.text)
 		else:
 			current_count = 1
-	
-	print("Current count in production slot: ", current_count)
 	
 	# Calculate new count
 	var new_count = current_count + 1
@@ -432,7 +424,6 @@ func _update_input_slot(item_name, new_count):
 	# Use the setup method whenever possible as it's most reliable
 	if input_slot.has_method("setup"):
 		input_slot.setup(item_name, "", true, new_count)
-		print("Used setup method to update slot with count: ", new_count)
 	else:
 		# Fallback to direct property updates
 		input_slot.item_name = item_name
@@ -456,8 +447,6 @@ func _update_input_slot(item_name, new_count):
 		if not amount_updated and "amount_label" in input_slot and input_slot.amount_label:
 			input_slot.amount_label.text = str(new_count)
 			input_slot.amount_label.show()
-		
-		print("Used direct property updates for slot with count: ", new_count)
 
 # Helper function to find all Scheune UIs in the scene
 func _find_scheune_ui():
@@ -513,7 +502,6 @@ func _refresh_targeted_inventory_ui(workstation: String):
 					break
 	
 	if scheune_ui and scheune_ui.has_method("reload_slots"):
-		print("Found and refreshing inventory UI")
 		# Update this specific inventory UI
 		if scheune_ui.has_method("set_workstation_filter"):
 			scheune_ui.set_workstation_filter(workstation)
@@ -523,7 +511,6 @@ func _refresh_targeted_inventory_ui(workstation: String):
 	# Fallback method - use find_scheune_ui as backup
 	scheune_ui = _find_scheune_ui()
 	if scheune_ui and scheune_ui.has_method("reload_slots"):
-		print("Found inventory UI via fallback method")
 		if scheune_ui.has_method("set_workstation_filter"):
 			scheune_ui.set_workstation_filter(workstation)
 		scheune_ui.reload_slots(true)

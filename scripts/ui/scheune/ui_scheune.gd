@@ -66,7 +66,6 @@ func add_slot(item: String, amount: int) -> void:
 
 # New handler for direct button press as fallback
 func _on_slot_button_pressed(slot, item_name) -> void:
-	print("Slot button pressed for item: ", item_name)
 	# Only emit the signal, don't call directly to avoid double addition
 	item_selected.emit(item_name)
 	
@@ -169,8 +168,6 @@ func _full_slot_rebuild(inventory_data, apply_filter):
 
 func _on_visibility_changed() -> void:
 	if visible:
-		print("UI became visible, reloading inventory")
-		
 		# Only store current_filter if it's not empty
 		var current_filter_copy = current_filter.duplicate() if not current_filter.is_empty() else []
 		
@@ -186,8 +183,6 @@ func _on_visibility_changed() -> void:
 		if had_filter and not current_filter_copy.is_empty():
 			current_filter = current_filter_copy
 			reload_slots(true)
-	else:
-		print("UI became invisible")
 
 # Function to set filter based on workstation
 func set_workstation_filter(workstation: String) -> void:
@@ -214,8 +209,6 @@ func set_workstation_filter(workstation: String) -> void:
 
 # Method to both set filter and show UI
 func setup_and_show(workstation: String) -> void:
-	print("Setting up inventory UI for workstation: ", workstation)
-	
 	# Set the filter based on workstation
 	set_workstation_filter(workstation)
 	
@@ -230,7 +223,6 @@ func set_active_production_ui(ui) -> void:
 	if ui == null:
 		return
 		
-	print("Setting active production UI reference")
 	active_production_ui = ui
 	
 	# Update all existing slots in the slot_list
@@ -253,7 +245,6 @@ func set_active_production_ui(ui) -> void:
 		if item_selected.is_connected(ui.add_input_item):
 			item_selected.disconnect(ui.add_input_item)
 		# Connect the signal
-		print("Connecting item_selected signal to production UI")
 		item_selected.connect(ui.add_input_item)
 
 # Handle item selection from a slot
@@ -275,7 +266,6 @@ func _on_slots_gui_input(event: InputEvent) -> void:
 			if slot.get_rect().has_point(click_pos):
 				# Get the item name from the slot
 				if "item_name" in slot and slot.item_name != "":
-					print("Slot clicked via gui_input for item: ", slot.item_name)
 					# Only emit the signal, don't call directly to avoid double addition
 					item_selected.emit(slot.item_name)
 					break
