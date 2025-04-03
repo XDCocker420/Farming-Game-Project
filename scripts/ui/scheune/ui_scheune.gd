@@ -72,14 +72,6 @@ func _ready() -> void:
 	# make sure we connect to gui_input to capture mouse wheel events
 	scroll_container.gui_input.connect(_on_scroll_container_gui_input)
 	
-	# Print debug info about scene structure
-	print("DEBUG: ScrollContainer size=", scroll_container.size, 
-		  " min_size=", scroll_container.custom_minimum_size,
-		  " slots columns=", slots.columns,
-		  " slots min_size=", slots.custom_minimum_size,
-		  " layout_mode=", slots.layout_mode,
-		  " v_scroll_visible=", v_scrollbar.visible if v_scrollbar else false)
-	
 	load_slots()
 
 func add_slot(item: String, amount: int) -> void:
@@ -419,13 +411,6 @@ func _ensure_scroll_updated() -> void:
 	# Reset scroll position to top
 	scroll_container.scroll_vertical = 0
 	
-	# Print debug info
-	print("DEBUG: After update - ScrollContainer size=", scroll_container.size, 
-		  " slots children=", slots.get_child_count(),
-		  " grid min_size=", slots.custom_minimum_size,
-		  " scrollbar visible=", v_scrollbar.visible if v_scrollbar else "NO SCROLLBAR",
-		  " first slot size=", slots.get_child(0).size if slots.get_child_count() > 0 else Vector2.ZERO)
-	
 	# Delay a frame to allow the container to finish updating
 	await get_tree().process_frame
 
@@ -450,11 +435,6 @@ func _process(_delta):
 			
 			# If the slots need more space than available, ensure we can scroll
 			if total_height_needed > scroll_container.size.y and Engine.get_process_frames() % 30 == 0:
-				print("DEBUG: Need scrolling - rows=", rows, 
-					  " slot size=", first_slot_size,
-					  " total height=", total_height_needed,
-					  " container height=", scroll_container.size.y)
-				
 				# Force the content to be larger than the scroll container
 				slots.custom_minimum_size.y = max(140, total_height_needed + 10)
 				
@@ -495,17 +475,13 @@ func _on_scroll_container_gui_input(event: InputEvent) -> void:
 		# Only update if the value actually changed
 		if new_scroll != current_scroll:
 			scroll_container.scroll_vertical = new_scroll
-			# Debug output
-			print("DEBUG: Container scroll - direction=", "UP" if event.button_index == MOUSE_BUTTON_WHEEL_UP else "DOWN",
-				" new value=", scroll_container.scroll_vertical)
 		
 		# Make sure we don't propagate the event further
 		get_viewport().set_input_as_handled()
 
 # Handle scrollbar value changes - simplified to use scroll_vertical
 func _on_scroll_value_changed(value: float) -> void:
-	# Debug output only
-	print("DEBUG: Scroll value changed to ", value)
+	pass
 
 # Override _input to ensure scroll wheel events are properly processed
 func _input(event: InputEvent) -> void:
@@ -547,9 +523,6 @@ func _input(event: InputEvent) -> void:
 			# Only update if the value actually changed
 			if new_scroll != current_scroll:
 				scroll_container.scroll_vertical = new_scroll
-				# Debug output
-				print("DEBUG: Manual scroll - direction=", "UP" if event.button_index == MOUSE_BUTTON_WHEEL_UP else "DOWN",
-					" new value=", new_scroll)
 			
 			# Make sure we don't propagate the event further
 			get_viewport().set_input_as_handled()
