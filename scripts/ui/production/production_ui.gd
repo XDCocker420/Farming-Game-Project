@@ -370,74 +370,153 @@ func _process_single_item() -> void:
 
 # New function to receive items from inventory UI
 func add_input_item(item_name: String) -> void:
+	print("Production UI received add_input_item signal for: ", item_name)
+	
 	# Check if this item is valid for this workstation
-	if item_name in input_items:
-		# Make sure we have this item in inventory
-		var inventory_count = SaveGame.get_item_count(item_name)
+	if not (item_name in input_items):
+		print("Item not valid for this workstation")
+		return
 		
-		if inventory_count <= 0:
-			return
-			
-		# Verify input_slot is properly initialized
-		if not input_slot:
-			return
+	# Make sure we have this item in inventory - do this FIRST to avoid race conditions
+	var inventory_count = SaveGame.get_item_count(item_name)
+	print("Inventory count for ", item_name, ": ", inventory_count)
+	
+	if inventory_count <= 0:
+		print("No items in inventory!")
+		return
 		
-		# Get current count if the slot already has this item
-		var current_count = 0
-		if input_slot.item_name == item_name:
-			if input_slot.has_node("amount"):
-				var amount_label = input_slot.get_node("amount")
-				if amount_label.text != "":
-					current_count = int(amount_label.text)
-			elif "amount_label" in input_slot and input_slot.amount_label:
-				if input_slot.amount_label.text != "":
-					current_count = int(input_slot.amount_label.text)
-			else:
-				current_count = 1
-		
-		# Remove the item from inventory FIRST
-		SaveGame.remove_from_inventory(item_name, 1)
-		
-		# Update the slot with the item and increment count
-		# Force a direct setup without relying on methods
+	# Verify input_slot is properly initialized
+	if not input_slot:
+		print("Input slot not initialized!")
+		return
+	
+	# Get current count if the slot already has this item
+	var current_count = 0
+	if input_slot.item_name == item_name:
+		if input_slot.has_node("amount"):
+			var amount_label = input_slot.get_node("amount")
+			if amount_label.text.strip_edges() != "":
+				current_count = int(amount_label.text)
+		elif "amount_label" in input_slot and input_slot.amount_label:
+			if input_slot.amount_label.text.strip_edges() != "":
+				current_count = int(input_slot.amount_label.text)
+		else:
+			current_count = 1
+	
+	print("Current count in production slot: ", current_count)
+	
+	# Calculate new count
+	var new_count = current_count + 1
+	
+	# Remove the item from inventory FIRST - this must be done before updating UI
+	# to avoid race conditions with reload_slots
+	SaveGame.remove_from_inventory(item_name, 1)
+	
+	# IMPORTANT: Save game IMMEDIATELY after inventory modification to prevent
+	# race conditions with reload_slots
+	SaveGame.save_game()
+	
+	# Now update the production UI
+	call_deferred("_update_input_slot", item_name, new_count)
+	
+	# Enable the produce button since we now have valid input
+	if produce_button:
+		produce_button.disabled = false
+	
+	# Refresh UI after a small delay to ensure everything is settled
+	get_tree().create_timer(0.1).timeout.connect(func(): 
+		_refresh_targeted_inventory_ui(current_workstation)
+	)
+
+# Method to update the input slot safely in deferred context
+func _update_input_slot(item_name, new_count):
+	# Use the setup method whenever possible as it's most reliable
+	if input_slot.has_method("setup"):
+		input_slot.setup(item_name, "", true, new_count)
+		print("Used setup method to update slot with count: ", new_count)
+	else:
+		# Fallback to direct property updates
 		input_slot.item_name = item_name
+		
+		# Try multiple paths to update the texture
+		var texture_path = "res://assets/ui/icons/" + item_name + ".png"
+		var texture = load(texture_path)
+		
 		if input_slot.has_node("MarginContainer/item"):
-			var texture_path = "res://assets/ui/icons/" + item_name + ".png"
-			input_slot.get_node("MarginContainer/item").texture = load(texture_path)
+			input_slot.get_node("MarginContainer/item").texture = texture
+		
+		# Try multiple paths to update the amount label
+		var amount_updated = false
 		
 		if input_slot.has_node("amount"):
-			input_slot.get_node("amount").text = str(current_count + 1)
-			input_slot.get_node("amount").show()
+			var amount_label = input_slot.get_node("amount")
+			amount_label.text = str(new_count)
+			amount_label.show()
+			amount_updated = true
 		
-		# Also try the regular setup method as backup
-		if input_slot.has_method("setup"):
-			input_slot.setup(item_name, "", true, current_count + 1)
+		if not amount_updated and "amount_label" in input_slot and input_slot.amount_label:
+			input_slot.amount_label.text = str(new_count)
+			input_slot.amount_label.show()
 		
-		# Enable the produce button since we now have valid input
-		if produce_button:
-			produce_button.disabled = false
+		print("Used direct property updates for slot with count: ", new_count)
+
+# Helper function to find all Scheune UIs in the scene
+func _find_scheune_ui():
+	# First look for direct siblings with priority for ones matching the workstation name
+	var parent = get_parent()
+	if parent:
+		# First look for inventory UIs that match our current workstation
+		for child in parent.get_children():
+			if current_workstation in child.name and "inventory_ui" in child.name and child.has_method("reload_slots"):
+				return child
+				
+		# If not found, look for any inventory UI
+		for child in parent.get_children():
+			if "inventory_ui" in child.name and child.has_method("reload_slots"):
+				return child
+	
+	# If not found, look more broadly in the scene
+	var root = get_tree().root
+	var ui_found = null
+	
+	var search_queue = [root]
+	while search_queue.size() > 0:
+		var node = search_queue.pop_front()
 		
-		# Use a more efficient approach to refresh only relevant inventory UIs
-		_refresh_targeted_inventory_ui(current_workstation)
+		if "inventory_ui" in node.name and node.has_method("reload_slots"):
+			ui_found = node
+			break
+			
+		for child in node.get_children():
+			search_queue.push_back(child)
 		
-		# Save game to persist inventory changes - but defer it to avoid performance impact
-		call_deferred("_save_game_deferred")
+	return ui_found
 
 # More efficient function to refresh just the relevant inventory UI
 func _refresh_targeted_inventory_ui(workstation: String):
-	# Get parent node
+	# First try to find the inventory UI directly
+	var scheune_ui = _find_scheune_ui()
+	
+	if scheune_ui and scheune_ui.has_method("reload_slots"):
+		print("Found and refreshing inventory UI")
+		# Update this specific inventory UI
+		if scheune_ui.has_method("set_workstation_filter"):
+			scheune_ui.set_workstation_filter(workstation)
+		scheune_ui.reload_slots(true)
+		return
+		
+	# Fallback: Try a parent-based approach
 	var parent = get_parent()
 	if not parent:
 		return
 	
-	# Look for inventory UIs that are direct siblings (much more efficient)
+	# Look for inventory UIs that are direct siblings
 	for node in parent.get_children():
 		if "inventory_ui" in node.name and node.has_method("reload_slots"):
-			# Update this specific inventory UI
-			if node.has_method("set_workstation_filter") and node.has_method("reload_slots"):
-				# Only reload the slots with proper filter
-				node.reload_slots(true)
-				return
+			print("Found sibling inventory UI, refreshing")
+			# Only reload the slots with proper filter
+			node.reload_slots(true)
+			return
 
 # Deferred save game function to improve performance
 func _save_game_deferred():
@@ -469,32 +548,6 @@ func _refresh_all_inventory_uis(workstation: String):
 	
 	# Force UI update
 	call_deferred("_force_ui_update")
-
-# Helper function to find all Scheune UIs in the scene
-func _find_scheune_ui():
-	# First look for direct siblings
-	var parent = get_parent()
-	if parent:
-		for child in parent.get_children():
-			if "inventory_ui" in child.name and child.has_method("reload_slots"):
-				return child
-	
-	# If not found, look more broadly in the scene
-	var root = get_tree().root
-	var ui_found = null
-	
-	var search_queue = [root]
-	while search_queue.size() > 0:
-		var node = search_queue.pop_front()
-		
-		if "inventory_ui" in node.name and node.has_method("reload_slots"):
-			ui_found = node
-			break
-			
-		for child in node.get_children():
-			search_queue.push_back(child)
-		
-	return ui_found
 
 # Helper function to find all nodes in the scene
 func _find_all_nodes(node, result_array):

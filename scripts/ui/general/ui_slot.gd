@@ -20,13 +20,15 @@ signal slot_unlock(slot: PanelContainer, price: int)
 @export var def_texture: Texture2D
 
 var production_ui = null
+var click_cooldown = false  # To prevent multiple rapid clicks
 
 
 func _ready() -> void:
 	# Make sure the button is configured properly
 	button.mouse_filter = Control.MOUSE_FILTER_STOP
-	if not button.pressed.is_connected(_on_button_pressed):
-		button.pressed.connect(_on_button_pressed)
+	if button.pressed.is_connected(_on_button_pressed):
+		button.pressed.disconnect(_on_button_pressed)
+	button.pressed.connect(_on_button_pressed)
 	
 	# Make the item texture clickable
 	item_texture.mouse_filter = Control.MOUSE_FILTER_PASS
@@ -39,6 +41,8 @@ func _ready() -> void:
 		item_texture.texture = def_texture
 		
 	# Connect the direct item input handling
+	if gui_input.is_connected(_on_slot_gui_input):
+		gui_input.disconnect(_on_slot_gui_input)
 	gui_input.connect(_on_slot_gui_input)
 	
 	# Make sure we're visible
@@ -46,6 +50,9 @@ func _ready() -> void:
 	
 	# Make sure our mouse detection works
 	mouse_filter = MOUSE_FILTER_STOP
+	
+	# Debug
+	print("Slot ready with item: ", item_name)
 
 
 func _process(_delta):
@@ -60,6 +67,8 @@ func _process(_delta):
 
 
 func _on_button_pressed() -> void:
+	print("Button pressed in slot with item: ", item_name)
+	
 	if item_texture.texture != null and editable:
 		button.button_pressed = false
 		return
@@ -67,31 +76,56 @@ func _on_button_pressed() -> void:
 	if locked:
 		slot_unlock.emit(self, price)
 	else:
-		slot_selection.emit(self)
-		item_selection.emit(item_name, price, item_texture.texture)
-		
-		# Remove direct call to prevent double additions
-		# Signal connection in ui_scheune.gd will handle this
+		# Always trigger signals
+		if item_name != "":
+			print("Emitting item selection signal for: ", item_name)
+			slot_selection.emit(self)
+			item_selection.emit(item_name, price, item_texture.texture)
 
 
 # Centralized click handler
 func _handle_click() -> void:
-	# Remove direct call to prevent double additions
-	# Signal connection in ui_scheune.gd will handle this
+	if locked or item_name == "" or click_cooldown:
+		return
+		
+	print("Handle click for item: ", item_name)
+	
+	# Set cooldown to prevent multiple rapid clicks
+	click_cooldown = true
 	
 	# Only emit signals
 	slot_selection.emit(self)
 	item_selection.emit(item_name, price, item_texture.texture)
+	
+	# Reset cooldown after a short delay
+	await get_tree().create_timer(0.2).timeout
+	click_cooldown = false
 
 
 # Handle direct GUI input on the slot
 func _on_slot_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		if not locked and item_name != "":
-			# Remove direct call to prevent double additions
-			# Instead use button press mechanism which will emit signals
+		print("GUI input on slot: ", item_name)
+		if not locked and item_name != "" and not click_cooldown:
+			# Handle the click directly
+			_handle_click()
+			
+			# Only set the button pressed state for visual feedback
 			button.button_pressed = true
-			_on_button_pressed()
+			await get_tree().create_timer(0.1).timeout
+			button.button_pressed = false
+
+# Add direct click handling as a fallback
+func _input(event: InputEvent) -> void:
+	if not visible or click_cooldown:
+		return
+		
+	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
+		var global_rect = get_global_rect()
+		var mouse_pos = get_global_mouse_position()
+		
+		if global_rect.has_point(mouse_pos) and item_name != "" and not locked:
+			_handle_click()
 
 
 func lock() -> void:
