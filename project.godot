@@ -23,6 +23,7 @@ SaveGame="*res://scripts/data/save_game.gd"
 ConfigReader="*res://scripts/config/ConfigReader.gd"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 SceneSwitcher="*res://scripts/utility/scene_switcher.gd"
+LevelingHandler="*res://scripts/utility/leveling_system.gd"
 
 [dialogic]
 
@@ -99,7 +100,7 @@ save/autosave_delay=60.0
 save/encryption_on_exports_only=true
 text/autopauses={}
 save/autosave=false
-glossary/glossary_files=["res://dialogs/story/glossary/glos1.tres", "res://dialogs/story/glossary/characters.tres"]
+glossary/glossary_files=[]
 translation/enabled=false
 translation/original_locale="de"
 translation/file_mode=1

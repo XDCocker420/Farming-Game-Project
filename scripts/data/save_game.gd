@@ -6,44 +6,35 @@ const SAVE_FILE_PATH: String = "user://savegame.tres"
 # Auto-save interval in seconds
 const AUTO_SAVE_INTERVAL: float = 60.0  # Save every 60 seconds
 
-const MAX_LEVEL:int = 6
-
 var inventory:Inventory = Inventory.new()
-var config = ConfigFile.new()
-var level:int = 0
-var exp_level:int = 0
 var con_sav:Array[SavedContracts] = []
 var market_sav:Array[SavedMarket] = []
 
-# Verwende eine Variable ohne @onready, um den Zugriff zu verzögern
 var map = null
 @onready var player = get_tree().get_first_node_in_group("Player")
 
-# Debug signal für Position tracking
-signal exterior_position_changed(position)
+signal money_added(money:int, added_value:int)
+signal money_removed(money:int, removed_value:int)
 
 func _ready() -> void:
-	# Versuche die Map-Node zu bekommen
 	var map_nodes = get_tree().get_nodes_in_group("game_map")
 	if map_nodes.size() > 0:
 		map = map_nodes[0]
-	
-	# Start the auto-save timer
+
 	start_auto_save_timer()
 	# Attempt to load existing game data
 	load_game()
-
-	var err = config.load("res://scripts/config/level_config.cfg")
-	if err != OK:
-		return
 
 
 func save_game() -> void:
 	var save := SavedData.new()
 	if player:
-		save.player_position = player.global_position
-		save.player_level = level
-		save.player_experience_per_level = exp_level
+		if SceneSwitcher.player_position != Vector2.ZERO:
+			save.player_position = SceneSwitcher.player_position
+		else:
+			save.player_position = player.global_position
+		save.player_level = LevelingHandler.get_current_level()
+		save.player_experience_per_level = LevelingHandler.get_experience_in_current_level()
 		save.contracts = con_sav
 		save.market_items = market_sav
 
@@ -53,14 +44,13 @@ func save_game() -> void:
 	save.saved_data = saved_data
 	save.inventory = inventory
 	
-	# Stelle sicher, dass die Inventardaten korrekt übergeben werden
 	ResourceSaver.save(save, SAVE_FILE_PATH)
 
 
 func load_game() -> void:
 	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
 	if saved_game == null:
-		level = 1
+		LevelingHandler.set_player_level(1)
 		inventory.money = 100
 		return
 	
@@ -74,8 +64,8 @@ func load_game() -> void:
 		
 		inventory = saved_game.inventory
 		
-		level = saved_game.player_level
-		exp_level = saved_game.player_experience_per_level
+		LevelingHandler.set_player_level(saved_game.player_level)
+		LevelingHandler.set_experience_in_current_level(saved_game.player_experience_per_level)
 		player.global_position = saved_game.player_position
 		con_sav = saved_game.contracts
 		market_sav = saved_game.market_items
@@ -143,34 +133,12 @@ func get_item_count(item:String) -> int:
 		return 0
 	return inventory.data[item]
 
-func get_current_level() -> int:
-	return level
-
-func get_experience_per_level() -> int:
-	return exp_level
-
-func add_experience_points(count:int=1) -> void:
-	if count < 1:
-		push_error("count musst be bigger or equal 1")
-		get_tree().quit()
-	exp_level += count
-	_check_new_level()
-
-func _check_new_level() -> void:
-	if(level > MAX_LEVEL):
-		return
-	var xp_needed = config.get_value("Level" + str(level), "exp_needed")
-	if(exp_level >= xp_needed):
-		level += 1
-		exp_level -= xp_needed
-		if(exp_level < 0):
-			exp_level = 0
-
 func add_money(count:int=1) -> void:
 	if count < 1:
 		push_error("count musst be bigger or equal 1")
 		get_tree().quit()
 	inventory.money += count
+	money_added.emit(inventory.money, count)
 
 func remove_money(count:int=1) -> bool:
 	if count < 1:
@@ -179,6 +147,7 @@ func remove_money(count:int=1) -> bool:
 	if inventory.money - count < 0:
 		return false
 	inventory.money -= count
+	money_removed.emit(inventory.money, count)
 	return true
 
 func get_money() -> int:

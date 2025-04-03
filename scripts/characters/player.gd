@@ -1,10 +1,22 @@
 extends CharacterBody2D
 
-
 signal interact
 signal interact2
 
 @onready var body: AnimatedSprite2D = $AnimationBody
+@onready var lvl_bar:TextureProgressBar = $CanvasLayer/TextureProgressBar
+@onready var lvl_label:Label = $CanvasLayer/TextureProgressBar/Label
+
+@onready var money_label:Label = $CanvasLayer/TextureRect/Money
+@onready var exit_menu:Control = $CanvasLayer/ExitMenu
+
+@onready var money_animation:AnimationPlayer = $CanvasLayer/TextureRect/MoneyAnim/AnimationPlayer
+@onready var money_animation_val:Label = $CanvasLayer/TextureRect/MoneyAnim/Amount
+@onready var money_animation_control:Control = $CanvasLayer/TextureRect/MoneyAnim
+
+@onready var exp_animation:AnimationPlayer = $CanvasLayer/TextureProgressBar/ExpAdded/AnimationPlayer
+@onready var exp_animation_val:Label = $CanvasLayer/TextureProgressBar/ExpAdded/Amount
+@onready var exp_animation_control:Control = $CanvasLayer/TextureProgressBar/ExpAdded
 
 @export var normal_speed: float = 50.0
 @export var sprint_speed: float = 100.0
@@ -14,9 +26,34 @@ var selected_crop: String = "carrot"  # Default crop
 var looking_direction: String = "down"
 var current_speed: float
 var is_jump: bool
+var temp_money:int
+
+@export var addMoney: bool:
+	set(value):
+		SaveGame.add_money(20)
+		
+@export var addEXP: bool:
+	set(value):
+		LevelingHandler.add_experience_points(50)
 
 
 func _ready() -> void:
+	LevelingHandler.exp_changed.connect(_on_exp_changed)
+	LevelingHandler.level_changed.connect(_on_level_changed)
+	
+	SaveGame.money_added.connect(_on_money_added)
+	SaveGame.money_removed.connect(_on_money_removed)
+	
+	money_animation.animation_finished.connect(_on_money_anim_finished)
+	exp_animation.animation_finished.connect(_on_exp_anim_finished)
+	
+	money_label.text = str(SaveGame.get_money())
+	
+	lvl_label.text = _format_level(LevelingHandler.get_current_level())
+	lvl_bar.min_value = 0
+	lvl_bar.value = LevelingHandler.get_experience_in_current_level()
+	lvl_bar.max_value = LevelingHandler.xp_for_level(LevelingHandler.get_current_level())
+	
 	current_speed = normal_speed
 	
 	if SceneSwitcher.player_position != Vector2.ZERO:
@@ -46,16 +83,12 @@ func _ready() -> void:
 		if SaveGame.get_money() <= 0:
 			SaveGame.add_money(5000)
 
-	
 
 # Überprüft die Position nach dem Verlassen eines Gebäudes
 func _check_position_after_building_exit() -> void:
 	# Wenn die aktuelle Position (0,0) oder nahe daran ist, verwende die gespeicherte Position
 	if global_position.length() < 1.0:  # Nahe am Ursprung (0,0)
-		print("sigma")
 		set_position_from_exterior(SceneSwitcher.player_position)
-
-	$CanvasLayer/TextureRect/Money.text = str(SaveGame.get_money())
 
 
 func _input(event: InputEvent) -> void:
@@ -68,11 +101,6 @@ func _input(event: InputEvent) -> void:
 		
 	if event.is_action_pressed("jump"):
 		body.play("jump_" + looking_direction)
-		
-
-	# exit game on esc
-	'''if event.is_action_pressed("ui_cancel"):
-		get_tree().quit()'''
 
 
 func set_selected_crop(crop_name: String) -> void:
@@ -117,16 +145,21 @@ func set_position_from_exterior(pos: Vector2) -> void:
 	# Setze sowohl die globale als auch die lokale Position
 	global_position = pos
 	position = pos
+	SceneSwitcher.player_position = Vector2.ZERO
+	
+func _format_level(level:int) -> String:
+	if level < 10:
+		return "0" + str(level)
+	else:
+		return str(level)
 
 
 func _on_settings_btn_pressed() -> void:
-	if $CanvasLayer/ExitMenu.visible:
-		$CanvasLayer/ExitMenu.visible = false
+	if exit_menu.visible:
+		exit_menu.visible = false
 		get_tree().paused = false
-		
-
 	else:
-		$CanvasLayer/ExitMenu.visible = true
+		exit_menu.visible = true
 		get_tree().paused = true
 
 
@@ -136,5 +169,37 @@ func _on_exit_btn_pressed() -> void:
 
 
 func _on_back_btn_pressed() -> void:
-	$CanvasLayer/ExitMenu.visible = false
+	exit_menu.visible = false
 	get_tree().paused = false
+	
+func _on_level_changed(level:int):
+	lvl_label.text = _format_level(level)
+	lvl_bar.min_value = 0
+	lvl_bar.value = LevelingHandler.get_experience_in_current_level()
+	lvl_bar.max_value = LevelingHandler.xp_for_level(level)
+	
+func _on_exp_changed(exp_count:int):
+	lvl_bar.value = exp_count
+	
+func _on_money_added(money:int, added_value:int):
+	temp_money = money
+	money_label.hide()
+	money_animation_control.show()
+	money_animation_val.text = "+" + str(added_value)
+	money_animation.play("fade_up")
+	
+	
+func _on_money_removed(money:int, removed_value:int):
+	temp_money = money
+	money_label.hide()
+	money_animation_control.show()
+	money_animation_val.text = "-" + str(removed_value)
+	money_animation.play("fade_up")
+	
+func _on_money_anim_finished(anim_name):
+	money_label.show()
+	money_animation_control.hide()
+	money_label.text = str(temp_money)
+
+func _on_exp_anim_finished(anim_name):
+	pass
