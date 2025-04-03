@@ -9,7 +9,7 @@ extends AnimatedSprite2D
 
 var time_left: int = 0
 var is_watered: bool = false
-var default_time: float
+var default_time: float = 1.0
 
 
 func _ready() -> void:

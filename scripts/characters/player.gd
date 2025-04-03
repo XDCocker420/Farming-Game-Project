@@ -46,13 +46,11 @@ func _ready() -> void:
 		if SaveGame.get_money() <= 0:
 			SaveGame.add_money(5000)
 
-	
 
 # Überprüft die Position nach dem Verlassen eines Gebäudes
 func _check_position_after_building_exit() -> void:
 	# Wenn die aktuelle Position (0,0) oder nahe daran ist, verwende die gespeicherte Position
 	if global_position.length() < 1.0:  # Nahe am Ursprung (0,0)
-		print("sigma")
 		set_position_from_exterior(SceneSwitcher.player_position)
 
 	$CanvasLayer/TextureRect/Money.text = str(SaveGame.get_money())
@@ -68,11 +66,6 @@ func _input(event: InputEvent) -> void:
 		
 	if event.is_action_pressed("jump"):
 		body.play("jump_" + looking_direction)
-		
-
-	# exit game on esc
-	'''if event.is_action_pressed("ui_cancel"):
-		get_tree().quit()'''
 
 
 func set_selected_crop(crop_name: String) -> void:
@@ -123,8 +116,6 @@ func _on_settings_btn_pressed() -> void:
 	if $CanvasLayer/ExitMenu.visible:
 		$CanvasLayer/ExitMenu.visible = false
 		get_tree().paused = false
-		
-
 	else:
 		$CanvasLayer/ExitMenu.visible = true
 		get_tree().paused = true
