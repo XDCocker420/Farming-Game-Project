@@ -20,7 +20,8 @@ signal slot_unlock(slot: PanelContainer, price: int)
 @export var def_texture: Texture2D
 
 var production_ui = null
-var click_cooldown = false  # To prevent multiple rapid clicks
+var click_cooldown = false  # To prevent double processing of same click
+var cooldown_time = 0.12    # Moderate cooldown similar to output slot clicks
 
 
 func _ready() -> void:
@@ -61,7 +62,7 @@ func _process(_delta):
 		var mouse_pos = get_global_mouse_position()
 		if get_global_rect().has_point(mouse_pos):
 			# This will fire continuously while button is held, so add a cooldown
-			if Engine.get_physics_frames() % 20 == 0: # Every ~1/3 second
+			if Engine.get_physics_frames() % 15 == 0: # Moderate pace (~1/4 second)
 				print("Continuous click detection on slot with item: ", item_name)
 				_handle_click()
 
@@ -90,15 +91,15 @@ func _handle_click() -> void:
 		
 	print("Handle click for item: ", item_name)
 	
-	# Set cooldown to prevent multiple rapid clicks
+	# Set cooldown to prevent processing the same click multiple times
 	click_cooldown = true
 	
 	# Only emit signals
 	slot_selection.emit(self)
 	item_selection.emit(item_name, price, item_texture.texture)
 	
-	# Reset cooldown after a short delay
-	await get_tree().create_timer(0.2).timeout
+	# Reset cooldown after a short delay - much shorter to allow rapid clicks
+	await get_tree().create_timer(cooldown_time).timeout
 	click_cooldown = false
 
 
@@ -112,7 +113,7 @@ func _on_slot_gui_input(event: InputEvent) -> void:
 			
 			# Only set the button pressed state for visual feedback
 			button.button_pressed = true
-			await get_tree().create_timer(0.1).timeout
+			await get_tree().create_timer(0.05).timeout
 			button.button_pressed = false
 
 # Add direct click handling as a fallback

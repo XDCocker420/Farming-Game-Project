@@ -416,17 +416,16 @@ func add_input_item(item_name: String) -> void:
 	# race conditions with reload_slots
 	SaveGame.save_game()
 	
-	# Now update the production UI
-	call_deferred("_update_input_slot", item_name, new_count)
+	# Update the UI immediately for better responsiveness with rapid clicks
+	_update_input_slot(item_name, new_count)
 	
 	# Enable the produce button since we now have valid input
 	if produce_button:
 		produce_button.disabled = false
 	
-	# Refresh UI after a small delay to ensure everything is settled
-	get_tree().create_timer(0.1).timeout.connect(func(): 
-		_refresh_targeted_inventory_ui(current_workstation)
-	)
+	# Use a very short timer to refresh inventory UI to handle rapid clicks better
+	var refresh_timer = get_tree().create_timer(0.12)
+	refresh_timer.timeout.connect(func(): _refresh_targeted_inventory_ui(current_workstation))
 
 # Method to update the input slot safely in deferred context
 func _update_input_slot(item_name, new_count):
@@ -494,8 +493,24 @@ func _find_scheune_ui():
 
 # More efficient function to refresh just the relevant inventory UI
 func _refresh_targeted_inventory_ui(workstation: String):
-	# First try to find the inventory UI directly
-	var scheune_ui = _find_scheune_ui()
+	# First try to find the inventory UI directly - prioritize exact match
+	var scheune_ui = null
+	
+	# Get parent node
+	var parent = get_parent()
+	if parent:
+		# First try exact match with workstation name
+		for child in parent.get_children():
+			if workstation in child.name and "inventory_ui" in child.name and child.has_method("reload_slots"):
+				scheune_ui = child
+				break
+				
+		# If not found, try any inventory UI
+		if not scheune_ui:
+			for child in parent.get_children():
+				if "inventory_ui" in child.name and child.has_method("reload_slots"):
+					scheune_ui = child
+					break
 	
 	if scheune_ui and scheune_ui.has_method("reload_slots"):
 		print("Found and refreshing inventory UI")
@@ -504,19 +519,14 @@ func _refresh_targeted_inventory_ui(workstation: String):
 			scheune_ui.set_workstation_filter(workstation)
 		scheune_ui.reload_slots(true)
 		return
-		
-	# Fallback: Try a parent-based approach
-	var parent = get_parent()
-	if not parent:
-		return
 	
-	# Look for inventory UIs that are direct siblings
-	for node in parent.get_children():
-		if "inventory_ui" in node.name and node.has_method("reload_slots"):
-			print("Found sibling inventory UI, refreshing")
-			# Only reload the slots with proper filter
-			node.reload_slots(true)
-			return
+	# Fallback method - use find_scheune_ui as backup
+	scheune_ui = _find_scheune_ui()
+	if scheune_ui and scheune_ui.has_method("reload_slots"):
+		print("Found inventory UI via fallback method")
+		if scheune_ui.has_method("set_workstation_filter"):
+			scheune_ui.set_workstation_filter(workstation)
+		scheune_ui.reload_slots(true)
 
 # Deferred save game function to improve performance
 func _save_game_deferred():
