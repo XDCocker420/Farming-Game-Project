@@ -55,7 +55,7 @@ func _setup_highlight() -> void:
 	var tex = sprite_frames.get_frame_texture(player.animation, player.frame)
 	selection_highlight = NinePatchRect.new()
 	selection_highlight.name = "SelectionHighlight"
-	selection_highlight.texture = preload("res://assets/gui/menu.png")
+	#selection_highlight.texture = preload("res://assets/gui/menu.png")
 	selection_highlight.region_rect = Rect2(305, 81, 14, 14)
 	selection_highlight.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	selection_highlight.modulate = Color(1, 1, 1, 0.4)
