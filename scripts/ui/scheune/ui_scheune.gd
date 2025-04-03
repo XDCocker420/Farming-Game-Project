@@ -468,17 +468,36 @@ func _on_scroll_container_gui_input(event: InputEvent) -> void:
 		# Get the scroll container
 		var scroll_container = $MarginContainer/ScrollContainer
 		
+		# Get current and max scroll values
+		var current_scroll = scroll_container.scroll_vertical
+		var v_scrollbar = scroll_container.get_v_scroll_bar()
+		var max_scroll = v_scrollbar.max_value if v_scrollbar else 0
+		
 		# Directly modify scroll_vertical property
 		var scroll_amount = 5  # Reduced from 15 to 5 for finer control
+		var new_scroll = current_scroll
 		
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-			scroll_container.scroll_vertical -= scroll_amount
+			# Only scroll up if not at the top
+			if current_scroll > 0:
+				new_scroll = max(0, current_scroll - scroll_amount)
+			else:
+				# Already at top, don't try to scroll further
+				new_scroll = 0
 		else:  # MOUSE_BUTTON_WHEEL_DOWN
-			scroll_container.scroll_vertical += scroll_amount
+			# Only scroll down if not at the bottom
+			if current_scroll < max_scroll:
+				new_scroll = min(max_scroll, current_scroll + scroll_amount)
+			else:
+				# Already at bottom, don't try to scroll further
+				new_scroll = max_scroll
 		
-		# Debug output
-		print("DEBUG: Container scroll - direction=", "UP" if event.button_index == MOUSE_BUTTON_WHEEL_UP else "DOWN",
-			  " new value=", scroll_container.scroll_vertical)
+		# Only update if the value actually changed
+		if new_scroll != current_scroll:
+			scroll_container.scroll_vertical = new_scroll
+			# Debug output
+			print("DEBUG: Container scroll - direction=", "UP" if event.button_index == MOUSE_BUTTON_WHEEL_UP else "DOWN",
+				" new value=", scroll_container.scroll_vertical)
 		
 		# Make sure we don't propagate the event further
 		get_viewport().set_input_as_handled()
@@ -501,16 +520,36 @@ func _input(event: InputEvent) -> void:
 		
 		# If mouse is over our scroll container, manually handle the scroll
 		if scroll_container_rect.has_point(get_global_mouse_position()):
+			# Get current and max scroll values
+			var current_scroll = scroll_container.scroll_vertical
+			var v_scrollbar = scroll_container.get_v_scroll_bar()
+			var max_scroll = v_scrollbar.max_value if v_scrollbar else 0
+			
 			# Directly modify scroll_vertical property
 			var scroll_amount = 5  # Reduced from 15 to 5 for finer control
+			var new_scroll = current_scroll
 			
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
-				scroll_container.scroll_vertical -= scroll_amount
+				# Only scroll up if not at the top
+				if current_scroll > 0:
+					new_scroll = max(0, current_scroll - scroll_amount)
+				else:
+					# Already at top, don't try to scroll further
+					new_scroll = 0
 			else:  # MOUSE_BUTTON_WHEEL_DOWN
-				scroll_container.scroll_vertical += scroll_amount
+				# Only scroll down if not at the bottom
+				if current_scroll < max_scroll:
+					new_scroll = min(max_scroll, current_scroll + scroll_amount)
+				else:
+					# Already at bottom, don't try to scroll further
+					new_scroll = max_scroll
+			
+			# Only update if the value actually changed
+			if new_scroll != current_scroll:
+				scroll_container.scroll_vertical = new_scroll
+				# Debug output
+				print("DEBUG: Manual scroll - direction=", "UP" if event.button_index == MOUSE_BUTTON_WHEEL_UP else "DOWN",
+					" new value=", new_scroll)
 			
 			# Make sure we don't propagate the event further
 			get_viewport().set_input_as_handled()
-			
-			print("DEBUG: Manual scroll - direction=", "UP" if event.button_index == MOUSE_BUTTON_WHEEL_UP else "DOWN",
-				  " new value=", scroll_container.scroll_vertical)
