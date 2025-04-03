@@ -8,3 +8,7 @@ Ein Wohnmobil fährt Richtung der Farm. Dort angekommen steigt der Spieler aus u
 Dort angekommen wartet Martha auf ihn.
 Sie verwickelt ihn in ein Gespräch. Als erstes läuft sie mit dem Spieler zur Scheune und zeigt ihm diese. Danach schenkt sie ihm ein paar von ihren Karottensamen
 und dem Spieler wird gezeigt wie man Pflanzen anbaut, bewässert und schließlich erntet. Danach zeigt sie ihm die Futtermühle und anschließend die Tiere.
+Anschließend erzählt sie dem Spieler, dass sie jetzt in die Stadt geht und lässt den Spieler alleine zurück
+
+###
+Dialoge:
