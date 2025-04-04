@@ -16,8 +16,6 @@ var player_in_area: bool = false
 
 
 func _ready() -> void:
-	print("Market building initialized")
-	
 	# CRITICAL FIX: Set CanvasLayer to handle inputs properly
 	canvas_layer.layer = 100  # Put it on top of other layers
 	
@@ -35,14 +33,11 @@ func _ready() -> void:
 	
 
 func _on_player_interact() -> void:
-	print("Player interact triggered, in area: ", player_in_area)
 	if player_in_area:
 		if ui_markt.visible:
-			print("Hiding market UI")
 			ui_markt.hide()
 			ui_selection.hide()
 		else:
-			print("Showing market UI")
 			# Force the UI to have clean state
 			ui_markt.process_mode = Node.PROCESS_MODE_ALWAYS
 			ui_markt.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -59,7 +54,6 @@ func _on_player_interact() -> void:
 			
 			# Optionally test by simulating a click on a slot
 			if ui_markt.slot_list.size() > 0:
-				print("Testing slot interaction")
 				var test_slot = ui_markt.slot_list[0]
 				if test_slot.has_node("button"):
 					var test_button = test_slot.get_node("button")
@@ -68,11 +62,8 @@ func _on_player_interact() -> void:
 
 
 func _on_select(slot: PanelContainer) -> void:
-	print("Market: Slot selected, showing selection UI for slot: ", slot.name)
-	
 	# CRITICAL FIX: Only continue if the slot is not locked
 	if slot.get("locked"):
-		print("Slot is locked, not showing selection UI")
 		return
 		
 	# Save the selected slot for later
@@ -84,23 +75,18 @@ func _on_select(slot: PanelContainer) -> void:
 	
 	# Check if this slot already has an item assigned
 	if slot.has_node("MarginContainer/item") and slot.get_node("MarginContainer/item").texture != null:
-		print("Slot has an item already")
 		# We could implement removing/modifying existing items here
 		# But for now we'll just allow adding new items
-	else:
-		print("Slot is empty, ready for item selection")
+		pass
 		
 
 func _on_put(item_name: String, item_texture: Texture2D) -> void:
-	print("Market: Item put - ", item_name)
 	selected_texture = item_texture
 	selected_name = item_name
 		
 
 func _on_accept(amount: int) -> void:
-	print("Market: Accept with amount ", amount)
 	if selected_texture == null:
-		print("Market: No texture selected, aborting")
 		return
 	
 	# Check if the necessary nodes exist
@@ -117,22 +103,19 @@ func _on_accept(amount: int) -> void:
 		ui_selection.hide()
 		
 		SaveGame.add_market_slot(0, selected_name, amount, 0)
-		
-		print("Market: Item successfully added to market")
 	else:
-		print("Market: Could not find required nodes in selected slot")
+		# Could not find required nodes
+		pass
 
 
 func _on_player_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		print("Player entered market area")
 		player_in_area = true
 		door.play("open")
 	
 	
 func _on_player_exited(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		print("Player exited market area")
 		player_in_area = false
 		ui_markt.hide()
 		ui_selection.hide()

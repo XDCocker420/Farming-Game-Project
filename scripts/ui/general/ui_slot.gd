@@ -25,19 +25,6 @@ var cooldown_time = 0.12    # Restored for production UI
 
 
 func _ready() -> void:
-	print("UI Slot Ready, name: ", name)
-	
-	# Check if nodes exist
-	if has_node("button"):
-		print("Button node exists")
-	else:
-		print("Button node doesn't exist")
-		
-	if has_node("MarginContainer/item"):
-		print("Item node exists")
-	else:
-		print("Item node doesn't exist")
-	
 	# CRITICAL FIX: Use the simplest approach to get input working
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	
@@ -89,25 +76,20 @@ func _process(_delta):
 
 # Main button press handler
 func _on_button_pressed() -> void:
-	print("Button pressed in slot: ", name)
-	
 	if item_texture.texture != null and editable:
 		button.button_pressed = false
 		return
 	
 	# For locked slots, emit unlock signal
 	if locked:
-		print("Emitting slot_unlock for: ", name, " with price: ", price)
 		slot_unlock.emit(self, price)
 		return
 		
 	# For non-locked slots, always emit slot_selection
-	print("Emitting slot_selection for: ", name)
 	slot_selection.emit(self)
 	
 	# For slots with items, also emit the item selection signal
 	if item_name != "":
-		print("Emitting item_selection for: ", item_name)
 		item_selection.emit(item_name, price, item_texture.texture)
 
 
@@ -118,8 +100,6 @@ func _handle_click() -> void:
 		
 	# Set cooldown to prevent processing the same click multiple times
 	click_cooldown = true
-	
-	print("Handling click for: ", name, " with item: ", item_name)
 	
 	# Emit signals
 	slot_selection.emit(self)
@@ -134,7 +114,6 @@ func _handle_click() -> void:
 # Handle direct GUI input on the slot - restored for production UI
 func _on_slot_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		print("GUI input on slot: ", name)
 		if not locked:
 			# Force a button press when the container is clicked
 			button.button_pressed = true
