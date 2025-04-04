@@ -230,7 +230,6 @@ func _on_auto_save_timeout() -> void:
 
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
-		print("be endet")
 		# Defer the save to ensure other nodes have saved their state
 		call_deferred("save_game")
 		# Allow the application to quit

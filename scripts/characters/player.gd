@@ -28,6 +28,7 @@ signal interact2
 @export var normal_speed: float = 50.0
 @export var sprint_speed: float = 100.0
 @export var cant_move: bool = false
+@export var no_ui:bool = false
 
 var selected_crop: String = "carrot"  # Default crop
 var looking_direction: String = "down"
@@ -62,9 +63,10 @@ func _ready() -> void:
 	new_lvl_anim.animation_finished.connect(_on_new_lvl_finished)
 	player_animplayer.animation_finished.connect(_on_player_anim_finished)
 	
+	$CanvasLayer.visible = !no_ui
+	
 	money_label.text = str(SaveGame.get_money())
 	
-	print(LevelingHandler.get_current_level())
 	lvl_label.text = _format_level(LevelingHandler.get_current_level())
 	lvl_bar.min_value = 0
 	lvl_bar.value = LevelingHandler.get_experience_in_current_level()
@@ -244,3 +246,4 @@ func _on_player_anim_finished(anim_name):
 	if anim_name == "show_up":
 		await get_tree().create_timer(1.5).timeout
 		player_animplayer.play("not_show")
+		

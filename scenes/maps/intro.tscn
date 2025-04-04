@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://c1rx8mb7g7ji8"]
+
+[ext_resource type="PackedScene" uid="uid://exndmgultn3t" path="res://scenes/buildings/car_1.tscn" id="1_3w8xg"]
+[ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="2_05tvd"]
+
+[node name="Intro" type="Node2D"]
+
+[node name="Car1" parent="." instance=ExtResource("1_3w8xg")]
+position = Vector2(117, 143)
+
+[node name="Player" parent="Car1" instance=ExtResource("2_05tvd")]
+position = Vector2(2, -13)
+no_ui = true
