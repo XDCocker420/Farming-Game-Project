@@ -21,7 +21,7 @@ func _ready() -> void:
 	
 	var err2 = lvl_config.load("res://scripts/config/level_config.cfg")
 	
-	var err3 = build_config.load("res://scripts/config/buildings.cfg")
+	var err3 = build_config.load("res://scripts/config/building_config.cfg")
 
 	# If the file didn't load, ignore it.
 	if err != OK or err2 != OK or err3 != OK:
@@ -49,6 +49,9 @@ func has_reached_level(item_name:String) -> bool:
 	
 func has_reached_level_building(building_name:String) -> bool:
 	return LevelingHandler.get_current_level() >= build_config.get_value(building_name, "level_needed")
+	
+func get_level_needed_building(building_name:String) -> int:
+	return int(build_config.get_value(building_name, "level_needed"))
 	
 func get_all_items_for_level() -> Array[String]:
 	var items:Array[String] = []

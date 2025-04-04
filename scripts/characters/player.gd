@@ -22,6 +22,9 @@ signal interact2
 @onready var new_lvl_anim_val:Label = $CanvasLayer/NewLevelReached/TextureRect/LevelVal
 @onready var new_lvl_anim_control:Control = $CanvasLayer/NewLevelReached
 
+@onready var player_animplayer:AnimationPlayer = $CanvasLayer/AnimationPlayer
+@onready var player_center_label:Label = $CanvasLayer/NotUnlocked
+
 @export var normal_speed: float = 50.0
 @export var sprint_speed: float = 100.0
 @export var cant_move: bool = false
@@ -49,6 +52,7 @@ var temp_money:int
 func _ready() -> void:
 	LevelingHandler.exp_changed.connect(_on_exp_changed)
 	LevelingHandler.level_changed.connect(_on_level_changed)
+	LevelingHandler.not_unlocked.connect(_on_building_not_unlocked)
 	
 	SaveGame.money_added.connect(_on_money_added)
 	SaveGame.money_removed.connect(_on_money_removed)
@@ -56,9 +60,11 @@ func _ready() -> void:
 	money_animation.animation_finished.connect(_on_money_anim_finished)
 	exp_animation.animation_finished.connect(_on_exp_anim_finished)
 	new_lvl_anim.animation_finished.connect(_on_new_lvl_finished)
+	player_animplayer.animation_finished.connect(_on_player_anim_finished)
 	
 	money_label.text = str(SaveGame.get_money())
 	
+	print(LevelingHandler.get_current_level())
 	lvl_label.text = _format_level(LevelingHandler.get_current_level())
 	lvl_bar.min_value = 0
 	lvl_bar.value = LevelingHandler.get_experience_in_current_level()
@@ -229,3 +235,12 @@ func _on_new_lvl_finished(anim_name):
 		
 	if anim_name == "fade_out":
 		new_lvl_anim_control.hide()
+		
+func _on_building_not_unlocked(level:int) -> void:
+	player_center_label.text = "Wird mit Level " + str(level) + " freigschalten"
+	player_animplayer.play("show_up")
+	
+func _on_player_anim_finished(anim_name):
+	if anim_name == "show_up":
+		await get_tree().create_timer(1.5).timeout
+		player_animplayer.play("not_show")

@@ -22,10 +22,12 @@ func _ready() -> void:
 func _on_transition_to_new_scene(new_scene_name:String, global_player_pos:Vector2):
 	SceneSwitcher.player_position = global_player_pos
 	next_name = new_scene_name
+	SaveGame.save_game()
 	trans_screen.transition()
 	
 func _transiton_to_game_map():
 	next_name = "game_map"
+	SaveGame.save_exp_lvl()
 	trans_screen.transition()
 	
 func _on_transition_finished():

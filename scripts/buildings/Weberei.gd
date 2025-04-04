@@ -19,7 +19,7 @@ func _on_player_interact() -> void:
 		SceneSwitcher.transition_to_new_scene.emit(name.to_lower(), player.global_position)
 
 func _on_door_area_entered(body: Node2D) -> void:
-	if body.is_in_group("Player"):
+	if body.is_in_group("Player") && LevelingHandler.is_building_unlocked("weberei"):
 		in_door_area = true
 		door.play("door")
 

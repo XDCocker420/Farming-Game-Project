@@ -28,15 +28,17 @@ func _ready() -> void:
 
 func save_game() -> void:
 	var save := SavedData.new()
+	update_player()
 	if player:
 		if SceneSwitcher.player_position != Vector2.ZERO:
 			save.player_position = SceneSwitcher.player_position
 		else:
 			save.player_position = player.global_position
-		save.player_level = LevelingHandler.get_current_level()
-		save.player_experience_per_level = LevelingHandler.get_experience_in_current_level()
-		save.contracts = con_sav
-		save.market_items = market_sav
+			
+	save.player_level = LevelingHandler.get_current_level()
+	save.player_experience_per_level = LevelingHandler.get_experience_in_current_level()
+	save.contracts = con_sav
+	save.market_items = market_sav
 
 	var saved_data:Array[ItemSaves] = []
 	get_tree().call_group("dynamic_elements", "on_save_game", saved_data)
@@ -46,11 +48,20 @@ func save_game() -> void:
 	
 	ResourceSaver.save(save, SAVE_FILE_PATH)
 
+func save_exp_lvl() -> void:
+	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
+		
+	saved_game.player_level = LevelingHandler.get_current_level()
+	saved_game.player_experience_per_level = LevelingHandler.get_experience_in_current_level()
+	ResourceSaver.save(saved_game, SAVE_FILE_PATH)
 
 func load_game() -> void:
 	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
 	if saved_game == null:
-		LevelingHandler.set_player_level(1)
+		# For testing
+		LevelingHandler.set_player_level(10)
+		# For production
+		# LevelingHandler.set_player_level(1)
 		inventory.money = 100
 		return
 	
@@ -63,7 +74,6 @@ func load_game() -> void:
 			old_inventory = inventory.data.duplicate()
 		
 		inventory = saved_game.inventory
-		
 		LevelingHandler.set_player_level(saved_game.player_level)
 		LevelingHandler.set_experience_in_current_level(saved_game.player_experience_per_level)
 		player.global_position = saved_game.player_position
@@ -209,6 +219,9 @@ func start_auto_save_timer() -> void:
 	timer.autostart = true
 	timer.timeout.connect(_on_auto_save_timeout)
 	add_child(timer)
+	
+func update_player() -> void:
+	player = get_tree().get_first_node_in_group("Player")
 
 
 func _on_auto_save_timeout() -> void:
@@ -217,6 +230,7 @@ func _on_auto_save_timeout() -> void:
 
 func _notification(what):
 	if what == NOTIFICATION_WM_CLOSE_REQUEST:
+		print("be endet")
 		# Defer the save to ensure other nodes have saved their state
 		call_deferred("save_game")
 		# Allow the application to quit

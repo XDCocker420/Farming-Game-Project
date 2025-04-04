@@ -4,6 +4,7 @@ var _level:int = 1
 var _exp_level:int = 0
 signal exp_changed(exp_count:int, exp_sum:int)
 signal level_changed(level:int)
+signal not_unlocked(level_needed:int)
 
 
 func get_current_level() -> int:
@@ -24,7 +25,10 @@ func is_item_unlocked(item_name:String) -> bool:
 	return ConfigReader.has_reached_level(item_name)
 	
 func is_building_unlocked(building_name:String) -> bool:
-	return ConfigReader.has_reached_level_building(building_name)
+	if not ConfigReader.has_reached_level_building(building_name):
+		not_unlocked.emit(ConfigReader.get_level_needed_building(building_name))
+		return false
+	return true
 
 func get_all_unlocked_buildings() -> Array[String]:
 	return ConfigReader.get_all_buildings_for_level()

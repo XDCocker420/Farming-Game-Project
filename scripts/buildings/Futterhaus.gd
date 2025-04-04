@@ -21,7 +21,10 @@ func _ready() -> void:
 	garage_door_area.body_exited.connect(_on_garage_door_area_exited)
 
 func _process(_delta: float) -> void:
+	pass
 	# Überprüfe Interaktions-Hinweise
+	# Oida was ist das das ist in der falschen Funktion
+	"""
 	if is_instance_valid(player) and player.has_method("set_interaction_hint"):
 		if in_door_area:
 			player.set_interaction_hint("Drücke E zum Betreten des Futterhauses")
@@ -29,13 +32,14 @@ func _process(_delta: float) -> void:
 			player.set_interaction_hint("Drücke E zum Betreten der Futterhaus-Garage")
 		else:
 			player.set_interaction_hint("")
+	"""
 
 func _on_player_interact() -> void:
 	if in_door_area or in_garage_door_area:
 		SceneSwitcher.transition_to_new_scene.emit(name.to_lower(), player.global_position)
 
 func _on_door_area_entered(body: Node2D) -> void:
-	if body.is_in_group("Player"):
+	if body.is_in_group("Player") && LevelingHandler.is_building_unlocked("futterhaus"):
 		in_door_area = true
 		door.play("door")
 

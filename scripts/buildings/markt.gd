@@ -61,7 +61,7 @@ func _on_accept(amount: int) -> void:
 
 
 func _on_player_entered(body: Node2D) -> void:
-	if body.is_in_group("Player"):
+	if body.is_in_group("Player") && LevelingHandler.is_building_unlocked("markt"):
 		player_in_area = true
 		door.play("open")
 	

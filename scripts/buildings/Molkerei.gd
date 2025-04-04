@@ -16,17 +16,10 @@ func _ready() -> void:
 	
 func _on_player_interact() -> void:
 	if in_door_area:
-		# Speichere die aktuelle Position des Spielers
-		#SaveGame.last_exterior_position = player.global_position
-		# Wechsle zur Innenszene
-		#get_tree().change_scene_to_file(interior_scene_path)
-		
-		## For SceneSwitcher
-		print("Fading black")
 		SceneSwitcher.transition_to_new_scene.emit("molkerei", player.global_position)
 
 func _on_door_area_entered(body: Node2D) -> void:
-	if body.is_in_group("Player"):
+	if body.is_in_group("Player") && LevelingHandler.is_building_unlocked("molkerei"):
 		in_door_area = true
 		door.play("door")
 
