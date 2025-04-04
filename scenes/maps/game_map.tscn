@@ -1,4 +1,4 @@
-[gd_scene load_steps=35 format=4 uid="uid://7401yxdfc7e2"]
+[gd_scene load_steps=39 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
 [ext_resource type="Script" uid="uid://estt5r2l0vu4" path="res://scripts/utility/game_map_load.gd" id="1_dnbah"]
@@ -18,10 +18,14 @@
 [ext_resource type="PackedScene" uid="uid://d4fb1mmhq7kai" path="res://scenes/buildings/school.tscn" id="10_r2whe"]
 [ext_resource type="PackedScene" uid="uid://grl8xj78dcmf" path="res://scenes/buildings/basic_town_house_1.tscn" id="10_uvo31"]
 [ext_resource type="PackedScene" uid="uid://dj3x34xk3qcne" path="res://scenes/buildings/scheune.tscn" id="11_8cvap"]
+[ext_resource type="PackedScene" uid="uid://020l6elc3p55" path="res://scenes/animals/cow.tscn" id="11_asbbj"]
 [ext_resource type="PackedScene" uid="uid://dkc2e40fw2pdo" path="res://scenes/buildings/basic_town_house_3.tscn" id="12_5u817"]
+[ext_resource type="PackedScene" uid="uid://rjwuxr2sss3k" path="res://scenes/animals/chicken.tscn" id="12_g5cve"]
 [ext_resource type="PackedScene" uid="uid://exndmgultn3t" path="res://scenes/buildings/car_1.tscn" id="12_jton2"]
+[ext_resource type="PackedScene" uid="uid://nv1jgb37xufl" path="res://scenes/animals/sheep.tscn" id="13_1slmc"]
 [ext_resource type="PackedScene" uid="uid://dsxmfnvn3ym2u" path="res://scenes/buildings/car_2.tscn" id="13_rh44n"]
 [ext_resource type="PackedScene" uid="uid://r2vd70j8ac4s" path="res://scenes/buildings/broken_house_2.tscn" id="14_aiw1h"]
+[ext_resource type="PackedScene" uid="uid://b4nypa5u5sf3y" path="res://scenes/animals/pig.tscn" id="14_xsdhu"]
 [ext_resource type="PackedScene" uid="uid://boqwmjqrffirg" path="res://scenes/buildings/broken_house_1.tscn" id="15_kl6ab"]
 [ext_resource type="PackedScene" uid="uid://1w7fmk7ifca1" path="res://scenes/buildings/basic_town_house_4.tscn" id="15_mg5ce"]
 [ext_resource type="PackedScene" uid="uid://cor3mu6ht7443" path="res://scenes/buildings/basic_town_house_5.tscn" id="18_fa3pg"]
@@ -3564,11 +3568,26 @@ position = Vector2(-240, -240)
 [node name="Kuhbereich" parent="Map/Tiergehege" instance=ExtResource("7_8ejyj")]
 position = Vector2(336, 144)
 
+[node name="Cow" parent="Map/Tiergehege/Kuhbereich" instance=ExtResource("11_asbbj")]
+position = Vector2(75, 91)
+
 [node name="Hühnerstall" parent="Map/Tiergehege" instance=ExtResource("7_8ejyj")]
 position = Vector2(880, 144)
 
+[node name="Chicken" parent="Map/Tiergehege/Hühnerstall" instance=ExtResource("12_g5cve")]
+position = Vector2(73, 88)
+
 [node name="Schafbereich" parent="Map/Tiergehege" instance=ExtResource("7_8ejyj")]
 position = Vector2(608, 144)
+
+[node name="Sheep" parent="Map/Tiergehege/Schafbereich" instance=ExtResource("13_1slmc")]
+position = Vector2(70, 88)
+
+[node name="Schweinebereich" parent="Map/Tiergehege" instance=ExtResource("7_8ejyj")]
+position = Vector2(337, 381)
+
+[node name="Pig" parent="Map/Tiergehege/Schweinebereich" instance=ExtResource("14_xsdhu")]
+position = Vector2(73, 93)
 
 [node name="Town" type="Node2D" parent="Map"]
 position = Vector2(720, 16)

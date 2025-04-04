@@ -1,0 +1,25 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvdn5s24b2gvr"]
+
+[ext_resource type="Script" uid="uid://degw1qicntlnl" path="res://scripts/ui/animals/feeding_ui.gd" id="1_7c2p7"]
+
+[node name="FeedingUi" type="PanelContainer"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 1
+script = ExtResource("1_7c2p7")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+
+[node name="Feed" type="Button" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 0
+text = "Füttern"
+
+[node name="Collect" type="Button" parent="MarginContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "Melken"

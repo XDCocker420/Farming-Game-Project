@@ -1,14 +1,13 @@
-[gd_scene load_steps=16 format=4 uid="uid://nyttgrj1hid3"]
+[gd_scene load_steps=15 format=4 uid="uid://nyttgrj1hid3"]
 
 [ext_resource type="Script" uid="uid://diybuopnuo1hy" path="res://scripts/farming/tierbereich.gd" id="1_eee0d"]
 [ext_resource type="TileSet" uid="uid://ns2vki3n45m" path="res://assets/tilesets/terrain_tileset.tres" id="2_87pjd"]
-[ext_resource type="Texture2D" uid="uid://c4yorbk70t6ed" path="res://assets/farming/farming_tiles.png" id="3_t08ey"]
+[ext_resource type="Texture2D" uid="uid://b7f3cctim7uf0" path="res://assets/farming/farming_tiles.png" id="3_t08ey"]
 [ext_resource type="PackedScene" uid="uid://db625opwfqpf8" path="res://scenes/animals/feeding_through.tscn" id="5_egvxt"]
-[ext_resource type="PackedScene" uid="uid://bekt21sxspmob" path="res://scenes/ui/feeding_ui.tscn" id="6_sdn6j"]
-[ext_resource type="PackedScene" uid="uid://dpw64dphs34yi" path="res://scenes/animals/harvest_animals.tscn" id="7_h0qjq"]
+[ext_resource type="PackedScene" uid="uid://cvdn5s24b2gvr" path="res://scenes/ui/animals/feeding_ui.tscn" id="6_87pjd"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7oive"]
-size = Vector2(158, 157.5)
+size = Vector2(158, 158)
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_3fvow"]
 texture = ExtResource("3_t08ey")
@@ -1733,9 +1732,8 @@ size = Vector2(16.6563, 14.7188)
 script = ExtResource("1_eee0d")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 z_index = 6
-position = Vector2(87, 87.25)
+position = Vector2(87, 87)
 shape = SubResource("RectangleShape2D_7oive")
 
 [node name="ground" type="TileMapLayer" parent="."]
@@ -1765,6 +1763,13 @@ shape = SubResource("RectangleShape2D_baojd")
 position = Vector2(87.6719, 9)
 shape = SubResource("RectangleShape2D_77ibm")
 
+[node name="InteractionArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="InteractionArea"]
+z_index = 6
+position = Vector2(87, 87)
+shape = SubResource("RectangleShape2D_7oive")
+
 [node name="FeedingThrough" parent="." instance=ExtResource("5_egvxt")]
 position = Vector2(24, 35)
 
@@ -1783,14 +1788,19 @@ position = Vector2(135, 35)
 [node name="FeedingThrough6" parent="." instance=ExtResource("5_egvxt")]
 position = Vector2(151, 35)
 
-[node name="FeedingUi" parent="." instance=ExtResource("6_sdn6j")]
+[node name="Mode" type="Label" parent="."]
 visible = false
+offset_left = 66.0
+offset_top = 126.0
+offset_right = 106.0
+offset_bottom = 139.0
 
-[node name="HarvestAnimals" parent="." instance=ExtResource("7_h0qjq")]
+[node name="FeedingUi" parent="." instance=ExtResource("6_87pjd")]
 visible = false
-z_index = 7
-offset_top = -44.0
-offset_bottom = -44.0
+offset_left = -21.0
+offset_top = -31.0
+offset_right = 62.0
+offset_bottom = 17.0
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]

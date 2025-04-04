@@ -1,8 +1,77 @@
 extends Area2D
-#
-#@onready var player: CharacterBody2D = %Player
-#@onready var door: AnimatedSprite2D = $Area2D/door
-#@onready var door_area: Area2D = $Area2D
+
+@onready var player: CharacterBody2D = %Player
+@onready var door: AnimatedSprite2D = $Area2D/door
+@onready var door_area: Area2D = $Area2D
+@onready var door_collision:CollisionShape2D = $StaticBody2D/CollisionShape2D
+@onready var interact_range:Area2D = $InteractionArea
+@onready var ui:PanelContainer = $FeedingUi
+@onready var text:Label = $Mode
+
+var in_interact_area:bool = false
+var ui_open:bool = false
+
+signal feeding_state
+signal collecting_state
+
+func _ready() -> void:
+	player.interact.connect(_on_player_interact)
+	door_area.body_entered.connect(_on_door_entered)
+	door_area.body_exited.connect(_on_door_exited)
+	interact_range.body_entered.connect(_on_interact_entered)
+	interact_range.body_exited.connect(_on_interact_exited)
+	ui.collecting_state.connect(_on_collection)
+	ui.feeding_state.connect(_on_feeding)
+	
+func _on_collection():
+	collecting_state.emit()
+	text.text = "Einsammeln"
+	text.show()
+	
+func _on_feeding():
+	feeding_state.emit()
+	text.text = "Füttern"
+	text.show()
+	
+func _on_door_entered(body:Node2D):
+	if body.is_in_group("Player") && LevelingHandler.is_building_unlocked(name.to_lower()):
+		door_collision.set_deferred("disabled", true)
+		door.play("open")
+		
+func _on_door_exited(body:Node2D):
+	if body.is_in_group("Player"):
+		door_collision.set_deferred("disabled", false)
+		door.play_backwards("open")
+		
+func _on_interact_entered(body:Node2D):
+	if body.is_in_group("Player") && LevelingHandler.is_building_unlocked(name.to_lower()):
+		in_interact_area = true
+		
+func _on_interact_exited(body:Node2D):
+	if body.is_in_group("Player"):
+		in_interact_area = false
+		text.hide()
+	
+func _on_player_interact():
+	if in_interact_area:
+		if !ui_open:
+			ui_open = true
+			#player.cant_move = true
+			ui.show()
+		else:
+			ui.hide()
+			#player.cant_move = false
+			ui_open = false
+	#if in_area:
+		#if not open:
+			#door.play("open")
+			#open = true
+			#wall.disabled = true
+		#else:
+			#door.play_backwards("open")
+			#open = false
+			#wall.disabled = false
+
 #@onready var wall: CollisionShape2D = $StaticBody2D/CollisionShape2D
 #@onready var e_btn: AnimatedSprite2D = $AnimatedSprite2D3
 #@onready var interaction_range:Area2D = $Range
@@ -28,27 +97,6 @@ extends Area2D
 	#e_btn.visible = false
 	#
 #
-#func _on_player_interact():
-	#if in_interaction && !in_ft && !in_area:
-		#if !ui_open:
-			#ui_open = true
-			##player.cant_move = true
-			#want_to_interact.emit(true)
-			#mode.show()
-		#else:
-			#mode.hide()
-			#want_to_interact.emit(false)
-			##player.cant_move = false
-			#ui_open = false
-	#if in_area:
-		#if not open:
-			#door.play("open")
-			#open = true
-			#wall.disabled = true
-		#else:
-			#door.play_backwards("open")
-			#open = false
-			#wall.disabled = false
 #
 #
 #func _on_area_2d_body_entered(body:Node2D) -> void:

@@ -1,10 +1,12 @@
-[gd_scene load_steps=7 format=4 uid="uid://b57ax2p4r20ae"]
+[gd_scene load_steps=9 format=4 uid="uid://b57ax2p4r20ae"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_ipkwj"]
 [ext_resource type="PackedScene" uid="uid://bbncnutg3tli0" path="res://scenes/characters/npcs/annabeth.tscn" id="4_2bulj"]
 [ext_resource type="PackedScene" uid="uid://exndmgultn3t" path="res://scenes/buildings/car_1.tscn" id="4_6i7ie"]
 [ext_resource type="TileSet" uid="uid://ns2vki3n45m" path="res://assets/tilesets/terrain_tileset.tres" id="4_vhguy"]
 [ext_resource type="PackedScene" uid="uid://bc6sudr6mtykj" path="res://scenes/buildings/task_caravan.tscn" id="5_vhguy"]
+[ext_resource type="PackedScene" uid="uid://nyttgrj1hid3" path="res://scenes/buildings/tierbereich.tscn" id="6_2bulj"]
+[ext_resource type="PackedScene" uid="uid://020l6elc3p55" path="res://scenes/animals/cow.tscn" id="7_0v42x"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_6i7ie"]
 vertices = PackedVector2Array(50, 111, 111.063, 169, -57, 169, 13, 111, 111.93, 33.9375, 50, 95, -57, 33.0469, 14, 86, 44, 86)
@@ -24,11 +26,6 @@ unique_name_in_owner = true
 z_index = 5
 position = Vector2(109, 158)
 
-[node name="Camera" type="Camera2D" parent="Player"]
-position = Vector2(0, -43)
-position_smoothing_enabled = true
-position_smoothing_speed = 7.0
-
 [node name="Car1" parent="." instance=ExtResource("4_6i7ie")]
 position = Vector2(28, 109)
 scale = Vector2(0.431745, 0.446083)
@@ -47,3 +44,9 @@ position = Vector2(-27, 131)
 
 [node name="task_caravan" parent="." instance=ExtResource("5_vhguy")]
 position = Vector2(155, 115)
+
+[node name="tierbereich" parent="." instance=ExtResource("6_2bulj")]
+position = Vector2(-339, 24)
+
+[node name="Cow" parent="tierbereich" instance=ExtResource("7_0v42x")]
+position = Vector2(58, 82)

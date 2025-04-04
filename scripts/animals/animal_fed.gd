@@ -26,27 +26,47 @@ var cop_points:Array[Vector2]
 var looking_direction = "down"
 
 func _ready() -> void:
-	position = get_parent().get_parent().get_parent().get_node("FeedingThrough").cow_positions.pop_front()
 	timer.timeout.connect(_on_timer_timeout)
-	timer.wait_time = ConfigReader.get_time(animal.name.to_lower().rstrip("1234567890"))
+	timer.wait_time = ConfigReader.get_time(_translate(animal.name.to_lower().rstrip("1234567890")))
+	
+func _translate(name:String):
+	match name:
+		"cow":
+			return "milk"
+		"chicken":
+			return "egg"
+		"sheep":
+			return "white_wool"
+		"pig":
+			return "meat"
 
 func enter():
+	match $"../..".looking_direction:
+		1:
+			player.play("down")
+		2:
+			player.play("up")
+		3:
+			player.play("left")
+		4:
+			player.play("right")
+	
 	timer.start()
 		
-func physics_update(_delta:float):
-	if animal:
-		move_direction = position - animal.position
-		animal.velocity = move_direction.normalized() * move_speed
-		if move_direction.x > 0:
-			looking_direction = "right"
-		elif move_direction.x < 0:
-			looking_direction = "left"
-		elif move_direction.y > 0:
-			looking_direction = "down"
-		elif move_direction.y < 0:
-			looking_direction = "up"
-		animal.move_and_slide()
-		player.play(looking_direction)
+#func physics_update(_delta:float):
+	#if animal:
+		#move_direction = position - animal.position
+		#animal.velocity = move_direction.normalized() * move_speed
+		#if move_direction.x > 0:
+			#looking_direction = "right"
+		#elif move_direction.x < 0:
+			#looking_direction = "left"
+		#elif move_direction.y > 0:
+			#looking_direction = "down"
+		#elif move_direction.y < 0:
+			#looking_direction = "up"
+		#animal.move_and_slide()
+		#player.play(looking_direction)
 		
 
 func _on_timer_timeout():
