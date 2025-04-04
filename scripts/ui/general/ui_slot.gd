@@ -20,42 +20,52 @@ signal slot_unlock(slot: PanelContainer, price: int)
 @export var def_texture: Texture2D
 
 var production_ui = null
-var click_cooldown = false  # To prevent double processing of same click
-var cooldown_time = 0.12    # Moderate cooldown similar to output slot clicks
+var click_cooldown = false  # Restored for production UI
+var cooldown_time = 0.12    # Restored for production UI
 
 
 func _ready() -> void:
-	# Make sure the button is configured properly
+	# CRITICAL FIX: Use the simplest approach to get input working
+	mouse_filter = Control.MOUSE_FILTER_STOP
+	
+	# Make button fully responsive to input
 	button.mouse_filter = Control.MOUSE_FILTER_STOP
+	button.focus_mode = Control.FOCUS_ALL
+	
+	# Restore toggle mode for production UI
+	button.toggle_mode = true 
+	button.action_mode = TextureButton.ACTION_MODE_BUTTON_PRESS
+	
+	# CRITICAL: Connect to the pressed signal
 	if button.pressed.is_connected(_on_button_pressed):
 		button.pressed.disconnect(_on_button_pressed)
 	button.pressed.connect(_on_button_pressed)
 	
-	# Make the item texture clickable
-	item_texture.mouse_filter = Control.MOUSE_FILTER_PASS
+	# Make the item texture pass clicks through to button
+	item_texture.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	
-	# Configure the rest
+	# Configure the visual appearance
 	if locked:
-		lock()
+		button.texture_normal = load("res://assets/ui/general/slot_locked.png")
+		button.texture_pressed = null
+	else:
+		button.texture_normal = load("res://assets/ui/general/slot.png")
+		button.texture_pressed = load("res://assets/ui/general/slot_pressed.png")
 		
 	if def_texture != null:
 		item_texture.texture = def_texture
-		
-	# Connect the direct item input handling
+	
+	# Connect GUI input for production UI
 	if gui_input.is_connected(_on_slot_gui_input):
 		gui_input.disconnect(_on_slot_gui_input)
 	gui_input.connect(_on_slot_gui_input)
-	
+		
 	# Make sure we're visible
 	visible = true
-	
-	# Set mouse filter to PASS to allow scroll events through, but still capture other inputs
-	# This is important for making scrolling work in container
-	mouse_filter = Control.MOUSE_FILTER_PASS
 
 
+# Processing function restored for production UI
 func _process(_delta):
-	# Add direct click detection
 	if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT) and visible:
 		var mouse_pos = get_global_mouse_position()
 		if get_global_rect().has_point(mouse_pos):
@@ -64,21 +74,26 @@ func _process(_delta):
 				_handle_click()
 
 
+# Main button press handler
 func _on_button_pressed() -> void:
 	if item_texture.texture != null and editable:
 		button.button_pressed = false
 		return
 	
+	# For locked slots, emit unlock signal
 	if locked:
 		slot_unlock.emit(self, price)
-	else:
-		# Always trigger signals
-		if item_name != "":
-			slot_selection.emit(self)
-			item_selection.emit(item_name, price, item_texture.texture)
+		return
+		
+	# For non-locked slots, always emit slot_selection
+	slot_selection.emit(self)
+	
+	# For slots with items, also emit the item selection signal
+	if item_name != "":
+		item_selection.emit(item_name, price, item_texture.texture)
 
 
-# Centralized click handler
+# Centralized click handler restored for production UI
 func _handle_click() -> void:
 	if locked or item_name == "" or click_cooldown:
 		return
@@ -86,48 +101,42 @@ func _handle_click() -> void:
 	# Set cooldown to prevent processing the same click multiple times
 	click_cooldown = true
 	
-	# Only emit signals
+	# Emit signals
 	slot_selection.emit(self)
-	item_selection.emit(item_name, price, item_texture.texture)
+	if item_name != "":
+		item_selection.emit(item_name, price, item_texture.texture)
 	
 	# Reset cooldown after a short delay
 	await get_tree().create_timer(cooldown_time).timeout
 	click_cooldown = false
 
 
-# Handle direct GUI input on the slot
+# Handle direct GUI input on the slot - restored for production UI
 func _on_slot_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		if not locked and item_name != "" and not click_cooldown:
-			# Handle the click directly
-			_handle_click()
+		if not locked:
+			# Force a button press when the container is clicked
+			button.button_pressed = true
 			
 			# Only set the button pressed state for visual feedback
-			button.button_pressed = true
 			await get_tree().create_timer(0.05).timeout
 			button.button_pressed = false
 
-# Add direct click handling as a fallback
+
+# Keep _input method for keyboard handling
 func _input(event: InputEvent) -> void:
-	if not visible:
-		return
+	if event.is_action_pressed("ui_cancel"):
+		# Find parent market UI and hide it
+		var parent = get_parent()
+		while parent and not (parent.has_method("hide") and "ui_markt" in parent.name):
+			parent = parent.get_parent()
 		
-	if event is InputEventMouseButton:
-		# For scroll wheel events, we want to make sure they pass through
-		if event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-			# Skip processing to allow parent containers to handle scrolling
-			return
-			
-		# For click events, process normally if not on cooldown
-		if not click_cooldown and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-			var global_rect = get_global_rect()
-			var mouse_pos = get_global_mouse_position()
-			
-			if global_rect.has_point(mouse_pos) and item_name != "" and not locked:
-				_handle_click()
+		if parent:
+			parent.hide()
 
 
 func lock() -> void:
+	locked = true
 	button.texture_normal = load("res://assets/ui/general/slot_locked.png")
 	button.texture_pressed = null
 	
@@ -137,9 +146,11 @@ func unlock() -> void:
 	button.texture_normal = load("res://assets/ui/general/slot.png")
 	button.texture_pressed = load("res://assets/ui/general/slot_pressed.png")
 
+
 # Function to store a reference to the production UI
 func set_production_ui(ui) -> void:
 	production_ui = ui
+
 
 # Add the missing setup function that's called in production_ui.gd
 func setup(new_item_name: String, new_texture_path: String = "", show_amount: bool = true, amount: int = 1) -> void:
@@ -163,6 +174,7 @@ func setup(new_item_name: String, new_texture_path: String = "", show_amount: bo
 	
 	# Make sure the slot is visible
 	visible = true
+
 
 # Add a clear function to reset the slot
 func clear() -> void:
