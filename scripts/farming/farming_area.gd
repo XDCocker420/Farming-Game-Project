@@ -59,7 +59,7 @@ func _on_player_entered(body: Node2D) -> void:
 		player_in_area = true
 		ui_farming.show()
 		if player:
-			await get_tree().create_timer(0.5).timeout
+			await get_tree().create_timer(0.2).timeout
 			player.normal_speed = 100
 			camera.make_current()
 			player._follow_mouse(true)
@@ -73,7 +73,6 @@ func _on_player_exited(body: Node2D) -> void:
 		player_in_area = false
 		ui_farming.hide()
 		if player:
-			#player._follow_mouse()
 			player.camera.make_current()
 			
 	

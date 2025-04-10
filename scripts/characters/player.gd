@@ -277,4 +277,5 @@ func _on_anim_end():
 	print("test")
 	
 func _follow_mouse(val:bool):
+	get_viewport().warp_mouse(get_viewport_rect().size / 2.0)
 	follow_mouse = val

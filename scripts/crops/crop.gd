@@ -5,7 +5,7 @@ extends AnimatedSprite2D
 # @onready var field: Area2D = get_parent()
 
 # Set by Node name
-var crop_type: String = ""
+@export var crop_type: String = ""
 
 var time_left: int = 0
 var is_watered: bool = false
@@ -14,8 +14,6 @@ var default_time: float = 0.0
 
 func _ready() -> void:
 	z_index = 1
-	
-	crop_type = name.to_lower()
 	
 	# Verify that crop_type is set
 	if crop_type.is_empty():
