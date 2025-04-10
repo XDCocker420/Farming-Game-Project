@@ -13,8 +13,13 @@ signal process_complete
 var current_workstation: String = ""
 var input_items = []
 var output_items = []
+# Add a properly declared variable for tracking last add time
+var last_add_time: int = 0
 
 func _ready():
+	# Initialize our cooldown tracker
+	last_add_time = 0
+	
 	# Connect button signals for both slots
 	for slot in [input_slot, output_slot]:
 		if slot:
@@ -384,6 +389,13 @@ func add_input_item(item_name: String) -> void:
 	if not input_slot:
 		return
 	
+	# Add cooldown check to prevent multiple calls
+	if (Time.get_ticks_msec() - last_add_time) < 100:
+		return
+	
+	# Store the current time
+	last_add_time = Time.get_ticks_msec()
+	
 	# Get current count if the slot already has this item
 	var current_count = 0
 	if input_slot.item_name == item_name:
@@ -397,7 +409,7 @@ func add_input_item(item_name: String) -> void:
 		else:
 			current_count = 1
 	
-	# Calculate new count
+	# Calculate new count - only add one at a time
 	var new_count = current_count + 1
 	
 	# Remove the item from inventory FIRST - this must be done before updating UI
@@ -416,7 +428,7 @@ func add_input_item(item_name: String) -> void:
 		produce_button.disabled = false
 	
 	# Use a very short timer to refresh inventory UI to handle rapid clicks better
-	var refresh_timer = get_tree().create_timer(0.12)
+	var refresh_timer = get_tree().create_timer(0.08)  # Schnellere Aktualisierung
 	refresh_timer.timeout.connect(func(): _refresh_targeted_inventory_ui(current_workstation))
 
 # Method to update the input slot safely in deferred context
