@@ -19,7 +19,7 @@ func _ready() -> void:
 	interact_range.mouse_exited.connect(_on_mouse_exited)
 	
 func process_input(_event: InputEvent):
-	if _event is InputEventMouseButton && _event.is_pressed() && _event.button_index == MOUSE_BUTTON_LEFT && in_area && feeding && SaveGame.get_item_count(get_parent().get_parent().name.to_lower()) >= 1:
+	if _event is InputEventMouseButton && _event.is_pressed() && _event.button_index == MOUSE_BUTTON_LEFT && in_area && feeding && SaveGame.get_item_count(get_parent().get_parent().name.to_lower() + "_food") >= 1:
 		transitioned.emit(self, "fed")
 
 func _setup_highlight() -> void:
@@ -35,9 +35,11 @@ func _setup_highlight() -> void:
 
 func _on_feeding():
 	#SaveGame.add_to_inventory("cow")
+	print("ski")
 	feeding = true
 	
 func _on_switch():
+	print("bidi")
 	feeding = false
 	
 func _on_mouse_entered() -> void:

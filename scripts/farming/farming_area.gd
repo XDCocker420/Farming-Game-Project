@@ -35,7 +35,6 @@ func _input(event: InputEvent) -> void:
 			player.camera.make_current()
 			player._follow_mouse(false)
 		
-	
 
 func _on_field_clicked(field:Area2D) -> void:
 	if field.get_child_count() > 2:
