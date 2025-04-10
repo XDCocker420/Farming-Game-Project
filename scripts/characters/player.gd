@@ -262,19 +262,11 @@ func do_harvest():
 	#cant_move = true
 	body.play("hoe_"+looking_direction)
 	
-	#while body.is_playing():
-		#await get_tree().create_timer(0.01).timeout
-#
-	#cant_move = false
-	#body.play(looking_direction)
-	#body.stop()
-	
 func do_water():
 	body.play("water_"+looking_direction)
 		
 func _on_anim_end():
 	body.animation = looking_direction
-	print("test")
 	
 func _follow_mouse(val:bool):
 	get_viewport().warp_mouse(get_viewport_rect().size / 2.0)

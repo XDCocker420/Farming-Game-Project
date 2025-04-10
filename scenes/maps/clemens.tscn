@@ -53,24 +53,3 @@ position = Vector2(58, 82)
 
 [node name="farming_area" parent="." instance=ExtResource("8_j7v2b")]
 position = Vector2(40, 217)
-
-[node name="Fields" type="Node2D" parent="."]
-position = Vector2(1124, 607)
-
-[node name="farming_area" parent="Fields" instance=ExtResource("8_j7v2b")]
-position = Vector2(-560, -592)
-
-[node name="farming_area2" parent="Fields" instance=ExtResource("8_j7v2b")]
-position = Vector2(-560, -416)
-
-[node name="farming_area3" parent="Fields" instance=ExtResource("8_j7v2b")]
-position = Vector2(-560, -240)
-
-[node name="farming_area4" parent="Fields" instance=ExtResource("8_j7v2b")]
-position = Vector2(-240, -592)
-
-[node name="farming_area5" parent="Fields" instance=ExtResource("8_j7v2b")]
-position = Vector2(-240, -416)
-
-[node name="farming_area6" parent="Fields" instance=ExtResource("8_j7v2b")]
-position = Vector2(-240, -240)
