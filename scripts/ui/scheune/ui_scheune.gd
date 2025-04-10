@@ -38,7 +38,7 @@ func _ready() -> void:
 	scroll_container.clip_contents = true
 	
 	# Set minimum size to match the scene value (62, 78)
-	scroll_container.custom_minimum_size = Vector2(62, 78)
+	scroll_container.custom_minimum_size = Vector2(62, 23)
 	
 	# CRITICAL: Set actual scrollbar properties directly
 	var v_scrollbar = scroll_container.get_v_scroll_bar()
