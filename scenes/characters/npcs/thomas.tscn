@@ -270,6 +270,8 @@ height = 22.0
 size = Vector2(49.5, 29)
 
 [node name="Thomas" type="CharacterBody2D" node_paths=PackedStringArray("wait_timer")]
+motion_mode = 1
+wall_min_slide_angle = 0.0
 script = ExtResource("1_jgjjx")
 wait_timer = NodePath("Timer")
 
@@ -278,6 +280,7 @@ sprite_frames = SubResource("SpriteFrames_0lqk2")
 animation = &"idle"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
 position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_86r7p")
 
@@ -286,6 +289,8 @@ wait_time = 2.0
 one_shot = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 3.0
+path_max_distance = 10.0
 avoidance_enabled = true
 radius = 15.0
 max_neighbors = 20

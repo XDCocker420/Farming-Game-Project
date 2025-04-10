@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=4 uid="uid://b57ax2p4r20ae"]
+[gd_scene load_steps=10 format=4 uid="uid://b57ax2p4r20ae"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_ipkwj"]
 [ext_resource type="PackedScene" uid="uid://bbncnutg3tli0" path="res://scenes/characters/npcs/annabeth.tscn" id="4_2bulj"]
@@ -7,6 +7,7 @@
 [ext_resource type="PackedScene" uid="uid://bc6sudr6mtykj" path="res://scenes/buildings/task_caravan.tscn" id="5_vhguy"]
 [ext_resource type="PackedScene" uid="uid://nyttgrj1hid3" path="res://scenes/buildings/tierbereich.tscn" id="6_2bulj"]
 [ext_resource type="PackedScene" uid="uid://020l6elc3p55" path="res://scenes/animals/cow.tscn" id="7_0v42x"]
+[ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="8_j7v2b"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_6i7ie"]
 vertices = PackedVector2Array(50, 111, 111.063, 169, -57, 169, 13, 111, 111.93, 33.9375, 50, 95, -57, 33.0469, 14, 86, 44, 86)
@@ -24,7 +25,6 @@ tile_set = ExtResource("4_vhguy")
 [node name="Player" parent="." instance=ExtResource("1_ipkwj")]
 unique_name_in_owner = true
 z_index = 5
-position = Vector2(109, 158)
 
 [node name="Car1" parent="." instance=ExtResource("4_6i7ie")]
 position = Vector2(28, 109)
@@ -50,3 +50,27 @@ position = Vector2(-339, 24)
 
 [node name="Cow" parent="tierbereich" instance=ExtResource("7_0v42x")]
 position = Vector2(58, 82)
+
+[node name="farming_area" parent="." instance=ExtResource("8_j7v2b")]
+position = Vector2(40, 217)
+
+[node name="Fields" type="Node2D" parent="."]
+position = Vector2(1124, 607)
+
+[node name="farming_area" parent="Fields" instance=ExtResource("8_j7v2b")]
+position = Vector2(-560, -592)
+
+[node name="farming_area2" parent="Fields" instance=ExtResource("8_j7v2b")]
+position = Vector2(-560, -416)
+
+[node name="farming_area3" parent="Fields" instance=ExtResource("8_j7v2b")]
+position = Vector2(-560, -240)
+
+[node name="farming_area4" parent="Fields" instance=ExtResource("8_j7v2b")]
+position = Vector2(-240, -592)
+
+[node name="farming_area5" parent="Fields" instance=ExtResource("8_j7v2b")]
+position = Vector2(-240, -416)
+
+[node name="farming_area6" parent="Fields" instance=ExtResource("8_j7v2b")]
+position = Vector2(-240, -240)

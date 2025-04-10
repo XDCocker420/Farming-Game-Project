@@ -4,23 +4,25 @@ extends AnimatedSprite2D
 @onready var timer: Timer = $Timer
 # @onready var field: Area2D = get_parent()
 
-# Must be set in editor for each crop scene
-@export var crop_type: String = ""
+# Set by Node name
+var crop_type: String = ""
 
 var time_left: int = 0
 var is_watered: bool = false
-var default_time: float = 1.0
+var default_time: float = 0.0
 
 
 func _ready() -> void:
 	z_index = 1
+	
+	crop_type = name.to_lower()
 	
 	# Verify that crop_type is set
 	if crop_type.is_empty():
 		push_error("Crop type not set in editor!")
 		return
 		
-	# default_time = ConfigReader.get_time(crop_type)
+	default_time = ConfigReader.get_time(crop_type)
 	
 	if is_watered:
 		animation = "grow_wet"
@@ -53,6 +55,7 @@ func water() -> bool:
 	if not is_watered && frame == 0:
 		is_watered = true
 		var progress_ratio = timer.time_left / timer.wait_time
+		animation = "grow_wet"
 		timer.start(get_growth_time() * progress_ratio)
 		return true
 	return false
@@ -77,7 +80,7 @@ func harvest() -> void:
 		elif chance > 0.95:
 			crop_count = 3  # 5% chance for 3 crops when not watered
 	
-	SaveGame.add_experience_points(ConfigReader.get_exp(crop_type))
+	LevelingHandler.add_experience_points(ConfigReader.get_exp(crop_type))
 	SaveGame.add_to_inventory(crop_type, crop_count)
 	SaveGame.save_game()
 	queue_free()

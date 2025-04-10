@@ -9,7 +9,8 @@ var interior_scene_path = "res://scenes/buildings/Weberei_interior.tscn"
 
 func _ready() -> void:
 	# Verbinde die Signale
-	player.interact.connect(_on_player_interact)
+	if player:
+		player.interact.connect(_on_player_interact)
 	
 	door_area.body_entered.connect(_on_door_area_entered)
 	door_area.body_exited.connect(_on_door_area_exited)

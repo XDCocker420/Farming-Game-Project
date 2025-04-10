@@ -1,7 +1,7 @@
 extends Area2D
 
 
-signal field_clicked
+signal field_clicked(field:Area2D)
 
 var mouse_in_area: bool
 
@@ -14,7 +14,7 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.is_pressed() and mouse_in_area:
-			field_clicked.emit()  
+			field_clicked.emit(self)  
 
 	
 func _on_mouse_entered():

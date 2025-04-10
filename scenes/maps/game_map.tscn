@@ -40,7 +40,7 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)])
 agent_radius = 0.0
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_ds6an"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_1slmc"]
 texture = ExtResource("2_6ts4f")
 0:0/0 = 0
 1:0/0 = 0
@@ -1803,9 +1803,9 @@ texture = ExtResource("2_6ts4f")
 [sub_resource type="TileSet" id="TileSet_8do3e"]
 physics_layer_0/collision_layer = 1
 navigation_layer_0/layers = 1
-sources/0 = SubResource("TileSetAtlasSource_ds6an")
+sources/0 = SubResource("TileSetAtlasSource_1slmc")
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_6ts4f"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_xsdhu"]
 texture = ExtResource("2_6ts4f")
 0:0/0 = 0
 1:0/0 = 0
@@ -3496,7 +3496,7 @@ texture = ExtResource("2_6ts4f")
 
 [sub_resource type="TileSet" id="TileSet_ds6an"]
 physics_layer_0/collision_layer = 1
-sources/0 = SubResource("TileSetAtlasSource_6ts4f")
+sources/0 = SubResource("TileSetAtlasSource_xsdhu")
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_dnbah")
@@ -3507,6 +3507,8 @@ unique_name_in_owner = true
 [node name="Player" parent="Map" instance=ExtResource("1_0u3w2")]
 unique_name_in_owner = true
 z_index = 5
+AM = false
+AE = true
 
 [node name="TileMaps" type="Node2D" parent="Map"]
 
@@ -4051,6 +4053,7 @@ position = Vector2(2669, -544)
 position = Vector2(-2538, 531)
 
 [node name="Annabeth" parent="Map/NPCs" node_paths=PackedStringArray("market", "day_and_night") instance=ExtResource("22_congb")]
+visible = false
 position = Vector2(5410, -401)
 wall_min_slide_angle = 0.261799
 important_points = Array[Vector2]([Vector2(5480, -965), Vector2(4660, -823), Vector2(4649, -444), Vector2(5410, -401)])
@@ -4066,16 +4069,6 @@ day_and_night = NodePath("../../../TagUndNacht")
 
 [node name="Obstacles" type="Node2D" parent="Map"]
 position = Vector2(-2538, 531)
-
-[node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="Map/Obstacles"]
-vertices = PackedVector2Array(5238, -457, 5238, -450, 5245, -450, 5245, -456, 5244, -459)
-affect_navigation_mesh = true
-carve_navigation_mesh = true
-
-[node name="NavigationObstacle2D2" type="NavigationObstacle2D" parent="Map/Obstacles"]
-vertices = PackedVector2Array(5228, -437, 5152, -431, 5153, -383, 5224, -383)
-affect_navigation_mesh = true
-carve_navigation_mesh = true
 
 [node name="TagUndNacht" type="CanvasModulate" parent="."]
 visible = false

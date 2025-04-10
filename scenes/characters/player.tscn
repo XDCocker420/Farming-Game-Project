@@ -446,7 +446,7 @@ animations = [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_5njio")
 }],
-"loop": true,
+"loop": false,
 "name": &"hoe_up",
 "speed": 5.0
 }, {

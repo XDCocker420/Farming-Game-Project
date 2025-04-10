@@ -1,0 +1,4 @@
+join martha center
+martha: Das hier ist deine Scheune
+martha: Bei ihr siehst du all dein Hab &  Gut
+[signal arg="scheune_end"]

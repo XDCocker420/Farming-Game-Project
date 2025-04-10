@@ -15,7 +15,8 @@ signal feeding_state
 signal collecting_state
 
 func _ready() -> void:
-	player.interact.connect(_on_player_interact)
+	if player:
+		player.interact.connect(_on_player_interact)
 	door_area.body_entered.connect(_on_door_entered)
 	door_area.body_exited.connect(_on_door_exited)
 	interact_range.body_entered.connect(_on_interact_entered)
@@ -24,6 +25,7 @@ func _ready() -> void:
 	ui.feeding_state.connect(_on_feeding)
 	
 func _on_collection():
+	SaveGame.add_to_inventory("cow_food", 10)
 	collecting_state.emit()
 	text.text = "Einsammeln"
 	text.show()

@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://c1i6syqlhigpc"]
 
 [ext_resource type="Script" uid="uid://ditxep0qnxsh3" path="res://scripts/farming/field.gd" id="1_tk0un"]
-[ext_resource type="Texture2D" uid="uid://c4jhj1os7w6kr" path="res://assets/farming/farming_tiles.png" id="2_tk0un"]
+[ext_resource type="Texture2D" uid="uid://b7f3cctim7uf0" path="res://assets/farming/farming_tiles.png" id="2_tk0un"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_tk0un"]
 size = Vector2(16, 16)

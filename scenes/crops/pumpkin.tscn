@@ -1,7 +1,7 @@
 [gd_scene load_steps=17 format=3 uid="uid://bnr3kriot5vm5"]
 
-[ext_resource type="Texture2D" uid="uid://dy6lfwttgebhw" path="res://assets/farming/crops.png" id="1_3srjn"]
-[ext_resource type="Texture2D" uid="uid://dss4qao2xk3gr" path="res://assets/farming/crops_wet.png" id="2_lyy8c"]
+[ext_resource type="Texture2D" uid="uid://b2o5tf71gqk5t" path="res://assets/farming/crops.png" id="1_3srjn"]
+[ext_resource type="Texture2D" uid="uid://b1bvay8fvk3p8" path="res://assets/farming/crops_wet.png" id="2_lyy8c"]
 [ext_resource type="Script" uid="uid://h5ktdbskdgtv" path="res://scripts/crops/crop.gd" id="2_qtdld"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_lyy8c"]

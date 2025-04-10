@@ -1,0 +1,114 @@
+[gd_scene load_steps=17 format=3 uid="uid://dnmejc0xjsosd"]
+
+[ext_resource type="Texture2D" uid="uid://b2o5tf71gqk5t" path="res://assets/farming/crops.png" id="1_8m32q"]
+[ext_resource type="Texture2D" uid="uid://b1bvay8fvk3p8" path="res://assets/farming/crops_wet.png" id="2_bhe4y"]
+[ext_resource type="Script" uid="uid://h5ktdbskdgtv" path="res://scripts/crops/crop.gd" id="3_257w1"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8m32q"]
+atlas = ExtResource("1_8m32q")
+region = Rect2(0, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bhe4y"]
+atlas = ExtResource("1_8m32q")
+region = Rect2(16, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_257w1"]
+atlas = ExtResource("1_8m32q")
+region = Rect2(32, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2s2kw"]
+atlas = ExtResource("1_8m32q")
+region = Rect2(48, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7xdlp"]
+atlas = ExtResource("1_8m32q")
+region = Rect2(64, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_huauj"]
+atlas = ExtResource("1_8m32q")
+region = Rect2(80, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6n243"]
+atlas = ExtResource("2_bhe4y")
+region = Rect2(0, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bwtp2"]
+atlas = ExtResource("2_bhe4y")
+region = Rect2(16, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_w3x2y"]
+atlas = ExtResource("2_bhe4y")
+region = Rect2(32, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8mw66"]
+atlas = ExtResource("2_bhe4y")
+region = Rect2(48, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aavqv"]
+atlas = ExtResource("2_bhe4y")
+region = Rect2(64, 80, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bg0ya"]
+atlas = ExtResource("2_bhe4y")
+region = Rect2(80, 80, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_67loh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8m32q")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bhe4y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_257w1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2s2kw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7xdlp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_huauj")
+}],
+"loop": true,
+"name": &"grow",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6n243")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bwtp2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_w3x2y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8mw66")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aavqv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bg0ya")
+}],
+"loop": true,
+"name": &"grow_wet",
+"speed": 5.0
+}]
+
+[node name="Potatoe" type="AnimatedSprite2D" groups=["dynamic_elements"]]
+scale = Vector2(0.8, 0.8)
+sprite_frames = SubResource("SpriteFrames_67loh")
+animation = &"grow"
+script = ExtResource("3_257w1")
+crop_type = "carrot"
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

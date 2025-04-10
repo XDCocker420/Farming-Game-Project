@@ -34,7 +34,9 @@ func save_game() -> void:
 			save.player_position = SceneSwitcher.player_position
 		else:
 			save.player_position = player.global_position
-			
+	
+	save.player_name = Dialogic.VAR.global.player_name
+	save.done_tutorial = Dialogic.VAR.global.done_tutorial
 	save.player_level = LevelingHandler.get_current_level()
 	save.player_experience_per_level = LevelingHandler.get_experience_in_current_level()
 	save.contracts = con_sav

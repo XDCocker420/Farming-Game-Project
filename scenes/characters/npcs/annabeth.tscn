@@ -289,7 +289,9 @@ wait_time = 2.0
 one_shot = true
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+path_desired_distance = 10.0
 target_desired_distance = 2.0
+path_max_distance = 10.0
 avoidance_enabled = true
 radius = 15.0
 max_neighbors = 100

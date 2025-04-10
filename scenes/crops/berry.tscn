@@ -1,8 +1,8 @@
 [gd_scene load_steps=17 format=3 uid="uid://bl8oyox6f4b5j"]
 
-[ext_resource type="Texture2D" uid="uid://dy6lfwttgebhw" path="res://assets/farming/crops.png" id="1_th2w3"]
+[ext_resource type="Texture2D" uid="uid://b2o5tf71gqk5t" path="res://assets/farming/crops.png" id="1_th2w3"]
 [ext_resource type="Script" uid="uid://h5ktdbskdgtv" path="res://scripts/crops/crop.gd" id="2_4k6t8"]
-[ext_resource type="Texture2D" uid="uid://dss4qao2xk3gr" path="res://assets/farming/crops_wet.png" id="2_r2vmc"]
+[ext_resource type="Texture2D" uid="uid://b1bvay8fvk3p8" path="res://assets/farming/crops_wet.png" id="2_r2vmc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_r2vmc"]
 atlas = ExtResource("1_th2w3")
@@ -104,7 +104,7 @@ animations = [{
 [node name="Berry" type="AnimatedSprite2D" groups=["dynamic_elements"]]
 scale = Vector2(0.8, 0.8)
 sprite_frames = SubResource("SpriteFrames_67loh")
-animation = &"grow_wet"
+animation = &"grow"
 script = ExtResource("2_4k6t8")
 crop_type = "berry"
 

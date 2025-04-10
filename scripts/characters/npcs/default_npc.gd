@@ -135,7 +135,7 @@ func addToHistory(item):
 		history.pop_front()
 
 func _input(_event: InputEvent):
-	if is_night && Dialogic.current_timeline == null:
+	if _event.is_action_pressed("interact") && player_in_area && is_night && Dialogic.current_timeline == null:
 		Dialogic.VAR.inputs.should_move = false
 		save_dialog_pos = global_position
 

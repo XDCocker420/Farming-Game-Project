@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=4 uid="uid://bqogj2noiv4ya"]
+[gd_scene load_steps=10 format=4 uid="uid://bqogj2noiv4ya"]
 
 [ext_resource type="Script" uid="uid://chedjllhentso" path="res://scripts/farming/farming_area.gd" id="1_5bhd8"]
 [ext_resource type="TileSet" uid="uid://ns2vki3n45m" path="res://assets/tilesets/terrain_tileset.tres" id="1_rcopo"]
@@ -7,6 +7,20 @@
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_rcopo"]
 size = Vector2(112, 112)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_v3nk0"]
+b = Vector2(114, 0)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_q7atk"]
+b = Vector2(0, 113)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_xs37c"]
+a = Vector2(113, 113)
+b = Vector2(0, 113)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_bn2hi"]
+a = Vector2(112, -1)
+b = Vector2(112, 113)
 
 [node name="farming_area" type="Area2D"]
 script = ExtResource("1_5bhd8")
@@ -113,3 +127,24 @@ offset_bottom = -9.0
 grow_horizontal = 2
 grow_vertical = 0
 size_flags_vertical = 8
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(62, 54)
+
+[node name="PlayerInside" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerInside"]
+shape = SubResource("SegmentShape2D_v3nk0")
+disabled = true
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="PlayerInside"]
+shape = SubResource("SegmentShape2D_q7atk")
+disabled = true
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="PlayerInside"]
+shape = SubResource("SegmentShape2D_xs37c")
+disabled = true
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="PlayerInside"]
+shape = SubResource("SegmentShape2D_bn2hi")
+disabled = true

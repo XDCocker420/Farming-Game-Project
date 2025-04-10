@@ -25,6 +25,8 @@ signal interact2
 @onready var player_animplayer:AnimationPlayer = $CanvasLayer/AnimationPlayer
 @onready var player_center_label:Label = $CanvasLayer/NotUnlocked
 
+@onready var camera:Camera2D = $Camera2D
+
 @export var normal_speed: float = 50.0
 @export var sprint_speed: float = 100.0
 @export var cant_move: bool = false
@@ -33,7 +35,8 @@ signal interact2
 var selected_crop: String = "carrot"  # Default crop
 var looking_direction: String = "down"
 var current_speed: float
-var is_jump: bool
+
+var follow_mouse:bool = false
 
 var temp_money:int
 
@@ -62,6 +65,8 @@ func _ready() -> void:
 	exp_animation.animation_finished.connect(_on_exp_anim_finished)
 	new_lvl_anim.animation_finished.connect(_on_new_lvl_finished)
 	player_animplayer.animation_finished.connect(_on_player_anim_finished)
+	
+	body.animation_finished.connect(_on_anim_end)
 	
 	$CanvasLayer.visible = !no_ui
 	
@@ -126,12 +131,18 @@ func set_selected_crop(crop_name: String) -> void:
 
 	
 func _physics_process(delta: float) -> void:
-	if !cant_move:
+	if !cant_move && body.animation in ["right", "left", "up", "down"]:
 		current_speed = sprint_speed if Input.is_action_pressed("sprint") else normal_speed
 		
+		
 		var direction = Vector2.ZERO
-		direction.x = Input.get_axis("move_left", "move_right")
-		direction.y = Input.get_axis("move_up", "move_down")
+		if !follow_mouse:
+			direction.x = Input.get_axis("move_left", "move_right")
+			direction.y = Input.get_axis("move_up", "move_down")
+		else:
+			direction = get_global_mouse_position() - global_position
+			if direction.length() <= 1.0:
+				direction = Vector2.ZERO
 		direction = direction.normalized()
 		
 		velocity = direction * current_speed
@@ -247,3 +258,23 @@ func _on_player_anim_finished(anim_name):
 		await get_tree().create_timer(1.5).timeout
 		player_animplayer.play("not_show")
 		
+func do_harvest():
+	#cant_move = true
+	body.play("hoe_"+looking_direction)
+	
+	#while body.is_playing():
+		#await get_tree().create_timer(0.01).timeout
+#
+	#cant_move = false
+	#body.play(looking_direction)
+	#body.stop()
+	
+func do_water():
+	body.play("water_"+looking_direction)
+		
+func _on_anim_end():
+	body.animation = looking_direction
+	print("test")
+	
+func _follow_mouse(val:bool):
+	follow_mouse = val
