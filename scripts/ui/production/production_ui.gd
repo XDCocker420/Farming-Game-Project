@@ -48,40 +48,34 @@ func _ready():
 						button.pressed.disconnect(_on_output_slot_input)
 					button.pressed.connect(_on_output_slot_input)
 	
-	# Try multiple possible paths for the produce button
-	var possible_button_paths = [
-		"Control/produce_button",
-		"produce_button",
-		"/Control/produce_button",
-		"../Control/produce_button",
-		"../../Control/produce_button"
-	]
+	# VERBESSERT: Direkterer und einfacherer Weg, den Produktion-Button zu finden
+	produce_button = find_child("produce_button", true)
 	
-	var button_found = false
-	for path in possible_button_paths:
-		var button = get_node_or_null(path)
-		if button:
-			produce_button = button
-			button_found = true
-			break
+	# Wenn wir keinen Button mit dem Namen finden, versuchen wir, einen Button mit "produce" im Namen zu finden
+	if not produce_button:
+		for child in get_children_recursive(self):
+			if child is Button or child is TextureButton:
+				var button_name = child.name.to_lower()
+				if "produce" in button_name or "start" in button_name:
+					produce_button = child
+					break
 	
-	if not button_found:
-		# Try to find the button by name
-		var found_button = find_button_by_name()
-		if found_button:
-			produce_button = found_button
-			button_found = true
-		else:
-			# Try to find the button in the scene tree
-			found_button = find_button_in_tree()
-			if found_button:
-				produce_button = found_button
-				button_found = true
+	# Direkter Weg um den Button in der Baumstruktur zu finden
+	if not produce_button:
+		var control_node = find_child("Control", true)
+		if control_node:
+			produce_button = control_node.find_child("produce_button", true)
 	
-	if button_found:
-		# Make sure the button is properly set up
+	# Wenn wir den Button gefunden haben, konfiguriere ihn
+	if produce_button:
+		# Make sure the button is properly set up with better visual feedback
 		produce_button.mouse_filter = Control.MOUSE_FILTER_STOP
 		produce_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+		produce_button.focus_mode = Control.FOCUS_ALL
+		
+		# Auch für TextureButton die Cursor-Eigenschaften setzen
+		if produce_button is TextureButton:
+			produce_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		
 		# Disconnect any existing connections
 		if produce_button.pressed.is_connected(_on_produce_button_pressed):
@@ -98,61 +92,58 @@ func _ready():
 		if produce_button.gui_input.is_connected(_on_produce_button_input):
 			produce_button.gui_input.disconnect(_on_produce_button_input)
 		produce_button.gui_input.connect(_on_produce_button_input)
+		
+		# WICHTIG: Stelle sicher, dass die Klick-Erkennung des Buttons optimal ist
+		if produce_button is TextureButton:
+			produce_button.ignore_texture_size = false
+			produce_button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
 	else:
-		# Try to find any button in the scene that might be the produce button
-		var parent_buttons = find_buttons_in_parent()
-		if parent_buttons.size() > 0:
-			# Use the first button as a fallback
-			produce_button = parent_buttons[0]
+		# Wenn immer noch kein Button gefunden wurde, versuche den alten Ansatz
+		var possible_button_paths = [
+			"Control/produce_button",
+			"produce_button",
+			"/Control/produce_button",
+			"../Control/produce_button",
+			"../../Control/produce_button"
+		]
+		
+		var button_found = false
+		for path in possible_button_paths:
+			var button = get_node_or_null(path)
+			if button:
+				produce_button = button
+				button_found = true
+				break
+		
+		if button_found:
+			# Konfiguriere den Button mit besserer visueller Rückmeldung
+			produce_button.mouse_filter = Control.MOUSE_FILTER_STOP
+			produce_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
+			produce_button.focus_mode = Control.FOCUS_ALL
+			
+			# Disconnect any existing connections
+			if produce_button.pressed.is_connected(_on_produce_button_pressed):
+				produce_button.pressed.disconnect(_on_produce_button_pressed)
+			
+			# Connect to the pressed signal
 			produce_button.pressed.connect(_on_produce_button_pressed)
+			
+			# Make sure button is visible and enabled
+			produce_button.visible = true
+			produce_button.disabled = false
+			
+			# Add direct input handling as a fallback
+			if produce_button.gui_input.is_connected(_on_produce_button_input):
+				produce_button.gui_input.disconnect(_on_produce_button_input)
+			produce_button.gui_input.connect(_on_produce_button_input)
 
-# Helper function to find buttons in the parent nodes
-func find_buttons_in_parent():
-	var buttons = []
-	var parent = get_parent()
-	
-	while parent:
-		for child in parent.get_children():
-			if child is Button or child is TextureButton:
-				buttons.append(child)
-				
-		parent = parent.get_parent()
-	
-	return buttons
-
-# Helper function to find the button by name
-func find_button_by_name():
-	var root = get_tree().root
-	var possible_names = ["produce_button", "start_button", "start", "produce"]
-	
-	var stack = [root]
-	while stack.size() > 0:
-		var node = stack.pop_front()
-		
-		# Check if this node's name matches any of our possible names
-		if node is Button or node is TextureButton:
-			for name in possible_names:
-				if name.to_lower() in node.name.to_lower():
-					return node
-		
-		# Add children to the stack
-		for child in node.get_children():
-			stack.append(child)
-	
-	return null
-
-# Helper function to find the button in the scene tree
-func find_button_in_tree():
-	var root = get_tree().root
-	var search_queue = [root]
-	
-	while search_queue.size() > 0:
-		var node = search_queue.pop_front()
-		if node.name == "produce_button" or (node is Button or node is TextureButton):
-			return node
-		for child in node.get_children():
-			search_queue.push_back(child)
-	return null
+# Neue Hilfsfunktion, um rekursiv alle Kinder zu erhalten
+func get_children_recursive(node):
+	var children = []
+	for child in node.get_children():
+		children.append(child)
+		children.append_array(get_children_recursive(child))
+	return children
 
 # Direct input handler for produce button as a fallback
 func _on_produce_button_input(event):
@@ -161,6 +152,12 @@ func _on_produce_button_input(event):
 
 # Handler for the produce button
 func _on_produce_button_pressed():
+	# Sicherstellen, dass der Button nur einmal pro Klick ausgelöst wird
+	if (Time.get_ticks_msec() - last_add_time) < 150:
+		return
+	
+	last_add_time = Time.get_ticks_msec()
+	
 	# Check if we have valid input
 	if input_slot and input_slot.item_name:
 		# Process the input items into output
@@ -571,26 +568,27 @@ func _force_ui_update():
 
 func _input(event):
 	if event is InputEventMouseButton and event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
-		# First, check for clicks on the produce button
-		if produce_button:
+		# Zuerst prüfen, ob auf den Output-Slot geklickt wurde
+		var clicked_on_output = false
+		if output_slot:
+			# Output-Slot Position und Größe
+			var slot_global_pos = output_slot.global_position
+			var slot_size = output_slot.size
+			var mouse_pos = output_slot.get_global_mouse_position()
+			
+			# Prüfen, ob Klick innerhalb des Output-Slots ist
+			if mouse_pos.x >= slot_global_pos.x and mouse_pos.x < slot_global_pos.x + slot_size.x and \
+			   mouse_pos.y >= slot_global_pos.y and mouse_pos.y < slot_global_pos.y + slot_size.y:
+				clicked_on_output = true
+				_handle_output_slot_click()
+		
+		# Nur den Produce-Button-Klick überprüfen, wenn NICHT auf den Output-Slot geklickt wurde
+		if not clicked_on_output and produce_button:
 			var button_global_pos = produce_button.global_position
 			var button_size = produce_button.size
 			var mouse_pos = produce_button.get_global_mouse_position()
 			
-			# Check if click is within button bounds
+			# Prüfen, ob Klick innerhalb der Button-Grenzen ist
 			if mouse_pos.x >= button_global_pos.x and mouse_pos.x < button_global_pos.x + button_size.x and \
 			   mouse_pos.y >= button_global_pos.y and mouse_pos.y < button_global_pos.y + button_size.y:
 				_on_produce_button_pressed()
-		
-		# Check if the click is within the output slot's bounds
-		if output_slot:
-			# Get the output slot's global position and size
-			var slot_global_pos = output_slot.global_position
-			var slot_size = output_slot.size
-			
-			# Convert global click position to local position relative to the slot
-			var local_pos = output_slot.get_global_mouse_position() - slot_global_pos
-			
-			# Check if the click is within the slot's bounds
-			if local_pos.x >= 0 and local_pos.x < slot_size.x and local_pos.y >= 0 and local_pos.y < slot_size.y:
-				_handle_output_slot_click()
