@@ -3731,12 +3731,12 @@ shape = SubResource("RectangleShape2D_0l4y8")
 
 [node name="inventory_ui_feed" parent="." instance=ExtResource("4_3gvq8")]
 offset_left = -88.0
-offset_top = -72.0
+offset_top = -56.0
 offset_right = -13.0
-offset_bottom = 21.0
+offset_bottom = -18.0
 
 [node name="production_ui_feed" parent="." instance=ExtResource("5_yjwf1")]
 offset_left = -8.0
-offset_top = -72.0
+offset_top = -56.0
 offset_right = 112.0
-offset_bottom = -16.0
+offset_bottom = -18.0
