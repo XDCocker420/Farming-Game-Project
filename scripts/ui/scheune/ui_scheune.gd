@@ -279,26 +279,28 @@ func _on_visibility_changed() -> void:
 
 # Function to set filter based on workstation
 func set_workstation_filter(workstation: String) -> void:
-	# Clear any existing filter first
+	# Clear any existing filter
 	current_filter.clear()
 	
-	# Set the filter based on workstation
+	# Set up filters based on workstation type
 	match workstation:
-		"butterchurn", "press_cheese":
-			current_filter = ["milk"]
+		"butterchurn":
+			current_filter.append("milk")
+		"press_cheese":
+			current_filter.append("milk")
 		"mayomaker":
-			current_filter = ["egg"]
-		"clothmaker", "spindle":
-			current_filter = ["white_wool"]
+			current_filter.append("egg")
+		"clothmaker":
+			# Beide Items die für Stoff benötigt werden
+			current_filter.append("white_wool")
+			current_filter.append("white_string")
+		"spindle":
+			current_filter.append("white_wool")
 		"feed_mill":
-			current_filter = ["corn"]
-		_:
-			# Default case - no filter
-			current_filter = []
+			current_filter.append("corn")
 	
-	# If already visible, reload the slots with the new filter
-	if visible:
-		reload_slots(true)
+	# Reload slots with new filter
+	reload_slots()
 
 # Method to both set filter and show UI
 func setup_and_show(workstation: String) -> void:
