@@ -289,6 +289,8 @@ func set_workstation_filter(workstation: String) -> void:
 		"press_cheese":
 			current_filter.append("milk")
 		"mayomaker":
+			# Mayo braucht jetzt beide Zutaten
+			current_filter.append("milk")
 			current_filter.append("egg")
 		"clothmaker":
 			# Beide Items die für Stoff benötigt werden

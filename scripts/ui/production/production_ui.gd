@@ -210,14 +210,14 @@ func setup(workstation_name: String):
 			input_items = ["milk"]
 			output_items = ["cheese"]
 		"mayomaker":
-			input_items = ["egg"]
+			input_items = ["milk", "egg"]  # Mayo braucht jetzt Milch und Ei
 			output_items = ["mayo"]
 		"clothmaker":
-			input_items = ["white_wool", "white_string"]  # Now requires both wool and string
+			input_items = ["white_wool", "white_string"]  # Stoff braucht Wolle und Faden
 			output_items = ["white_cloth"]
 		"spindle":
 			input_items = ["white_wool"]
-			output_items = ["white_string"]  # Creates string that's needed for cloth
+			output_items = ["white_string"]
 		"feed_mill":
 			input_items = ["corn"]
 			output_items = ["feed"]
