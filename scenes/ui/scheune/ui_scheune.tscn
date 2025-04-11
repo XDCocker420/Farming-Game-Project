@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://d28ybjd301660" path="res://scripts/ui/scheune/ui_scheune.gd" id="1_5da4b"]
 
 [node name="PanelContainer" type="PanelContainer"]
-offset_right = 75.0
+offset_right = 60.0
 offset_bottom = 38.0
 script = ExtResource("1_5da4b")
 
@@ -15,7 +15,7 @@ theme_override_constants/margin_right = 2
 theme_override_constants/margin_bottom = 2
 
 [node name="ScrollContainer" type="ScrollContainer" parent="MarginContainer"]
-custom_minimum_size = Vector2(62, 23)
+custom_minimum_size = Vector2(47, 23)
 layout_mode = 2
 horizontal_scroll_mode = 0
 vertical_scroll_mode = 3

@@ -3847,40 +3847,40 @@ position_smoothing_speed = 7.0
 
 [node name="production_ui_butterchurn" parent="." instance=ExtResource("5_trsac")]
 visible = false
-offset_left = -40.0
-offset_top = -88.0
-offset_right = 112.0
-offset_bottom = -23.0
+offset_left = -56.0
+offset_top = -104.0
+offset_right = 96.0
+offset_bottom = -39.0
 
 [node name="production_ui_press_cheese" parent="." instance=ExtResource("5_trsac")]
 visible = false
-offset_left = -8.0
-offset_top = -88.0
-offset_right = 144.0
-offset_bottom = -23.0
+offset_left = -24.0
+offset_top = -104.0
+offset_right = 128.0
+offset_bottom = -39.0
 
 [node name="production_ui_mayomaker" parent="." instance=ExtResource("5_trsac")]
-offset_left = 24.0
-offset_top = -88.0
-offset_right = 176.0
-offset_bottom = -23.0
+offset_left = 8.0
+offset_top = -104.0
+offset_right = 160.0
+offset_bottom = -39.0
 
 [node name="inventory_ui_butterchurn" parent="." instance=ExtResource("6_ruoo0")]
 visible = false
 offset_left = -120.0
 offset_top = -88.0
-offset_right = -45.0
+offset_right = -60.0
 offset_bottom = -50.0
 
 [node name="inventory_ui_press_cheese" parent="." instance=ExtResource("6_ruoo0")]
 visible = false
 offset_left = -88.0
 offset_top = -88.0
-offset_right = -13.0
+offset_right = -28.0
 offset_bottom = -50.0
 
 [node name="inventory_ui_mayomaker" parent="." instance=ExtResource("6_ruoo0")]
 offset_left = -56.0
 offset_top = -88.0
-offset_right = 19.0
+offset_right = 4.0
 offset_bottom = -50.0
