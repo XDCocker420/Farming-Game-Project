@@ -5,9 +5,10 @@ signal process_complete
 
 # References to all slots
 @onready var input_slot = $MarginContainer/slots/ui_slot
-@onready var output_slot = $MarginContainer/slots/ui_slot2
+@onready var input_slot2 = $MarginContainer/slots/ui_slot2  # Zweiter Input-Slot für später
+@onready var output_slot = $MarginContainer/slots/ui_slot3  # Neuer Output-Slot
 # Reference to the new production button
-@onready var produce_button = $Control/produce_button
+@onready var produce_button = $Control/PanelContainer/produce_button
 
 # Current workstation information
 var current_workstation: String = ""
@@ -20,8 +21,8 @@ func _ready():
 	# Initialize our cooldown tracker
 	last_add_time = 0
 	
-	# Connect button signals for both slots
-	for slot in [input_slot, output_slot]:
+	# Connect button signals for all slots
+	for slot in [input_slot, input_slot2, output_slot]:
 		if slot:
 			# Enable input processing
 			slot.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -49,22 +50,11 @@ func _ready():
 					button.pressed.connect(_on_output_slot_input)
 	
 	# VERBESSERT: Direkterer und einfacherer Weg, den Produktion-Button zu finden
-	produce_button = find_child("produce_button", true)
+	produce_button = $Control/PanelContainer/produce_button
 	
-	# Wenn wir keinen Button mit dem Namen finden, versuchen wir, einen Button mit "produce" im Namen zu finden
+	# Wenn der Button nicht direkt gefunden wurde, suche ihn
 	if not produce_button:
-		for child in get_children_recursive(self):
-			if child is Button or child is TextureButton:
-				var button_name = child.name.to_lower()
-				if "produce" in button_name or "start" in button_name:
-					produce_button = child
-					break
-	
-	# Direkter Weg um den Button in der Baumstruktur zu finden
-	if not produce_button:
-		var control_node = find_child("Control", true)
-		if control_node:
-			produce_button = control_node.find_child("produce_button", true)
+		produce_button = find_child("produce_button", true)
 	
 	# Wenn wir den Button gefunden haben, konfiguriere ihn
 	if produce_button:
@@ -72,10 +62,6 @@ func _ready():
 		produce_button.mouse_filter = Control.MOUSE_FILTER_STOP
 		produce_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		produce_button.focus_mode = Control.FOCUS_ALL
-		
-		# Auch für TextureButton die Cursor-Eigenschaften setzen
-		if produce_button is TextureButton:
-			produce_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		
 		# Disconnect any existing connections
 		if produce_button.pressed.is_connected(_on_produce_button_pressed):
@@ -92,50 +78,6 @@ func _ready():
 		if produce_button.gui_input.is_connected(_on_produce_button_input):
 			produce_button.gui_input.disconnect(_on_produce_button_input)
 		produce_button.gui_input.connect(_on_produce_button_input)
-		
-		# WICHTIG: Stelle sicher, dass die Klick-Erkennung des Buttons optimal ist
-		if produce_button is TextureButton:
-			produce_button.ignore_texture_size = false
-			produce_button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
-	else:
-		# Wenn immer noch kein Button gefunden wurde, versuche den alten Ansatz
-		var possible_button_paths = [
-			"Control/produce_button",
-			"produce_button",
-			"/Control/produce_button",
-			"../Control/produce_button",
-			"../../Control/produce_button"
-		]
-		
-		var button_found = false
-		for path in possible_button_paths:
-			var button = get_node_or_null(path)
-			if button:
-				produce_button = button
-				button_found = true
-				break
-		
-		if button_found:
-			# Konfiguriere den Button mit besserer visueller Rückmeldung
-			produce_button.mouse_filter = Control.MOUSE_FILTER_STOP
-			produce_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-			produce_button.focus_mode = Control.FOCUS_ALL
-			
-			# Disconnect any existing connections
-			if produce_button.pressed.is_connected(_on_produce_button_pressed):
-				produce_button.pressed.disconnect(_on_produce_button_pressed)
-			
-			# Connect to the pressed signal
-			produce_button.pressed.connect(_on_produce_button_pressed)
-			
-			# Make sure button is visible and enabled
-			produce_button.visible = true
-			produce_button.disabled = false
-			
-			# Add direct input handling as a fallback
-			if produce_button.gui_input.is_connected(_on_produce_button_input):
-				produce_button.gui_input.disconnect(_on_produce_button_input)
-			produce_button.gui_input.connect(_on_produce_button_input)
 
 # Neue Hilfsfunktion, um rekursiv alle Kinder zu erhalten
 func get_children_recursive(node):
@@ -235,9 +177,12 @@ func _get_amount_label(slot) -> Label:
 func setup(workstation_name: String):
 	current_workstation = workstation_name
 	
-	# Set production UI reference for both slots
+	# Set production UI reference for all slots
 	if input_slot and input_slot.has_method("set_production_ui"):
 		input_slot.set_production_ui(self)
+	
+	if input_slot2 and input_slot2.has_method("set_production_ui"):
+		input_slot2.set_production_ui(self)
 	
 	if output_slot and output_slot.has_method("set_production_ui"):
 		output_slot.set_production_ui(self)
@@ -245,6 +190,9 @@ func setup(workstation_name: String):
 	# Clear all slots
 	if input_slot and input_slot.has_method("clear"):
 		input_slot.clear()
+	
+	if input_slot2 and input_slot2.has_method("clear"):
+		input_slot2.clear()
 	
 	if output_slot and output_slot.has_method("clear"):
 		output_slot.clear()
@@ -274,8 +222,8 @@ func setup(workstation_name: String):
 			input_items = ["corn"]
 			output_items = ["feed"]
 	
-	# Reconnect button signals for both slots
-	for slot in [input_slot, output_slot]:
+	# Reconnect button signals for all slots
+	for slot in [input_slot, input_slot2, output_slot]:
 		if slot and slot.has_node("button"):
 			var button = slot.get_node("button")
 			# Disconnect any existing connections first

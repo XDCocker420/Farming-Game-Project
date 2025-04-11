@@ -3738,5 +3738,5 @@ offset_bottom = -18.0
 [node name="production_ui_feed" parent="." instance=ExtResource("5_yjwf1")]
 offset_left = -8.0
 offset_top = -56.0
-offset_right = 112.0
-offset_bottom = -18.0
+offset_right = 144.0
+offset_bottom = 9.0
