@@ -5,6 +5,9 @@ extends Node2D
 @onready var player:CharacterBody2D = $CutPlayer
 @onready var player_collison:CollisionShape2D = $CutPlayer/CollisionShape2D
 @onready var camera:Camera2D = $Camera2D
+@onready var martha:CharacterBody2D = $Martha
+
+
 var new_camera:Camera2D = Camera2D.new()
 
 func _ready() -> void:
@@ -29,4 +32,5 @@ func _anim_finished(anim_name):
 func _on_to_meet_martha(body:Node2D):
 	if body.is_in_group("Player"):
 		player.cant_move = true
+
 		print("no")

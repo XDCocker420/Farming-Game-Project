@@ -3,6 +3,8 @@ extends CharacterBody2D
 # Referenzen zu deinem NPC (CharacterBody2D) und dessen NavigationAgent2D
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var interaction_area: Area2D = $InteractArea
+@onready var notification:AnimatedSprite2D = $Notification
+@onready var player:CharacterBody2D = %CutPlayer
 
 # Wichtige Punkte (z.B. Marktplatz, Schmiede, etc.) – zur Laufzeit definierbar
 @export var important_points: Array[Vector2] = [Vector2(91, 66), Vector2(-23, 43), Vector2(57,150)]
@@ -35,7 +37,7 @@ var go_to_market:bool = false
 
 var save_dialog_pos:Vector2
 
-@export var tutorial:bool = false
+var go_to_player:bool = false
 
 func _ready() -> void:
 	wait_timer.timeout.connect(_on_wait_timeout)
@@ -54,60 +56,60 @@ func _ready() -> void:
 	choose_new_target()
 	
 
-func _physics_process(delta: float) -> void:
-	if not tutorial:
-		if  not navigation_agent:
-			return
-			
-		if not Dialogic.VAR.inputs.should_move:
-			global_position = save_dialog_pos
+func _physics_process(delta: float) -> void:	
+	if  not navigation_agent:
+		return
+		
+	if not Dialogic.VAR.inputs.should_move:
+		global_position = save_dialog_pos
 
-		if navigation_agent.is_target_reached():
-			if go_to_market:
-				## TODO: Implement buying from the market
-				print("kaufen")
-				# SaveGame.remove_market_item(items_to_buy[ irgendwas halt ])
-				pass
-					
-			elif wait_timer.is_stopped():
-				wait_timer.start(2)
+	if navigation_agent.is_target_reached():
+		if go_to_player:
+			pass
+		
+		if go_to_market:
+			## TODO: Implement buying from the market
+			print("kaufen")
+			# SaveGame.remove_market_item(items_to_buy[ irgendwas halt ])
+			pass
+				
+		elif wait_timer.is_stopped():
+			wait_timer.start(2)
 
-		if navigation_agent.target_position != current_target:
-			navigation_agent.target_position = current_target
-			
-		if NavigationServer2D.map_get_iteration_id(navigation_agent.get_navigation_map()) == 0:
-			return
+	if navigation_agent.target_position != current_target:
+		navigation_agent.target_position = current_target
+		
+	if NavigationServer2D.map_get_iteration_id(navigation_agent.get_navigation_map()) == 0:
+		return
 
-		if not navigation_agent.is_target_reached() && Dialogic.VAR.inputs.should_move:
-			
-			var next_position = navigation_agent.get_next_path_position()
-			var direction = (next_position - position).normalized()
-			# Setze die Geschwindigkeit des NPCs
-			#var new_velocity = direction * move_speed
-			var new_velocity: Vector2 = global_position.direction_to(next_position) * move_speed
-			#velocity = direction * move_speed
-			if navigation_agent.avoidance_enabled:
-				navigation_agent.set_velocity(new_velocity)
-			else:
-				_on_velocity_computed(new_velocity)
-
-			if abs(velocity.x) > abs(velocity.y):
-				if velocity.x > 0:
-					_play_animation("right")
-				else:
-					_play_animation("left")
-			else:
-				if velocity.y > 0:
-					_play_animation("down")
-				else:
-					_play_animation("up")
-			#move_and_slide()
+	if not navigation_agent.is_target_reached() && Dialogic.VAR.inputs.should_move:
+		
+		var next_position = navigation_agent.get_next_path_position()
+		var direction = (next_position - position).normalized()
+		# Setze die Geschwindigkeit des NPCs
+		#var new_velocity = direction * move_speed
+		var new_velocity: Vector2 = global_position.direction_to(next_position) * move_speed
+		#velocity = direction * move_speed
+		if navigation_agent.avoidance_enabled:
+			navigation_agent.set_velocity(new_velocity)
 		else:
-			velocity = Vector2.ZERO
-			_play_animation("idle")
-			
+			_on_velocity_computed(new_velocity)
+
+		if abs(velocity.x) > abs(velocity.y):
+			if velocity.x > 0:
+				_play_animation("right")
+			else:
+				_play_animation("left")
+		else:
+			if velocity.y > 0:
+				_play_animation("down")
+			else:
+				_play_animation("up")
+		#move_and_slide()
 	else:
-		pass
+		velocity = Vector2.ZERO
+		_play_animation("idle")
+
 			
 func _on_velocity_computed(safe_velocity: Vector2):
 	velocity = safe_velocity
@@ -141,29 +143,7 @@ func addToHistory(item):
 		history.pop_front()
 
 func _input(_event: InputEvent):
-	if _event.is_action_pressed("interact") && player_in_area && Dialogic.current_timeline == null && tutorial:
-		Dialogic.VAR.inputs.should_move = false
-		save_dialog_pos = global_position
-
-		var file_path:String = "res://dialogs/timelines/" + name.to_lower() + "_night.dtl"
-		
-		var timeline:DialogicTimeline = load(file_path)
-		timeline.process()
-		
-		Dialogic.start(timeline)
-	
-	elif _event.is_action_pressed("interact") && player_in_area && is_night && Dialogic.current_timeline == null:
-		Dialogic.VAR.inputs.should_move = false
-		save_dialog_pos = global_position
-
-		var file_path:String = "res://dialogs/timelines/" + name.to_lower() + "_night.dtl"
-		
-		var timeline:DialogicTimeline = load(file_path)
-		timeline.process()
-		
-		Dialogic.start(timeline)
-		
-	elif _event.is_action_pressed("interact") && player_in_area && Dialogic.current_timeline == null:
+	if _event.is_action_pressed("interact") && player_in_area && Dialogic.current_timeline == null:
 		Dialogic.VAR.inputs.should_move = false
 		save_dialog_pos = global_position
 
@@ -195,3 +175,10 @@ func _added_to_market(item_name:String):
 	
 func _on_is_night():
 	is_night = true
+	
+func to_player():
+	go_to_player = true
+	current_target = player.global_position
+	
+func show_notification():
+	notification.visible = true

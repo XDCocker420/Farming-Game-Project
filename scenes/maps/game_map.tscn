@@ -3547,23 +3547,23 @@ position = Vector2(416, -136)
 
 [node name="Fields" type="Node2D" parent="Map"]
 
-[node name="farming_area" parent="Map/Fields" instance=ExtResource("5_sdtop")]
-position = Vector2(-560, -592)
+[node name="farming_area1" parent="Map/Fields" instance=ExtResource("5_sdtop")]
+position = Vector2(-240, -236)
 
 [node name="farming_area2" parent="Map/Fields" instance=ExtResource("5_sdtop")]
-position = Vector2(-560, -416)
+position = Vector2(-557, -238)
 
 [node name="farming_area3" parent="Map/Fields" instance=ExtResource("5_sdtop")]
-position = Vector2(-560, -240)
+position = Vector2(-559, -412)
 
 [node name="farming_area4" parent="Map/Fields" instance=ExtResource("5_sdtop")]
-position = Vector2(-240, -592)
+position = Vector2(-241, -415)
 
 [node name="farming_area5" parent="Map/Fields" instance=ExtResource("5_sdtop")]
-position = Vector2(-240, -416)
+position = Vector2(-242, -589)
 
 [node name="farming_area6" parent="Map/Fields" instance=ExtResource("5_sdtop")]
-position = Vector2(-240, -240)
+position = Vector2(-558, -588)
 
 [node name="Tiergehege" type="Node2D" parent="Map"]
 

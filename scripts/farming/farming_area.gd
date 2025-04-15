@@ -54,7 +54,7 @@ func _on_field_clicked(field:Area2D) -> void:
 	
 	
 func _on_player_entered(body: Node2D) -> void:
-	if body.is_in_group("Player"):
+	if body.is_in_group("Player") && LevelingHandler.is_building_unlocked(name.to_lower()):
 		player_in_area = true
 		ui_farming.show()
 		if player:
