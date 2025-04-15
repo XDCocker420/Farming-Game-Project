@@ -5,9 +5,10 @@ signal process_complete
 
 # References to all slots
 @onready var input_slot = $MarginContainer/slots/ui_slot
-@onready var output_slot = $MarginContainer/slots/ui_slot2
+@onready var input_slot2 = $MarginContainer/slots/ui_slot2  # Zweiter Input-Slot für später
+@onready var output_slot = $MarginContainer/slots/ui_slot3  # Neuer Output-Slot
 # Reference to the new production button
-@onready var produce_button = $Control/produce_button
+@onready var produce_button = $Control/PanelContainer/produce_button
 
 # Current workstation information
 var current_workstation: String = ""
@@ -20,8 +21,8 @@ func _ready():
 	# Initialize our cooldown tracker
 	last_add_time = 0
 	
-	# Connect button signals for both slots
-	for slot in [input_slot, output_slot]:
+	# Connect button signals for all slots
+	for slot in [input_slot, input_slot2, output_slot]:
 		if slot:
 			# Enable input processing
 			slot.mouse_filter = Control.MOUSE_FILTER_STOP
@@ -49,22 +50,11 @@ func _ready():
 					button.pressed.connect(_on_output_slot_input)
 	
 	# VERBESSERT: Direkterer und einfacherer Weg, den Produktion-Button zu finden
-	produce_button = find_child("produce_button", true)
+	produce_button = $Control/PanelContainer/produce_button
 	
-	# Wenn wir keinen Button mit dem Namen finden, versuchen wir, einen Button mit "produce" im Namen zu finden
+	# Wenn der Button nicht direkt gefunden wurde, suche ihn
 	if not produce_button:
-		for child in get_children_recursive(self):
-			if child is Button or child is TextureButton:
-				var button_name = child.name.to_lower()
-				if "produce" in button_name or "start" in button_name:
-					produce_button = child
-					break
-	
-	# Direkter Weg um den Button in der Baumstruktur zu finden
-	if not produce_button:
-		var control_node = find_child("Control", true)
-		if control_node:
-			produce_button = control_node.find_child("produce_button", true)
+		produce_button = find_child("produce_button", true)
 	
 	# Wenn wir den Button gefunden haben, konfiguriere ihn
 	if produce_button:
@@ -72,10 +62,6 @@ func _ready():
 		produce_button.mouse_filter = Control.MOUSE_FILTER_STOP
 		produce_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		produce_button.focus_mode = Control.FOCUS_ALL
-		
-		# Auch für TextureButton die Cursor-Eigenschaften setzen
-		if produce_button is TextureButton:
-			produce_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
 		
 		# Disconnect any existing connections
 		if produce_button.pressed.is_connected(_on_produce_button_pressed):
@@ -92,50 +78,6 @@ func _ready():
 		if produce_button.gui_input.is_connected(_on_produce_button_input):
 			produce_button.gui_input.disconnect(_on_produce_button_input)
 		produce_button.gui_input.connect(_on_produce_button_input)
-		
-		# WICHTIG: Stelle sicher, dass die Klick-Erkennung des Buttons optimal ist
-		if produce_button is TextureButton:
-			produce_button.ignore_texture_size = false
-			produce_button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
-	else:
-		# Wenn immer noch kein Button gefunden wurde, versuche den alten Ansatz
-		var possible_button_paths = [
-			"Control/produce_button",
-			"produce_button",
-			"/Control/produce_button",
-			"../Control/produce_button",
-			"../../Control/produce_button"
-		]
-		
-		var button_found = false
-		for path in possible_button_paths:
-			var button = get_node_or_null(path)
-			if button:
-				produce_button = button
-				button_found = true
-				break
-		
-		if button_found:
-			# Konfiguriere den Button mit besserer visueller Rückmeldung
-			produce_button.mouse_filter = Control.MOUSE_FILTER_STOP
-			produce_button.mouse_default_cursor_shape = Control.CURSOR_POINTING_HAND
-			produce_button.focus_mode = Control.FOCUS_ALL
-			
-			# Disconnect any existing connections
-			if produce_button.pressed.is_connected(_on_produce_button_pressed):
-				produce_button.pressed.disconnect(_on_produce_button_pressed)
-			
-			# Connect to the pressed signal
-			produce_button.pressed.connect(_on_produce_button_pressed)
-			
-			# Make sure button is visible and enabled
-			produce_button.visible = true
-			produce_button.disabled = false
-			
-			# Add direct input handling as a fallback
-			if produce_button.gui_input.is_connected(_on_produce_button_input):
-				produce_button.gui_input.disconnect(_on_produce_button_input)
-			produce_button.gui_input.connect(_on_produce_button_input)
 
 # Neue Hilfsfunktion, um rekursiv alle Kinder zu erhalten
 func get_children_recursive(node):
@@ -235,9 +177,12 @@ func _get_amount_label(slot) -> Label:
 func setup(workstation_name: String):
 	current_workstation = workstation_name
 	
-	# Set production UI reference for both slots
+	# Set production UI reference for all slots
 	if input_slot and input_slot.has_method("set_production_ui"):
 		input_slot.set_production_ui(self)
+	
+	if input_slot2 and input_slot2.has_method("set_production_ui"):
+		input_slot2.set_production_ui(self)
 	
 	if output_slot and output_slot.has_method("set_production_ui"):
 		output_slot.set_production_ui(self)
@@ -245,6 +190,9 @@ func setup(workstation_name: String):
 	# Clear all slots
 	if input_slot and input_slot.has_method("clear"):
 		input_slot.clear()
+	
+	if input_slot2 and input_slot2.has_method("clear"):
+		input_slot2.clear()
 	
 	if output_slot and output_slot.has_method("clear"):
 		output_slot.clear()
@@ -262,10 +210,10 @@ func setup(workstation_name: String):
 			input_items = ["milk"]
 			output_items = ["cheese"]
 		"mayomaker":
-			input_items = ["egg"]
+			input_items = ["milk", "egg"]  # Mayo braucht jetzt Milch und Ei
 			output_items = ["mayo"]
 		"clothmaker":
-			input_items = ["white_wool"]
+			input_items = ["white_wool", "white_string"]  # Stoff braucht Wolle und Faden
 			output_items = ["white_cloth"]
 		"spindle":
 			input_items = ["white_wool"]
@@ -274,8 +222,8 @@ func setup(workstation_name: String):
 			input_items = ["corn"]
 			output_items = ["feed"]
 	
-	# Reconnect button signals for both slots
-	for slot in [input_slot, output_slot]:
+	# Reconnect button signals for all slots
+	for slot in [input_slot, input_slot2, output_slot]:
 		if slot and slot.has_node("button"):
 			var button = slot.get_node("button")
 			# Disconnect any existing connections first
@@ -300,23 +248,46 @@ func _process_single_item() -> void:
 		if produce_button:
 			produce_button.disabled = true
 		return
-		
-	var input_item = input_items[0]
+	
 	var output_item = output_items[0]
 	
-	# Check if there's an item in the input slot
-	var input_count = 0
-	if input_slot.item_name == input_item:
+	# Check if we have all required input items
+	var input_counts = {}
+	var all_inputs_present = true
+	
+	# Check first input slot
+	if input_slot and input_slot.item_name in input_items:
+		var count = 0
 		if "amount_label" in input_slot and input_slot.amount_label and input_slot.amount_label.text != "":
-			input_count = int(input_slot.amount_label.text)
+			count = int(input_slot.amount_label.text)
 		elif input_slot.has_node("amount"):
 			var amount_label = input_slot.get_node("amount")
 			if amount_label.text != "":
-				input_count = int(amount_label.text)
+				count = int(amount_label.text)
 		else:
-			input_count = 1
+			count = 1 if input_slot.item_name != "" else 0
+		input_counts[input_slot.item_name] = count
 	
-	if input_count <= 0:
+	# Check second input slot
+	if input_slot2 and input_slot2.item_name in input_items:
+		var count = 0
+		if "amount_label" in input_slot2 and input_slot2.amount_label and input_slot2.amount_label.text != "":
+			count = int(input_slot2.amount_label.text)
+		elif input_slot2.has_node("amount"):
+			var amount_label = input_slot2.get_node("amount")
+			if amount_label.text != "":
+				count = int(amount_label.text)
+		else:
+			count = 1 if input_slot2.item_name != "" else 0
+		input_counts[input_slot2.item_name] = count
+	
+	# Verify all required inputs are present
+	for required_item in input_items:
+		if not (required_item in input_counts) or input_counts[required_item] <= 0:
+			all_inputs_present = false
+			break
+	
+	if not all_inputs_present:
 		return
 	
 	# Check if the output slot already has items
@@ -329,33 +300,23 @@ func _process_single_item() -> void:
 			if amount_label.text != "":
 				current_output_count = int(amount_label.text)
 	
-	# Update the output slot visually
-	# Direct manipulation first
-	output_slot.item_name = output_item
-	if output_slot.has_node("MarginContainer/item"):
-		var texture_path = "res://assets/ui/icons/" + output_item + ".png"
-		output_slot.get_node("MarginContainer/item").texture = load(texture_path)
+	# Update the output slot
+	output_slot.setup(output_item, "", true, current_output_count + 1)
 	
-	if output_slot.has_node("amount"):
-		output_slot.get_node("amount").text = str(current_output_count + input_count)
-		output_slot.get_node("amount").show()
+	# Clear input slots that were used
+	if input_slot and input_slot.item_name in input_items:
+		var current_count = input_counts[input_slot.item_name]
+		if current_count <= 1:
+			input_slot.clear()
+		else:
+			input_slot.setup(input_slot.item_name, "", true, current_count - 1)
 	
-	# Also try the method
-	if output_slot.has_method("setup"):
-		output_slot.setup(output_item, "", true, current_output_count + input_count)
-	
-	# Clear the input slot - both directly and via method
-	input_slot.item_name = ""
-	if input_slot.has_node("MarginContainer/item"):
-		input_slot.get_node("MarginContainer/item").texture = null
-	
-	if input_slot.has_node("amount"):
-		input_slot.get_node("amount").text = ""
-		input_slot.get_node("amount").hide()
-	
-	# Also try the method
-	if input_slot.has_method("clear"):
-		input_slot.clear()
+	if input_slot2 and input_slot2.item_name in input_items:
+		var current_count = input_counts[input_slot2.item_name]
+		if current_count <= 1:
+			input_slot2.clear()
+		else:
+			input_slot2.setup(input_slot2.item_name, "", true, current_count - 1)
 	
 	# Use the optimized refresh method for better performance
 	_refresh_targeted_inventory_ui(current_workstation)
@@ -382,10 +343,6 @@ func add_input_item(item_name: String) -> void:
 	if inventory_count <= 0:
 		return
 		
-	# Verify input_slot is properly initialized
-	if not input_slot:
-		return
-	
 	# Add cooldown check to prevent multiple calls
 	if (Time.get_ticks_msec() - last_add_time) < 100:
 		return
@@ -393,16 +350,43 @@ func add_input_item(item_name: String) -> void:
 	# Store the current time
 	last_add_time = Time.get_ticks_msec()
 	
+	# Determine which slot to use
+	var target_slot = null
+	var other_slot = null
+	
+	# First check if either slot already has this item
+	if input_slot and input_slot.item_name == item_name:
+		target_slot = input_slot
+		other_slot = input_slot2
+	elif input_slot2 and input_slot2.item_name == item_name:
+		target_slot = input_slot2
+		other_slot = input_slot
+	else:
+		# If neither slot has this item, use the first empty slot we find
+		if input_slot and input_slot.item_name == "":
+			target_slot = input_slot
+			other_slot = input_slot2
+		elif input_slot2 and input_slot2.item_name == "":
+			target_slot = input_slot2
+			other_slot = input_slot
+		else:
+			# If both slots are full but one has a different item, use the first slot
+			target_slot = input_slot
+			other_slot = input_slot2
+	
+	if not target_slot:
+		return
+	
 	# Get current count if the slot already has this item
 	var current_count = 0
-	if input_slot.item_name == item_name:
-		if input_slot.has_node("amount"):
-			var amount_label = input_slot.get_node("amount")
+	if target_slot.item_name == item_name:
+		if target_slot.has_node("amount"):
+			var amount_label = target_slot.get_node("amount")
 			if amount_label.text.strip_edges() != "":
 				current_count = int(amount_label.text)
-		elif "amount_label" in input_slot and input_slot.amount_label:
-			if input_slot.amount_label.text.strip_edges() != "":
-				current_count = int(input_slot.amount_label.text)
+		elif "amount_label" in target_slot and target_slot.amount_label:
+			if target_slot.amount_label.text.strip_edges() != "":
+				current_count = int(target_slot.amount_label.text)
 		else:
 			current_count = 1
 	
@@ -418,44 +402,54 @@ func add_input_item(item_name: String) -> void:
 	SaveGame.save_game()
 	
 	# Update the UI immediately for better responsiveness with rapid clicks
-	_update_input_slot(item_name, new_count)
+	_update_input_slot_with_target(target_slot, item_name, new_count)
 	
-	# Enable the produce button since we now have valid input
+	# Enable the produce button if we have all required inputs
 	if produce_button:
-		produce_button.disabled = false
+		var all_inputs_present = true
+		for required_item in input_items:
+			var found = false
+			if input_slot and input_slot.item_name == required_item:
+				found = true
+			elif input_slot2 and input_slot2.item_name == required_item:
+				found = true
+			if not found:
+				all_inputs_present = false
+				break
+		produce_button.disabled = not all_inputs_present
 	
 	# Use a very short timer to refresh inventory UI to handle rapid clicks better
 	var refresh_timer = get_tree().create_timer(0.08)  # Schnellere Aktualisierung
 	refresh_timer.timeout.connect(func(): _refresh_targeted_inventory_ui(current_workstation))
 
-# Method to update the input slot safely in deferred context
-func _update_input_slot(item_name, new_count):
+# New helper function to update a specific input slot
+func _update_input_slot_with_target(target_slot, item_name, new_count):
 	# Use the setup method whenever possible as it's most reliable
-	if input_slot.has_method("setup"):
-		input_slot.setup(item_name, "", true, new_count)
+	if target_slot.has_method("setup"):
+		target_slot.setup(item_name, "", true, new_count)
 	else:
 		# Fallback to direct property updates
-		input_slot.item_name = item_name
+		target_slot.item_name = item_name
 		
 		# Try multiple paths to update the texture
 		var texture_path = "res://assets/ui/icons/" + item_name + ".png"
 		var texture = load(texture_path)
 		
-		if input_slot.has_node("MarginContainer/item"):
-			input_slot.get_node("MarginContainer/item").texture = texture
+		if target_slot.has_node("MarginContainer/item"):
+			target_slot.get_node("MarginContainer/item").texture = texture
 		
 		# Try multiple paths to update the amount label
 		var amount_updated = false
 		
-		if input_slot.has_node("amount"):
-			var amount_label = input_slot.get_node("amount")
+		if target_slot.has_node("amount"):
+			var amount_label = target_slot.get_node("amount")
 			amount_label.text = str(new_count)
 			amount_label.show()
 			amount_updated = true
 		
-		if not amount_updated and "amount_label" in input_slot and input_slot.amount_label:
-			input_slot.amount_label.text = str(new_count)
-			input_slot.amount_label.show()
+		if not amount_updated and "amount_label" in target_slot and target_slot.amount_label:
+			target_slot.amount_label.text = str(new_count)
+			target_slot.amount_label.show()
 
 # Helper function to find all Scheune UIs in the scene
 func _find_scheune_ui():

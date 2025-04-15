@@ -12,8 +12,8 @@ texture_margin_right = 3.0
 texture_margin_bottom = 2.0
 
 [node name="production_ui" type="PanelContainer"]
-offset_right = 120.0
-offset_bottom = 38.0
+offset_right = 152.0
+offset_bottom = 65.0
 size_flags_horizontal = 3
 size_flags_vertical = 0
 script = ExtResource("1_s8k31")
@@ -27,7 +27,13 @@ theme_override_constants/margin_bottom = 2
 
 [node name="slots" type="GridContainer" parent="MarginContainer"]
 layout_mode = 2
-columns = 4
+columns = 3
+
+[node name="Label" type="Label" parent="MarginContainer/slots"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Input:"
 
 [node name="ui_slot" parent="MarginContainer/slots" instance=ExtResource("2_pltrf")]
 layout_mode = 2
@@ -35,14 +41,23 @@ layout_mode = 2
 [node name="ui_slot2" parent="MarginContainer/slots" instance=ExtResource("2_pltrf")]
 layout_mode = 2
 
+[node name="Label2" type="Label" parent="MarginContainer/slots"]
+layout_mode = 2
+size_flags_horizontal = 0
+size_flags_vertical = 0
+text = "Output:"
+
+[node name="ui_slot3" parent="MarginContainer/slots" instance=ExtResource("2_pltrf")]
+layout_mode = 2
+
 [node name="Control" type="Control" parent="."]
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="Control"]
 layout_mode = 0
-offset_left = 54.0
+offset_left = 85.0
 offset_top = 4.0
-offset_right = 106.0
+offset_right = 137.0
 offset_bottom = 23.0
 theme_override_styles/panel = SubResource("StyleBoxTexture_rwnry")
 
