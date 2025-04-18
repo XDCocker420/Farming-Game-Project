@@ -27,13 +27,9 @@ extends PanelContainer
 var current_btn:Button = null
 var items:Array[String] = ["wheat", "corn", "carrot", "pumpkin", "potatoe", "tomatoe", "lettuce", "eggplant", "melon"]
 
-
-
-
-
-
-
 var corelation:Dictionary
+
+signal right_pressed
 
 var selection_highlight:NinePatchRect
 var selection:String = '':
@@ -89,6 +85,7 @@ func level_handling():
 			corelation[i].get_child(2).disabled = true
 	
 func _on_button_pressed():
+	right_pressed.emit()
 	selection = 'wheat'
 	current_btn = slot1
 	selection_highlight.visible = true

@@ -9,6 +9,7 @@
 [sub_resource type="AudioStream" id="AudioStream_pe27w"]
 
 [node name="VN_ChoiceLayer" type="Control"]
+z_index = 16
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -19,6 +20,7 @@ mouse_filter = 2
 script = ExtResource("1_kurgw")
 
 [node name="Choices" type="VBoxContainer" parent="."]
+z_index = 16
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5

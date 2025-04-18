@@ -1,0 +1,225 @@
+[gd_scene load_steps=14 format=3 uid="uid://bps4uutao6dcf"]
+
+[ext_resource type="Texture2D" uid="uid://drxhto5het6cy" path="res://assets/ui/general/farming_ui_frame.png" id="1_wch5n"]
+[ext_resource type="Script" uid="uid://bsotntrvxb1i1" path="res://scripts/ui/tutorial_ui_farming.gd" id="2_wch5n"]
+[ext_resource type="Texture2D" uid="uid://c1626gr1o58ua" path="res://assets/ui/icons/wheat_seed.png" id="3_qjqc1"]
+[ext_resource type="Texture2D" uid="uid://cwaj67yxfcuxf" path="res://assets/ui/icons/corn_seed.png" id="4_g32q3"]
+[ext_resource type="Texture2D" uid="uid://cad3mdqonuwyh" path="res://assets/ui/icons/carrot_seed.png" id="5_6vicm"]
+[ext_resource type="Texture2D" uid="uid://bktfvirxdvg22" path="res://assets/ui/icons/pumpkin_seed.png" id="6_1sq02"]
+[ext_resource type="Texture2D" uid="uid://cpjqh07q46ycb" path="res://assets/ui/icons/potatoe_seed.png" id="7_bynxx"]
+[ext_resource type="Texture2D" uid="uid://ca0jbnkqxrskv" path="res://assets/ui/icons/tomatoe_seed.png" id="8_mtkqf"]
+[ext_resource type="Texture2D" uid="uid://n5jsl8tfrtg4" path="res://assets/ui/icons/lettuce_seed.png" id="9_a5wwk"]
+[ext_resource type="Texture2D" uid="uid://cgicbdgqrn5ov" path="res://assets/ui/icons/eggplant_seed.png" id="10_ttsnd"]
+[ext_resource type="Texture2D" uid="uid://dtog1abxkdlyo" path="res://assets/ui/icons/watermelon_seed.png" id="11_1rxs1"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_7qkon"]
+texture = ExtResource("1_wch5n")
+
+[sub_resource type="StyleBoxEmpty" id="StyleBoxEmpty_7un6v"]
+
+[node name="tutorial_ui_farming" type="PanelContainer"]
+custom_minimum_size = Vector2(206, 31)
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxTexture_7qkon")
+script = ExtResource("2_wch5n")
+
+[node name="MarginContainer" type="MarginContainer" parent="."]
+layout_mode = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/separation = 4
+
+[node name="PanelContainer" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7un6v")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+texture = ExtResource("3_qjqc1")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+mouse_filter = 1
+text = "0"
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer"]
+layout_mode = 2
+flat = true
+
+[node name="PanelContainer2" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7un6v")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+texture = ExtResource("4_g32q3")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "0"
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer2"]
+layout_mode = 2
+flat = true
+
+[node name="PanelContainer3" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7un6v")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer3"]
+layout_mode = 2
+texture = ExtResource("5_6vicm")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer3"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "0"
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer3"]
+layout_mode = 2
+flat = true
+
+[node name="PanelContainer4" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7un6v")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer4"]
+layout_mode = 2
+texture = ExtResource("6_1sq02")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer4"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "0"
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer4"]
+layout_mode = 2
+flat = true
+
+[node name="PanelContainer5" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7un6v")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer5"]
+layout_mode = 2
+texture = ExtResource("7_bynxx")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer5"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "0"
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer5"]
+layout_mode = 2
+flat = true
+
+[node name="PanelContainer6" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7un6v")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer6"]
+layout_mode = 2
+texture = ExtResource("8_mtkqf")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer6"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "0"
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer6"]
+layout_mode = 2
+flat = true
+
+[node name="PanelContainer7" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7un6v")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer7"]
+layout_mode = 2
+texture = ExtResource("9_a5wwk")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer7"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "0"
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer7"]
+layout_mode = 2
+flat = true
+
+[node name="PanelContainer8" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7un6v")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer8"]
+layout_mode = 2
+texture = ExtResource("10_ttsnd")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer8"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "0"
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer8"]
+layout_mode = 2
+flat = true
+
+[node name="PanelContainer9" type="PanelContainer" parent="MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+mouse_filter = 1
+theme_override_styles/panel = SubResource("StyleBoxEmpty_7un6v")
+
+[node name="TextureRect" type="TextureRect" parent="MarginContainer/HBoxContainer/PanelContainer9"]
+layout_mode = 2
+texture = ExtResource("11_1rxs1")
+stretch_mode = 5
+
+[node name="Label" type="Label" parent="MarginContainer/HBoxContainer/PanelContainer9"]
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 8
+text = "0"
+
+[node name="Button" type="Button" parent="MarginContainer/HBoxContainer/PanelContainer9"]
+layout_mode = 2
+flat = true

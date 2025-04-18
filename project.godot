@@ -24,6 +24,7 @@ ConfigReader="*res://scripts/config/ConfigReader.gd"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 SceneSwitcher="*res://scripts/utility/scene_switcher.gd"
 LevelingHandler="*res://scripts/utility/leveling_system.gd"
+TutorialHelper="*res://scripts/tutorial/tutorial_helper.gd"
 
 [dialogic]
 
@@ -59,6 +60,7 @@ directories/dtl_directory={
 "martha_night": "res://dialogs/timelines/martha_night.dtl",
 "melissa": "res://dialogs/timelines/melissa.dtl",
 "melissa_night": "res://dialogs/timelines/melissa_night.dtl",
+"new_style_test": "res://dialogs/timelines/tutorial/new_style_test.dtl",
 "sabrina": "res://dialogs/timelines/sabrina.dtl",
 "sabrina_night": "res://dialogs/timelines/sabrina_night.dtl",
 "scheune": "res://dialogs/timelines/tutorial/scheune.dtl",
@@ -70,8 +72,8 @@ directories/dtl_directory={
 "tutorial_first_meet": "res://dialogs/timelines/tutorial/tutorial_first_meet.dtl"
 }
 glossary/default_case_sensitive=true
-layout/style_list=["res://dialogs/styling/custom_styles.tres", "res://dialogs/styling/default.tres"]
-layout/default_style="res://dialogs/styling/custom_styles.tres"
+layout/style_list=["res://dialogs/styling/custom_styles.tres", "res://dialogs/styling/default.tres", "res://dialogs/styling/text_bubble_style.tres", "res://dialogs/styling/biite.tres"]
+layout/default_style="res://dialogs/styling/default.tres"
 variables={
 "global": {
 "done_tutorial": false,

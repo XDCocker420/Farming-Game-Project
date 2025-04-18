@@ -4,3 +4,23 @@ martha: Ich muss zurück nach Hause
 martha: Wir sehen uns dann in der Stadt
 martha: Aber vergiss nicht dir deinen Stadtpass beim Portier zu kaufen
 martha: Ohne dem lässt er dich nicht rein
+label choice
+martha: Hast du noch fragen?
+- Wie bekomme ich mehr Pflanzen?
+	martha: Du musst einfach hoffen, dass der Bill das einbaut
+	jump choice
+- Wie funktionieren die Tiere?
+	martha: Man geht zu den Futterplätzen und drückt die E Taste
+	jump choice
+- Ich will selber etwas fragen
+	[text_input var="inputs.custom_question"]
+	[signal arg="trigger_ai"]
+	martha: Lass mich kurz nachdenken
+	label uu88877385u956zzabwfh (label1)
+	if {inputs.custom_answer} == "":
+		[wait time="1.0"]
+		jump uu88877385u956zzabwfh
+	martha: {inputs.custom_answer}
+	jump choice
+- Danke ich weiß alles
+	[signal arg="done_tutorial"]

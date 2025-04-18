@@ -10,7 +10,8 @@ var in_area: bool
 
 
 func _ready() -> void:
-	player.interact.connect(_on_player_interact)
+	if player:
+		player.interact.connect(_on_player_interact)
 	area.body_entered.connect(_player_entered)
 	area.body_exited.connect(_player_exited)
 

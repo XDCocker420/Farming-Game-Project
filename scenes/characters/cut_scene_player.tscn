@@ -1,9 +1,9 @@
 [gd_scene load_steps=87 format=3 uid="uid://3aeao4qyguqi"]
 
-[ext_resource type="Texture2D" uid="uid://drvb7hqfpmk4k" path="res://assets/characters/named_characters/main/main_walk.png" id="1_ei2dt"]
-[ext_resource type="Texture2D" uid="uid://btlqqorrsjdeu" path="res://assets/characters/named_characters/main/main_hoe.png" id="2_sy7de"]
-[ext_resource type="Texture2D" uid="uid://24l37fli2u4m" path="res://assets/characters/named_characters/main/main_jump.png" id="3_olmr5"]
-[ext_resource type="Texture2D" uid="uid://cj6n17nni4ylg" path="res://assets/characters/named_characters/main/main_water.png" id="4_5rwpf"]
+[ext_resource type="Texture2D" uid="uid://doc4be3lpahfk" path="res://assets/characters/named_characters/main/main_walk.png" id="1_ei2dt"]
+[ext_resource type="Texture2D" uid="uid://c3286ffcnd1to" path="res://assets/characters/named_characters/main/main_hoe.png" id="2_sy7de"]
+[ext_resource type="Texture2D" uid="uid://bbvqoxj4s4l5u" path="res://assets/characters/named_characters/main/main_jump.png" id="3_olmr5"]
+[ext_resource type="Texture2D" uid="uid://b1xwkhfkll5ut" path="res://assets/characters/named_characters/main/main_water.png" id="4_5rwpf"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_76oj4"]
 atlas = ExtResource("1_ei2dt")
@@ -664,3 +664,6 @@ animation = &"down"
 position = Vector2(0, -8)
 shape = SubResource("CapsuleShape2D_kq01a")
 disabled = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+enabled = false

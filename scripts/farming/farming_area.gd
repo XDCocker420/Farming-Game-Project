@@ -10,7 +10,7 @@ var field_list: Array
 
 var player_in_area: bool
 
-## False for harvesting / True for watering
+# False for harvesting / True for watering
 var state:bool = false
 
 

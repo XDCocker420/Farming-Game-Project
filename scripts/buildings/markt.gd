@@ -24,7 +24,8 @@ func _ready() -> void:
 	ui_selection.hide()
 	
 	# Connect signals
-	player.interact.connect(_on_player_interact)
+	if player:
+		player.interact.connect(_on_player_interact)
 	interact_area.body_entered.connect(_on_player_entered)
 	interact_area.body_exited.connect(_on_player_exited)
 	ui_markt.select_item.connect(_on_select)

@@ -1,0 +1,218 @@
+[gd_scene load_steps=14 format=4 uid="uid://c8dci6yx6ky2h"]
+
+[ext_resource type="Script" uid="uid://w5jrd6ept4sk" path="res://scripts/farming/tutorial_farming_area.gd" id="1_iy7e4"]
+[ext_resource type="TileSet" uid="uid://ns2vki3n45m" path="res://assets/tilesets/terrain_tileset.tres" id="2_3ln47"]
+[ext_resource type="PackedScene" uid="uid://c1i6syqlhigpc" path="res://scenes/farming/field.tscn" id="3_3qwtu"]
+[ext_resource type="PackedScene" uid="uid://bps4uutao6dcf" path="res://scenes/ui/farming/tutorial_ui_farming.tscn" id="4_iy7e4"]
+[ext_resource type="Texture2D" uid="uid://c2ndoun4scmev" path="res://assets/ui/general/arrow_left.png" id="5_3ln47"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rcopo"]
+size = Vector2(112, 112)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_v3nk0"]
+b = Vector2(114, 0)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_q7atk"]
+b = Vector2(0, 113)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_xs37c"]
+a = Vector2(113, 113)
+b = Vector2(0, 113)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_bn2hi"]
+a = Vector2(112, -1)
+b = Vector2(112, 113)
+
+[sub_resource type="Animation" id="Animation_3qwtu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Arrow:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_3ln47"]
+resource_name = "arrow_blink"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("CanvasLayer/Arrow:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_oign5"]
+_data = {
+&"RESET": SubResource("Animation_3qwtu"),
+&"arrow_blink": SubResource("Animation_3ln47")
+}
+
+[node name="tutorial_farming_area" type="Area2D"]
+script = ExtResource("1_iy7e4")
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAAAAAAADAAoAAAAAAAYAAAADAAsAAAAAAAUAAAACAAoAAAAAAAQAAAACAAoAAAAAAAMAAAACAAoAAAAAAAIAAAACAAoAAAAAAAEAAAACAAoAAAABAAAAAAABAAsAAAACAAAAAAABAAsAAAADAAAAAAABAAsAAAAEAAAAAAABAAsAAAAFAAAAAAABAAsAAAAGAAAAAAAEAAoAAAAGAAEAAAAAAAoAAAAGAAIAAAAAAAoAAAAGAAMAAAAAAAoAAAAGAAQAAAAAAAoAAAAGAAUAAAAAAAoAAAABAAYAAAABAAkAAAACAAYAAAABAAkAAAADAAYAAAABAAkAAAAEAAYAAAABAAkAAAAFAAYAAAABAAkAAAAGAAYAAAAEAAsAAAA=")
+tile_set = ExtResource("2_3ln47")
+
+[node name="CanvasGroup" type="CanvasGroup" parent="."]
+position = Vector2(16, 16)
+
+[node name="field" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(8, 8)
+
+[node name="field2" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(24, 8)
+
+[node name="field3" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(40, 8)
+
+[node name="field4" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(56, 8)
+
+[node name="field5" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(72, 8)
+
+[node name="field6" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(8, 24)
+
+[node name="field7" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(24, 24)
+
+[node name="field8" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(40, 24)
+
+[node name="field9" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(56, 24)
+
+[node name="field10" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(72, 24)
+
+[node name="field11" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(8, 40)
+
+[node name="field12" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(24, 40)
+
+[node name="field13" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(40, 40)
+
+[node name="field14" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(56, 40)
+
+[node name="field15" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(72, 40)
+
+[node name="field16" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(8, 56)
+
+[node name="field17" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(24, 56)
+
+[node name="field18" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(40, 56)
+
+[node name="field19" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(56, 56)
+
+[node name="field20" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(72, 56)
+
+[node name="field21" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(8, 72)
+
+[node name="field22" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(24, 72)
+
+[node name="field23" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(40, 72)
+
+[node name="field24" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(56, 72)
+
+[node name="field25" parent="CanvasGroup" instance=ExtResource("3_3qwtu")]
+position = Vector2(72, 72)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(56, 56)
+shape = SubResource("RectangleShape2D_rcopo")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="tutorial_farming_ui" parent="CanvasLayer" instance=ExtResource("4_iy7e4")]
+visible = false
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -103.0
+offset_top = -40.0
+offset_right = 103.0
+offset_bottom = -9.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_vertical = 8
+metadata/_edit_use_anchors_ = true
+
+[node name="Arrow" type="TextureRect" parent="CanvasLayer"]
+visible = false
+modulate = Color(1, 1, 1, 0)
+offset_left = 63.0
+offset_top = 141.0
+offset_right = 103.0
+offset_bottom = 181.0
+rotation = -1.5708
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("5_3ln47")
+metadata/_edit_use_anchors_ = true
+
+[node name="Label" type="Label" parent="CanvasLayer"]
+visible = false
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -6.5
+offset_right = 20.0
+offset_bottom = 6.5
+grow_horizontal = 2
+grow_vertical = 2
+metadata/_edit_use_anchors_ = true
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(62, 54)
+
+[node name="PlayerInside" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="PlayerInside"]
+shape = SubResource("SegmentShape2D_v3nk0")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="PlayerInside"]
+shape = SubResource("SegmentShape2D_q7atk")
+disabled = true
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="PlayerInside"]
+shape = SubResource("SegmentShape2D_xs37c")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="PlayerInside"]
+shape = SubResource("SegmentShape2D_bn2hi")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_oign5")
+}

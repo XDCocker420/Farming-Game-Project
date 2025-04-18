@@ -1,8 +1,8 @@
 [gd_scene load_steps=42 format=3 uid="uid://fbdv2o63bdoe"]
 
-[ext_resource type="Script" uid="uid://d3egejqgm7h5o" path="res://scripts/characters/npcs/martha.gd" id="1_8a7hl"]
-[ext_resource type="Texture2D" uid="uid://8k2j713c2axy" path="res://assets/characters/named_characters/Martha/Martha_walk.png" id="2_dr7w8"]
-[ext_resource type="Texture2D" uid="uid://ked5mlxegiwl" path="res://assets/characters/emoticons.png" id="3_dr7w8"]
+[ext_resource type="Script" uid="uid://dhfakw6obfq1e" path="res://scripts/characters/npcs/martha.gd" id="1_8a7hl"]
+[ext_resource type="Texture2D" uid="uid://c76hswkaa7626" path="res://assets/characters/named_characters/Martha/Martha_walk.png" id="2_dr7w8"]
+[ext_resource type="Texture2D" uid="uid://t8gflnoasf4m" path="res://assets/characters/emoticons.png" id="3_dr7w8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_148c7"]
 atlas = ExtResource("2_dr7w8")
@@ -285,7 +285,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Martha" type="CharacterBody2D"]
+[node name="TutorialMartha" type="CharacterBody2D"]
 z_index = 10
 motion_mode = 1
 script = ExtResource("1_8a7hl")
