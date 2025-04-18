@@ -72,8 +72,8 @@ directories/dtl_directory={
 "tutorial_first_meet": "res://dialogs/timelines/tutorial/tutorial_first_meet.dtl"
 }
 glossary/default_case_sensitive=true
-layout/style_list=["res://dialogs/styling/custom_styles.tres", "res://dialogs/styling/default.tres", "res://dialogs/styling/text_bubble_style.tres", "res://dialogs/styling/biite.tres"]
-layout/default_style="res://dialogs/styling/default.tres"
+layout/style_list=["res://dialogs/styling/custom_styles.tres", "res://dialogs/styling/default.tres", "res://dialogs/styling/text_bubble_style.tres", "res://dialogs/styling/biite.tres", "res://dialogs/styling/test1.tres"]
+layout/default_style="res://dialogs/styling/test1.tres"
 variables={
 "global": {
 "done_tutorial": false,
@@ -141,7 +141,7 @@ dynamic_elements="all dynamic elements that should be saved"
 
 [gui]
 
-theme/custom="res://farm_theme.tres"
+theme/custom="uid://oj1fluymoaa1"
 
 [input]
 

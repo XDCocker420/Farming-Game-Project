@@ -322,3 +322,5 @@ visible = false
 position = Vector2(-7, -7)
 sprite_frames = SubResource("SpriteFrames_ihrae")
 animation = &"attention"
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]

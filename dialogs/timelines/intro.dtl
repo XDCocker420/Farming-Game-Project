@@ -13,7 +13,7 @@ starter: Was möchtest du über das Spiel wissen?
 	starter: Man geht zu den Futterplätzen und drückt die E Taste
 	jump choice
 - Ich will selber etwas fragen
-	[text_input var="inputs.custom_question"]
+	[text_input text="Stelle deine Frage:" var="inputs.custom_question"]
 	[signal arg="trigger_ai"]
 	label uu88877385u956zzabwfh (label1)
 	if {inputs.custom_answer} == "":

@@ -48,6 +48,8 @@ func _ready() -> void:
 
 func _on_dialogic_signal(argument:String):
 	if argument == "start_moving":
+		#player.follow_martha(true)
+		#done_tut()
 		to_farm()
 	if argument == "done_tutorial":
 		print("transition to main scene")
@@ -69,10 +71,20 @@ func _on_dialogic_signal(argument:String):
 		# Set up the headers.
 		var headers = ["Content-Type: application/json"]
 
+		var spielbeschreibung:String = "Du bist ein NPC in unserem Farming Spiel.
+		 Beantworte alle fragen so gut du kannst mit dem mitübergebenen wissen. Wenn es nicht geht dann sag einfach Es tut mir Leid das weiß ich nicht. Generell gilt, wenn eine Tür aufgeht kann man damit interagieren
+		Zu unserem Spiel: Die Steuerung: W - Nach oben, A - Nach links, S - Nach unten, D - Nach rechts, Shift - Schneller laufen, E - Mit Sachen interagieren, F - Farmfelder verlassen, Esc - Spielmenü
+		Die Gebäude: Anbaufelder: Hier können Pflanzen angebaut werden. Man bekommt höhere Chancen auf mehr Pflanzen wenn man die Pflanzen gießt
+		Hier muss man schnell sein, da es nur im ersten Stadium geht. Mit E kann man zwischen gießen und abbauen hin und her wechseln
+		Zu den Verschiedenen Produktionsgebäuden: Im Futterhaus kann Tierfutter hergestellt werden, In der Weberei kann Wolle weiterverarbeitet werden, 
+		In der Molkerei können Milchprodukte weiterverarbeitet werden. Mit E kann man alle Produktionsgebäude bis auf das Futterhaus betreten. In den Gebäuden stehen die Verschiedenen Geräte. Wenn man mit diesen per E interagiert, öffnet sich die entsprechende UI.
+		Beim Futterhaus öffnet sich direkt draußen vor dem Gebäude die UI. Nun zu den Tieren: Wenn man zu ihnen geht öffnet sich die Tür und wenn man im Tierbereich steht kann man mit E die ensprechende UI öffnen.
+		Dort gibt es dann zwei Optionen: Fütter und die jeweilige Interaktion des Tiers z.B. melken bei Kühen, scheeren bei Schafen. Wenn man eins von beiden auswählt und dann über ein Tier hovert sieht man eine Umrandung und die deutet hin, dass man die jeweilige Interaktion mit der Kuh machen kann
+		Das waren alle Infos. Nun kommt die Frage: "
 		# Build the JSON payload.
 		var payload = {
 			"contents": [{
-				"parts": [{"text": Dialogic.VAR.inputs.custom_question + "Die Ausgabe soll maximal 30 Wörter haben"}]
+				"parts": [{"text": spielbeschreibung + Dialogic.VAR.inputs.custom_question + "Die Ausgabe soll maximal 50 Wörter haben"}]
 			}]
 		}
 		
@@ -174,24 +186,6 @@ func _on_velocity_computed(safe_velocity: Vector2):
 	velocity = safe_velocity
 	move_and_slide()
 
-		
-func addToHistory(item):
-	history.push_back(item)
-	while history.size() > 2:
-		history.pop_front()
-
-func _input(_event: InputEvent):
-	if _event.is_action_pressed("interact") && player_in_area && Dialogic.current_timeline == null:
-		Dialogic.VAR.inputs.should_move = false
-		save_dialog_pos = global_position
-
-		var file_path:String = "res://dialogs/timelines/" + name.to_lower() + ".dtl"
-		
-		var timeline:DialogicTimeline = load(file_path)
-		timeline.process()
-		
-		Dialogic.start(timeline)
-
 
 func _play_animation(anim_name: String) -> void:
 	var sprite = get_node("AnimatedSprite2D")
@@ -242,4 +236,5 @@ func _on_request_completed(result, response_code, headers, body):
 		json.parse(body.get_string_from_utf8())
 		var response = json.get_data()
 		var data = response.candidates[0].content.parts[0].text
+		print(data)
 		Dialogic.VAR.inputs.custom_answer = data

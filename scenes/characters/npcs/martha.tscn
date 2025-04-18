@@ -1,7 +1,7 @@
 [gd_scene load_steps=39 format=3 uid="uid://ddk4kaeqmwnm0"]
 
-[ext_resource type="Script" uid="uid://qocsy8k1b0py" path="res://scripts/characters/npcs/default_npc.gd" id="1_m0aug"]
-[ext_resource type="Texture2D" uid="uid://8k2j713c2axy" path="res://assets/characters/named_characters/Martha/Martha_walk.png" id="2_m0aug"]
+[ext_resource type="Script" uid="uid://ci3fhrpmvin14" path="res://scripts/characters/npcs/city_martha.gd" id="1_m0aug"]
+[ext_resource type="Texture2D" uid="uid://c76hswkaa7626" path="res://assets/characters/named_characters/Martha/Martha_walk.png" id="2_m0aug"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_148c7"]
 atlas = ExtResource("2_m0aug")
@@ -299,3 +299,5 @@ debug_path_custom_color = Color(1, 0, 0, 1)
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractArea"]
 position = Vector2(1, 5)
 shape = SubResource("RectangleShape2D_2xpu3")
+
+[node name="HTTPRequest" type="HTTPRequest" parent="."]

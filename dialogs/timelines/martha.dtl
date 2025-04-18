@@ -1,2 +1,22 @@
-martha: Muss noch gemacht werden
-set {inputs.should_move} = true
+martha: Na hallo
+martha: Schön dich wieder zu sehen
+label choice
+set {inputs.custom_answer} = ""
+martha: Hast du fragen an mich??
+- Wie bekomme ich mehr Pflanzen?
+	martha: Du kannst in der Stadt nördlich vom Zentrum die Samen für die Pflanzen kaufen. 
+	jump choice
+- Wie funktionieren die Tiere?
+	martha: Man geht zu den Futterplätzen und drückt die E Taste und dann wählst du eine der 2 Optionen
+	jump choice
+- Ich will selber etwas fragen
+	[text_input text="Stelle deine Frage:" var="inputs.custom_question"]
+	[signal arg="trigger_ai"]
+	label uu88877385u956zzabwfh (label1)
+	if {inputs.custom_answer} == "":
+		[wait time="1.0"]
+		jump uu88877385u956zzabwfh
+	martha: {inputs.custom_answer}
+	jump choice
+- Danke ich weiß alles
+	set {inputs.should_move} = true
