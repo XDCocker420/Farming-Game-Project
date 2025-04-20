@@ -35,11 +35,9 @@ func _setup_highlight() -> void:
 
 func _on_feeding():
 	#SaveGame.add_to_inventory("cow")
-	print("ski")
 	feeding = true
 	
 func _on_switch():
-	print("bidi")
 	feeding = false
 	
 func _on_mouse_entered() -> void:

@@ -84,7 +84,6 @@ func level_handling():
 	var unlocked:Array = LevelingHandler.get_all_unlocked_items()
 	for i in corelation.keys():
 		if i not in unlocked:
-			print(i)
 			corelation[i].modulate = Color(0.5,0.5,0.5)
 			corelation[i].get_child(2).disabled = true
 	

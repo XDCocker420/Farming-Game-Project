@@ -31,7 +31,6 @@ func _on_accept():
 		buy.emit()
 		SaveGame.remove_money(price)
 		get_parent().hide()
-		print(SaveGame.get_money())
 
 
 func _on_cancel():

@@ -12,7 +12,6 @@ var move_speed:float = 3.0
 @onready var timer:Timer = $Timer
 
 func _ready() -> void:
-	print("budaw")
 	timer.timeout.connect(make_path)
 	make_path()
 
@@ -22,7 +21,8 @@ func physics_update(delta:float) -> void:
 	npc.move_and_slide()
 	
 func make_path():
-	print(get_viewport().get_mouse_position())
+	pass
+	#print(get_viewport().get_mouse_position())
 	#navigation_agent.target_position = get_viewport().get_mouse_position()
 	
 func process_input(_event:InputEvent):

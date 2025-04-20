@@ -61,7 +61,6 @@ func water() -> bool:
 		animation = "grow_wet"
 		#timer.paused = false
 		timer.start(get_growth_time() * progress_ratio)
-		print(timer.time_left)
 		
 		return true
 	return false
