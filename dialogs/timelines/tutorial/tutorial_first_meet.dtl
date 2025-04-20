@@ -9,6 +9,6 @@ martha: Du bist neu hier oder?
 	[signal arg="start_moving"]
 - Nein (Kein Tutorial)
 	martha: Oh sorry hab dich ganz vergessen
-	[text_input text="Wie heißt du nochmal?" var="global.player_name" default="Peter"]
+	[text_input text="Wie heißt du nochmal?" var="global.player_name"]
 	set {global.done_tutorial} = true
 	[signal arg="done_tutorial"]

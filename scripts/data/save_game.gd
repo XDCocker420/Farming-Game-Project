@@ -84,6 +84,9 @@ func load_game() -> void:
 	
 	await get_tree().process_frame
 	
+	Dialogic.VAR.global.player_name = saved_game.player_name
+	Dialogic.VAR.global.done_tutorial = saved_game.done_tutorial
+	
 	for item in saved_game.saved_data:
 		var scene := load(item.scene_path) as PackedScene
 		if not scene:

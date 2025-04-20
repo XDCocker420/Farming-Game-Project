@@ -1,8 +1,8 @@
 [gd_scene load_steps=39 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
-[ext_resource type="Script" uid="uid://estt5r2l0vu4" path="res://scripts/utility/game_map_load.gd" id="1_dnbah"]
-[ext_resource type="Texture2D" uid="uid://b7f3cctim7uf0" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
+[ext_resource type="Script" uid="uid://ca5722omxd1c8" path="res://scripts/utility/game_map_load.gd" id="1_dnbah"]
+[ext_resource type="Texture2D" uid="uid://cyh1omxd2mptb" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
 [ext_resource type="PackedScene" uid="uid://by8sfn1p2h5nh" path="res://scenes/buildings/player_house.tscn" id="4_1xy5d"]
 [ext_resource type="PackedScene" uid="uid://r75uh477j4dy" path="res://scenes/buildings/Molkerei.tscn" id="5_d2gmw"]
 [ext_resource type="PackedScene" uid="uid://bqogj2noiv4ya" path="res://scenes/farming/farming_area.tscn" id="5_sdtop"]
@@ -3572,24 +3572,28 @@ position = Vector2(336, 144)
 
 [node name="Cow" parent="Map/Tiergehege/Kuhbereich" instance=ExtResource("11_asbbj")]
 position = Vector2(75, 91)
+walk_point = Vector2(36, 90)
 
 [node name="Hühnerstall" parent="Map/Tiergehege" instance=ExtResource("7_8ejyj")]
 position = Vector2(880, 144)
 
 [node name="Chicken" parent="Map/Tiergehege/Hühnerstall" instance=ExtResource("12_g5cve")]
 position = Vector2(73, 88)
+walk_point = Vector2(34, 87)
 
 [node name="Schafbereich" parent="Map/Tiergehege" instance=ExtResource("7_8ejyj")]
 position = Vector2(608, 144)
 
 [node name="Sheep" parent="Map/Tiergehege/Schafbereich" instance=ExtResource("13_1slmc")]
 position = Vector2(70, 88)
+walk_point = Vector2(35, 87)
 
 [node name="Schweinebereich" parent="Map/Tiergehege" instance=ExtResource("7_8ejyj")]
 position = Vector2(337, 381)
 
 [node name="Pig" parent="Map/Tiergehege/Schweinebereich" instance=ExtResource("14_xsdhu")]
 position = Vector2(73, 93)
+walk_point = Vector2(34, 94)
 
 [node name="Town" type="Node2D" parent="Map"]
 position = Vector2(720, 16)

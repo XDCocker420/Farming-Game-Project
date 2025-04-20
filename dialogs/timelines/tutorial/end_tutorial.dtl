@@ -6,7 +6,7 @@ label choice
 set {inputs.custom_answer} = ""
 martha: Hast du noch fragen?
 - Wie bekomme ich mehr Pflanzen?
-	martha: Du kannst in der Stadt nördlich vom Zentrum die Samen für die Pflanzen kaufen. 
+	martha: Du kannst in der Stadt nördlich vom Zentrum die Samen für die Pflanzen kaufen.
 	jump choice
 - Wie funktionieren die Tiere?
 	martha: Man geht zu den Futterplätzen und drückt die E Taste und dann wählst du eine der 2 Optionen
@@ -21,4 +21,5 @@ martha: Hast du noch fragen?
 	martha: {inputs.custom_answer}
 	jump choice
 - Danke ich weiß alles
+	set {global.done_tutorial} = true
 	[signal arg="done_tutorial"]

@@ -45,11 +45,12 @@ position = Vector2(-27, 131)
 [node name="task_caravan" parent="." instance=ExtResource("5_vhguy")]
 position = Vector2(155, 115)
 
-[node name="tierbereich" parent="." instance=ExtResource("6_2bulj")]
+[node name="kuhbereich" parent="." instance=ExtResource("6_2bulj")]
 position = Vector2(-339, 24)
 
-[node name="Cow" parent="tierbereich" instance=ExtResource("7_0v42x")]
+[node name="Cow" parent="kuhbereich" instance=ExtResource("7_0v42x")]
 position = Vector2(58, 82)
+walk_point = Vector2(127, 81)
 
-[node name="farming_area" parent="." instance=ExtResource("8_j7v2b")]
+[node name="farming_area1" parent="." instance=ExtResource("8_j7v2b")]
 position = Vector2(40, 217)

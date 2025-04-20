@@ -1,11 +1,11 @@
 [gd_scene load_steps=34 format=3 uid="uid://020l6elc3p55"]
 
-[ext_resource type="Texture2D" uid="uid://bsr03kmgrb0vb" path="res://assets/animals/farm_animals/cow animation.png" id="1_pfysl"]
-[ext_resource type="Script" uid="uid://dwp2bkf7u87nq" path="res://scripts/animals/animal_help.gd" id="1_tue7c"]
+[ext_resource type="Texture2D" uid="uid://c7jxdif5aqxu4" path="res://assets/animals/farm_animals/cow animation.png" id="1_pfysl"]
+[ext_resource type="Script" uid="uid://dbyhs3b417m6h" path="res://scripts/animals/animal_help.gd" id="1_tue7c"]
 [ext_resource type="Script" uid="uid://cdwxjc2autrp8" path="res://scripts/state_management/state_machine.gd" id="3_3mbhh"]
 [ext_resource type="Script" uid="uid://bdmdtyk52qm4n" path="res://scripts/animals/animal_fed.gd" id="4_bgmx2"]
 [ext_resource type="Script" uid="uid://b4m6baeg7pxyh" path="res://scripts/animals/animal_full.gd" id="5_nyeyd"]
-[ext_resource type="Texture2D" uid="uid://cu6bpheed403c" path="res://assets/ui/icons/milk.png" id="6_nc6fi"]
+[ext_resource type="Texture2D" uid="uid://epnpb04cyark" path="res://assets/ui/icons/milk.png" id="6_nc6fi"]
 [ext_resource type="Script" uid="uid://cfadmajc7cjkx" path="res://scripts/animals/animal_hungry.gd" id="6_uyfr5"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_do5cp"]
