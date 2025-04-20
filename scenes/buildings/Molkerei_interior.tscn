@@ -7490,7 +7490,7 @@ tile_map_data = PackedByteArray("AAACAPv/AAAQAAEAAAACAPz/AAAQAAIAAAADAPv/AAARAAE
 tile_set = SubResource("TileSet_70uhi")
 
 [node name="butterchurn" type="AnimatedSprite2D" parent="."]
-position = Vector2(56, 22)
+position = Vector2(56, 24)
 sprite_frames = SubResource("SpriteFrames_eanrw")
 animation = &"butterchurn"
 
@@ -7502,7 +7502,7 @@ position = Vector2(-32, -24)
 shape = SubResource("CapsuleShape2D_q54b6")
 
 [node name="press_cheese" type="AnimatedSprite2D" parent="."]
-position = Vector2(56, -11)
+position = Vector2(56, -9)
 sprite_frames = SubResource("SpriteFrames_vjjck")
 animation = &"press_cheese"
 
@@ -7514,7 +7514,7 @@ position = Vector2(0, -24)
 shape = SubResource("CapsuleShape2D_q54b6")
 
 [node name="mayomaker" type="AnimatedSprite2D" parent="."]
-position = Vector2(56, -44)
+position = Vector2(56, -42)
 sprite_frames = SubResource("SpriteFrames_i83gv")
 animation = &"mayomaker"
 
