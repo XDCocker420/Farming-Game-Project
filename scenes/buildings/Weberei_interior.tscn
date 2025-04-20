@@ -1,4 +1,4 @@
-[gd_scene load_steps=63 format=4 uid="uid://dil1h7oaii7qp"]
+[gd_scene load_steps=64 format=4 uid="uid://dil1h7oaii7qp"]
 
 [ext_resource type="Script" uid="uid://gb217r5vd7fo" path="res://scripts/buildings/Weberei_interior.gd" id="1_def6r"]
 [ext_resource type="Texture2D" uid="uid://c7nypghvpck4n" path="res://assets/buildings/interior/interior.png" id="1_gyitn"]
@@ -7367,9 +7367,6 @@ texture = ExtResource("1_gyitn")
 [sub_resource type="TileSet" id="TileSet_cnnel"]
 sources/0 = SubResource("TileSetAtlasSource_j4yfu")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_i1pjf"]
-size = Vector2(128, 32)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_iwa4d"]
 atlas = ExtResource("2_6vdj5")
 region = Rect2(0, 38, 16, 26)
@@ -7715,6 +7712,13 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3gcsb"]
 size = Vector2(27, 33)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i1pjf"]
+size = Vector2(128, 32)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_j4yfu"]
+radius = 8.0
+height = 16.0
+
 [node name="Weberei_interior" type="StaticBody2D"]
 script = ExtResource("1_def6r")
 
@@ -7725,10 +7729,6 @@ tile_set = SubResource("TileSet_iwa4d")
 [node name="TileMapLayer" type="TileMapLayer" parent="TileMapLayer"]
 tile_map_data = PackedByteArray("AAD+//v/AAAjABwAAAD+//z/AAAjAB0AAAD///v/AAAkABwAAAD///z/AAAkAB0AAAADAPv/AAAiABwAAAADAPz/AAAiAB0AAAACAPz/AAAeABwAAAABAPz/AAAdABwAAAD8/wEAAAAJABEAAAD8/wAAAAAKABEAAAD8/wIAAAANABEAAAD9/wEAAAAMABEAAAD8//7/AAAJABEAAAD8////AAANABEAAAD8//3/AAAKABEAAAD9//7/AAAMABEAAAD//wIAAAAAABwAAAD//wEAAAAAABwAAAAAAAIAAAABABwAAAAAAAEAAAABABwAAAD//wAAAAAEABwAAAAAAAAAAAAEABwAAAD8//z/AAAbABwAAAD9//z/AAAcABwAAAA=")
 tile_set = SubResource("TileSet_cnnel")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -64)
-shape = SubResource("RectangleShape2D_i1pjf")
 
 [node name="clothmaker" type="AnimatedSprite2D" parent="."]
 position = Vector2(56, -32)
@@ -7797,3 +7797,15 @@ offset_left = -48.0
 offset_top = -32.0
 offset_right = 12.0
 offset_bottom = 6.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -64)
+shape = SubResource("RectangleShape2D_i1pjf")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(56, -32)
+shape = SubResource("CapsuleShape2D_j4yfu")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+position = Vector2(56, 16)
+shape = SubResource("CapsuleShape2D_j4yfu")

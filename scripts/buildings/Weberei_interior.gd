@@ -17,6 +17,8 @@ var current_ui = null
 var current_inventory_ui = null
 var current_animation = null
 var in_exit_area: bool = false
+var player_body = null
+var current_area_node = null
 
 func _ready():
 	exit_area.body_entered.connect(_on_exit_area_body_entered)
@@ -51,6 +53,9 @@ func _ready():
 	
 	# Allow this node to receive unhandled inputs
 	set_process_unhandled_input(true)
+	
+	# Enable _process for overlap checks
+	set_process(true)
 
 func _on_exit_area_body_entered(body):
 	if body.is_in_group("Player"):
@@ -66,6 +71,11 @@ func _on_exit_area_body_exited(body):
 
 func _on_workstation_area_body_entered(body, workstation_name):
 	if body.is_in_group("Player"):
+		# Track player and which area
+		player_body = body
+		match workstation_name:
+			"clothmaker": current_area_node = clothmaker_area
+			"spindle": current_area_node = spindle_area
 		player_in_workstation_area = true
 		current_workstation = workstation_name
 		
@@ -91,25 +101,32 @@ func _on_workstation_area_body_entered(body, workstation_name):
 		
 func _on_workstation_area_body_exited(body):
 	if body.is_in_group("Player"):
-		player_in_workstation_area = false
-		
-		# Hide current UIs if any
-		if current_ui:
-			current_ui.hide()
-		if current_inventory_ui:
-			current_inventory_ui.hide()
-		
-		# Stop current animation if any
-		if current_animation:
-			current_animation.stop()
-			
-		current_workstation = null
-		current_ui = null
-		current_inventory_ui = null
-		current_animation = null
-		
+		# Immediately clear UI and animation when leaving the tool area
+		_cleanup_current()
 		if body.has_method("hide_interaction_prompt"):
 			body.hide_interaction_prompt()
+
+func _cleanup_current():
+	player_in_workstation_area = false
+	
+	# Hide current UIs if any
+	if current_ui:
+		current_ui.hide()
+	if current_inventory_ui:
+		current_inventory_ui.hide()
+	
+	# Stop current animation if any
+	if current_animation:
+		current_animation.stop()
+		
+	current_workstation = null
+	current_ui = null
+	current_inventory_ui = null
+	current_animation = null
+	
+	# Clear area and player refs
+	current_area_node = null
+	player_body = null
 
 func _unhandled_input(event):
 	# Exit interior when pressing interact in exit area
@@ -154,3 +171,10 @@ func _unhandled_input(event):
 		# Stop current animation
 		if current_animation:
 			current_animation.stop()
+
+func _process(delta):
+	# Auto-hide UI if player leaves specific workstation area
+	if current_ui and current_ui.visible and current_area_node and player_body:
+		if not current_area_node.get_overlapping_bodies().has(player_body):
+			_cleanup_current()
+			return
