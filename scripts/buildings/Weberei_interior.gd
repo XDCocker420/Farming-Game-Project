@@ -99,6 +99,16 @@ func _on_workstation_area_body_entered(body, workstation_name):
 					prompt_text += "Spinning Wheel"
 			body.show_interaction_prompt(prompt_text)
 		
+		# Connect production start signal to play animation
+		var prod_cb = Callable(self, "_on_production_started")
+		if current_ui and not current_ui.is_connected("production_started", prod_cb):
+			current_ui.connect("production_started", prod_cb)
+		
+		# Connect production complete signal to stop animation
+		var finish_cb = Callable(self, "_on_production_complete")
+		if current_ui and not current_ui.is_connected("process_complete", finish_cb):
+			current_ui.connect("process_complete", finish_cb)
+
 func _on_workstation_area_body_exited(body):
 	if body.is_in_group("Player"):
 		# Immediately clear UI and animation when leaving the tool area
@@ -118,6 +128,16 @@ func _cleanup_current():
 	# Stop current animation if any
 	if current_animation:
 		current_animation.stop()
+		
+	# Disconnect production_started to avoid leaks
+	var prod_cb = Callable(self, "_on_production_started")
+	if current_ui and current_ui.is_connected("production_started", prod_cb):
+		current_ui.disconnect("production_started", prod_cb)
+	
+	# Disconnect production_complete to avoid leaks
+	var finish_cb = Callable(self, "_on_production_complete")
+	if current_ui and current_ui.is_connected("process_complete", finish_cb):
+		current_ui.disconnect("process_complete", finish_cb)
 		
 	current_workstation = null
 	current_ui = null
@@ -178,3 +198,15 @@ func _process(delta):
 		if not current_area_node.get_overlapping_bodies().has(player_body):
 			_cleanup_current()
 			return
+
+func _on_production_started():
+	# Play workstation animation when production actually starts
+	if current_animation and current_workstation:
+		var animation_name = current_workstation
+		if current_animation.sprite_frames and current_animation.sprite_frames.has_animation(animation_name):
+			current_animation.play(animation_name)
+
+func _on_production_complete():
+	# Stop tool animation when production finishes
+	if current_animation:
+		current_animation.stop()

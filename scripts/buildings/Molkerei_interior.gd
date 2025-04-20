@@ -107,6 +107,16 @@ func _on_workstation_area_body_entered(body, workstation_name):
 				current_inventory_ui = inventory_ui_mayomaker
 				current_animation = mayomaker_anim
 		
+		# Connect production start signal to play animation
+		var prod_cb = Callable(self, "_on_production_started")
+		if current_ui and not current_ui.is_connected("production_started", prod_cb):
+			current_ui.connect("production_started", prod_cb)
+		
+		# Connect production complete signal to stop animation
+		var finish_cb = Callable(self, "_on_production_complete")
+		if current_ui and not current_ui.is_connected("process_complete", finish_cb):
+			current_ui.connect("process_complete", finish_cb)
+		
 		if body.has_method("show_interaction_prompt"):
 			var prompt_text = "Press E to use "
 			match workstation_name:
@@ -140,6 +150,16 @@ func _cleanup_current():
 	# Stop current animation if any
 	if current_animation:
 		current_animation.stop()
+	
+	# Disconnect production_started to avoid leaks
+	var prod_cb = Callable(self, "_on_production_started")
+	if current_ui and current_ui.is_connected("production_started", prod_cb):
+		current_ui.disconnect("production_started", prod_cb)
+	
+	# Disconnect production_complete to avoid leaks
+	var finish_cb = Callable(self, "_on_production_complete")
+	if current_ui and current_ui.is_connected("process_complete", finish_cb):
+		current_ui.disconnect("process_complete", finish_cb)
 	
 	current_workstation = null
 	current_ui = null
@@ -178,12 +198,6 @@ func _unhandled_input(event):
 		# This is critical because setup_and_show recreates all the slots
 		if current_inventory_ui.has_method("set_active_production_ui"):
 			current_inventory_ui.set_active_production_ui(current_ui)
-		
-		# Start the animation for the current workstation
-		if current_animation:
-			var animation_name = current_workstation
-			if current_animation.sprite_frames and current_animation.sprite_frames.has_animation(animation_name):
-				current_animation.play(animation_name)
 	
 	# Close UIs and stop animation when ESC is pressed
 	if event.is_action_pressed("ui_cancel") and current_ui and current_ui.visible:
@@ -193,6 +207,18 @@ func _unhandled_input(event):
 		# Stop current animation
 		if current_animation:
 			current_animation.stop()
+
+func _on_production_started():
+	# Play workstation animation when production actually starts
+	if current_animation and current_workstation:
+		var animation_name = current_workstation
+		if current_animation.sprite_frames and current_animation.sprite_frames.has_animation(animation_name):
+			current_animation.play(animation_name)
+
+func _on_production_complete():
+	# Stop tool animation when production finishes
+	if current_animation:
+		current_animation.stop()
 
 func _process(delta):
 	# auto-hide UI if player leaves area without firing exit signal

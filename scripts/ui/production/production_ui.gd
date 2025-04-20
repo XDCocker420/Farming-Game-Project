@@ -2,6 +2,7 @@ extends PanelContainer
 
 # Signal to notify when processing is complete
 signal process_complete
+signal production_started
 
 # References to all slots
 @onready var input_slot = $MarginContainer/slots/ui_slot
@@ -129,6 +130,8 @@ func _on_produce_button_pressed():
 		progress_bar.show()
 		# Disable interactions during production
 		produce_button.disabled = true
+		# Notify that production has started so the tool animation can play
+		emit_signal("production_started")
 
 # Direct input handler for output slot
 func _on_output_slot_input(event):
