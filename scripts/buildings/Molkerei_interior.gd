@@ -1,9 +1,9 @@
 extends StaticBody2D
 
 @onready var exit_area = $ExitArea
-@onready var butterchurn_area = $butterchurnArea
-@onready var press_cheese_area = $press_cheeseArea
-@onready var mayomaker_area = $mayomakerArea
+@onready var butterchurn_area = $butterchurn/butterchurnArea
+@onready var press_cheese_area = $press_cheese/press_cheeseArea
+@onready var mayomaker_area = $mayomaker/mayomakerArea
 @onready var butterchurn_ui = $production_ui_butterchurn
 @onready var press_cheese_ui = $production_ui_press_cheese
 @onready var mayomaker_ui = $production_ui_mayomaker

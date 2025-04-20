@@ -1,8 +1,8 @@
 extends StaticBody2D
 
 @onready var exit_area = $ExitArea
-@onready var clothmaker_area = $clothmakerArea
-@onready var spindle_area = $spindleArea
+@onready var clothmaker_area = $clothmaker/clothmakerArea
+@onready var spindle_area = $spindle/spindleArea
 @onready var clothmaker_ui = $production_ui_clothmaker
 @onready var spindle_ui = $production_ui_spindle
 @onready var inventory_ui_clothmaker = $inventory_ui_clothmaker
