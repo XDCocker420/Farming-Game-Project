@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=4 uid="uid://dfr6ka3sk2wes"]
+[gd_scene load_steps=27 format=4 uid="uid://dfr6ka3sk2wes"]
 
 [ext_resource type="Texture2D" uid="uid://c7nypghvpck4n" path="res://assets/buildings/interior/interior.png" id="1_58pth"]
 [ext_resource type="Script" uid="uid://c120qm76kcnw3" path="res://scripts/buildings/Molkerei_interior.gd" id="1_ghi7s"]
@@ -7367,9 +7367,6 @@ texture = ExtResource("1_58pth")
 [sub_resource type="TileSet" id="TileSet_70uhi"]
 sources/0 = SubResource("TileSetAtlasSource_ruoo0")
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_i1pjf"]
-size = Vector2(128, 24)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_4m3t3"]
 atlas = ExtResource("2_y1hoa")
 region = Rect2(0, 11, 16, 21)
@@ -7462,6 +7459,13 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ruoo0"]
 size = Vector2(27, 33)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_i1pjf"]
+size = Vector2(128, 24)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ruoo0"]
+radius = 8.0
+height = 16.0
+
 [node name="Molkerei_interior" type="StaticBody2D"]
 script = ExtResource("1_ghi7s")
 
@@ -7472,10 +7476,6 @@ tile_set = SubResource("TileSet_iwa4d")
 [node name="TileMapLayer" type="TileMapLayer" parent="TileMapLayer"]
 tile_map_data = PackedByteArray("AAACAPv/AAAQAAEAAAACAPz/AAAQAAIAAAADAPv/AAARAAEAAAADAPz/AAARAAIAAAD+//v/AAAMAAEAAAD+//z/AAAMAAIAAAD///v/AAANAAEAAAD///z/AAANAAIAAAD8////AAA4ACAAAAD8/wAAAAA4ACEAAAD8/wEAAAA8ACEAAAD8//7/AAA5ACEAAAD9////AAA7ACEAAAD9/wAAAAA7ACEAAAD//wIAAAAAABwAAAD//wEAAAAAABwAAAAAAAEAAAABABwAAAAAAAIAAAABABwAAAD//wAAAAAEABwAAAAAAAAAAAAFABwAAAA=")
 tile_set = SubResource("TileSet_70uhi")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, -68)
-shape = SubResource("RectangleShape2D_i1pjf")
 
 [node name="butterchurn" type="AnimatedSprite2D" parent="."]
 position = Vector2(56, 24)
@@ -7545,6 +7545,7 @@ offset_right = 168.0
 offset_bottom = -7.0
 
 [node name="production_ui_mayomaker" parent="." instance=ExtResource("5_trsac")]
+visible = false
 offset_left = 16.0
 offset_top = -104.0
 offset_right = 168.0
@@ -7565,7 +7566,24 @@ offset_right = 12.0
 offset_bottom = -18.0
 
 [node name="inventory_ui_mayomaker" parent="." instance=ExtResource("6_ruoo0")]
+visible = false
 offset_left = -48.0
 offset_top = -88.0
 offset_right = 12.0
 offset_bottom = -50.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, -68)
+shape = SubResource("RectangleShape2D_i1pjf")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="."]
+position = Vector2(56, 24)
+shape = SubResource("CapsuleShape2D_ruoo0")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
+position = Vector2(56, -8)
+shape = SubResource("CapsuleShape2D_ruoo0")
+
+[node name="CollisionShape2D4" type="CollisionShape2D" parent="."]
+position = Vector2(56, -40)
+shape = SubResource("CapsuleShape2D_ruoo0")

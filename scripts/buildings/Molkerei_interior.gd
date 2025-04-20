@@ -61,6 +61,9 @@ func _ready():
 	if mayomaker_anim:
 		mayomaker_anim.stop()
 
+	# Allow this node to receive unhandled inputs
+	set_process_unhandled_input(true)
+
 func _on_exit_area_body_entered(body):
 	if body.is_in_group("Player"):
 
@@ -123,6 +126,13 @@ func _on_workstation_area_body_exited(body):
 
 func _unhandled_input(event):
 	if event.is_action_pressed("interact") and player_in_workstation_area and current_ui and current_inventory_ui:
+		# Toggle off if already visible
+		if current_ui.visible:
+			current_ui.hide()
+			current_inventory_ui.hide()
+			if current_animation:
+				current_animation.stop()
+			return
 		# Show both UIs
 		current_ui.show()
 		current_inventory_ui.show()
