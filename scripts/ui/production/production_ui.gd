@@ -90,6 +90,9 @@ func _ready():
 	var err = item_config.load("res://scripts/config/item_config.cfg")
 	if err != OK:
 		push_error("Failed to load item_config.cfg: %s" % err)
+	
+	# Hide progress bar at start
+	progress_bar.hide()
 
 # Neue Hilfsfunktion, um rekursiv alle Kinder zu erhalten
 func get_children_recursive(node):
