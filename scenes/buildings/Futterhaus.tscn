@@ -1,8 +1,10 @@
-[gd_scene load_steps=17 format=4 uid="uid://bcqltpe3a1fi2"]
+[gd_scene load_steps=20 format=4 uid="uid://bcqltpe3a1fi2"]
 
 [ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/tilesets/farm_buildings_tileset.tres" id="1_eqcnc"]
-[ext_resource type="Script" uid="uid://dq1b4xanl7bae" path="res://scripts/buildings/Futterhaus.gd" id="1_s3g82"]
-[ext_resource type="Texture2D" uid="uid://dvfngkj6gf87v" path="res://assets/buildings/farm_buildings_all.png" id="2_765h8"]
+[ext_resource type="Script" uid="uid://p27lk148qw54" path="res://scripts/buildings/Futterhaus.gd" id="1_s3g82"]
+[ext_resource type="Texture2D" uid="uid://cohn1pgu6ly3p" path="res://assets/buildings/farm_buildings_all.png" id="2_765h8"]
+[ext_resource type="PackedScene" uid="uid://cgv01xlihuvuq" path="res://scenes/ui/scheune/ui_scheune.tscn" id="4_ss63k"]
+[ext_resource type="PackedScene" uid="uid://b8j4k2m3n4o5p" path="res://scenes/ui/production/production_ui.tscn" id="5_2y3y5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_eqcnc"]
 size = Vector2(48, 40)
@@ -85,6 +87,9 @@ animations = [{
 radius = 8.0
 height = 22.0
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1g2wl"]
+size = Vector2(40, 32)
+
 [node name="Futterhaus" type="StaticBody2D"]
 script = ExtResource("1_s3g82")
 
@@ -121,3 +126,21 @@ shape = SubResource("CapsuleShape2D_suoog")
 
 [node name="NavigationObstacle2D" type="NavigationObstacle2D" parent="."]
 vertices = PackedVector2Array(-24, -32, 24, -32, 24, 8, -24, 8)
+
+[node name="feedArea" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="feedArea"]
+position = Vector2(0, 16)
+shape = SubResource("RectangleShape2D_1g2wl")
+
+[node name="inventory_ui_feed" parent="." instance=ExtResource("4_ss63k")]
+offset_left = -96.0
+offset_top = -48.0
+offset_right = -36.0
+offset_bottom = -10.0
+
+[node name="production_ui_feed" parent="." instance=ExtResource("5_2y3y5")]
+offset_left = -32.0
+offset_top = -64.0
+offset_right = 120.0
+offset_bottom = 1.0

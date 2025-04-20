@@ -10,7 +10,6 @@ const main_map = preload("res://scenes/maps/game_map.tscn")
 
 const weberei = preload("res://scenes/buildings/Weberei_interior.tscn")
 const molkerei = preload("res://scenes/buildings/Molkerei_interior.tscn")
-const futterhaus = preload("res://scenes/buildings/Futterhaus_interior.tscn")
 
 var next_name:String = ""
 
@@ -36,10 +35,9 @@ func _on_transition_finished():
 	match next_name:
 		"weberei":
 			current_scene.add_child(weberei.instantiate())
-		"futterhaus":
-			current_scene.add_child(futterhaus.instantiate())
+		 
 		"molkerei":
 			current_scene.add_child(molkerei.instantiate())
 		"game_map":
 			current_scene.add_child(main_map.instantiate())
-			
+

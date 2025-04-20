@@ -8,7 +8,11 @@ extends StaticBody2D
 
 var in_door_area = false
 var in_garage_door_area = false
-var interior_scene_path = "res://scenes/buildings/Futterhaus_interior.tscn"
+
+@onready var feed_area: Area2D = $feedArea
+@onready var production_ui_feed = $production_ui_feed
+@onready var inventory_ui_feed = $inventory_ui_feed
+var player_in_feed_area: bool = false
 
 func _ready() -> void:
 	# Verbinde die Signale
@@ -21,23 +25,30 @@ func _ready() -> void:
 	garage_door_area.body_entered.connect(_on_garage_door_area_entered)
 	garage_door_area.body_exited.connect(_on_garage_door_area_exited)
 
+	# connect feed area
+	feed_area.body_entered.connect(_on_feed_area_body_entered)
+	feed_area.body_exited.connect(_on_feed_area_body_exited)
+
+	# hide UIs initially
+	production_ui_feed.hide()
+	inventory_ui_feed.hide()
+
 func _process(_delta: float) -> void:
 	pass
-	# Überprüfe Interaktions-Hinweise
-	# Oida was ist das das ist in der falschen Funktion
-	"""
-	if is_instance_valid(player) and player.has_method("set_interaction_hint"):
-		if in_door_area:
-			player.set_interaction_hint("Drücke E zum Betreten des Futterhauses")
-		elif in_garage_door_area:
-			player.set_interaction_hint("Drücke E zum Betreten der Futterhaus-Garage")
-		else:
-			player.set_interaction_hint("")
-	"""
 
 func _on_player_interact() -> void:
-	if in_door_area or in_garage_door_area:
-		SceneSwitcher.transition_to_new_scene.emit(name.to_lower(), player.global_position)
+	# feed area interaction
+	if player_in_feed_area:
+		if production_ui_feed.visible:
+			production_ui_feed.hide()
+			inventory_ui_feed.hide()
+		else:
+			production_ui_feed.show()
+			inventory_ui_feed.show()
+			production_ui_feed.setup("feed_mill")
+			inventory_ui_feed.setup_and_show("feed_mill")
+			if inventory_ui_feed.has_method("set_active_production_ui"):
+				inventory_ui_feed.set_active_production_ui(production_ui_feed)
 
 func _on_door_area_entered(body: Node2D) -> void:
 	if body.is_in_group("Player") && LevelingHandler.is_building_unlocked("futterhaus"):
@@ -59,4 +70,18 @@ func _on_garage_door_area_exited(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		in_garage_door_area = false
 		if garage_door and garage_door.sprite_frames.has_animation("GarageDoor"):
-			garage_door.play_backwards("GarageDoor") 
+			garage_door.play_backwards("GarageDoor")
+
+func _on_feed_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Player"):
+		player_in_feed_area = true
+		if body.has_method("show_interaction_prompt"):
+			body.show_interaction_prompt("Press E to use Feed Mill")
+
+func _on_feed_area_body_exited(body: Node2D) -> void:
+	if body.is_in_group("Player"):
+		player_in_feed_area = false
+		production_ui_feed.hide()
+		inventory_ui_feed.hide()
+		if body.has_method("hide_interaction_prompt"):
+			body.hide_interaction_prompt()

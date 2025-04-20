@@ -2,6 +2,7 @@ extends PanelContainer
 
 # Signal to notify when processing is complete
 signal process_complete
+signal production_started
 
 # References to all slots
 @onready var input_slot = $MarginContainer/slots/ui_slot
@@ -9,6 +10,8 @@ signal process_complete
 @onready var output_slot = $MarginContainer/slots/ui_slot3  # Neuer Output-Slot
 # Reference to the new production button
 @onready var produce_button = $Control/PanelContainer/produce_button
+# Progress tracking
+@onready var progress_bar: ProgressBar = $Control/ProgressBar
 
 # Current workstation information
 var current_workstation: String = ""
@@ -16,6 +19,10 @@ var input_items = []
 var output_items = []
 # Add a properly declared variable for tracking last add time
 var last_add_time: int = 0
+var production_in_progress: bool = false
+var production_timer: float = 0.0
+var production_duration: float = 0.0
+var item_config: ConfigFile
 
 func _ready():
 	# Initialize our cooldown tracker
@@ -78,6 +85,15 @@ func _ready():
 		if produce_button.gui_input.is_connected(_on_produce_button_input):
 			produce_button.gui_input.disconnect(_on_produce_button_input)
 		produce_button.gui_input.connect(_on_produce_button_input)
+	
+	# Load item configuration for production durations
+	item_config = ConfigFile.new()
+	var err = item_config.load("res://scripts/config/item_config.cfg")
+	if err != OK:
+		push_error("Failed to load item_config.cfg: %s" % err)
+	
+	# Hide progress bar at start
+	progress_bar.hide()
 
 # Neue Hilfsfunktion, um rekursiv alle Kinder zu erhalten
 func get_children_recursive(node):
@@ -100,10 +116,22 @@ func _on_produce_button_pressed():
 	
 	last_add_time = Time.get_ticks_msec()
 	
-	# Check if we have valid input
-	if input_slot and input_slot.item_name:
-		# Process the input items into output
-		_process_single_item()
+	# Check if we have valid input and not already producing
+	if input_slot and input_slot.item_name and not production_in_progress:
+		# Read duration from config (default to 1s)
+		var out_item = output_items[0] if output_items.size() > 0 else ""
+		production_duration = float(item_config.get_value(out_item, "time")) if item_config and item_config.has_section(out_item) else 1.0
+		production_timer = 0.0
+		production_in_progress = true
+		# Setup progress bar
+		progress_bar.min_value = 0
+		progress_bar.max_value = production_duration
+		progress_bar.value = 0
+		progress_bar.show()
+		# Disable interactions during production
+		produce_button.disabled = true
+		# Notify that production has started so the tool animation can play
+		emit_signal("production_started")
 
 # Direct input handler for output slot
 func _on_output_slot_input(event):
@@ -586,3 +614,17 @@ func _input(event):
 			if mouse_pos.x >= button_global_pos.x and mouse_pos.x < button_global_pos.x + button_size.x and \
 			   mouse_pos.y >= button_global_pos.y and mouse_pos.y < button_global_pos.y + button_size.y:
 				_on_produce_button_pressed()
+
+func _process(delta: float) -> void:
+	# existing process logic for UI clicks
+	# ...existing input handling...
+	if production_in_progress:
+		production_timer += delta
+		progress_bar.value = production_timer
+		if production_timer >= production_duration:
+			production_in_progress = false
+			progress_bar.hide()
+			# Complete production and update slots
+			_process_single_item()
+			# Re-enable produce button if inputs remain
+			produce_button.disabled = input_items.is_empty() or output_items.is_empty()
