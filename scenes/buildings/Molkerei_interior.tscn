@@ -1,4 +1,4 @@
-[gd_scene load_steps=27 format=4 uid="uid://dfr6ka3sk2wes"]
+[gd_scene load_steps=31 format=4 uid="uid://dfr6ka3sk2wes"]
 
 [ext_resource type="Texture2D" uid="uid://c7nypghvpck4n" path="res://assets/buildings/interior/interior.png" id="1_58pth"]
 [ext_resource type="Script" uid="uid://c120qm76kcnw3" path="res://scripts/buildings/Molkerei_interior.gd" id="1_ghi7s"]
@@ -7466,6 +7466,18 @@ size = Vector2(128, 24)
 radius = 8.0
 height = 16.0
 
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_70uhi"]
+radius = 8.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_70uhi"]
+size = Vector2(20, 128)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ccal6"]
+size = Vector2(160, 20)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_bnmre"]
+size = Vector2(20, 128)
+
 [node name="Molkerei_interior" type="StaticBody2D"]
 script = ExtResource("1_ghi7s")
 
@@ -7587,3 +7599,35 @@ shape = SubResource("CapsuleShape2D_ruoo0")
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="."]
 position = Vector2(56, -40)
 shape = SubResource("CapsuleShape2D_ruoo0")
+
+[node name="CollisionShape2D5" type="CollisionShape2D" parent="."]
+position = Vector2(-56, 24)
+shape = SubResource("CapsuleShape2D_ruoo0")
+
+[node name="CollisionShape2D6" type="CollisionShape2D" parent="."]
+position = Vector2(-40, 8)
+shape = SubResource("CapsuleShape2D_ruoo0")
+
+[node name="CollisionShape2D7" type="CollisionShape2D" parent="."]
+position = Vector2(-40, -8)
+shape = SubResource("CapsuleShape2D_ruoo0")
+
+[node name="CollisionShape2D8" type="CollisionShape2D" parent="."]
+position = Vector2(-56, -24)
+shape = SubResource("CapsuleShape2D_ruoo0")
+
+[node name="CollisionShape2D9" type="CollisionShape2D" parent="."]
+position = Vector2(-56, 0)
+shape = SubResource("CapsuleShape2D_70uhi")
+
+[node name="CollisionShape2D12" type="CollisionShape2D" parent="."]
+position = Vector2(-72, -16)
+shape = SubResource("RectangleShape2D_70uhi")
+
+[node name="CollisionShape2D13" type="CollisionShape2D" parent="."]
+position = Vector2(0, 56)
+shape = SubResource("RectangleShape2D_ccal6")
+
+[node name="CollisionShape2D14" type="CollisionShape2D" parent="."]
+position = Vector2(72, -16)
+shape = SubResource("RectangleShape2D_bnmre")
