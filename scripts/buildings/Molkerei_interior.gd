@@ -20,9 +20,11 @@ var current_workstation = null
 var current_ui = null
 var current_inventory_ui = null
 var current_animation = null
+var in_exit_area: bool = false
 
 func _ready():
 	exit_area.body_entered.connect(_on_exit_area_body_entered)
+	exit_area.body_exited.connect(_on_exit_area_body_exited)
 	
 	# Connect signals for all workstations
 	if butterchurn_area:
@@ -66,10 +68,15 @@ func _ready():
 
 func _on_exit_area_body_entered(body):
 	if body.is_in_group("Player"):
+		in_exit_area = true
+		if body.has_method("show_interaction_prompt"):
+			body.show_interaction_prompt("Press E to exit interior")
 
-		SceneSwitcher.transition_to_main.emit()
-	else:
-		pass
+func _on_exit_area_body_exited(body):
+	if body.is_in_group("Player"):
+		in_exit_area = false
+		if body.has_method("hide_interaction_prompt"):
+			body.hide_interaction_prompt()
 
 func _on_workstation_area_body_entered(body, workstation_name):
 	if body.is_in_group("Player"):
@@ -125,6 +132,11 @@ func _on_workstation_area_body_exited(body):
 			body.hide_interaction_prompt()
 
 func _unhandled_input(event):
+	# Exit interior when pressing interact in exit area
+	if event.is_action_pressed("interact") and in_exit_area:
+		SceneSwitcher.transition_to_main.emit()
+		return
+
 	if event.is_action_pressed("interact") and player_in_workstation_area and current_ui and current_inventory_ui:
 		# Toggle off if already visible
 		if current_ui.visible:
