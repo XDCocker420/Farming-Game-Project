@@ -10,6 +10,7 @@ extends Area2D
 @onready var anim_player:AnimationPlayer = $AnimationPlayer
 
 @onready var label:Label = $CanvasLayer/Label
+@onready var state_label:Label = $CanvasLayer/State
 
 var field_list: Array
 
@@ -44,6 +45,11 @@ func _input(event: InputEvent) -> void:
 			once2 = true
 			label.text = "Jetzt click nochmal auf das selbe Feld mit der Maus"
 		state = !state
+		
+		if state:
+			state_label.text = "Watering"
+		else:
+			state_label.text = "Harvesting"
 
 			
 	if event.is_action_pressed("interact3") && player_in_area && crop_growd:
@@ -89,6 +95,14 @@ func _on_player_entered(body: Node2D) -> void:
 		arrow.show()
 		anim_player.play("arrow_blink")
 		label.show()
+		
+		state_label.show()
+		
+		if state:
+			state_label.text = "Watering"
+		else:
+			state_label.text = "Harvesting"
+			
 		if player:
 			await get_tree().create_timer(0.2).timeout
 			player.normal_speed = 100
@@ -105,6 +119,7 @@ func _on_player_exited(body: Node2D) -> void:
 		
 		ui_farming.hide()
 		label.hide()
+		state_label.hide()
 		
 		if player:
 			player.camera.make_current()

@@ -5,6 +5,8 @@ extends Area2D
 @onready var ui_farming: PanelContainer = $CanvasLayer/ui_farming
 @onready var camera:Camera2D = $Camera2D
 @onready var colision:StaticBody2D = $PlayerInside
+@onready var state_label:Label = $CanvasLayer/State
+
 
 var field_list: Array
 
@@ -26,6 +28,11 @@ func _ready() -> void:
 func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact") && player_in_area:
 		state = !state
+		
+		if state:
+			state_label.text = "Watering"
+		else:
+			state_label.text = "Harvesting"
 
 			
 	if event.is_action_pressed("interact3") && player_in_area:
@@ -57,6 +64,13 @@ func _on_player_entered(body: Node2D) -> void:
 	if body.is_in_group("Player") && LevelingHandler.is_building_unlocked(name.to_lower()):
 		player_in_area = true
 		ui_farming.show()
+		state_label.show()
+		
+		if state:
+			state_label.text = "Watering"
+		else:
+			state_label.text = "Harvesting"
+			
 		if player:
 			await get_tree().create_timer(0.2).timeout
 			player.normal_speed = 100
@@ -70,6 +84,7 @@ func _on_player_entered(body: Node2D) -> void:
 func _on_player_exited(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		player_in_area = false
+		state_label.hide()
 		ui_farming.hide()
 		if player:
 			player.camera.make_current()
