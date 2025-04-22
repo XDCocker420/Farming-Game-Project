@@ -1,1 +1,16 @@
-armin:Implementieren
+label start
+armin: "Moin. Armin, Schreiner mit Meersalz im Herzen."
+armin: "Das Holz singt heute tiefe Töne – Sturm in drei Tagen, wette ich."
+armin: "Man hört’s an den Ast‑Vibratos."
+- "Frag nach Gitarrenstück"
+	{global.player_name}: "Spielst du noch das alte Seemannslied?"
+	armin: "Nur bei Regen. Hält die Saiten frisch und die Nachbarn leise."
+	{global.player_name}: "Ich bring Regenschirm und Ohrwürmer."
+	armin: "Ohrwürmer fangen gut bei Ebbe – vergiss die Köder nicht."
+- "Mach Angel‑Witz"
+	{global.player_name}: "Schon Fische gefangen oder nur Ausreden?"
+	armin: "Ausreden. Die beißen immer, brauchen aber mehr Salz."
+	{global.player_name}: "Salz hab ich, Netze fehlen."
+	armin: "Nimm Geschichten als Netze – fangen mehr Zuhörer als Fische."
+set {inputs.should_move} = true
+[end_timeline]

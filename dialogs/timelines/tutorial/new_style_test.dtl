@@ -1,0 +1,9 @@
+set {global.player_name} = "test2"
+lara: {global.player_name}
+- wahl 1
+	text nach einer wahl
+	- wahl in einer wahl
+label test_label
+jump test_label
+jump 
+[end_timeline]

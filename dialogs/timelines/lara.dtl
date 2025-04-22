@@ -1,2 +1,16 @@
-lara: To Implement
+label start
+lara: "Servus! Lara, Tüftlerin und Chaos‑Dompteurin."
+lara: "Hey, pass auf – Schraube fliegt tief! Will wohl Pilot werden."
+lara: "Notfall‑Plan: Sicherheitsbrille aus Humor."
+- "Hilf ihr suchen"
+	{global.player_name}: "Ich fang sie! Wohin?"
+	lara: "Direkt unter dein Schuhprofil, danke fürs Fangen mit Stil."
+	{global.player_name}: "Stil? War ungeplante Tap‑Dance‑Nummer."
+	lara: "Klingt nach neuer Werkstatt‑Performance."
+- "Zieh sie auf"
+	{global.player_name}: "Schon wieder Werkzeug‑Domino?"
+	lara: "Nennt sich ‘organisches Sortieren’. Chaos weiß, wo’s hinfällt."
+	{global.player_name}: "Chaos als Lagerist? Mutig."
+	lara: "Es arbeitet für Kekse – günstiger als Fachkräfte."
 set {inputs.should_move} = true
+[end_timeline]
