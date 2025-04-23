@@ -1,2 +1,16 @@
-sabrina: To implement
+label start
+sabrina: "Hallo! Sabrina, Chef‑Teigkneterin ihres Vertrauens."
+sabrina: "Frisches Brot! Noch warm. Greif zu, bevor es pfeift und abhaut!"
+sabrina: "Kruste klingt wie Trommel, wenn du drauf klopfst."
+- "Bedank dich"
+	{global.player_name}: "Du rettest meinen Magen täglich."
+	sabrina: "Gern. Magen gerettet, Welt verbessert. Weiter im Text!"
+	{global.player_name}: "Mein Text sagt: Mehr Croissants!"
+	sabrina: "Überschrift: ‘Butter‑Helden des Alltags’ – ich liefer."
+- "Biete Rezeptidee an"
+	{global.player_name}: "Wie wär’s mit Brombeer‑Zimt‑Keksen?"
+	sabrina: "Klingt süß und chaotisch – wie mein Terminkalender. Lass uns testen!"
+	{global.player_name}: "Ich bring die Brombeeren, du den Mut."
+	sabrina: "Mut hab ich. Such noch saubere Schürzen – Zimtsandsturm voraus."
 set {inputs.should_move} = true
+[end_timeline]

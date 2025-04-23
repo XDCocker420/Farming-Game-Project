@@ -1,3 +1,16 @@
-join annabeth center
-annabeth: Hera soll zum Hades
+label start
+annabeth: "Hey! Ich bin Annabeth, Dorf‑Künstlerin mit Wald‑Werkstatt."
+annabeth: "Dieser Kranz hier? Schreit ‘Frühling!’ – hörst du’s?"
+annabeth: "Hab Glitzer aus Tannennadeln gezaubert, voll öko‑chic."
+- "Lob ihre Kreativität"
+	{global.player_name}: "Du zauberst aus Moos und Zweigen pure Kunst."
+	annabeth: "Moos ist nur schüchternes Samt. Man muss ihm Komplimente machen!"
+	{global.player_name}: "Dann grüß es freundlich von mir."
+	annabeth: "Wird gemacht – es kichert garantiert."
+- "Frag nach Pepper"
+	{global.player_name}: "Wo steckt Pepper?"
+	annabeth: "Jagt Schmetterlinge. Sobald er einen fängt, verhandelt er Lösegeld in Leckerli."
+	{global.player_name}: "Gib ihm mein Kleingeld – Schmetterlinge sind teuer."
+	annabeth: "Verhandelt! Pepper akzeptiert auch Streicheleinheiten."
 set {inputs.should_move} = true
+[end_timeline]

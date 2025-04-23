@@ -1,2 +1,16 @@
-joshua: Alles ist so dunkel kein Weg weg
+label start
+joshua: "Hi! Ich bin Joshua, Dorf‑Entdecker im Training."
+joshua: "Psst! Weißt du, dass Marienkäfer Geheimsprache klopfen?"
+joshua: "Ich übe ihren Morsecode."
+- "Spiel mit"
+	{global.player_name}: "Klar. Dreimal klopfen heißt ‘Pizza’."
+	joshua: "Dann erklär den Ameisen, warum sie keinen Lieferservice haben."
+	{global.player_name}: "Ameisen mögen krümeligen Teig."
+	joshua: "Super! Wir gründen die erste Krümel‑Pizzeria."
+- "Leite ihn sanft weg"
+	{global.player_name}: "Spannend, aber du stehst im Blumenbeet."
+	joshua: "Ups! Blumen mögen wohl keine Insekten‑Rap‑Konzerte."
+	{global.player_name}: "Hier draußen ist das Publikum stachelig."
+	joshua: "Dann spiel ich ein Zugabestück auf dem Gehweg."
 set {inputs.should_move} = true
+[end_timeline]

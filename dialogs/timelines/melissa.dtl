@@ -1,2 +1,16 @@
-melissa: Implementieren!!!!!
+label start
+melissa: "Guten Morgen! Melissa hier – Floristin mit Fernweh im Herzen."
+melissa: "Diese Dahlie hat mehr Drama als jede Seifenoper."
+melissa: "Und sie verliert nie den Faden."
+- "Frag nach Bedeutung"
+	{global.player_name}: "Was erzählt sie heute?"
+	melissa: "‘Gieß mich oder ich werde Diva.’ Blumen haben Prioritäten."
+	{global.player_name}: "Soll ich Applaus spenden?"
+	melissa: "Erst Wasser, dann Applaus – Reihenfolge ist alles."
+- "Mach Kompliment"
+	{global.player_name}: "Dein Garten ist ein Farben‑Orchester."
+	melissa: "Und jeder Käfer der Dirigent – ohne Gage, versteht sich."
+	{global.player_name}: "Budgetfreundliche Kulturförderung."
+	melissa: "Genau! Eintritt zahlt man in Pollen."
 set {inputs.should_move} = true
+[end_timeline]

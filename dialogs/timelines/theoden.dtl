@@ -1,2 +1,16 @@
-theoden: Ich bin alt
+label start
+theoden: "Sei gegrüßt! Theoden, Hüter der Kräuter und grauer Bart in Personalunion."
+theoden: "Die Erde lacht heute. Spürst du’s in den Schuhsohlen?"
+theoden: "Wenn nicht, sind die Sohlen zu dick."
+- "Philosophiere mit"
+	{global.player_name}: "Wenn Erde lacht, kitzelt’s Regenwürmer?"
+	theoden: "Genau. Und ein kitzelnder Wurm ist doppelt so fleißig!"
+	{global.player_name}: "Dann kitzel ich morgen mein Beet."
+	theoden: "Vergiss nicht zu lachen, sonst kitzelt niemand dich."
+- "Bitte um Gartentipp"
+	{global.player_name}: "Mein Basilikum guckt traurig."
+	theoden: "Sing ihm morgens ein Lied. Falsche Töne treiben Blattläuse fort."
+	{global.player_name}: "Mein Gesang ist biologisches Pestizid?"
+	theoden: "Gratis und umweltfreundlich – Nachbarn nicht garantiert."
 set {inputs.should_move} = true
+[end_timeline]
