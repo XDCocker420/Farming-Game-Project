@@ -235,8 +235,7 @@ func check_new_game():
 	return new_game
 	
 func create_new_game():
-	var save = null
-	ResourceSaver.save(save, SAVE_FILE_PATH)
+	DirAccess.remove_absolute(SAVE_FILE_PATH)
 
 
 func _on_auto_save_timeout() -> void:
