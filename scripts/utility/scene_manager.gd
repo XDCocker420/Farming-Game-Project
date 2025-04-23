@@ -10,7 +10,7 @@ const main_map = preload("res://scenes/maps/game_map.tscn")
 
 const weberei = preload("res://scenes/buildings/Weberei_interior.tscn")
 const molkerei = preload("res://scenes/buildings/Molkerei_interior.tscn")
-const pub = preload("res://scenes/buildings/Pub_interior.tscn")
+const pub = preload("res://scenes/buildings/pub_interior.tscn")
 const start_screen = preload("res://scenes/maps/start_screen.tscn")
 const intro = preload("res://scenes/maps/intro.tscn")
 
