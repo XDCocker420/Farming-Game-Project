@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://u44hmkynjs5r"]
 
-[ext_resource type="Texture2D" uid="uid://bpuil56qayupb" path="res://assets/ui/general/control_panel_fram_alt.png" id="1_songl"]
+[ext_resource type="Texture2D" uid="uid://yx4soslkm7gd" path="res://assets/ui/general/control_panel_fram_alt.png" id="1_songl"]
 [ext_resource type="Script" uid="uid://c0v2bdvqclm7r" path="res://scripts/ui/task_caravan/ui_task_caravan_task.gd" id="2_3lpne"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_eoh1t"]

@@ -13,6 +13,8 @@ var market_sav:Array[SavedMarket] = []
 var map = null
 @onready var player = get_tree().get_first_node_in_group("Player")
 
+var new_game:bool = false
+
 signal money_added(money:int, added_value:int)
 signal money_removed(money:int, removed_value:int)
 
@@ -65,6 +67,7 @@ func load_game() -> void:
 		# For production
 		# LevelingHandler.set_player_level(1)
 		inventory.money = 100
+		new_game = true
 		return
 	
 	if player:
@@ -227,10 +230,18 @@ func start_auto_save_timer() -> void:
 	
 func update_player() -> void:
 	player = get_tree().get_first_node_in_group("Player")
+	
+func check_new_game():
+	return new_game
+	
+func create_new_game():
+	var save = null
+	ResourceSaver.save(save, SAVE_FILE_PATH)
 
 
 func _on_auto_save_timeout() -> void:
-	save_game()
+	if SceneSwitcher.get_current_scene_name() not in ["start_screen", "intro"]:
+		save_game()
 
 
 func _notification(what):
