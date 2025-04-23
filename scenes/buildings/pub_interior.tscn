@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=4 uid="uid://fctxb4ubxq8e"]
+[gd_scene load_steps=19 format=4 uid="uid://fctxb4ubxq8e"]
 
 [ext_resource type="Script" uid="uid://gb217r5vd7fo" path="res://scripts/buildings/Weberei_interior.gd" id="1_vi2nl"]
 [ext_resource type="Texture2D" uid="uid://c7nypghvpck4n" path="res://assets/buildings/interior/interior.png" id="2_ousec"]
@@ -11069,6 +11069,9 @@ size = Vector2(20, 128)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_ousec"]
 size = Vector2(12, 25)
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o1lxd"]
+size = Vector2(78, 22)
+
 [node name="Weberei_interior" type="StaticBody2D"]
 script = ExtResource("1_vi2nl")
 
@@ -11077,7 +11080,7 @@ tile_map_data = PackedByteArray("AAD9//3/AAAFAAQAAAD+//3/AAAFAAQAAAD///7/AAAFAAQ
 tile_set = SubResource("TileSet_iwa4d")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="TileMapLayer"]
-tile_map_data = PackedByteArray("AAAAAAIAAAAAAAMAAAABAAIAAAABAAMAAAABAAEAAAABAAMAAAAAAAEAAAAAAAMAAAAAAAAAAAACAAQAAAABAAAAAAACAAQAAAD7//3/AAAIAAQAAAD8//3/AAAJAAQAAAD9//3/AAAJAAQAAAD7//z/AAANAAMAAAD///7/AAAHAAMAAAD9//7/AAAHAAMAAAD7//7/AAAHAAMAAAD+//z/AAAOAAMAAAD+//3/AAAOAAQAAAD///z/AAAPAAMAAAD///3/AAAPAAQAAAABAPv/AAAJAAAAAAAFAPv/AAAIAAAAAAD9//v/AAAFAAAAAAADAPv/AAAHAAAAAAD+//v/AAAIAAEAAAD///v/AAAJAAEAAAD7//v/AAAKAAEAAAD8//v/AAALAAEAAAAEAPv/AAALAAQAAAAEAP7/AAAiAAIAAAAFAP7/AAAjAAIAAAAEAAAAAAAkAAIAAAAFAAAAAAAlAAIAAAAFAPz/AAAeAAAAAAAGAPz/AAAfAAAAAAAGAP3/AAAfAAEAAAAGAAAAAAAaAAUAAAAGAAEAAAAaAAYAAAD7/wEAAAAbAAcAAAD7/wIAAAAbAAgAAAD7////AAAXAAcAAAD7/wAAAAAXAAgAAAD9/wIAAAAIABEAAAD9/wEAAAAJABEAAAD9/wAAAAAKABEAAAD//wEAAAAJABEAAAD//wIAAAAIABEAAAD//wAAAAAKABEAAAAAAPv/AAAFAAEAAAAGAPv/AAAFAAEAAAACAPv/AAAFAAEAAAA=")
+tile_map_data = PackedByteArray("AAAAAAIAAAAAAAMAAAABAAIAAAABAAMAAAABAAEAAAABAAMAAAAAAAEAAAAAAAMAAAAAAAAAAAACAAQAAAABAAAAAAACAAQAAAD7//3/AAAIAAQAAAD8//3/AAAJAAQAAAD9//3/AAAJAAQAAAD7//z/AAANAAMAAAD///7/AAAHAAMAAAD9//7/AAAHAAMAAAD7//7/AAAHAAMAAAD+//z/AAAOAAMAAAD+//3/AAAOAAQAAAD///z/AAAPAAMAAAD///3/AAAPAAQAAAABAPv/AAAJAAAAAAAFAPv/AAAIAAAAAAD9//v/AAAFAAAAAAADAPv/AAAHAAAAAAD+//v/AAAIAAEAAAD///v/AAAJAAEAAAD7//v/AAAKAAEAAAD8//v/AAALAAEAAAAEAPv/AAALAAQAAAAFAPz/AAAeAAAAAAAGAPz/AAAfAAAAAAAGAP3/AAAfAAEAAAAGAAAAAAAaAAUAAAAGAAEAAAAaAAYAAAD7/wEAAAAbAAcAAAD7/wIAAAAbAAgAAAD7////AAAXAAcAAAD7/wAAAAAXAAgAAAD9/wIAAAAIABEAAAD9/wEAAAAJABEAAAD9/wAAAAAKABEAAAD//wEAAAAJABEAAAD//wIAAAAIABEAAAD//wAAAAAKABEAAAAAAPv/AAAFAAEAAAAGAPv/AAAFAAEAAAACAPv/AAAFAAEAAAADAP7/AAAiAAIAAAAEAP7/AAAjAAIAAAADAAAAAAAkAAIAAAAEAAAAAAAlAAIAAAA=")
 tile_set = SubResource("TileSet_cnnel")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="TileMapLayer/TileMapLayer"]
@@ -11109,7 +11112,7 @@ position = Vector2(-9, -25)
 shape = SubResource("CapsuleShape2D_j4yfu")
 
 [node name="CollisionShape2D3" type="CollisionShape2D" parent="."]
-position = Vector2(79.5, -24)
+position = Vector2(64, -25)
 shape = SubResource("RectangleShape2D_vi2nl")
 
 [node name="CollisionShape2D4" type="CollisionShape2D" parent="."]
@@ -11173,5 +11176,9 @@ position = Vector2(104, 19)
 shape = SubResource("RectangleShape2D_ousec")
 
 [node name="CollisionShape2D19" type="CollisionShape2D" parent="."]
-position = Vector2(79, 8)
+position = Vector2(64, 8)
 shape = SubResource("RectangleShape2D_vi2nl")
+
+[node name="CollisionShape2D20" type="CollisionShape2D" parent="."]
+position = Vector2(-40, -45)
+shape = SubResource("RectangleShape2D_o1lxd")
