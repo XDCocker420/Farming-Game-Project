@@ -1,12 +1,12 @@
 [gd_scene load_steps=8 format=3 uid="uid://d32nn5cgkxwma"]
 
-[ext_resource type="Texture2D" uid="uid://b17cec870lxyy" path="res://assets/util/splash_screen.png" id="1_gem7y"]
-[ext_resource type="Script" uid="uid://d2lx2jm7476c8" path="res://scripts/ui/start_screen/start_screen.gd" id="1_hmgk0"]
-[ext_resource type="Texture2D" uid="uid://cjd156o0hyl8c" path="res://assets/ui/general/start_btn_normal.png" id="1_ig5x2"]
-[ext_resource type="Texture2D" uid="uid://cg4u6hhxxh5wy" path="res://assets/ui/general/start_btn_hover.png" id="2_kbl5w"]
-[ext_resource type="Texture2D" uid="uid://7x45i3h0veen" path="res://assets/ui/general/newSave_button_hover.png" id="3_hnb2c"]
-[ext_resource type="Texture2D" uid="uid://npk7vkeode3s" path="res://assets/ui/general/newSave_button_normal.png" id="4_gem7y"]
-[ext_resource type="Texture2D" uid="uid://byqu8eojf223c" path="res://assets/ui/general/settings.png" id="5_hmgk0"]
+[ext_resource type="Texture2D" uid="uid://d37jikafjk136" path="res://assets/util/splash_screen.png" id="1_gem7y"]
+[ext_resource type="Script" uid="uid://ctw6rk1m4qev5" path="res://scripts/ui/start_screen/start_screen.gd" id="1_hmgk0"]
+[ext_resource type="Texture2D" uid="uid://dprqqjxxb35kk" path="res://assets/ui/general/start_btn_normal.png" id="1_ig5x2"]
+[ext_resource type="Texture2D" uid="uid://bicbpjhxe7d13" path="res://assets/ui/general/start_btn_hover.png" id="2_kbl5w"]
+[ext_resource type="Texture2D" uid="uid://bl5pmn538yhax" path="res://assets/ui/general/newSave_button_hover.png" id="3_hnb2c"]
+[ext_resource type="Texture2D" uid="uid://by7jfx4m73vgn" path="res://assets/ui/general/newSave_button_normal.png" id="4_gem7y"]
+[ext_resource type="Texture2D" uid="uid://elllhpxg37l8" path="res://assets/ui/general/settings.png" id="5_hmgk0"]
 
 [node name="StartScreen" type="Control"]
 layout_mode = 3
