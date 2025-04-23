@@ -3,7 +3,6 @@
 /android/
 .vscode/settings.json
 .import/
-export/
 exports/
 export.cfg
 export_presets.cfg
