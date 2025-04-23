@@ -1,6 +1,7 @@
-[gd_scene load_steps=4 format=4 uid="uid://dl0oeua6mtjx5"]
+[gd_scene load_steps=5 format=4 uid="uid://dl0oeua6mtjx5"]
 
 [ext_resource type="TileSet" uid="uid://er1084qjjvh3" path="res://assets/tilesets/town_buildings_tileset.tres" id="1_4q4tb"]
+[ext_resource type="Script" path="res://scripts/buildings/Pub.gd" id="1_8lp7o"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6sq0i"]
 size = Vector2(72.25, 50)
@@ -9,6 +10,7 @@ size = Vector2(72.25, 50)
 radius = 9.0
 
 [node name="Pub" type="StaticBody2D"]
+script = ExtResource("1_8lp7o")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 tile_map_data = PackedByteArray("AAD9//v/AAAAAAAAAAD9//z/AAAAAAEAAAD9//3/AAAAAAIAAAD9//7/AAAAAAMAAAD9////AAAAAAQAAAD+//v/AAABAAAAAAD+//z/AAABAAEAAAD+//3/AAABAAIAAAD+//7/AAABAAMAAAD+////AAABAAQAAAD///v/AAACAAAAAAD///z/AAACAAEAAAD///3/AAACAAIAAAD///7/AAACAAMAAAD/////AAACAAQAAAAAAPv/AAADAAAAAAAAAPz/AAADAAEAAAAAAP3/AAADAAIAAAAAAP7/AAADAAMAAAAAAP//AAADAAQAAAABAPv/AAAEAAAAAAABAPz/AAAEAAEAAAABAP3/AAAEAAIAAAABAP7/AAAEAAMAAAABAP//AAAEAAQAAAACAPv/AAAFAAAAAAACAPz/AAAFAAEAAAACAP3/AAAFAAIAAAACAP7/AAAFAAMAAAACAP//AAAFAAQAAAA=")
