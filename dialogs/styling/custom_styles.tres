@@ -1,7 +1,7 @@
 [gd_resource type="Resource" script_class="DialogicStyle" load_steps=12 format=3 uid="uid://dg0wc7bruc8q0"]
 
-[ext_resource type="Script" uid="uid://2obsawejxy2a" path="res://addons/dialogic/Resources/dialogic_style_layer.gd" id="1_otk2p"]
-[ext_resource type="Script" uid="uid://ceyclbqbnmuok" path="res://addons/dialogic/Resources/dialogic_style.gd" id="2_8fj7y"]
+[ext_resource type="Script" uid="uid://lybwqi0v6q6q" path="res://addons/dialogic/Resources/dialogic_style_layer.gd" id="1_otk2p"]
+[ext_resource type="Script" uid="uid://dyufi27wts3rx" path="res://addons/dialogic/Resources/dialogic_style.gd" id="2_8fj7y"]
 [ext_resource type="PackedScene" uid="uid://bpjpsia0akjvo" path="res://dialogs/styling/CenteredChoices/custom_centered_choices.tscn" id="3_5m5m4"]
 [ext_resource type="PackedScene" uid="uid://dv7x8burph27o" path="res://dialogs/styling/VisualNovelTextbox/custom_visual_novel_textbox.tscn" id="3_8vea7"]
 [ext_resource type="PackedScene" uid="uid://cy1y14inwkplb" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Portraits/vn_portrait_layer.tscn" id="4_5m5m4"]
