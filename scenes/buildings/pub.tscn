@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=4 uid="uid://dl0oeua6mtjx5"]
+[gd_scene load_steps=10 format=4 uid="uid://dl0oeua6mtjx5"]
 
 [ext_resource type="TileSet" uid="uid://er1084qjjvh3" path="res://assets/tilesets/town_buildings_tileset.tres" id="1_4q4tb"]
-[ext_resource type="Script" path="res://scripts/buildings/Pub.gd" id="1_8lp7o"]
+[ext_resource type="Script" uid="uid://d21pqwjpdjttf" path="res://scripts/buildings/Pub.gd" id="1_8lp7o"]
+[ext_resource type="Texture2D" uid="uid://dr6hnqlps02jt" path="res://assets/buildings/town_buildings_all.png" id="3_o5dwa"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_6sq0i"]
 size = Vector2(72.25, 50)
@@ -9,11 +10,40 @@ size = Vector2(72.25, 50)
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_s4j2f"]
 radius = 9.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_jhcbk"]
+atlas = ExtResource("3_o5dwa")
+region = Rect2(384, 48, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bnn4v"]
+atlas = ExtResource("3_o5dwa")
+region = Rect2(400, 48, 16, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eo27b"]
+atlas = ExtResource("3_o5dwa")
+region = Rect2(416, 48, 16, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_iesgr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jhcbk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bnn4v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eo27b")
+}],
+"loop": false,
+"name": &"door",
+"speed": 5.0
+}]
+
 [node name="Pub" type="StaticBody2D"]
 script = ExtResource("1_8lp7o")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
-tile_map_data = PackedByteArray("AAD9//v/AAAAAAAAAAD9//z/AAAAAAEAAAD9//3/AAAAAAIAAAD9//7/AAAAAAMAAAD9////AAAAAAQAAAD+//v/AAABAAAAAAD+//z/AAABAAEAAAD+//3/AAABAAIAAAD+//7/AAABAAMAAAD+////AAABAAQAAAD///v/AAACAAAAAAD///z/AAACAAEAAAD///3/AAACAAIAAAD///7/AAACAAMAAAD/////AAACAAQAAAAAAPv/AAADAAAAAAAAAPz/AAADAAEAAAAAAP3/AAADAAIAAAAAAP7/AAADAAMAAAAAAP//AAADAAQAAAABAPv/AAAEAAAAAAABAPz/AAAEAAEAAAABAP3/AAAEAAIAAAABAP7/AAAEAAMAAAABAP//AAAEAAQAAAACAPv/AAAFAAAAAAACAPz/AAAFAAEAAAACAP3/AAAFAAIAAAACAP7/AAAFAAMAAAACAP//AAAFAAQAAAA=")
+tile_map_data = PackedByteArray("AAD9//v/AAAGAAAAAAD9//z/AAAGAAEAAAD9//3/AAAGAAIAAAD9//7/AAAGAAMAAAD9////AAAGAAQAAAD+//v/AAAHAAAAAAD+//z/AAAHAAEAAAD+//3/AAAHAAIAAAD+//7/AAAHAAMAAAD+////AAAHAAQAAAD///v/AAAIAAAAAAD///z/AAAIAAEAAAD///3/AAAIAAIAAAD///7/AAAIAAMAAAD/////AAAIAAQAAAAAAPv/AAAJAAAAAAAAAPz/AAAJAAEAAAAAAP3/AAAJAAIAAAAAAP7/AAAJAAMAAAAAAP//AAAJAAQAAAABAPv/AAAKAAAAAAABAPz/AAAKAAEAAAABAP3/AAAKAAIAAAABAP7/AAAKAAMAAAABAP//AAAKAAQAAAACAPv/AAALAAAAAAACAPz/AAALAAEAAAACAP3/AAALAAIAAAACAP7/AAALAAMAAAACAP//AAALAAQAAAA=")
 tile_set = ExtResource("1_4q4tb")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -28,3 +58,10 @@ vertices = PackedVector2Array(33, -34, 39, -34, 39, -2, -35, -2, -35, -34, -32, 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="DoorArea"]
 position = Vector2(2, -7)
 shape = SubResource("CapsuleShape2D_s4j2f")
+
+[node name="door" type="AnimatedSprite2D" parent="."]
+position = Vector2(3, -17)
+sprite_frames = SubResource("SpriteFrames_iesgr")
+animation = &"door"
+frame = 1
+frame_progress = 0.293084

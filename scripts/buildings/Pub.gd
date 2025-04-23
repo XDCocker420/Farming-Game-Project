@@ -2,6 +2,7 @@ extends StaticBody2D
 
 @onready var player: CharacterBody2D = %Player
 @onready var door_area: Area2D = $DoorArea
+@onready var door: AnimatedSprite2D = $door
 
 var in_door_area = false
 var interior_scene_path = "res://scenes/buildings/Pub_interior.tscn"
@@ -21,7 +22,9 @@ func _on_player_interact() -> void:
 func _on_door_area_entered(body: Node2D) -> void:
 	if body.is_in_group("Player") && LevelingHandler.is_building_unlocked("pub"):
 		in_door_area = true
+		door.play("door")
 
 func _on_door_area_exited(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		in_door_area = false
+		door.play_backwards("door")
