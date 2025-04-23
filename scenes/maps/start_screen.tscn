@@ -1,6 +1,7 @@
-[gd_scene load_steps=7 format=3 uid="uid://d32nn5cgkxwma"]
+[gd_scene load_steps=8 format=3 uid="uid://d32nn5cgkxwma"]
 
 [ext_resource type="Texture2D" uid="uid://b17cec870lxyy" path="res://assets/util/splash_screen.png" id="1_gem7y"]
+[ext_resource type="Script" uid="uid://d2lx2jm7476c8" path="res://scripts/ui/start_screen/start_screen.gd" id="1_hmgk0"]
 [ext_resource type="Texture2D" uid="uid://cjd156o0hyl8c" path="res://assets/ui/general/start_btn_normal.png" id="1_ig5x2"]
 [ext_resource type="Texture2D" uid="uid://cg4u6hhxxh5wy" path="res://assets/ui/general/start_btn_hover.png" id="2_kbl5w"]
 [ext_resource type="Texture2D" uid="uid://7x45i3h0veen" path="res://assets/ui/general/newSave_button_hover.png" id="3_hnb2c"]
@@ -14,6 +15,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_hmgk0")
 
 [node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 1
