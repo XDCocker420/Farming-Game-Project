@@ -1,19 +1,18 @@
-extends Control
+extends CanvasLayer
 
-@onready var start_button: Button = $start_button
-@onready var new_game_button:Button = $NewGameButton
-@onready var settings_button:Button = $SettingsButton
+@onready var start_button: TextureButton = $StartButton
+@onready var new_game_button:TextureButton = $NewGameButton
 
 func _ready() -> void:
 	start_button.pressed.connect(_on_start_pressed)
 	new_game_button.pressed.connect(_on_new_pressed)
-	settings_button.pressed.connect(_on_settings_pressed)
 	
 func _on_start_pressed():
-	pass
+	if Dialogic.VAR.global.done_tutorial:
+		SceneSwitcher.transition_to_main.emit()
+	else:
+		SceneSwitcher.transition_to_new_scene.emit("intro", Vector2.ZERO)
 	
 func _on_new_pressed():
-	pass
-	
-func _on_settings_pressed():
-	pass
+	SaveGame.create_new_game()
+	SceneSwitcher.transition_to_new_scene.emit("intro", Vector2.ZERO)

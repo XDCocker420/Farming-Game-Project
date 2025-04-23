@@ -235,11 +235,13 @@ func check_new_game():
 	return new_game
 	
 func create_new_game():
-	pass
+	var save = null
+	ResourceSaver.save(save, SAVE_FILE_PATH)
 
 
 func _on_auto_save_timeout() -> void:
-	save_game()
+	if SceneSwitcher.get_current_scene_name() not in ["start_screen", "intro"]:
+		save_game()
 
 
 func _notification(what):
