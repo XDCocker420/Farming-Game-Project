@@ -1,6 +1,6 @@
 [gd_scene load_steps=21 format=4 uid="uid://fctxb4ubxq8e"]
 
-[ext_resource type="Script" uid="uid://gb217r5vd7fo" path="res://scripts/buildings/Weberei_interior.gd" id="1_vi2nl"]
+[ext_resource type="Script" path="res://scripts/buildings/Pub_interior.gd" id="1_vi2nl"]
 [ext_resource type="Texture2D" uid="uid://c7nypghvpck4n" path="res://assets/buildings/interior/interior.png" id="2_ousec"]
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="3_o1lxd"]
 [ext_resource type="PackedScene" uid="uid://cq5ugrpbvyxgv" path="res://scenes/ui/shop/buy_beer_ui.tscn" id="4_ousec"]
