@@ -63,5 +63,3 @@ shape = SubResource("CapsuleShape2D_s4j2f")
 position = Vector2(3, -17)
 sprite_frames = SubResource("SpriteFrames_iesgr")
 animation = &"door"
-frame = 1
-frame_progress = 0.293084
