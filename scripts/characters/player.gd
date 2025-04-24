@@ -40,18 +40,6 @@ var follow_mouse:bool = false
 
 var temp_money:int
 
-@export var AM: bool:
-	set(value):
-		SaveGame.add_money(20)
-		
-@export var RM: bool:
-	set(value):
-		SaveGame.remove_money(20)
-		
-@export var AE: bool:
-	set(value):
-		LevelingHandler.add_experience_points(50)
-
 
 func _ready() -> void:
 	LevelingHandler.exp_changed.connect(_on_exp_changed)
@@ -69,13 +57,6 @@ func _ready() -> void:
 	body.animation_finished.connect(_on_anim_end)
 	
 	$CanvasLayer.visible = !no_ui
-	
-	money_label.text = str(SaveGame.get_money())
-	
-	lvl_label.text = _format_level(LevelingHandler.get_current_level())
-	lvl_bar.min_value = 0
-	lvl_bar.value = LevelingHandler.get_experience_in_current_level()
-	lvl_bar.max_value = LevelingHandler.xp_for_level(LevelingHandler.get_current_level())
 	
 	current_speed = normal_speed
 	
@@ -103,8 +84,8 @@ func _ready() -> void:
 		SaveGame.add_to_inventory("white_string", 20)
 		SaveGame.add_to_inventory("feed", 20)
 		
-		if SaveGame.get_money() <= 0:
-			SaveGame.add_money(5000)
+		#if SaveGame.get_money() <= 0:
+			#SaveGame.add_money(5000)
 
 
 # Überprüft die Position nach dem Verlassen eines Gebäudes
@@ -271,3 +252,13 @@ func _on_anim_end():
 func _follow_mouse(val:bool):
 	get_viewport().warp_mouse(get_viewport_rect().size / 2.0)
 	follow_mouse = val
+
+func do_set_level():	
+	lvl_label.text = _format_level(LevelingHandler.get_current_level())
+	lvl_bar.min_value = 0
+	lvl_bar.value = LevelingHandler.get_experience_in_current_level()
+	lvl_bar.max_value = LevelingHandler.xp_for_level(LevelingHandler.get_current_level())
+
+func do_set_money():
+	print(SaveGame.get_money())
+	money_label.text = str(SaveGame.get_money())

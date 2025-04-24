@@ -14,5 +14,3 @@ func _on_animation_finished(anim_name):
 	if anim_name == "fade_to_black":
 		transitioned.emit()
 		anim_player.play("fade_to_normal")
-	if anim_name == "fade_to_normal":
-		print("finished transion")

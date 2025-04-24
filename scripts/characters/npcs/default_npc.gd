@@ -5,7 +5,7 @@ extends CharacterBody2D
 @onready var interaction_area: Area2D = $InteractArea
 
 # Wichtige Punkte (z.B. Marktplatz, Schmiede, etc.) – zur Laufzeit definierbar
-@export var important_points: Array[Vector2] = [Vector2(91, 66), Vector2(-23, 43), Vector2(57,150)]
+@export var important_points: Array[Vector2] = []
 # Optionaler Home-Punkt, zu dem der NPC abends zurückkehrt
 @export var home_point: Vector2
 
@@ -125,6 +125,7 @@ func choose_new_target() -> void:
 		else:
 			print("Please specify Important Points")
 			current_target = position
+		print(current_target)
 
 	if navigation_agent:
 		navigation_agent.target_position = current_target

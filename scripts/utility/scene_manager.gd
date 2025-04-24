@@ -17,6 +17,7 @@ const intro = preload("res://scenes/maps/intro.tscn")
 var next_name:String = ""
 
 func _ready() -> void:
+	SceneSwitcher.set_current_scene_name("start_screen")
 	trans_screen.transitioned.connect(_on_transition_finished)
 	SceneSwitcher.transition_to_new_scene.connect(_on_transition_to_new_scene)
 	SceneSwitcher.transition_to_main.connect(_transiton_to_game_map)
@@ -25,12 +26,14 @@ func _on_transition_to_new_scene(new_scene_name:String, global_player_pos:Vector
 	SceneSwitcher.set_current_scene_name(new_scene_name)
 	SceneSwitcher.player_position = global_player_pos
 	next_name = new_scene_name
-	SaveGame.save_game()
+	#SaveGame.save_game()
 	trans_screen.transition()
 	
 func _transiton_to_game_map():
 	next_name = "game_map"
-	SaveGame.save_exp_lvl()
+	if SceneSwitcher.current_scene not in ["intro", "start_screen"]:
+		SaveGame.save_exp_lvl()
+	SceneSwitcher.set_current_scene_name("game_map")
 	trans_screen.transition()
 	
 func _on_transition_finished():
