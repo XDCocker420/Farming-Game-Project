@@ -260,5 +260,4 @@ func do_set_level():
 	lvl_bar.max_value = LevelingHandler.xp_for_level(LevelingHandler.get_current_level())
 
 func do_set_money():
-	print(SaveGame.get_money())
 	money_label.text = str(SaveGame.get_money())

@@ -80,7 +80,7 @@ func load_game() -> void:
 			old_inventory = inventory.data.duplicate()
 		
 		inventory = saved_game.inventory
-		await get_tree().process_frame
+		#await get_tree().process_frame
 		LevelingHandler.set_player_level(saved_game.player_level)
 		LevelingHandler.set_experience_in_current_level(saved_game.player_experience_per_level)
 		player.global_position = saved_game.player_position
