@@ -262,3 +262,7 @@ func do_set_level():
 func do_set_money():
 	print(SaveGame.get_money())
 	money_label.text = str(SaveGame.get_money())
+
+# Function to get the player's current money from SaveGame
+func get_money() -> int:
+	return SaveGame.get_money()
