@@ -30,17 +30,12 @@ func update_display():
 	var player = get_tree().get_first_node_in_group("Player")
 	if player and player.has_method("get_money"):
 		player_money = player.get_money()
-		print("[UpdateDisplay] Player Money:", player_money)
 		# No money label in current scene, might want to add one later
 	else:
-		print("[UpdateDisplay] Player or get_money() method not found")
 		player_money = 0 # Default to 0 if player money can't be fetched
 	
 	# Update buy button state based on whether player can afford
-	print("[UpdateDisplay] Beer Price:", BEER_PRICE)
-	print("[UpdateDisplay] Comparison:", player_money, " < ", BEER_PRICE * quantity, " is ", player_money < BEER_PRICE * quantity)
 	buy_button.disabled = player_money < BEER_PRICE * quantity
-	print("[UpdateDisplay] Button Disabled:", buy_button.disabled)
 
 func _on_buy_pressed():
 	# Get player money *before* purchase attempt
@@ -49,12 +44,8 @@ func _on_buy_pressed():
 	if player and player.has_method("get_money"):
 		current_money = player.get_money()
 	
-	print("[_on_buy_pressed] Current money:", current_money)
-	print("[_on_buy_pressed] Beer price:", BEER_PRICE * quantity)
-	
 	# Check if player has enough money using the fetched value
 	if current_money >= BEER_PRICE * quantity:
-		print("[_on_buy_pressed] Sufficient funds. Proceeding with purchase.")
 		# Deduct money using SaveGame
 		SaveGame.remove_money(BEER_PRICE * quantity)
 		
@@ -62,13 +53,11 @@ func _on_buy_pressed():
 		SaveGame.add_to_inventory(BEER_ITEM, quantity)
 		
 		# Update UI - This will fetch the new money value
-		print("[_on_buy_pressed] Calling update_display after purchase.")
 		update_display()
 		
 		# Emit signal that item was purchased
 		item_purchased.emit(BEER_ITEM, quantity)
-	else:
-		print("[_on_buy_pressed] Not enough money to buy beer")
+	
 
 func _on_close_button_pressed():
 	hide() 
