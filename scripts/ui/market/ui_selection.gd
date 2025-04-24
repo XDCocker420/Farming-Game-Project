@@ -12,12 +12,14 @@ signal accept(amount: int)
 
 var slot_list: Array
 var slot_scenen = preload("res://scenes/ui/general/ui_slot.tscn")
+var current_item:String
 
 
 func _ready() -> void:
 	accept_button.pressed.connect(_on_accept)
 	cancel_button.pressed.connect(_on_cancel)
 	visibility_changed.connect(_on_visibility_changed)
+	amount_spinbox.value_changed.connect(_on_amount_changed)
 	
 	load_slots()
 	
@@ -67,6 +69,8 @@ func _on_slot_selected(slot: PanelContainer) -> void:
 
 
 func _on_item_selected(item_name: String, price: int, item_texture: Texture2D) -> void:
+	current_item = item_name
+	price_spinbox.max_value = ConfigReader.get_max_price(item_name)
 	put_item.emit(item_name, item_texture)
 	
 	
@@ -83,3 +87,6 @@ func _on_accept() -> void:
 func _on_visibility_changed():
 	if visible == false:
 		reload_slots()
+		
+func _on_amount_changed(value:float) -> void:
+	price_spinbox.max_value = ConfigReader.get_max_price(current_item) * value

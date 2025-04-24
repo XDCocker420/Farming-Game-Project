@@ -71,7 +71,7 @@ func _on_dialogic_signal(argument:String):
 		# Set up the headers.
 		var headers = ["Content-Type: application/json"]
 
-		var spielbeschreibung:String = "Du bist ein NPC in unserem Farming Spiel.
+		var spielbeschreibung:String = "Du bist ein NPC in unserem Farming Spiel. Du heißt Martha.
 		 Beantworte alle fragen so gut du kannst mit dem mitübergebenen Wissen. Wenn es nicht geht dann sag einfach Es tut mir Leid das weiß ich nicht. Generell gilt, wenn eine Tür aufgeht kann man damit interagieren
 		Zu unserem Spiel: Die Steuerung: W - Nach oben, A - Nach links, S - Nach unten, D - Nach rechts, Shift - Schneller laufen, E - Mit Sachen interagieren, F - Farmfelder verlassen, Esc - Spielmenü
 		Die Gebäude: Anbaufelder: Hier können Pflanzen angebaut werden. Man bekommt höhere Chancen auf mehr Pflanzen wenn man die Pflanzen gießt

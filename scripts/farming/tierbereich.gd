@@ -46,6 +46,7 @@ func _on_door_entered(body:Node2D):
 		
 func _on_door_exited(body:Node2D):
 	if body.is_in_group("Player"):
+		ui.hide()
 		door_collision.set_deferred("disabled", false)
 		door.play_backwards("open")
 		

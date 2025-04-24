@@ -35,6 +35,10 @@ var go_to_market:bool = false
 
 var save_dialog_pos:Vector2
 
+var item_to_buy:String
+
+var once:bool = false
+
 func _ready() -> void:
 	wait_timer.timeout.connect(_on_wait_timeout)
 	
@@ -60,11 +64,13 @@ func _physics_process(delta: float) -> void:
 		global_position = save_dialog_pos
 
 	if navigation_agent.is_target_reached():
-		if go_to_market:
+		if go_to_market && !once:
+			once = true
 			## TODO: Implement buying from the market
 			print("kaufen")
+			SaveGame.market_bought.emit(item_to_buy)
 			# SaveGame.remove_market_item(items_to_buy[ irgendwas halt ])
-			pass
+			#pass
 				
 		elif wait_timer.is_stopped():
 			wait_timer.start(2)
@@ -174,8 +180,10 @@ func _on_area_exited(body:Node2D):
 
 func _added_to_market(item_name:String):
 	if item_name in items_to_buy:
+		once = false
+		item_to_buy = item_name
 		go_to_market = true
-		current_target = market.global_position
+		current_target = Vector2(2826, 311)
 	
 func _on_is_night():
 	is_night = true

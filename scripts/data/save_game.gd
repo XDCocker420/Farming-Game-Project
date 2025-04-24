@@ -17,6 +17,7 @@ var new_game:bool = false
 
 signal money_added(money:int, added_value:int)
 signal money_removed(money:int, removed_value:int)
+signal market_bought(item_name:String)
 
 func _ready() -> void:
 	var map_nodes = get_tree().get_nodes_in_group("game_map")

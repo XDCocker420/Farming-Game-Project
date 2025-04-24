@@ -1,4 +1,4 @@
-[gd_scene load_steps=43 format=4 uid="uid://7401yxdfc7e2"]
+[gd_scene load_steps=45 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
 [ext_resource type="Script" uid="uid://ca5722omxd1c8" path="res://scripts/utility/game_map_load.gd" id="1_dnbah"]
@@ -3497,9 +3497,9 @@ polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(5341, -1158, 5342, 271, 5390, 273, 5383, -1161)])
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_xsdhu"]
-vertices = PackedVector2Array(6562, -450.008, 6562, -435, 4176, -435, 4176, -453.977)
+vertices = PackedVector2Array(6562, -435, 4176, -435, 4176, -462, 6562, -462.992)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(4166, -464, 6572, -460, 6572, -425, 4166, -425)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(4166, -472, 6572, -473, 6572, -425, 4166, -425)])
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_4a4yq"]
 vertices = PackedVector2Array(6550, -1138.99, 6550.99, 252, 6538.02, 224, 6535.99, -1108.21, 4210.65, -1125.65, 4189.02, -1121.57, 4186.99, -1121.19, 4188.24, -1137, 4223.07, -1128, 6526, 235, 6526, 224, 4184.03, 252.992, 4211, 236, 4209.86, -1117, 4199.98, -1117, 6528.78, -1110.61, 6526.35, -1123.99, 4202.01, 225.953, 4211, 226.953)
@@ -3515,6 +3515,16 @@ outlines = Array[PackedVector2Array]([PackedVector2Array(5347, -985, 5553, -992,
 vertices = PackedVector2Array(5452.23, -533.039, 5456.74, -347.328, 5255.34, -353.68, 5261.65, -533.953)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(5252, -544, 5462, -543, 5467, -337, 5245, -344)])
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_3xega"]
+vertices = PackedVector2Array(6089.02, -807.672, 6109.96, -837.992, 6107.03, 21.9297, 6086.99, -18.3125, 6068.61, -2.99219, 4643.08, 13.0625, 4679.23, -5.00781, 4667.97, -822.938, 4650.92, -832, 4650.61, -837, 6076.44, -819.977, 4666.99, -16.4062, 4649.92, -832, 4676.26, -12.4297, 6079.73, -808.992)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 3, 2), PackedInt32Array(4, 2, 5, 6), PackedInt32Array(7, 8, 9, 1, 10), PackedInt32Array(11, 5, 12, 8, 7), PackedInt32Array(13, 6, 5, 11), PackedInt32Array(10, 1, 0, 14)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(4640, -847, 6120, -848, 6117, 32, 4633, 23, 4640, -842, 4678, -842, 4677, -23, 4684, -20, 4686, -15, 6065, -13, 6077, -23, 6079, -799, 6072, -800, 6069, -810, 4642, -813)])
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_oxfw5"]
+vertices = PackedVector2Array(5850.08, -341.898, 5873.78, -372, 5870.21, -210, 5848.9, -237.039, 4919.23, -356.008, 4887.83, -375.961, 5473.74, -374.031, 5473.7, -372, 5473.31, -357.93, 5473.23, -355.008, 5840, -226.977, 5840, -236.047, 4885.16, -210.977, 4916.8, -229.023, 5838.68, -346.156, 5832.56, -355.969, 4915.76, -347.32, 4905.94, -339.961, 4907.07, -242.156, 4915.08, -237.578)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7, 8, 9), PackedInt32Array(10, 11, 3, 2), PackedInt32Array(10, 2, 12, 13), PackedInt32Array(1, 0, 14, 15), PackedInt32Array(7, 1, 15, 8), PackedInt32Array(5, 4, 16, 17), PackedInt32Array(12, 5, 17, 18), PackedInt32Array(13, 12, 18, 19)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(5467, -382, 5884, -382, 5880, -200, 4875, -201, 4878, -386, 5484, -384, 5483, -345, 4926, -346, 4924, -341, 4916, -335, 4917, -248, 4924, -244, 4925, -239, 5830, -237, 5830, -245, 5839, -246, 5840, -335, 5832, -338, 5827, -346, 5463, -348)])
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_dnbah")
@@ -3697,7 +3707,7 @@ position = Vector2(2248, 54)
 position = Vector2(2217, -473)
 
 [node name="BasicTownHouse2" parent="Map/Town" instance=ExtResource("9_syuog")]
-position = Vector2(1929, 135)
+position = Vector2(1610, 143)
 
 [node name="BasicTownHouse3" parent="Map/Town" instance=ExtResource("9_syuog")]
 position = Vector2(2046, -207)
@@ -4153,6 +4163,12 @@ navigation_polygon = SubResource("NavigationPolygon_kt1fv")
 
 [node name="NavigationRegion2D5" type="NavigationRegion2D" parent="Map/NavigationRegions"]
 navigation_polygon = SubResource("NavigationPolygon_2hf3k")
+
+[node name="NavigationRegion2D6" type="NavigationRegion2D" parent="Map/NavigationRegions"]
+navigation_polygon = SubResource("NavigationPolygon_3xega")
+
+[node name="NavigationRegion2D7" type="NavigationRegion2D" parent="Map/NavigationRegions"]
+navigation_polygon = SubResource("NavigationPolygon_oxfw5")
 
 [node name="TagUndNacht" type="CanvasModulate" parent="."]
 visible = false
