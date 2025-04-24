@@ -4131,7 +4131,7 @@ position = Vector2(-2538, 531)
 
 [node name="Annabeth" parent="Map/NPCs" node_paths=PackedStringArray("market", "day_and_night") instance=ExtResource("22_congb")]
 position = Vector2(5416, -403)
-important_points = Array[Vector2]([Vector2(2778, 49)])
+important_points = Array[Vector2]([Vector2(2778, 49), Vector2(2885, 49), Vector2(2885, 0)])
 market = NodePath("../../Town/Markt")
 day_and_night = NodePath("../../../TagUndNacht")
 items_to_buy = Array[String](["carrot"])
