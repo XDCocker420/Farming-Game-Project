@@ -63,6 +63,9 @@ func _ready() -> void:
 	if SceneSwitcher.player_position != Vector2.ZERO:
 		call_deferred("_check_position_after_building_exit")
 	
+	# Update money display immediately on ready
+	do_set_money()
+	
 	# Nur initialisieren, wenn das Inventar leer ist (neues Spiel)
 	if SaveGame.get_inventory().size() == 0:
 		SaveGame.add_to_inventory("carrot", 20)
