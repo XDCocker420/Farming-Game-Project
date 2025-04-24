@@ -1,10 +1,18 @@
-[gd_scene load_steps=8 format=3 uid="uid://cjo2tht8bf4ad"]
+[gd_scene load_steps=16 format=3 uid="uid://cjo2tht8bf4ad"]
 
-[ext_resource type="Texture2D" uid="uid://cbofvk7hb1eul" path="res://assets/ui/general/contract_board_frame.png" id="1_ki84q"]
+[ext_resource type="Texture2D" uid="uid://d1b1iyao4xmbd" path="res://assets/ui/general/contract_board_frame.png" id="1_ki84q"]
 [ext_resource type="Script" uid="uid://bsolm0vqjx8vk" path="res://scripts/ui/task_caravan/ui_task_caravan.gd" id="2_0m8mx"]
 [ext_resource type="PackedScene" uid="uid://ddms0lic2yxdt" path="res://scenes/ui/task_caravan/ui_task_caravan_slot.tscn" id="2_8fpjj"]
 [ext_resource type="PackedScene" uid="uid://u44hmkynjs5r" path="res://scenes/ui/task_caravan/ui_task_caravan_task.tscn" id="3_0m8mx"]
-[ext_resource type="Texture2D" uid="uid://bpuil56qayupb" path="res://assets/ui/general/control_panel_fram_alt.png" id="5_lhm3p"]
+[ext_resource type="Texture2D" uid="uid://cy8xnvkrbw8gq" path="res://assets/ui/icons/corn.png" id="4_hnwek"]
+[ext_resource type="Texture2D" uid="uid://yx4soslkm7gd" path="res://assets/ui/general/control_panel_fram_alt.png" id="5_lhm3p"]
+[ext_resource type="Texture2D" uid="uid://cdemevsqwrrns" path="res://assets/ui/icons/carrot.png" id="5_y37hm"]
+[ext_resource type="Texture2D" uid="uid://cuskvr55rcqqr" path="res://assets/ui/icons/pumpkin.png" id="6_3g0i7"]
+[ext_resource type="Texture2D" uid="uid://h28tg0g16q7f" path="res://assets/ui/icons/potatoe.png" id="7_2fvqg"]
+[ext_resource type="Texture2D" uid="uid://b4fvc70r2kwm5" path="res://assets/ui/icons/tomatoe.png" id="8_qk8hn"]
+[ext_resource type="Texture2D" uid="uid://o7010aa0gjml" path="res://assets/ui/icons/lettuce.png" id="9_08pd8"]
+[ext_resource type="Texture2D" uid="uid://b68fi1oygorib" path="res://assets/ui/icons/eggplant.png" id="10_itr4l"]
+[ext_resource type="Texture2D" uid="uid://dt53kwk15xw5k" path="res://assets/ui/icons/watermelon.png" id="11_2fvqg"]
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_piwo4"]
 texture = ExtResource("1_ki84q")
@@ -45,44 +53,86 @@ columns = 3
 [node name="ui_task_caravan_slot" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 id = 1
+money = 100
+xp = 200
 
 [node name="ui_task_caravan_slot2" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 id = 2
+money = 100
+xp = 200
+item1_name = "corn"
+item1_icon = ExtResource("4_hnwek")
 
 [node name="ui_task_caravan_slot3" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 id = 3
+money = 100
+xp = 200
+item1_name = "carrot"
+item1_icon = ExtResource("5_y37hm")
 
 [node name="ui_task_caravan_slot4" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 id = 4
-stage = 1
+money = 350
+xp = 400
+item2_name = "pumpkin"
+item2_icon = ExtResource("6_3g0i7")
 
 [node name="ui_task_caravan_slot5" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 id = 5
-stage = 1
+money = 350
+xp = 400
+item1_name = "corn"
+item1_icon = ExtResource("4_hnwek")
+item2_name = "potatoe"
+item2_icon = ExtResource("7_2fvqg")
 
 [node name="ui_task_caravan_slot6" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 id = 6
-stage = 1
+money = 350
+xp = 400
+item1_name = "carrot"
+item1_icon = ExtResource("5_y37hm")
+item2_name = "tomatoe"
+item2_icon = ExtResource("8_qk8hn")
 
 [node name="ui_task_caravan_slot7" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 id = 7
-stage = 2
+money = 700
+xp = 750
+item2_name = "pumpkin"
+item2_icon = ExtResource("6_3g0i7")
+item3_name = "lettuce"
+item3_icon = ExtResource("9_08pd8")
 
 [node name="ui_task_caravan_slot8" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 id = 8
-stage = 2
+money = 700
+xp = 750
+item1_name = "corn"
+item1_icon = ExtResource("4_hnwek")
+item2_name = "potatoe"
+item2_icon = ExtResource("7_2fvqg")
+item3_name = "eggplant"
+item3_icon = ExtResource("10_itr4l")
 
 [node name="ui_task_caravan_slot9" parent="MarginContainer/HBoxContainer/GridContainer" instance=ExtResource("2_8fpjj")]
 layout_mode = 2
 id = 9
-stage = 2
+money = 700
+xp = 750
+item1_name = "carrot"
+item1_icon = ExtResource("5_y37hm")
+item2_name = "tomatoe"
+item2_icon = ExtResource("8_qk8hn")
+item3_name = "watermelon"
+item3_icon = ExtResource("11_2fvqg")
 
 [node name="ui_task_caravan_task" parent="MarginContainer/HBoxContainer" instance=ExtResource("3_0m8mx")]
 layout_mode = 2

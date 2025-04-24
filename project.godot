@@ -17,7 +17,7 @@ config/tags=PackedStringArray("sehr_wichtig", "syp")
 run/main_scene="uid://drfxadsb11vre"
 config/features=PackedStringArray("4.4", "Forward Plus")
 run/max_fps=60
-boot_splash/image="uid://d37jikafjk136"
+boot_splash/image="uid://b17cec870lxyy"
 config/icon="uid://dfwicncnma3af"
 
 [autoload]
@@ -214,5 +214,6 @@ interact3={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+textures/vram_compression/import_etc2_astc=true
 2d/snap/snap_2d_transforms_to_pixel=true
 2d/snap/snap_2d_vertices_to_pixel=true
