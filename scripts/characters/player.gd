@@ -63,6 +63,9 @@ func _ready() -> void:
 	if SceneSwitcher.player_position != Vector2.ZERO:
 		call_deferred("_check_position_after_building_exit")
 	
+	# Update money display immediately on ready
+	do_set_money()
+	
 	# Nur initialisieren, wenn das Inventar leer ist (neues Spiel)
 	if SaveGame.get_inventory().size() == 0:
 		SaveGame.add_to_inventory("carrot", 20)
@@ -262,3 +265,7 @@ func do_set_level():
 
 func do_set_money():
 	money_label.text = str(SaveGame.get_money())
+
+# Function to get the player's current money from SaveGame
+func get_money() -> int:
+	return SaveGame.get_money()
