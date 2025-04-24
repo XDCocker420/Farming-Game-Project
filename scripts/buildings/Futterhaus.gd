@@ -5,6 +5,7 @@ extends StaticBody2D
 @onready var garage_door_area: Area2D = $GarageDoorArea
 @onready var door: AnimatedSprite2D = $Door
 @onready var garage_door: AnimatedSprite2D = $GarageDoor
+@onready var building_label: Label = $FutterhausLabel 
 
 var in_door_area = false
 var in_garage_door_area = false
@@ -15,6 +16,8 @@ var in_garage_door_area = false
 var player_in_feed_area: bool = false
 
 func _ready() -> void:
+	if building_label:
+		building_label.hide()
 	# Verbinde die Signale
 	if player:
 		player.interact.connect(_on_player_interact)
@@ -75,6 +78,8 @@ func _on_garage_door_area_exited(body: Node2D) -> void:
 func _on_feed_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		player_in_feed_area = true
+		if building_label:
+			building_label.show()
 		if body.has_method("show_interaction_prompt"):
 			body.show_interaction_prompt("Press E to use Feed Mill")
 
@@ -83,5 +88,7 @@ func _on_feed_area_body_exited(body: Node2D) -> void:
 		player_in_feed_area = false
 		production_ui_feed.hide()
 		inventory_ui_feed.hide()
+		if building_label:
+			building_label.hide()
 		if body.has_method("hide_interaction_prompt"):
 			body.hide_interaction_prompt()

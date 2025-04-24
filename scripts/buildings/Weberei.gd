@@ -3,11 +3,14 @@ extends StaticBody2D
 @onready var player: CharacterBody2D = %Player
 @onready var door_area: Area2D = $DoorArea
 @onready var door: AnimatedSprite2D = $Door
+@onready var building_label: Label = $WebereiLabel 
 
 var in_door_area = false
 var interior_scene_path = "res://scenes/buildings/Weberei_interior.tscn"
 
 func _ready() -> void:
+	if building_label:
+		building_label.hide()
 	# Verbinde die Signale
 	if player:
 		player.interact.connect(_on_player_interact)
@@ -23,8 +26,12 @@ func _on_door_area_entered(body: Node2D) -> void:
 	if body.is_in_group("Player") && LevelingHandler.is_building_unlocked("weberei"):
 		in_door_area = true
 		door.play("door")
+		if building_label:
+			building_label.show()
 
 func _on_door_area_exited(body: Node2D) -> void:
 	if body.is_in_group("Player"):
 		in_door_area = false
-		door.play_backwards("door") 
+		door.play_backwards("door")
+		if building_label:
+			building_label.hide() 
