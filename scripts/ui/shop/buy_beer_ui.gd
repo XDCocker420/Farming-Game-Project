@@ -57,6 +57,9 @@ func _on_buy_pressed():
 		
 		# Emit signal that item was purchased
 		item_purchased.emit(BEER_ITEM, quantity)
+		
+		# Print game end message
+		print("Spielende")
 	
 
 func _on_close_button_pressed():
