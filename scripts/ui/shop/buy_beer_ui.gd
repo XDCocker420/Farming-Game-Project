@@ -6,7 +6,7 @@ signal item_purchased(item, quantity)
 @onready var ui_slot = $MarginContainer/slots/ui_slot
 
 const BEER_ITEM = "beer"
-const BEER_PRICE = 10  # Price per beer
+const BEER_PRICE = 100000  # Price per beer
 var quantity = 1
 var player_money = 0
 
@@ -22,6 +22,10 @@ func _on_visibility_changed():
 		update_display()
 
 func update_display():
+	# Setup the slot to display the beer item
+	if ui_slot and ui_slot.has_method("setup"):
+		ui_slot.setup(BEER_ITEM, "", false, 1) # Show beer icon, no text, not clickable, quantity 1
+	
 	# Get player reference and update money display
 	var player = get_tree().get_first_node_in_group("Player")
 	if player and player.has_method("get_money"):
