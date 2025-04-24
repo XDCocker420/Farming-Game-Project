@@ -40,18 +40,6 @@ var follow_mouse:bool = false
 
 var temp_money:int
 
-@export var AM: bool:
-	set(value):
-		SaveGame.add_money(20)
-		
-@export var RM: bool:
-	set(value):
-		SaveGame.remove_money(20)
-		
-@export var AE: bool:
-	set(value):
-		LevelingHandler.add_experience_points(50)
-
 
 func _ready() -> void:
 	LevelingHandler.exp_changed.connect(_on_exp_changed)

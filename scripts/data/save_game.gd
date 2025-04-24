@@ -25,7 +25,8 @@ func _ready() -> void:
 
 	start_auto_save_timer()
 	# Attempt to load existing game data
-	load_game()
+	if SceneSwitcher.get_current_scene_name() not in ["start_screen", "intro"]:
+		load_game()
 
 
 func save_game() -> void:
@@ -62,10 +63,11 @@ func save_exp_lvl() -> void:
 func load_game() -> void:
 	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
 	if saved_game == null:
+		#print("nene nix safe")
 		# For testing
-		#LevelingHandler.set_player_level(10)
+		LevelingHandler.set_player_level(10)
 		# For production
-		LevelingHandler.set_player_level(1)
+		#LevelingHandler.set_player_level(1)
 		inventory.money = 100
 		new_game = true
 		return
@@ -79,6 +81,7 @@ func load_game() -> void:
 			old_inventory = inventory.data.duplicate()
 		
 		inventory = saved_game.inventory
+		print(saved_game.player_level)
 		LevelingHandler.set_player_level(saved_game.player_level)
 		LevelingHandler.set_experience_in_current_level(saved_game.player_experience_per_level)
 		player.global_position = saved_game.player_position
