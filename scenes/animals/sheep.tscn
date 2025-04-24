@@ -1,12 +1,12 @@
 [gd_scene load_steps=34 format=3 uid="uid://nv1jgb37xufl"]
 
-[ext_resource type="Script" uid="uid://dwp2bkf7u87nq" path="res://scripts/animals/animal_help.gd" id="1_b10s4"]
-[ext_resource type="Texture2D" uid="uid://ddcqelklfbbkg" path="res://assets/animals/farm_animals/sheep animation.png" id="2_b10s4"]
+[ext_resource type="Script" uid="uid://dbyhs3b417m6h" path="res://scripts/animals/animal_help.gd" id="1_b10s4"]
+[ext_resource type="Texture2D" uid="uid://csonc508ahriw" path="res://assets/animals/farm_animals/sheep animation.png" id="2_b10s4"]
 [ext_resource type="Script" uid="uid://cdwxjc2autrp8" path="res://scripts/state_management/state_machine.gd" id="2_m0wud"]
 [ext_resource type="Script" uid="uid://bdmdtyk52qm4n" path="res://scripts/animals/animal_fed.gd" id="3_66kpi"]
 [ext_resource type="Script" uid="uid://b4m6baeg7pxyh" path="res://scripts/animals/animal_full.gd" id="4_q68jm"]
 [ext_resource type="Script" uid="uid://cfadmajc7cjkx" path="res://scripts/animals/animal_hungry.gd" id="5_fq3ju"]
-[ext_resource type="Texture2D" uid="uid://cx2a2ymcoxhsq" path="res://assets/ui/icons/white_wool.png" id="6_thsxa"]
+[ext_resource type="Texture2D" uid="uid://b0xa8k5g56v5i" path="res://assets/ui/icons/white_wool.png" id="6_thsxa"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_b10s4"]
 atlas = ExtResource("2_b10s4")
@@ -222,6 +222,7 @@ _data = {
 
 [node name="Sheep" type="CharacterBody2D" groups=["Animal"]]
 motion_mode = 1
+wall_min_slide_angle = 0.0
 script = ExtResource("1_b10s4")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

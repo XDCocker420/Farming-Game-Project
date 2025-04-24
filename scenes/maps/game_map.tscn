@@ -1,4 +1,4 @@
-[gd_scene load_steps=40 format=4 uid="uid://7401yxdfc7e2"]
+[gd_scene load_steps=43 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
 [ext_resource type="Script" uid="uid://ca5722omxd1c8" path="res://scripts/utility/game_map_load.gd" id="1_dnbah"]
@@ -3491,15 +3491,30 @@ texture = ExtResource("2_6ts4f")
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_xsdhu")
 
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_1slmc"]
+vertices = PackedVector2Array(5379.94, 262.57, 5351.99, 261.398, 5351, -1148.69, 5373.05, -1150.26)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(5341, -1158, 5342, 271, 5390, 273, 5383, -1161)])
+
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_xsdhu"]
-vertices = PackedVector2Array(5448.87, -443.047, 5449.87, -363.148, 5275.38, -365.844, 5281.61, -526.062, 5444.15, -449, 6092.02, -826.383, 6098.22, -826.609, 6106.77, -440.039, 6093.03, -449, 5424.25, -526.961, 5436.41, -511.938)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3, 4), PackedInt32Array(5, 6, 7, 8), PackedInt32Array(8, 7, 0, 4), PackedInt32Array(4, 3, 9, 10)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(5272, -536, 5265, -356, 5460, -353, 5459, -433, 6117, -430, 6108, -837, 6082, -836, 6083, -459, 5453, -459, 5446, -516, 5429, -537)])
+vertices = PackedVector2Array(6562, -450.008, 6562, -435, 4176, -435, 4176, -453.977)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(4166, -464, 6572, -460, 6572, -425, 4166, -425)])
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_4a4yq"]
-vertices = PackedVector2Array(6105.45, -837.969, 6108.28, -820.039, 4664.06, -825.031, 4653.04, -833.031, 4656.95, 7.00781, 4658.98, -19.4062, 4674.31, -1.00781, 6101.97, 8.97656, 6093.09, 1.00781, 6101.01, -457.297, 6089.09, -457.672)
-polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 3, 2, 5), PackedInt32Array(4, 5, 6), PackedInt32Array(7, 4, 6, 8), PackedInt32Array(9, 7, 8, 10)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(6114, -848, 4643, -843, 4647, 17, 6112, 19, 6111, -467, 6079, -468, 6083, -9, 4679, -11, 4669, -23, 4674, -815, 6120, -810)])
+vertices = PackedVector2Array(6550, -1138.99, 6550.99, 252, 6538.02, 224, 6535.99, -1108.21, 4210.65, -1125.65, 4189.02, -1121.57, 4186.99, -1121.19, 4188.24, -1137, 4223.07, -1128, 6526, 235, 6526, 224, 4184.03, 252.992, 4211, 236, 4209.86, -1117, 4199.98, -1117, 6528.78, -1110.61, 6526.35, -1123.99, 4202.01, 225.953, 4211, 226.953)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3), PackedInt32Array(4, 5, 6, 7, 8), PackedInt32Array(9, 10, 2, 1), PackedInt32Array(9, 1, 11, 12), PackedInt32Array(4, 13, 14, 5), PackedInt32Array(0, 3, 15, 16), PackedInt32Array(7, 0, 16, 8), PackedInt32Array(11, 5, 14, 17), PackedInt32Array(12, 11, 17, 18)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(4179, -1147, 6560, -1149, 6561, 262, 4174, 263, 4179, -1116, 4220, -1118, 4219, -1107, 4210, -1107, 4212, 217, 4221, 218, 4221, 226, 6516, 225, 6516, 214, 6528, 214, 6526, -1101, 6520, -1103, 6518, -1114, 4224, -1118, 4176, -1109)])
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_kt1fv"]
+vertices = PackedVector2Array(5523.59, -927.297, 5346.28, -934.5, 5355.12, -975.273, 5539.5, -981.531)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(5347, -985, 5553, -992, 5531, -917, 5334, -925)])
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_2hf3k"]
+vertices = PackedVector2Array(5452.23, -533.039, 5456.74, -347.328, 5255.34, -353.68, 5261.65, -533.953)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(5252, -544, 5462, -543, 5467, -337, 5245, -344)])
 
 [node name="Game" type="Node2D"]
 script = ExtResource("1_dnbah")
@@ -3577,29 +3592,84 @@ position = Vector2(-558, -588)
 position = Vector2(336, 144)
 
 [node name="Cow" parent="Map/Tiergehege/Kuhbereich" instance=ExtResource("11_asbbj")]
-position = Vector2(36, 61)
-walk_point = Vector2(60, 2)
+position = Vector2(42, 70)
+wall_min_slide_angle = 0.0
+looking_direction = 3
+walk_point = Vector2(412, 214)
+
+[node name="Cow2" parent="Map/Tiergehege/Kuhbereich" instance=ExtResource("11_asbbj")]
+position = Vector2(139, 68)
+wall_min_slide_angle = 0.0
+walk_point = Vector2(475, 241)
+
+[node name="Cow3" parent="Map/Tiergehege/Kuhbereich" instance=ExtResource("11_asbbj")]
+position = Vector2(41, 115)
+wall_min_slide_angle = 0.0
+looking_direction = 3
+walk_point = Vector2(424, 258)
+
+[node name="Cow4" parent="Map/Tiergehege/Kuhbereich" instance=ExtResource("11_asbbj")]
+position = Vector2(136, 146)
+wall_min_slide_angle = 0.0
+looking_direction = 2
+walk_point = Vector2(405, 292)
 
 [node name="Hühnerstall" parent="Map/Tiergehege" instance=ExtResource("7_8ejyj")]
 position = Vector2(880, 144)
 
 [node name="Chicken" parent="Map/Tiergehege/Hühnerstall" instance=ExtResource("12_g5cve")]
-position = Vector2(73, 88)
-walk_point = Vector2(34, 87)
+position = Vector2(38, 64)
+walk_point = Vector2(965, 205)
+
+[node name="Chicken2" parent="Map/Tiergehege/Hühnerstall" instance=ExtResource("12_g5cve")]
+position = Vector2(134, 64)
+walk_point = Vector2(1019, 254)
+
+[node name="Chicken3" parent="Map/Tiergehege/Hühnerstall" instance=ExtResource("12_g5cve")]
+position = Vector2(34, 119)
+walk_point = Vector2(977, 267)
+
+[node name="Chicken4" parent="Map/Tiergehege/Hühnerstall" instance=ExtResource("12_g5cve")]
+position = Vector2(141, 148)
+walk_point = Vector2(939, 294)
 
 [node name="Schafbereich" parent="Map/Tiergehege" instance=ExtResource("7_8ejyj")]
 position = Vector2(608, 144)
 
 [node name="Sheep" parent="Map/Tiergehege/Schafbereich" instance=ExtResource("13_1slmc")]
-position = Vector2(70, 88)
-walk_point = Vector2(35, 87)
+position = Vector2(40, 66)
+walk_point = Vector2(696, 208)
+
+[node name="Sheep2" parent="Map/Tiergehege/Schafbereich" instance=ExtResource("13_1slmc")]
+position = Vector2(132, 70)
+walk_point = Vector2(739, 260)
+
+[node name="Sheep3" parent="Map/Tiergehege/Schafbereich" instance=ExtResource("13_1slmc")]
+position = Vector2(40, 128)
+walk_point = Vector2(743, 251)
+
+[node name="Sheep4" parent="Map/Tiergehege/Schafbereich" instance=ExtResource("13_1slmc")]
+position = Vector2(131, 141)
+walk_point = Vector2(680, 299)
 
 [node name="Schweinebereich" parent="Map/Tiergehege" instance=ExtResource("7_8ejyj")]
 position = Vector2(48, 144)
 
 [node name="Pig" parent="Map/Tiergehege/Schweinebereich" instance=ExtResource("14_xsdhu")]
-position = Vector2(73, 93)
-walk_point = Vector2(34, 94)
+position = Vector2(41, 66)
+walk_point = Vector2(135, 206)
+
+[node name="Pig2" parent="Map/Tiergehege/Schweinebereich" instance=ExtResource("14_xsdhu")]
+position = Vector2(41, 114)
+walk_point = Vector2(90, 295)
+
+[node name="Pig3" parent="Map/Tiergehege/Schweinebereich" instance=ExtResource("14_xsdhu")]
+position = Vector2(129, 67)
+walk_point = Vector2(190, 251)
+
+[node name="Pig4" parent="Map/Tiergehege/Schweinebereich" instance=ExtResource("14_xsdhu")]
+position = Vector2(136, 147)
+walk_point = Vector2(144, 259)
 
 [node name="Town" type="Node2D" parent="Map"]
 position = Vector2(720, 16)
@@ -4061,19 +4131,28 @@ position = Vector2(-2538, 531)
 
 [node name="Annabeth" parent="Map/NPCs" node_paths=PackedStringArray("market", "day_and_night") instance=ExtResource("22_congb")]
 position = Vector2(5416, -403)
-important_points = Array[Vector2]([Vector2(5361, -465)])
+important_points = Array[Vector2]([Vector2(2778, 49)])
 market = NodePath("../../Town/Markt")
 day_and_night = NodePath("../../../TagUndNacht")
 items_to_buy = Array[String](["carrot"])
 
-[node name="Obstacles" type="Node2D" parent="Map"]
+[node name="NavigationRegions" type="Node2D" parent="Map"]
 position = Vector2(-2538, 531)
 
-[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Map/Obstacles"]
+[node name="NavigationRegion2D3" type="NavigationRegion2D" parent="Map/NavigationRegions"]
+navigation_polygon = SubResource("NavigationPolygon_1slmc")
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="Map/NavigationRegions"]
 navigation_polygon = SubResource("NavigationPolygon_xsdhu")
 
-[node name="NavigationRegion2D2" type="NavigationRegion2D" parent="Map/Obstacles"]
+[node name="NavigationRegion2D2" type="NavigationRegion2D" parent="Map/NavigationRegions"]
 navigation_polygon = SubResource("NavigationPolygon_4a4yq")
+
+[node name="NavigationRegion2D4" type="NavigationRegion2D" parent="Map/NavigationRegions"]
+navigation_polygon = SubResource("NavigationPolygon_kt1fv")
+
+[node name="NavigationRegion2D5" type="NavigationRegion2D" parent="Map/NavigationRegions"]
+navigation_polygon = SubResource("NavigationPolygon_2hf3k")
 
 [node name="TagUndNacht" type="CanvasModulate" parent="."]
 visible = false

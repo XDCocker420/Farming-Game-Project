@@ -1,12 +1,12 @@
 [gd_scene load_steps=34 format=3 uid="uid://b4nypa5u5sf3y"]
 
-[ext_resource type="Script" uid="uid://dwp2bkf7u87nq" path="res://scripts/animals/animal_help.gd" id="1_l1uqc"]
-[ext_resource type="Texture2D" uid="uid://ngk7tx8iggjv" path="res://assets/animals/farm_animals/pig animation.png" id="3_0lnhb"]
+[ext_resource type="Script" uid="uid://dbyhs3b417m6h" path="res://scripts/animals/animal_help.gd" id="1_l1uqc"]
+[ext_resource type="Texture2D" uid="uid://b78sxpgajprgr" path="res://assets/animals/farm_animals/pig animation.png" id="3_0lnhb"]
 [ext_resource type="Script" uid="uid://cdwxjc2autrp8" path="res://scripts/state_management/state_machine.gd" id="3_vrn31"]
 [ext_resource type="Script" uid="uid://bdmdtyk52qm4n" path="res://scripts/animals/animal_fed.gd" id="4_0nxyp"]
 [ext_resource type="Script" uid="uid://b4m6baeg7pxyh" path="res://scripts/animals/animal_full.gd" id="5_pjij6"]
 [ext_resource type="Script" uid="uid://cfadmajc7cjkx" path="res://scripts/animals/animal_hungry.gd" id="6_u8lkb"]
-[ext_resource type="Texture2D" uid="uid://cu6bpheed403c" path="res://assets/ui/icons/milk.png" id="7_jhfv3"]
+[ext_resource type="Texture2D" uid="uid://epnpb04cyark" path="res://assets/ui/icons/milk.png" id="7_jhfv3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l1uqc"]
 atlas = ExtResource("3_0lnhb")
@@ -221,6 +221,8 @@ _data = {
 }
 
 [node name="Pig" type="CharacterBody2D"]
+motion_mode = 1
+wall_min_slide_angle = 0.0
 script = ExtResource("1_l1uqc")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

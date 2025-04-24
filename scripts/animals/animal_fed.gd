@@ -1,7 +1,7 @@
 extends State
 class_name  AnimalFed
 
-var position:Vector2
+#var position:Vector2
 var move_direction:Vector2
 var wander_time:float
 @export var animal:CharacterBody2D
@@ -37,6 +37,7 @@ func _translate(name:String):
 
 func enter():
 	walk_to_point = $"../..".walk_point
+	print(walk_to_point)
 	target = walk_to_point
 	match $"../..".looking_direction:
 		1:
@@ -52,12 +53,12 @@ func enter():
 		
 func physics_update(_delta:float):
 	if animal:
-		if (walk_to_point - animal.position).length() < 2:
+		if (walk_to_point - animal.global_position).length() <= 2:
 			target = original_pos
 
-		elif (original_pos - animal.global_position).length() < 2:
+		elif (original_pos - animal.global_position).length() <= 2:
 			target = walk_to_point
-		
+
 		move_direction = target - animal.global_position
 		animal.velocity = move_direction.normalized() * move_speed
 		if move_direction.x > 0:

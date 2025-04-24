@@ -5,7 +5,7 @@ extends Area2D
 @onready var door_area: Area2D = $Area2D
 @onready var door_collision:CollisionShape2D = $StaticBody2D/CollisionShape2D
 @onready var interact_range:Area2D = $InteractionArea
-@onready var ui:PanelContainer = $FeedingUi
+@onready var ui:PanelContainer = $CanvasLayer/FeedingUi
 @onready var text:Label = $Mode
 
 var in_interact_area:bool = false
@@ -25,7 +25,11 @@ func _ready() -> void:
 	ui.feeding_state.connect(_on_feeding)
 	
 func _on_collection():
+	SaveGame.add_to_inventory("pig_food", 10)
 	SaveGame.add_to_inventory("cow_food", 10)
+	SaveGame.add_to_inventory("sheep_food", 10)
+	SaveGame.add_to_inventory("chicken_food", 10)
+	
 	collecting_state.emit()
 	text.text = "Einsammeln"
 	text.show()

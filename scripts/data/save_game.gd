@@ -234,7 +234,7 @@ func start_auto_save_timer() -> void:
 	
 func update_player() -> void:
 	player = get_tree().get_first_node_in_group("Player")
-	player.do_set_level()
+#	player.do_set_level()
 	
 func check_new_game():
 	return new_game

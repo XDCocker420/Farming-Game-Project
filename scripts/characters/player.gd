@@ -101,6 +101,7 @@ func _input(event: InputEvent) -> void:
 		interact.emit()
 		
 	if event.is_action_pressed("interact2"):
+		print(global_position)
 		interact2.emit()
 		
 	if event.is_action_pressed("jump"):
