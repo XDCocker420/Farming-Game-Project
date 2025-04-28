@@ -185,7 +185,6 @@ func _on_produce_button_pressed():
 		if workstation_id != "" and out_item != "":
 			SaveGame.set_production_state(workstation_id, {"output_item": out_item, "end_time_ms": end_time_ms})
 			SaveGame.save_game() # Save immediately after starting production
-			print("[ProductionUI] Started and saved production state for ", workstation_id, ": ", {"output_item": out_item, "end_time_ms": end_time_ms})
 		# --- END: Persist Production State ---
 		
 		production_timer = 0.0
@@ -356,7 +355,6 @@ func setup(workstation_name: String, inventory_ui_ref = null):
 			if output_slot and output_slot.has_method("setup"):
 				output_slot.setup(saved_output.item, "", true, saved_output.count)
 				loaded_output_state = true
-				print("Loaded output state for ", workstation_id, ": ", saved_output)
 	# --- END LOAD SAVED OUTPUT STATE ---
 	
 	# Check OUTPUT slot: Clear it ONLY if state wasn't loaded AND it doesn't contain the correct output item
@@ -396,7 +394,6 @@ func setup(workstation_name: String, inventory_ui_ref = null):
 				if input_slot: input_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				if input_slot2: input_slot2.mouse_filter = Control.MOUSE_FILTER_IGNORE
 				if output_slot: output_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
-				print("[ProductionUI] Resumed production visual for ", workstation_id, " Timer: ", production_timer, "/", production_duration)
 			# Else: Production finished while away, global check handled it.
 			# Output slot state was already loaded above.
 			
@@ -464,7 +461,6 @@ func _process_single_item() -> void:
 		
 	if output_slot.has_method("setup"):
 		output_slot.setup(output_item, "", true, target_visual_count)
-		# print("[ProductionUI] Visually updated output slot for ", output_item, " count: ", target_visual_count)
 	
 	# Disable the produce button until more input is added VISUALLY
 	if produce_button:
@@ -648,19 +644,15 @@ func _refresh_targeted_inventory_ui(item_to_adjust: String = "", adjustment: int
 	if scheune_ui and is_instance_valid(scheune_ui): # Check if reference is valid
 		if item_to_adjust != "" and adjustment != 0 and scheune_ui.has_method("adjust_visual_count"):
 			# Adjust visual count directly if requested
-			# print("[ProductionUI] Found scheune UI (", scheune_ui.name, "), calling adjust_visual_count(", item_to_adjust, ", ", adjustment, ")") # Debug print removed for clarity
 			scheune_ui.adjust_visual_count(item_to_adjust, adjustment)
 			return # Stop execution after visual adjustment
 		elif scheune_ui.has_method("reload_slots"): # Check again for safety
 			# Otherwise, do a full reload (e.g., when production finishes or fails)
-			# print("[ProductionUI] Found scheune UI (", scheune_ui.name, "), calling reload_slots") # Debug print removed for clarity
 			if scheune_ui.has_method("set_workstation_filter"): # Check method existence
 				# Pass the *base* workstation name for filtering purposes
 				var base_workstation_name = current_workstation.replace("molkerei_", "").replace("weberei_", "") # Extract base name
 				# TODO: Add more replaces if other building prefixes exist (e.g., "futterhaus_")
 				scheune_ui.set_workstation_filter(base_workstation_name) # This already triggers reload_slots
-			# REMOVED: Redundant reload_slots call, as set_workstation_filter already calls it.
-			# scheune_ui.reload_slots(true) 
 		else:
 			push_warning("Target inventory UI (", scheune_ui.name, ") is missing required methods (reload_slots or adjust_visual_count).")
 	else:

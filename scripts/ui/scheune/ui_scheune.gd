@@ -254,43 +254,43 @@ func find_slot_by_item_name(item_name: String):
 
 # NEW: Function to visually adjust the count of an item without changing SaveGame
 func adjust_visual_count(item_name: String, adjustment: int):
-	print("[ScheuneUI] adjust_visual_count called for item: ", item_name, " adjustment: ", adjustment)
+	# print("[ScheuneUI] adjust_visual_count called for item: ", item_name, " adjustment: ", adjustment)
 	var slot = find_slot_by_item_name(item_name)
 	if slot:
-		print("[ScheuneUI] Found slot for item: ", item_name)
+		# print("[ScheuneUI] Found slot for item: ", item_name)
 		var amount_label = slot.get_node_or_null("amount") # Adjust path if needed
 		if amount_label is Label:
-			print("[ScheuneUI] Found amount label: ", amount_label.text)
+			# print("[ScheuneUI] Found amount label: ", amount_label.text)
 			var current_count = 0
 			if amount_label.text.is_valid_int():
 				current_count = int(amount_label.text)
 			
 			var new_count = current_count + adjustment
-			print("[ScheuneUI] Current count: ", current_count, " New count: ", new_count)
+			# print("[ScheuneUI] Current count: ", current_count, " New count: ", new_count)
 			
 			if new_count > 0:
 				amount_label.text = str(new_count)
 				amount_label.show()
 				# Ensure the slot itself is visible if it might have been hidden
 				slot.show()
-				print("[ScheuneUI] Updated label text to: ", new_count, " and showed slot.")
+				# print("[ScheuneUI] Updated label text to: ", new_count, " and showed slot.")
 			else:
 				# If count drops to 0 or below, hide the slot visually
 				# We don't remove it, as a full refresh would bring it back
 				# if the SaveGame still has it.
 				amount_label.text = "0"
 				slot.hide() # Hide the entire slot
-				print("[ScheuneUI] Set label text to 0 and hid slot.")
+				# print("[ScheuneUI] Set label text to 0 and hid slot.")
 		else:
 			push_warning("Could not find amount Label in slot for visual adjustment: %s" % item_name)
-			print("[ScheuneUI] ERROR: Could not find amount label for slot.")
+			# print("[ScheuneUI] ERROR: Could not find amount label for slot.")
 	else:
 		# If the slot doesn't exist (e.g., item count was already 0 visually),
 		# and we are incrementing, we might need to trigger a full reload
 		# if adjustment > 0:
 		#     reload_slots(true) # Consider if this is needed
 		pass # Do nothing if slot not found for decrement
-		print("[ScheuneUI] Did not find slot for item: ", item_name)
+		# print("[ScheuneUI] Did not find slot for item: ", item_name)
 
 # Function to update the visual count in the UI
 func update_visuals():
