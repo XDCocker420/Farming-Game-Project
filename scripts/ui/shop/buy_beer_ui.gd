@@ -47,19 +47,19 @@ func _on_buy_pressed():
 	# Check if player has enough money using the fetched value
 	if current_money >= BEER_PRICE * quantity:
 		# Deduct money using SaveGame
-		SaveGame.remove_money(BEER_PRICE * quantity)
-		
-		# Add beer to player inventory using SaveGame
-		SaveGame.add_to_inventory(BEER_ITEM, quantity)
-		
-		# Update UI - This will fetch the new money value
-		update_display()
-		
-		# Emit signal that item was purchased
-		item_purchased.emit(BEER_ITEM, quantity)
-		
-		# Print game end message
-		print("Spielende")
+		if SaveGame.remove_money(BEER_PRICE * quantity):
+			# Add beer to player inventory using SaveGame
+			SaveGame.add_to_inventory(BEER_ITEM, quantity)
+			
+			# Update UI - This will fetch the new money value
+			update_display()
+			
+			# Emit signal that item was purchased
+			item_purchased.emit(BEER_ITEM, quantity)
+			
+			# Print game end message
+			print("Game Over")
+			hide()
 	
 
 func _on_close_button_pressed():

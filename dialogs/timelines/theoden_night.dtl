@@ -1,2 +1,2 @@
-theoden: Ich muss ins Bett bitte bitte
+theoden: I must go to bed, please please
 set {inputs.should_move} = true

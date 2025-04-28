@@ -2,7 +2,7 @@ Sigma
 - End It
 	set {inputs.should_move} = true
 	[end_timeline]
-- Weiter reden
-	Na bro kein Bock muss nicht
+- Keep talking
+	Nah bro, I don't feel like it. You don't have to either.
 	set {inputs.should_move} = true
 	[end_timeline]

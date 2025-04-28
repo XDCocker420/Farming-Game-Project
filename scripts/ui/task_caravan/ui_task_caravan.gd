@@ -58,7 +58,7 @@ func _on_slot_selected(id: int, items_dict: Dictionary, money_reward: int, xp_re
 	current_selected_money = money_reward
 	current_selected_xp = xp_reward
 	
-	task_label.text = "Auftrag " + str(id)
+	task_label.text = "Task " + str(id)
 	
 	# Update display labels (using the passed items_dict)
 	item1_amount_label.text = str(items_dict["item1"][1])

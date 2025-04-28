@@ -27,7 +27,7 @@ func _on_dialogic_signal(argument:String):
 		# Build the JSON payload.
 		var payload = {
 			"contents": [{
-				"parts": [{"text": Dialogic.VAR.inputs.custom_question + "Die Ausgabe soll maximal 30 Wörter haben"}]
+				"parts": [{"text": Dialogic.VAR.inputs.custom_question + " The output should have a maximum of 30 words"}]
 			}]
 		}
 		
@@ -47,20 +47,20 @@ func enter() -> void:
 	var timeline : DialogicTimeline = load("res://dialogs/timelines/talking1.dtl")
 	timeline.from_text("""
 		join starter center
-		starter: Howdy Freund. Wie gehts?
+		starter: What would you like to know about the game?
 		label choice
-		starter: Was möchtest du über das Spiel wissen?
-		- Wie geht es dir?
-			starter: Mir gehts super!!
+		starter: What would you like to know about the game?
+		- How are you?
+			starter: I'm doing great!!
 			jump choice
-		- Wie bekomme ich mehr Pflanzen?
-			starter: Du musst einfach hoffen, dass der Bill das einbaut
+		- How do I get more plants?
+			starter: You just have to hope that Bill implements that
 			jump choice
-		- Wie funktionieren die Tiere?
-			starter: Man geht zu den Futterplätzen und drückt die E Taste
+		- How do the animals work?
+			starter: You go to the feeding places and press the E key
 			jump choice
-		- Ich will selber etwas fragen
-			[text_input var="inputs.custom_question"]
+		- I want to ask something myself
+			[text_input text="Ask your question:" var="inputs.custom_question"]
 			[signal arg="trigger_ai"]
 			label loop1
 			if {inputs.custom_answer} == "":
@@ -68,7 +68,7 @@ func enter() -> void:
 				jump loop1
 			starter: {inputs.custom_answer}
 			jump choice
-		- Danke ich hab keine Fragen mehr
+		- Thanks, I have no more questions
 			[end_timeline]
 			[signal arg="exit_dialog"]
 		""")
@@ -84,3 +84,9 @@ func _on_request_completed(result, response_code, headers, body):
 		var response = json.get_data()
 		var data = response.candidates[0].content.parts[0].text
 		Dialogic.VAR.inputs.custom_answer = data
+
+func start_talking():
+	starter: What would you like to know about the game?
+	
+	
+func send_ai(player_name: String) -> void:

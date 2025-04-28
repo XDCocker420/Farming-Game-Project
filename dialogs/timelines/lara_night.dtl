@@ -1,2 +1,2 @@
-lara: Ich muss abhauen muss schlafen
+lara: I gotta run, need to sleep
 set {inputs.should_move} = true

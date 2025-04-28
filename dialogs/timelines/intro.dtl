@@ -1,19 +1,19 @@
 join starter center
-starter: Howdy Freund. Wie gehts?
+starter: Howdy friend. How's it going?
 label choice
-starter: Was möchtest du über das Spiel wissen?
-- Wie geht es dir?
-	starter: Mir gehts super!!
+starter: What would you like to know about the game?
+- How are you?
+	starter: I'm doing great!!
 	
 	jump choice
-- Wie bekomme ich mehr Pflanzen?
-	starter: Du musst einfach hoffen, dass der Bill das einbaut
+- How do I get more plants?
+	starter: You just have to hope that Bill implements that
 	jump choice
-- Wie funktionieren die Tiere?
-	starter: Man geht zu den Futterplätzen und drückt die E Taste
+- How do the animals work?
+	starter: You go to the feeding places and press the E key
 	jump choice
-- Ich will selber etwas fragen
-	[text_input text="Stelle deine Frage:" var="inputs.custom_question"]
+- I want to ask something myself
+	[text_input text="Ask your question:" var="inputs.custom_question"]
 	[signal arg="trigger_ai"]
 	label uu88877385u956zzabwfh (label1)
 	if {inputs.custom_answer} == "":

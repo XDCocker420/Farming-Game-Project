@@ -1,16 +1,16 @@
-martha: Na hallo
-martha: Schön dich wieder zu sehen
+martha: Well hello
+martha: Nice to see you again
 label choice
 set {inputs.custom_answer} = ""
-martha: Hast du fragen an mich??
-- Wie bekomme ich mehr Pflanzen?
-	martha: Du kannst in der Stadt nördlich vom Zentrum die Samen für die Pflanzen kaufen. 
+martha: Do you have questions for me??
+- How do I get more plants?
+	martha: You can buy the seeds for the plants in the city north of the center. 
 	jump choice
-- Wie funktionieren die Tiere?
-	martha: Man geht zu den Futterplätzen und drückt die E Taste und dann wählst du eine der 2 Optionen
+- How do the animals work?
+	martha: You go to the feeding places and press the E key and then you choose one of the 2 options
 	jump choice
-- Ich will selber etwas fragen
-	[text_input text="Stelle deine Frage:" var="inputs.custom_question"]
+- I want to ask something myself
+	[text_input text="Ask your question:" var="inputs.custom_question"]
 	[signal arg="trigger_ai"]
 	label uu88877385u956zzabwfh (label1)
 	if {inputs.custom_answer} == "":
@@ -18,5 +18,5 @@ martha: Hast du fragen an mich??
 		jump uu88877385u956zzabwfh
 	martha: {inputs.custom_answer}
 	jump choice
-- Danke ich weiß alles
+- Thanks I know everything
 	set {inputs.should_move} = true

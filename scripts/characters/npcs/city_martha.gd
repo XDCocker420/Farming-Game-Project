@@ -203,20 +203,12 @@ func _on_dialogic_signal(argument:String):
 		# Set up the headers.
 		var headers = ["Content-Type: application/json"]
 
-		var spielbeschreibung:String = "Du bist ein NPC in unserem Farming Spiel.
-		 Beantworte alle fragen so gut du kannst mit dem mitübergebenen wissen. Wenn es nicht geht dann sag einfach Es tut mir Leid das weiß ich nicht. Generell gilt, wenn eine Tür aufgeht kann man damit interagieren
-		Zu unserem Spiel: Die Steuerung: W - Nach oben, A - Nach links, S - Nach unten, D - Nach rechts, Shift - Schneller laufen, E - Mit Sachen interagieren, F - Farmfelder verlassen, Esc - Spielmenü
-		Die Gebäude: Anbaufelder: Hier können Pflanzen angebaut werden. Man bekommt höhere Chancen auf mehr Pflanzen wenn man die Pflanzen gießt
-		Hier muss man schnell sein, da es nur im ersten Stadium geht. Mit E kann man zwischen gießen und abbauen hin und her wechseln
-		Zu den Verschiedenen Produktionsgebäuden: Im Futterhaus kann Tierfutter hergestellt werden, In der Weberei kann Wolle weiterverarbeitet werden, 
-		In der Molkerei können Milchprodukte weiterverarbeitet werden. Mit E kann man alle Produktionsgebäude bis auf das Futterhaus betreten. In den Gebäuden stehen die Verschiedenen Geräte. Wenn man mit diesen per E interagiert, öffnet sich die entsprechende UI.
-		Beim Futterhaus öffnet sich direkt draußen vor dem Gebäude die UI. Nun zu den Tieren: Wenn man zu ihnen geht öffnet sich die Tür und wenn man im Tierbereich steht kann man mit E die ensprechende UI öffnen.
-		Dort gibt es dann zwei Optionen: Fütter und die jeweilige Interaktion des Tiers z.B. melken bei Kühen, scheeren bei Schafen. Wenn man eins von beiden auswählt und dann über ein Tier hovert sieht man eine Umrandung und die deutet hin, dass man die jeweilige Interaktion mit der Kuh machen kann
-		Das waren alle Infos. Nun kommt die Frage: "
+		var spielbeschreibung:String = "You are an NPC in our farming game.\nAnswer all questions as best you can with the knowledge provided. If it's not possible, just say I'm sorry, I don't know that. Generally, if a door opens, you can interact with it.\nAbout our game: Controls: W - Up, A - Left, S - Down, D - Right, Shift - Run faster, E - Interact with things, F - Leave farm fields, Esc - Game menu\nThe buildings: Crop fields: Plants can be grown here. You get higher chances of more plants if you water the plants.\nYou have to be quick here, as it only works in the first stage. With E you can switch between watering and harvesting.\nAbout the various production buildings: In the feed house, animal feed can be produced. In the weaving mill, wool can be processed further.\nIn the dairy, milk products can be processed further. With E you can enter all production buildings except the feed house. Inside the buildings are the various devices. If you interact with them via E, the corresponding UI opens.\nFor the feed house, the UI opens directly outside in front of the building. Now about the animals: When you go to them, the door opens and when you are in the animal area, you can open the corresponding UI with E.\nThere are then two options: Feed and the respective interaction of the animal, e.g., milking for cows, shearing for sheep. If you select one of the two and then hover over an animal, you see an outline indicating that you can perform the respective interaction with the cow.\nThat was all the info. Now comes the question: "
+		
 		# Build the JSON payload.
 		var payload = {
 			"contents": [{
-				"parts": [{"text": spielbeschreibung + Dialogic.VAR.inputs.custom_question + "Die Ausgabe soll maximal 50 Wörter haben"}]
+				"parts": [{"text": spielbeschreibung + Dialogic.VAR.inputs.custom_question + " The output should have a maximum of 50 words"}]
 			}]
 		}
 		
