@@ -246,7 +246,7 @@ _data = {
 size = Vector2(12, 58)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_0cyom"]
-a = Vector2(195, -4)
+a = Vector2(200, 8)
 b = Vector2(-172, -4)
 
 [sub_resource type="SegmentShape2D" id="SegmentShape2D_rt478"]
