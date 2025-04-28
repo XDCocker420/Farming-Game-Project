@@ -3768,14 +3768,14 @@ offset_left = -345.0
 offset_top = 40.0
 offset_right = -237.0
 offset_bottom = 169.0
-text = "W - Nach oben
-A - Nach links
-S - Nach unten
-D - Nach rechts
-Shift - Schneller laufen
-E - Mit Sachen interagieren
-F - Farmfelder verlassen
-Esc - Spielmenü"
+text = "W - Upwards
+A - Left
+S - Downwards
+D - Right
+Shift - Run faster
+E - Interact with everything
+F - Exit farming area
+Esc - Gamemenu"
 
 [node name="AntiRauslaufen" type="StaticBody2D" parent="."]
 z_index = 10
