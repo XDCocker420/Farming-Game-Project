@@ -178,6 +178,16 @@ func _on_produce_button_pressed():
 		# Read duration from config (default to 1s)
 		var out_item = output_items[0] if output_items.size() > 0 else ""
 		production_duration = float(item_config.get_value(out_item, "time")) if item_config and item_config.has_section(out_item) else 1.0
+		
+		# --- START: Persist Production State ---
+		var end_time_ms = Time.get_ticks_msec() + int(production_duration * 1000)
+		var workstation_id = current_workstation # Assuming this holds the unique ID
+		if workstation_id != "" and out_item != "":
+			SaveGame.set_production_state(workstation_id, {"output_item": out_item, "end_time_ms": end_time_ms})
+			SaveGame.save_game() # Save immediately after starting production
+			print("[ProductionUI] Started and saved production state for ", workstation_id, ": ", {"output_item": out_item, "end_time_ms": end_time_ms})
+		# --- END: Persist Production State ---
+		
 		production_timer = 0.0
 		production_in_progress = true
 		
@@ -357,6 +367,49 @@ func setup(workstation_name: String, inventory_ui_ref = null):
 				output_slot.clear()
 			# If item_name is correct, leave the output slot as is.
 
+	# --- LOAD/CHECK SAVED PRODUCTION STATE --- 
+	production_in_progress = false # Default to not running
+	if workstation_id != "":
+		var saved_production = SaveGame.get_production_state(workstation_id)
+		if not saved_production.is_empty():
+			# Production state exists, check if it's still running
+			var current_time_ms = Time.get_ticks_msec()
+			var remaining_time_ms = saved_production.end_time_ms - current_time_ms
+			
+			if remaining_time_ms > 0:
+				# Still running, resume visual progress
+				production_in_progress = true
+				var out_item = saved_production.output_item
+				# Recalculate duration based on saved item (in case config changes)
+				production_duration = float(item_config.get_value(out_item, "time")) if item_config and item_config.has_section(out_item) else 1.0
+				production_timer = production_duration - (remaining_time_ms / 1000.0)
+				
+				# Setup progress bar visuals
+				if progress_bar:
+					progress_bar.min_value = 0
+					progress_bar.max_value = production_duration
+					progress_bar.value = production_timer
+					progress_bar.show()
+					
+				# Disable interactions
+				if produce_button: produce_button.disabled = true
+				if input_slot: input_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				if input_slot2: input_slot2.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				if output_slot: output_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				print("[ProductionUI] Resumed production visual for ", workstation_id, " Timer: ", production_timer, "/", production_duration)
+			# Else: Production finished while away, global check handled it.
+			# Output slot state was already loaded above.
+			
+	# If not in progress, ensure progress bar is hidden and UI enabled
+	if not production_in_progress:
+		if progress_bar: progress_bar.hide()
+		# Enable button only if recipe exists (initial state)
+		if produce_button: produce_button.disabled = (input_items.size() == 0 or output_items.size() == 0)
+		if input_slot: input_slot.mouse_filter = Control.MOUSE_FILTER_STOP
+		if input_slot2: input_slot2.mouse_filter = Control.MOUSE_FILTER_STOP
+		if output_slot: output_slot.mouse_filter = Control.MOUSE_FILTER_STOP
+	# --- END LOAD/CHECK SAVED PRODUCTION STATE ---
+	
 	# Reconnect button signals for all slots
 	for slot in [input_slot, input_slot2, output_slot]:
 		if slot and slot.has_node("button"):
@@ -387,26 +440,31 @@ func _process_single_item() -> void:
 	
 	var output_item = output_items[0]
 	
-	# Check if the output slot already has items of the same type
-	var current_output_count = 0
+	# --- VISUAL UPDATE ONLY --- 
+	# The global check adds the item to the saved output state.
+	# We just update the visual representation here if the UI is active.
+	
+	# Check if the output slot already has items of the same type VISUALLY
+	var current_visual_output_count = 0
 	if output_slot.item_name == output_item:
 		var amount_label = _get_amount_label(output_slot)
-		if amount_label and amount_label.text.strip_edges() != "":
-			current_output_count = int(amount_label.text)
+		if amount_label and amount_label.text.is_valid_int():
+			current_visual_output_count = int(amount_label.text)
 		elif output_slot.item_name != "": # Assume 1 if item name is set but label empty
-			current_output_count = 1
+			current_visual_output_count = 1
 			
 	# Update the output slot's visual state
-	output_slot.setup(output_item, "", true, current_output_count + 1)
-	
-	# --- We already removed input items from SaveGame in _on_produce_button_pressed ---
-	# --- We already updated the visual input slots there too ---
-	
-	# Use the optimized refresh method for better performance (might not be needed here)
-	# _refresh_targeted_inventory_ui(current_workstation) 
-	
-	# --- No need to save game here, was saved when production started ---
-	# call_deferred("_save_game_deferred")
+	# Avoid double-counting if the global check already updated the saved state
+	# by checking the SaveGame output state directly before incrementing visually.
+	var saved_output_state = SaveGame.get_workstation_output(current_workstation)
+	var target_visual_count = current_visual_output_count + 1
+	if not saved_output_state.is_empty() and saved_output_state.item == output_item:
+		# If saved state exists and matches, use its count as the target visual
+		target_visual_count = saved_output_state.count
+		
+	if output_slot.has_method("setup"):
+		output_slot.setup(output_item, "", true, target_visual_count)
+		# print("[ProductionUI] Visually updated output slot for ", output_item, " count: ", target_visual_count)
 	
 	# Disable the produce button until more input is added VISUALLY
 	if produce_button:

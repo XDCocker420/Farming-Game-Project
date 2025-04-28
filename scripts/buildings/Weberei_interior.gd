@@ -154,8 +154,8 @@ func _cleanup_current():
 func _unhandled_input(event):
 	# Exit interior when pressing interact in exit area
 	if event.is_action_pressed("interact") and in_exit_area:
-		# --- SAVE WORKSTATION OUTPUTS BEFORE LEAVING ---
-		_save_all_workstation_outputs()
+		# --- SAVE WORKSTATION OUTPUTS BEFORE LEAVING --- (REMOVED - Handled globally/on start)
+		# _save_all_workstation_outputs()
 		# --- END SAVE ---
 		SceneSwitcher.transition_to_main.emit()
 		return
@@ -205,51 +205,6 @@ func _process(delta):
 		if not current_area_node.get_overlapping_bodies().has(player_body):
 			_cleanup_current()
 			return
-
-# NEW function to save output slot states for all workstations in this interior
-func _save_all_workstation_outputs():
-	var uis_to_check = {
-		"weberei_clothmaker": clothmaker_ui,
-		"weberei_spindle": spindle_ui
-	}
-	
-	for workstation_id in uis_to_check:
-		var ui_node = uis_to_check[workstation_id]
-		# Check if UI node and its output_slot variable are valid
-		if is_instance_valid(ui_node) and is_instance_valid(ui_node.output_slot):
-			var output_slot = ui_node.output_slot
-			var item_name = output_slot.item_name
-			var count = 0
-			
-			# Get count safely from label
-			if item_name != "":
-				# Assuming production_ui has the _get_amount_label helper
-				var amount_label = null
-				if ui_node.has_method("_get_amount_label"):
-					amount_label = ui_node._get_amount_label(output_slot)
-				else: # Fallback if helper not found
-					amount_label = output_slot.get_node_or_null("amount")
-					
-				if amount_label and amount_label is Label and amount_label.text.is_valid_int():
-					count = int(amount_label.text)
-				else:
-					count = 1 # Assuming 1 if item present but label missing/invalid
-			
-			# Save if item exists and count > 0
-			if item_name != "" and count > 0:
-				SaveGame.set_workstation_output(workstation_id, {"item": item_name, "count": count})
-				print("[Weberei] Saved state for ", workstation_id, ": ", {"item": item_name, "count": count})
-			else:
-				# Ensure state is cleared if slot is empty or invalid
-				SaveGame.clear_workstation_output(workstation_id)
-				print("[Weberei] Cleared state for ", workstation_id, " (slot empty/invalid)")
-		else:
-			# If UI or slot doesn't exist, clear any potentially stale saved state
-			print("[Weberei] Failed validity check for ", workstation_id, ". Clearing state.")
-			SaveGame.clear_workstation_output(workstation_id)
-			
-	# Save the game immediately after updating states
-	SaveGame.save_game()
 
 func _on_production_started():
 	# Play workstation animation when production actually starts
