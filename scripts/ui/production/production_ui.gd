@@ -113,29 +113,94 @@ func _on_produce_button_pressed():
 	# Sicherstellen, dass der Button nur einmal pro Klick ausgelöst wird
 	if (Time.get_ticks_msec() - last_add_time) < 150:
 		return
-	
+
 	last_add_time = Time.get_ticks_msec()
-	
-	# Check if we have valid input and not already producing
-	if input_slot and input_slot.item_name and not production_in_progress:
+
+	# Check if we have valid input items visually present and not already producing
+	if not production_in_progress and _has_required_inputs_visual():
+		
+		# --- START: Item Removal Logic ---
+		# Remove items from SaveGame *before* starting production
+		var items_removed_successfully = true
+		var item_that_failed = "" # Variable to store the item causing failure
+		
+		for required_item in input_items:
+			# Find which slot holds the item
+			var slot_to_remove_from = null
+			if input_slot and input_slot.item_name == required_item:
+				slot_to_remove_from = input_slot
+			elif input_slot2 and input_slot2.item_name == required_item:
+				slot_to_remove_from = input_slot2
+
+			if slot_to_remove_from:
+				# Check inventory count *before* attempting removal
+				if SaveGame.get_item_count(required_item) > 0:
+					SaveGame.remove_from_inventory(required_item, 1)
+					# Update the visual count in the input slot immediately after removal
+					var current_count = 0
+					var amount_label = _get_amount_label(slot_to_remove_from)
+					if amount_label and amount_label.text.strip_edges() != "":
+						current_count = int(amount_label.text)
+					
+					if current_count > 1:
+						_update_input_slot_with_target(slot_to_remove_from, required_item, current_count - 1)
+					else:
+						slot_to_remove_from.clear() # Clear slot if it was the last one visually
+
+				else:
+					# This case should ideally not happen if UI is consistent, but good to handle
+					push_warning("Attempted to start production but SaveGame inventory count for %s was 0." % required_item)
+					items_removed_successfully = false
+					item_that_failed = required_item # Store the failing item
+					break # Stop processing if an item is missing
+			else:
+				# This also shouldn't happen if _has_required_inputs_visual is correct
+				push_warning("Attempted to start production but couldn't find visual slot for %s." % required_item)
+				items_removed_successfully = false
+				item_that_failed = required_item # Store the failing item
+				break
+
+		if not items_removed_successfully:
+			# Refresh UI to reflect actual SaveGame state if removal failed
+			# This time, visually ADD BACK the item that failed removal
+			if item_that_failed != "": # Ensure we have a valid item name
+				_refresh_targeted_inventory_ui(current_workstation, item_that_failed, 1)
+			# Optionally, also trigger a full refresh for the production UI itself to be safe
+			# setup(current_workstation) # Uncomment if needed
+			return # Don't start production
+
+		# Save game *after* successfully removing all items
+		SaveGame.save_game()
+		# --- END: Item Removal Logic ---
+
 		# Read duration from config (default to 1s)
 		var out_item = output_items[0] if output_items.size() > 0 else ""
 		production_duration = float(item_config.get_value(out_item, "time")) if item_config and item_config.has_section(out_item) else 1.0
 		production_timer = 0.0
 		production_in_progress = true
+		
 		# Setup progress bar
 		progress_bar.min_value = 0
 		progress_bar.max_value = production_duration
 		progress_bar.value = 0
 		progress_bar.show()
+		
 		# Disable interactions during production
 		produce_button.disabled = true
+		input_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE # Disable clicking input slots
+		if input_slot2: input_slot2.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		output_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE # Disable clicking output slot during production
+
 		# Notify that production has started so the tool animation can play
 		emit_signal("production_started")
+		
+		# Refresh inventory UI one last time after SaveGame changes
+		_refresh_targeted_inventory_ui(current_workstation)
 
 # Direct input handler for output slot
 func _on_output_slot_input(event):
-	if event is InputEventMouseButton:
+	# Allow clicking output slot ONLY if production is NOT in progress
+	if not production_in_progress and event is InputEventMouseButton:
 		# Nur bei Mouse-Down (pressed=true) die Aktion ausführen, nicht bei Mouse-Up
 		# UND nur bei linker Maustaste (MOUSE_BUTTON_LEFT)
 		if event.pressed and event.button_index == MOUSE_BUTTON_LEFT:
@@ -143,8 +208,13 @@ func _on_output_slot_input(event):
 			_handle_output_slot_click()
 
 func _on_slot_pressed(slot):
-	if slot == input_slot:
+	# Allow clicking slots ONLY if production is NOT in progress
+	if production_in_progress:
 		return
+		
+	if slot == input_slot:
+		# Allow removing items from input slots maybe? (Future feature)
+		return 
 	elif slot == output_slot:
 		_handle_output_slot_click()
 
@@ -271,90 +341,39 @@ func setup(workstation_name: String):
 		produce_button.disabled = (input_items.size() == 0 or output_items.size() == 0)
 
 func _process_single_item() -> void:
-	# Get corresponding input/output items
-	if input_items.size() == 0 or output_items.size() == 0:
-		if produce_button:
-			produce_button.disabled = true
+	# Get corresponding output item
+	if output_items.size() == 0:
+		push_warning("Production complete but no output item defined for %s" % current_workstation)
+		# Still emit complete signal so animation stops etc.
+		process_complete.emit()
 		return
 	
 	var output_item = output_items[0]
 	
-	# Check if we have all required input items
-	var input_counts = {}
-	var all_inputs_present = true
-	
-	# Check first input slot
-	if input_slot and input_slot.item_name in input_items:
-		var count = 0
-		if "amount_label" in input_slot and input_slot.amount_label and input_slot.amount_label.text != "":
-			count = int(input_slot.amount_label.text)
-		elif input_slot.has_node("amount"):
-			var amount_label = input_slot.get_node("amount")
-			if amount_label.text != "":
-				count = int(amount_label.text)
-		else:
-			count = 1 if input_slot.item_name != "" else 0
-		input_counts[input_slot.item_name] = count
-	
-	# Check second input slot
-	if input_slot2 and input_slot2.item_name in input_items:
-		var count = 0
-		if "amount_label" in input_slot2 and input_slot2.amount_label and input_slot2.amount_label.text != "":
-			count = int(input_slot2.amount_label.text)
-		elif input_slot2.has_node("amount"):
-			var amount_label = input_slot2.get_node("amount")
-			if amount_label.text != "":
-				count = int(amount_label.text)
-		else:
-			count = 1 if input_slot2.item_name != "" else 0
-		input_counts[input_slot2.item_name] = count
-	
-	# Verify all required inputs are present
-	for required_item in input_items:
-		if not (required_item in input_counts) or input_counts[required_item] <= 0:
-			all_inputs_present = false
-			break
-	
-	if not all_inputs_present:
-		return
-	
-	# Check if the output slot already has items
+	# Check if the output slot already has items of the same type
 	var current_output_count = 0
 	if output_slot.item_name == output_item:
-		if "amount_label" in output_slot and output_slot.amount_label and output_slot.amount_label.text != "":
-			current_output_count = int(output_slot.amount_label.text)
-		elif output_slot.has_node("amount"):
-			var amount_label = output_slot.get_node("amount")
-			if amount_label.text != "":
-				current_output_count = int(amount_label.text)
-	
-	# Update the output slot
+		var amount_label = _get_amount_label(output_slot)
+		if amount_label and amount_label.text.strip_edges() != "":
+			current_output_count = int(amount_label.text)
+		elif output_slot.item_name != "": # Assume 1 if item name is set but label empty
+			current_output_count = 1
+			
+	# Update the output slot's visual state
 	output_slot.setup(output_item, "", true, current_output_count + 1)
 	
-	# Clear input slots that were used
-	if input_slot and input_slot.item_name in input_items:
-		var current_count = input_counts[input_slot.item_name]
-		if current_count <= 1:
-			input_slot.clear()
-		else:
-			input_slot.setup(input_slot.item_name, "", true, current_count - 1)
+	# --- We already removed input items from SaveGame in _on_produce_button_pressed ---
+	# --- We already updated the visual input slots there too ---
 	
-	if input_slot2 and input_slot2.item_name in input_items:
-		var current_count = input_counts[input_slot2.item_name]
-		if current_count <= 1:
-			input_slot2.clear()
-		else:
-			input_slot2.setup(input_slot2.item_name, "", true, current_count - 1)
+	# Use the optimized refresh method for better performance (might not be needed here)
+	# _refresh_targeted_inventory_ui(current_workstation) 
 	
-	# Use the optimized refresh method for better performance
-	_refresh_targeted_inventory_ui(current_workstation)
+	# --- No need to save game here, was saved when production started ---
+	# call_deferred("_save_game_deferred")
 	
-	# Save just to be safe - but deferred for better performance
-	call_deferred("_save_game_deferred")
-	
-	# Disable the produce button until more input is added
+	# Disable the produce button until more input is added VISUALLY
 	if produce_button:
-		produce_button.disabled = true
+		produce_button.disabled = not _has_required_inputs_visual()
 	
 	# Emit signal that processing is complete
 	process_complete.emit()
@@ -363,25 +382,27 @@ func _process_single_item() -> void:
 func add_input_item(item_name: String) -> void:
 	# Check if this item is valid for this workstation
 	if not (item_name in input_items):
+		# print("Item %s not valid for workstation %s" % [item_name, current_workstation])
 		return
-		
-	# Make sure we have this item in inventory - do this FIRST to avoid race conditions
+
+	# Make sure we have this item in inventory - check this FIRST
 	var inventory_count = SaveGame.get_item_count(item_name)
-	
 	if inventory_count <= 0:
+		# print("No %s in SaveGame inventory." % item_name)
 		return
-		
+
 	# Add cooldown check to prevent multiple calls
 	if (Time.get_ticks_msec() - last_add_time) < 100:
+		# print("Cooldown active, skipping add_input_item")
 		return
-	
+
 	# Store the current time
 	last_add_time = Time.get_ticks_msec()
-	
+
 	# Determine which slot to use
 	var target_slot = null
 	var other_slot = null
-	
+
 	# First check if either slot already has this item
 	if input_slot and input_slot.item_name == item_name:
 		target_slot = input_slot
@@ -399,56 +420,53 @@ func add_input_item(item_name: String) -> void:
 			other_slot = input_slot
 		else:
 			# If both slots are full but one has a different item, use the first slot
-			target_slot = input_slot
+			# This logic might need refinement depending on desired behavior for replacing items
+			target_slot = input_slot 
 			other_slot = input_slot2
-	
+
 	if not target_slot:
+		# print("No target slot found.")
 		return
-	
+
 	# Get current count if the slot already has this item
 	var current_count = 0
 	if target_slot.item_name == item_name:
-		if target_slot.has_node("amount"):
-			var amount_label = target_slot.get_node("amount")
-			if amount_label.text.strip_edges() != "":
-				current_count = int(amount_label.text)
-		elif "amount_label" in target_slot and target_slot.amount_label:
-			if target_slot.amount_label.text.strip_edges() != "":
-				current_count = int(target_slot.amount_label.text)
-		else:
-			current_count = 1
-	
+		var amount_label = _get_amount_label(target_slot)
+		if amount_label and amount_label.text.strip_edges() != "":
+			current_count = int(amount_label.text)
+		# If label is empty but item name is set, assume count is 1 (visual only)
+		elif target_slot.item_name != "": 
+			current_count = 1 
+			
 	# Calculate new count - only add one at a time
 	var new_count = current_count + 1
-	
-	# Remove the item from inventory FIRST - this must be done before updating UI
-	# to avoid race conditions with reload_slots
-	SaveGame.remove_from_inventory(item_name, 1)
-	
-	# IMPORTANT: Save game IMMEDIATELY after inventory modification to prevent
-	# race conditions with reload_slots
-	SaveGame.save_game()
-	
+
+	# --- REMOVED SaveGame modifications ---
+	# # Remove the item from inventory FIRST - this must be done before updating UI
+	# # to avoid race conditions with reload_slots
+	# SaveGame.remove_from_inventory(item_name, 1)
+	#
+	# # IMPORTANT: Save game IMMEDIATELY after inventory modification to prevent
+	# # race conditions with reload_slots
+	# SaveGame.save_game()
+	# --- END REMOVED ---
+
 	# Update the UI immediately for better responsiveness with rapid clicks
 	_update_input_slot_with_target(target_slot, item_name, new_count)
 	
-	# Enable the produce button if we have all required inputs
+	# Enable the produce button if we have all required inputs VISUALLY
 	if produce_button:
-		var all_inputs_present = true
-		for required_item in input_items:
-			var found = false
-			if input_slot and input_slot.item_name == required_item:
-				found = true
-			elif input_slot2 and input_slot2.item_name == required_item:
-				found = true
-			if not found:
-				all_inputs_present = false
-				break
-		produce_button.disabled = not all_inputs_present
-	
+		produce_button.disabled = not _has_required_inputs_visual()
+
 	# Use a very short timer to refresh inventory UI to handle rapid clicks better
-	var refresh_timer = get_tree().create_timer(0.08)  # Schnellere Aktualisierung
-	refresh_timer.timeout.connect(func(): _refresh_targeted_inventory_ui(current_workstation))
+	# This refresh is important to show the *actual* inventory count from SaveGame
+	# NO LONGER USING TIMER FOR THIS - DIRECT VISUAL UPDATE NOW
+	# var refresh_timer = get_tree().create_timer(0.08) # Schnellere Aktualisierung
+	# refresh_timer.timeout.connect(func(): _refresh_targeted_inventory_ui(current_workstation))
+
+	# INSTEAD: Directly tell the inventory UI to visually decrement the count
+	print("[ProductionUI] Calling refresh to visually adjust item: ", item_name, " by -1")
+	_refresh_targeted_inventory_ui(current_workstation, item_name, -1)
 
 # New helper function to update a specific input slot
 func _update_input_slot_with_target(target_slot, item_name, new_count):
@@ -469,15 +487,30 @@ func _update_input_slot_with_target(target_slot, item_name, new_count):
 		# Try multiple paths to update the amount label
 		var amount_updated = false
 		
-		if target_slot.has_node("amount"):
-			var amount_label = target_slot.get_node("amount")
+		var amount_label = _get_amount_label(target_slot)
+		if amount_label:
 			amount_label.text = str(new_count)
 			amount_label.show()
 			amount_updated = true
+
+# Helper function to check if required inputs are visually present in slots
+func _has_required_inputs_visual() -> bool:
+	var present_inputs = {}
+	
+	# Check first input slot
+	if input_slot and input_slot.item_name != "":
+		present_inputs[input_slot.item_name] = true
 		
-		if not amount_updated and "amount_label" in target_slot and target_slot.amount_label:
-			target_slot.amount_label.text = str(new_count)
-			target_slot.amount_label.show()
+	# Check second input slot (if it exists and is used)
+	if input_slot2 and input_slot2.item_name != "":
+		present_inputs[input_slot2.item_name] = true
+
+	# Verify all required inputs are present visually
+	for required_item in input_items:
+		if not present_inputs.has(required_item):
+			return false
+			
+	return true
 
 # Helper function to find all Scheune UIs in the scene
 func _find_scheune_ui():
@@ -512,7 +545,8 @@ func _find_scheune_ui():
 	return ui_found
 
 # More efficient function to refresh just the relevant inventory UI
-func _refresh_targeted_inventory_ui(workstation: String):
+# OR adjust visual count for a specific item
+func _refresh_targeted_inventory_ui(workstation: String, item_to_adjust: String = "", adjustment: int = 0):
 	# First try to find the inventory UI directly - prioritize exact match
 	var scheune_ui = null
 	
@@ -521,30 +555,49 @@ func _refresh_targeted_inventory_ui(workstation: String):
 	if parent:
 		# First try exact match with workstation name
 		for child in parent.get_children():
-			if workstation in child.name and "inventory_ui" in child.name and child.has_method("reload_slots"):
+			if workstation in child.name and "inventory_ui" in child.name and child.has_method("reload_slots"): # Check for reload_slots for safety
 				scheune_ui = child
 				break
 				
-		# If not found, try any inventory UI
+		# If not found, try any inventory UI that looks like a scheune
+		if not scheune_ui:
+			for child in parent.get_children():
+				if "scheune" in child.name and child.has_method("reload_slots"):
+					scheune_ui = child
+					break
+		
+		# Fallback to generic inventory_ui name
 		if not scheune_ui:
 			for child in parent.get_children():
 				if "inventory_ui" in child.name and child.has_method("reload_slots"):
 					scheune_ui = child
 					break
+
+	if scheune_ui:
+		if item_to_adjust != "" and adjustment != 0 and scheune_ui.has_method("adjust_visual_count"):
+			# Adjust visual count directly if requested
+			print("[ProductionUI] Found scheune UI (", scheune_ui.name, "), calling adjust_visual_count(", item_to_adjust, ", ", adjustment, ")")
+			scheune_ui.adjust_visual_count(item_to_adjust, adjustment)
+			return # <--- ADD RETURN HERE to stop execution after visual adjustment
+		elif scheune_ui.has_method("reload_slots"): # Check again for safety
+			# Otherwise, do a full reload (e.g., when production finishes or fails)
+			print("[ProductionUI] Found scheune UI (", scheune_ui.name, "), calling reload_slots")
+			if scheune_ui.has_method("set_workstation_filter"): # Check method existence
+				scheune_ui.set_workstation_filter(workstation)
+			scheune_ui.reload_slots(true)
+		else:
+			push_warning("Found Scheune UI, but it's missing required methods (reload_slots or adjust_visual_count).")
+			return
 	
-	if scheune_ui and scheune_ui.has_method("reload_slots"):
-		# Update this specific inventory UI
-		if scheune_ui.has_method("set_workstation_filter"):
-			scheune_ui.set_workstation_filter(workstation)
-		scheune_ui.reload_slots(true)
-		return
-	
-	# Fallback method - use find_scheune_ui as backup
-	scheune_ui = _find_scheune_ui()
-	if scheune_ui and scheune_ui.has_method("reload_slots"):
-		if scheune_ui.has_method("set_workstation_filter"):
-			scheune_ui.set_workstation_filter(workstation)
-		scheune_ui.reload_slots(true)
+	# Fallback method - use find_scheune_ui as backup IF FULL RELOAD NEEDED
+	if item_to_adjust == "" and adjustment == 0:
+		scheune_ui = _find_scheune_ui() # This finds any inventory_ui
+		if scheune_ui and scheune_ui.has_method("reload_slots"): 
+			if scheune_ui.has_method("set_workstation_filter"): # Check method existence
+				scheune_ui.set_workstation_filter(workstation)
+			scheune_ui.reload_slots(true)
+		# else: 
+		#	 push_warning("Targeted inventory UI refresh failed: Could not find a suitable inventory UI.")
 
 # Deferred save game function to improve performance
 func _save_game_deferred():
@@ -616,8 +669,9 @@ func _input(event):
 				_on_produce_button_pressed()
 
 func _process(delta: float) -> void:
-	# existing process logic for UI clicks
-	# ...existing input handling...
+	# existing process logic for UI clicks - MOVED INPUT CHECKING HERE
+	# ... existing input handling for clicks on slots/button (now checks production_in_progress)...
+
 	if production_in_progress:
 		production_timer += delta
 		progress_bar.value = production_timer
@@ -625,6 +679,12 @@ func _process(delta: float) -> void:
 			production_in_progress = false
 			progress_bar.hide()
 			# Complete production and update slots
-			_process_single_item()
-			# Re-enable produce button if inputs remain
-			produce_button.disabled = input_items.is_empty() or output_items.is_empty()
+			_process_single_item() 
+			# Re-enable produce button if inputs remain VISUALLY
+			produce_button.disabled = not _has_required_inputs_visual()
+			# Re-enable interactions after production
+			input_slot.mouse_filter = Control.MOUSE_FILTER_STOP
+			if input_slot2: input_slot2.mouse_filter = Control.MOUSE_FILTER_STOP
+			output_slot.mouse_filter = Control.MOUSE_FILTER_STOP
+			
+# ... existing code ...
