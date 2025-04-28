@@ -48,7 +48,7 @@ func _on_player_interact() -> void:
 		else:
 			production_ui_feed.show()
 			inventory_ui_feed.show()
-			production_ui_feed.setup("feed_mill")
+			production_ui_feed.setup("feed_mill", inventory_ui_feed)
 			inventory_ui_feed.setup_and_show("feed_mill")
 			if inventory_ui_feed.has_method("set_active_production_ui"):
 				inventory_ui_feed.set_active_production_ui(production_ui_feed)
