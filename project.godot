@@ -67,6 +67,7 @@ directories/dtl_directory={
 "sabrina": "res://dialogs/timelines/sabrina.dtl",
 "sabrina_night": "res://dialogs/timelines/sabrina_night.dtl",
 "scheune": "res://dialogs/timelines/tutorial/scheune.dtl",
+"style_test1": "res://dialogs/timelines/style_test1.dtl",
 "talking1": "res://dialogs/timelines/talking1.dtl",
 "theoden": "res://dialogs/timelines/theoden.dtl",
 "theoden_night": "res://dialogs/timelines/theoden_night.dtl",
