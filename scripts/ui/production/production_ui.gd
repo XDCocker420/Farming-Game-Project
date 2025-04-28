@@ -285,17 +285,15 @@ func setup(workstation_name: String):
 	if output_slot and output_slot.has_method("set_production_ui"):
 		output_slot.set_production_ui(self)
 	
-	# Clear all slots
+	# Clear INPUT slots only
 	if input_slot and input_slot.has_method("clear"):
 		input_slot.clear()
 	
 	if input_slot2 and input_slot2.has_method("clear"):
 		input_slot2.clear()
 	
-	if output_slot and output_slot.has_method("clear"):
-		output_slot.clear()
-	
-	# Reset our stored items
+	# Reset our stored items *before* checking output slot
+	var previous_output_items = output_items.duplicate()
 	input_items.clear()
 	output_items.clear()
 	
@@ -308,10 +306,10 @@ func setup(workstation_name: String):
 			input_items = ["milk"]
 			output_items = ["cheese"]
 		"mayomaker":
-			input_items = ["milk", "egg"]  # Mayo braucht jetzt Milch und Ei
+			input_items = ["milk", "egg"]
 			output_items = ["mayo"]
 		"clothmaker":
-			input_items = ["white_wool", "white_string"]  # Stoff braucht Wolle und Faden
+			input_items = ["white_wool", "white_string"]
 			output_items = ["white_cloth"]
 		"spindle":
 			input_items = ["white_wool"]
@@ -319,6 +317,13 @@ func setup(workstation_name: String):
 		"feed_mill":
 			input_items = ["corn"]
 			output_items = ["feed"]
+	
+	# Check OUTPUT slot: Clear it ONLY if it doesn't contain the correct output item
+	if output_slot and output_slot.has_method("clear"):
+		var expected_output = output_items[0] if not output_items.is_empty() else ""
+		if output_slot.item_name != expected_output:
+			output_slot.clear()
+		# If item_name is correct, leave the output slot as is.
 	
 	# Reconnect button signals for all slots
 	for slot in [input_slot, input_slot2, output_slot]:
