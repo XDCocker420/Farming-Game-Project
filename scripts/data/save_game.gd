@@ -44,7 +44,7 @@ func _ready() -> void:
 
 func save_game() -> void:
 	var save := SavedData.new()
-	update_player()
+	#update_player()
 	if player:
 		if SceneSwitcher.player_position != Vector2.ZERO:
 			save.player_position = SceneSwitcher.player_position
@@ -329,7 +329,7 @@ func start_auto_save_timer() -> void:
 	
 func update_player() -> void:
 	player = get_tree().get_first_node_in_group("Player")
-#	player.do_set_level()
+
 	
 func check_new_game():
 	return new_game

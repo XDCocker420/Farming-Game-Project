@@ -38,7 +38,7 @@ func _transiton_to_game_map():
 	
 func _on_transition_finished():
 	current_scene.get_child(0).queue_free()
-	
+	await get_tree().process_frame
 	match next_name:
 		"weberei":
 			current_scene.add_child(weberei.instantiate())
