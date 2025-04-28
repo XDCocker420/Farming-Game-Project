@@ -17,9 +17,9 @@ layout_mode = 2
 [node name="Feed" type="Button" parent="MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 0
-text = "Füttern"
+text = "Feed"
 
 [node name="Collect" type="Button" parent="MarginContainer"]
 layout_mode = 2
 size_flags_horizontal = 8
-text = "Melken"
+text = "Collect"

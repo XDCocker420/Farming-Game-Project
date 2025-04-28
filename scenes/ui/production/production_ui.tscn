@@ -63,7 +63,7 @@ theme_override_styles/panel = SubResource("StyleBoxTexture_rwnry")
 
 [node name="produce_button" type="Button" parent="Control/PanelContainer"]
 layout_mode = 2
-text = "Produzieren"
+text = "Produce"
 
 [node name="ProgressBar" type="ProgressBar" parent="Control"]
 layout_mode = 0
