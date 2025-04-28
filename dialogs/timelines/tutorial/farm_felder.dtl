@@ -1,7 +1,7 @@
 join martha center
 martha: TADDDAAAAAA!!!!!
-martha: Wir sind da!
-martha: Das Herz ❤ deiner Farm
-martha: Deine Felder !!
-martha: Hier ich zeig dir mal wie das anbauen geht
+martha: We are here!
+martha: The heart ❤ of your farm
+martha: Your fields !!
+martha: Here, I'll show you how planting works
 [signal arg="show_farming"]

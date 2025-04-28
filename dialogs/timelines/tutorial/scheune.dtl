@@ -1,5 +1,5 @@
 join martha center
-martha: Das hier ist deine Scheune
-martha: Bei ihr siehst du all dein Hab &  Gut
-martha: Drück einfach E wie bei allem anderen
+martha: This here is your barn
+martha: In it, you see all your belongings
+martha: Just press E like with everything else
 [signal arg="scheune_end"]
