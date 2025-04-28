@@ -19,3 +19,5 @@ extends Resource
 @export var contracts:Array[SavedContracts] = []
 ## All items that are insarated in the market
 @export var market_items:Array[SavedMarket] = []
+## Stores the item and count currently in workstation output slots { "workstation_id": { "item": "item_name", "count": amount } }
+@export var workstation_output_states: Dictionary = {}

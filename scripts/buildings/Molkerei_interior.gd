@@ -90,10 +90,12 @@ func _on_workstation_area_body_entered(body, workstation_name):
 			"mayomaker": current_area_node = mayomaker_area
 
 		player_in_workstation_area = true
-		current_workstation = workstation_name
+		# Use full unique ID for current_workstation
+		var full_workstation_id = "molkerei_" + workstation_name 
+		current_workstation = full_workstation_id
 		
 		# Set the current UI based on workstation
-		match workstation_name:
+		match workstation_name: # Match base name for UI nodes
 			"butterchurn":
 				current_ui = butterchurn_ui
 				current_inventory_ui = inventory_ui_butterchurn
@@ -173,6 +175,9 @@ func _cleanup_current():
 func _unhandled_input(event):
 	# Exit interior when pressing interact in exit area
 	if event.is_action_pressed("interact") and in_exit_area:
+		# --- SAVE WORKSTATION OUTPUTS BEFORE LEAVING ---
+		_save_all_workstation_outputs()
+		# --- END SAVE ---
 		SceneSwitcher.transition_to_main.emit()
 		return
 
@@ -188,11 +193,12 @@ func _unhandled_input(event):
 		current_ui.show()
 		current_inventory_ui.show()
 		
-		# Set up the production UI first
-		current_ui.setup(current_workstation)
+		# Set up the production UI first, passing the inventory UI reference
+		current_ui.setup(current_workstation, current_inventory_ui) 
 		
 		# Setup inventory UI with filtered items for this workstation
-		current_inventory_ui.setup_and_show(current_workstation)
+		var base_workstation_name = current_workstation.replace("molkerei_", "") # Extract base name
+		current_inventory_ui.setup_and_show(base_workstation_name)
 		
 		# Set the active production UI in the inventory UI AFTER setting up the inventory UI
 		# This is critical because setup_and_show recreates all the slots
@@ -225,3 +231,41 @@ func _process(delta):
 	if current_ui and current_ui.visible and current_area_node and player_body:
 		if not current_area_node.get_overlapping_bodies().has(player_body):
 			_cleanup_current()
+
+# NEW function to save output slot states for all workstations in this interior
+func _save_all_workstation_outputs():
+	var uis_to_check = {
+		"molkerei_butterchurn": butterchurn_ui,
+		"molkerei_press_cheese": press_cheese_ui,
+		"molkerei_mayomaker": mayomaker_ui
+	}
+	
+	for workstation_id in uis_to_check:
+		var ui_node = uis_to_check[workstation_id]
+		# Check if UI node and output slot exist and are valid
+		if is_instance_valid(ui_node) and is_instance_valid(ui_node.output_slot):
+			var output_slot = ui_node.output_slot
+			var item_name = output_slot.item_name
+			var count = 0
+			
+			# Get count safely from label
+			if item_name != "":
+				var amount_label = ui_node._get_amount_label(output_slot)
+				if amount_label and amount_label.text.is_valid_int():
+					count = int(amount_label.text)
+				else:
+					# If label invalid but item exists, assume 1? Or maybe 0 is safer?
+					count = 1 # Assuming 1 if item present but label missing/invalid
+			
+			# Save if item exists and count > 0
+			if item_name != "" and count > 0:
+				SaveGame.set_workstation_output(workstation_id, {"item": item_name, "count": count})
+			else:
+				# Ensure state is cleared if slot is empty or invalid
+				SaveGame.clear_workstation_output(workstation_id)
+		else:
+			# If UI or slot doesn't exist, clear any potentially stale saved state
+			SaveGame.clear_workstation_output(workstation_id)
+			
+	# Save the game immediately after updating states
+	SaveGame.save_game()
