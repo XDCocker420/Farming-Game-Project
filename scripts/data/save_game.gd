@@ -9,6 +9,10 @@ const AUTO_SAVE_INTERVAL: float = 60.0  # Save every 60 seconds
 var inventory:Inventory = Inventory.new()
 var con_sav:Array[SavedContracts] = []
 var market_sav:Array[SavedMarket] = []
+# Dictionary to hold the state of items left in workstation output slots
+var workstation_output_states: Dictionary = {}
+# Dictionary to hold the state of ongoing productions
+var workstation_production_states: Dictionary = {}
 
 var map = null
 @onready var player = get_tree().get_first_node_in_group("Player")
@@ -28,6 +32,14 @@ func _ready() -> void:
 	# Attempt to load existing game data
 	if SceneSwitcher.get_current_scene_name() not in ["start_screen", "intro"]:
 		load_game()
+		
+	# Start global production check timer
+	var production_check_timer = Timer.new()
+	production_check_timer.name = "ProductionCheckTimer"
+	production_check_timer.wait_time = 1.0 # Check every second
+	production_check_timer.autostart = true
+	production_check_timer.timeout.connect(_check_finished_productions)
+	add_child(production_check_timer)
 
 
 func save_game() -> void:
@@ -51,6 +63,10 @@ func save_game() -> void:
 	
 	save.saved_data = saved_data
 	save.inventory = inventory
+	# Save workstation output states
+	save.workstation_output_states = workstation_output_states
+	# Save workstation production states
+	save.workstation_production_states = workstation_production_states
 	
 	ResourceSaver.save(save, SAVE_FILE_PATH)
 
@@ -81,6 +97,11 @@ func load_game() -> void:
 			old_inventory = inventory.data.duplicate()
 		
 		inventory = saved_game.inventory
+		# Load workstation output states
+		workstation_output_states = saved_game.workstation_output_states
+		# Load workstation production states
+		workstation_production_states = saved_game.workstation_production_states
+		
 		#await get_tree().process_frame
 		LevelingHandler.set_player_level(saved_game.player_level)
 		LevelingHandler.set_experience_in_current_level(saved_game.player_experience_per_level)
@@ -225,6 +246,79 @@ func get_market() -> Array[SavedMarket]:
 	
 func clear_inventory() -> void:
 	inventory.data = {}
+
+# --- Workstation Output State Management ---
+func set_workstation_output(workstation_id: String, item_data: Dictionary) -> void:
+	if item_data.has("item") and item_data.has("count") and item_data.item != "" and item_data.count > 0:
+		workstation_output_states[workstation_id] = item_data
+		# print("Saved output state for ", workstation_id, ": ", item_data)
+	else:
+		# If data is invalid or count is 0, clear any existing state
+		if workstation_output_states.has(workstation_id):
+			workstation_output_states.erase(workstation_id)
+			# print("Cleared invalid/empty output state for ", workstation_id)
+
+func get_workstation_output(workstation_id: String) -> Dictionary:
+	return workstation_output_states.get(workstation_id, {})
+
+func clear_workstation_output(workstation_id: String) -> void:
+	if workstation_output_states.has(workstation_id):
+		workstation_output_states.erase(workstation_id)
+		# print("Cleared output state for ", workstation_id)
+# --- End Workstation Output State Management ---
+
+# --- Workstation Production State Management ---
+func set_production_state(workstation_id: String, production_data: Dictionary) -> void:
+	if production_data.has("output_item") and production_data.has("end_time_ms") and production_data.output_item != "":
+		workstation_production_states[workstation_id] = production_data
+		# print("[SaveGame] Set production state for ", workstation_id, ": ", production_data)
+	else:
+		if workstation_production_states.has(workstation_id):
+			workstation_production_states.erase(workstation_id)
+
+func get_production_state(workstation_id: String) -> Dictionary:
+	return workstation_production_states.get(workstation_id, {})
+
+func clear_production_state(workstation_id: String) -> void:
+	if workstation_production_states.has(workstation_id):
+		workstation_production_states.erase(workstation_id)
+		# print("[SaveGame] Cleared production state for ", workstation_id)
+# --- End Workstation Production State Management ---
+
+# --- Global Production Check ---
+func _check_finished_productions():
+	var current_time_ms = Time.get_ticks_msec()
+	var needs_save = false
+	# Iterate over a copy of the keys, as we might modify the dictionary during iteration
+	var production_ids = workstation_production_states.keys()
+	
+	for id in production_ids:
+		# Ensure the state still exists (might have been cleared elsewhere)
+		if not workstation_production_states.has(id):
+			continue
+			
+		var state = workstation_production_states[id]
+		if current_time_ms >= state.end_time_ms:
+			# Production finished!
+			var output_item = state.output_item
+			
+			# Add to saved output slot state
+			var current_output_state = get_workstation_output(id)
+			var new_count = 1
+			if not current_output_state.is_empty() and current_output_state.item == output_item:
+				new_count = current_output_state.count + 1
+				
+			set_workstation_output(id, {"item": output_item, "count": new_count})
+			# print("[SaveGame] Production finished for ", id, ". Added ", output_item, " to output state.")
+			
+			# Clear the production state
+			clear_production_state(id)
+			
+			needs_save = true
+			
+	if needs_save:
+		save_game()
+# --- End Global Production Check ---
 
 func start_auto_save_timer() -> void:
 	var timer = Timer.new()

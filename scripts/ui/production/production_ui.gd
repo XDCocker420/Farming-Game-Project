@@ -23,6 +23,8 @@ var production_in_progress: bool = false
 var production_timer: float = 0.0
 var production_duration: float = 0.0
 var item_config: ConfigFile
+# NEW: Direct reference to the associated inventory UI
+var target_inventory_ui = null
 
 func _ready():
 	# Initialize our cooldown tracker
@@ -164,7 +166,7 @@ func _on_produce_button_pressed():
 			# Refresh UI to reflect actual SaveGame state if removal failed
 			# This time, visually ADD BACK the item that failed removal
 			if item_that_failed != "": # Ensure we have a valid item name
-				_refresh_targeted_inventory_ui(current_workstation, item_that_failed, 1)
+				_refresh_targeted_inventory_ui(item_that_failed, 1)
 			# Optionally, also trigger a full refresh for the production UI itself to be safe
 			# setup(current_workstation) # Uncomment if needed
 			return # Don't start production
@@ -176,6 +178,15 @@ func _on_produce_button_pressed():
 		# Read duration from config (default to 1s)
 		var out_item = output_items[0] if output_items.size() > 0 else ""
 		production_duration = float(item_config.get_value(out_item, "time")) if item_config and item_config.has_section(out_item) else 1.0
+		
+		# --- START: Persist Production State ---
+		var end_time_ms = Time.get_ticks_msec() + int(production_duration * 1000)
+		var workstation_id = current_workstation # Assuming this holds the unique ID
+		if workstation_id != "" and out_item != "":
+			SaveGame.set_production_state(workstation_id, {"output_item": out_item, "end_time_ms": end_time_ms})
+			SaveGame.save_game() # Save immediately after starting production
+		# --- END: Persist Production State ---
+		
 		production_timer = 0.0
 		production_in_progress = true
 		
@@ -195,7 +206,7 @@ func _on_produce_button_pressed():
 		emit_signal("production_started")
 		
 		# Refresh inventory UI one last time after SaveGame changes
-		_refresh_targeted_inventory_ui(current_workstation)
+		_refresh_targeted_inventory_ui()
 
 # Direct input handler for output slot
 func _on_output_slot_input(event):
@@ -226,24 +237,31 @@ func _handle_output_slot_click():
 		return
 		
 	var item_count = 0
-	if amount_label.text.strip_edges() != "":
+	if amount_label.text.is_valid_int(): # Use is_valid_int for safety
 		item_count = int(amount_label.text)
 	
 	if item_count > 0 and output_items.size() > 0:
+		var item_name_to_add = output_items[0]
 		# Add just one item to inventory
-		SaveGame.add_to_inventory(output_items[0], 1)
+		SaveGame.add_to_inventory(item_name_to_add, 1)
 		
 		# Update the slot with one less item, or clear if it was the last one
-		if item_count > 1:
-			output_slot.setup(output_items[0], "", true, item_count - 1)
+		var new_count = item_count - 1
+		if new_count > 0:
+			output_slot.setup(item_name_to_add, "", true, new_count)
 		else:
 			# Clear the output slot if this was the last item
 			output_slot.clear()
+			# --- CLEAR SAVED STATE WHEN SLOT IS EMPTIED ---
+			var workstation_id = current_workstation # Assuming this holds unique ID like "molkerei_butterchurn"
+			if workstation_id != "":
+				SaveGame.clear_workstation_output(workstation_id)
+			# --- END CLEAR SAVED STATE ---
 		
-		# Use the optimized refresh method
-		_refresh_targeted_inventory_ui(current_workstation)
+		# Use the optimized refresh method for the inventory UI
+		_refresh_targeted_inventory_ui()
 			
-		# Save game to persist inventory changes - but deferred for better performance
+		# Save game to persist inventory changes AND cleared output state
 		call_deferred("_save_game_deferred")
 
 # Helper function to get the amount label from a slot
@@ -272,8 +290,11 @@ func _get_amount_label(slot) -> Label:
 			
 	return null
 
-func setup(workstation_name: String):
+func setup(workstation_name: String, inventory_ui_ref = null):
 	current_workstation = workstation_name
+	var workstation_id = current_workstation # Assuming this is unique (e.g., "molkerei_butterchurn")
+	# Store the reference to the target inventory UI
+	target_inventory_ui = inventory_ui_ref
 	
 	# Set production UI reference for all slots
 	if input_slot and input_slot.has_method("set_production_ui"):
@@ -285,22 +306,28 @@ func setup(workstation_name: String):
 	if output_slot and output_slot.has_method("set_production_ui"):
 		output_slot.set_production_ui(self)
 	
-	# Clear all slots
+	# Clear INPUT slots only
 	if input_slot and input_slot.has_method("clear"):
 		input_slot.clear()
 	
 	if input_slot2 and input_slot2.has_method("clear"):
 		input_slot2.clear()
 	
-	if output_slot and output_slot.has_method("clear"):
-		output_slot.clear()
-	
-	# Reset our stored items
+	# Reset our stored items *before* checking output slot
+	var previous_output_items = output_items.duplicate()
 	input_items.clear()
 	output_items.clear()
 	
 	# Set up recipes based on workstation
-	match workstation_name:
+	# Extract base name for recipe matching (e.g., "butterchurn" from "molkerei_butterchurn")
+	var base_workstation_name = workstation_name
+	if workstation_name.begins_with("molkerei_"):
+		base_workstation_name = workstation_name.replace("molkerei_", "")
+	elif workstation_name.begins_with("weberei_"): # Add other prefixes as needed
+		base_workstation_name = workstation_name.replace("weberei_", "")
+	# Add more elif clauses if you have other building prefixes
+	
+	match base_workstation_name:
 		"butterchurn":
 			input_items = ["milk"]
 			output_items = ["butter"]
@@ -308,10 +335,10 @@ func setup(workstation_name: String):
 			input_items = ["milk"]
 			output_items = ["cheese"]
 		"mayomaker":
-			input_items = ["milk", "egg"]  # Mayo braucht jetzt Milch und Ei
+			input_items = ["milk", "egg"]
 			output_items = ["mayo"]
 		"clothmaker":
-			input_items = ["white_wool", "white_string"]  # Stoff braucht Wolle und Faden
+			input_items = ["white_wool", "white_string"]
 			output_items = ["white_cloth"]
 		"spindle":
 			input_items = ["white_wool"]
@@ -319,6 +346,66 @@ func setup(workstation_name: String):
 		"feed_mill":
 			input_items = ["corn"]
 			output_items = ["feed"]
+	
+	# --- LOAD SAVED OUTPUT STATE --- 
+	var loaded_output_state = false
+	if workstation_id != "":
+		var saved_output = SaveGame.get_workstation_output(workstation_id)
+		if not saved_output.is_empty():
+			if output_slot and output_slot.has_method("setup"):
+				output_slot.setup(saved_output.item, "", true, saved_output.count)
+				loaded_output_state = true
+	# --- END LOAD SAVED OUTPUT STATE ---
+	
+	# Check OUTPUT slot: Clear it ONLY if state wasn't loaded AND it doesn't contain the correct output item
+	if not loaded_output_state:
+		if output_slot and output_slot.has_method("clear"):
+			var expected_output = output_items[0] if not output_items.is_empty() else ""
+			if output_slot.item_name != expected_output:
+				output_slot.clear()
+			# If item_name is correct, leave the output slot as is.
+
+	# --- LOAD/CHECK SAVED PRODUCTION STATE --- 
+	production_in_progress = false # Default to not running
+	if workstation_id != "":
+		var saved_production = SaveGame.get_production_state(workstation_id)
+		if not saved_production.is_empty():
+			# Production state exists, check if it's still running
+			var current_time_ms = Time.get_ticks_msec()
+			var remaining_time_ms = saved_production.end_time_ms - current_time_ms
+			
+			if remaining_time_ms > 0:
+				# Still running, resume visual progress
+				production_in_progress = true
+				var out_item = saved_production.output_item
+				# Recalculate duration based on saved item (in case config changes)
+				production_duration = float(item_config.get_value(out_item, "time")) if item_config and item_config.has_section(out_item) else 1.0
+				production_timer = production_duration - (remaining_time_ms / 1000.0)
+				
+				# Setup progress bar visuals
+				if progress_bar:
+					progress_bar.min_value = 0
+					progress_bar.max_value = production_duration
+					progress_bar.value = production_timer
+					progress_bar.show()
+					
+				# Disable interactions
+				if produce_button: produce_button.disabled = true
+				if input_slot: input_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				if input_slot2: input_slot2.mouse_filter = Control.MOUSE_FILTER_IGNORE
+				if output_slot: output_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+			# Else: Production finished while away, global check handled it.
+			# Output slot state was already loaded above.
+			
+	# If not in progress, ensure progress bar is hidden and UI enabled
+	if not production_in_progress:
+		if progress_bar: progress_bar.hide()
+		# Enable button only if recipe exists (initial state)
+		if produce_button: produce_button.disabled = (input_items.size() == 0 or output_items.size() == 0)
+		if input_slot: input_slot.mouse_filter = Control.MOUSE_FILTER_STOP
+		if input_slot2: input_slot2.mouse_filter = Control.MOUSE_FILTER_STOP
+		if output_slot: output_slot.mouse_filter = Control.MOUSE_FILTER_STOP
+	# --- END LOAD/CHECK SAVED PRODUCTION STATE ---
 	
 	# Reconnect button signals for all slots
 	for slot in [input_slot, input_slot2, output_slot]:
@@ -350,26 +437,30 @@ func _process_single_item() -> void:
 	
 	var output_item = output_items[0]
 	
-	# Check if the output slot already has items of the same type
-	var current_output_count = 0
+	# --- VISUAL UPDATE ONLY --- 
+	# The global check adds the item to the saved output state.
+	# We just update the visual representation here if the UI is active.
+	
+	# Check if the output slot already has items of the same type VISUALLY
+	var current_visual_output_count = 0
 	if output_slot.item_name == output_item:
 		var amount_label = _get_amount_label(output_slot)
-		if amount_label and amount_label.text.strip_edges() != "":
-			current_output_count = int(amount_label.text)
+		if amount_label and amount_label.text.is_valid_int():
+			current_visual_output_count = int(amount_label.text)
 		elif output_slot.item_name != "": # Assume 1 if item name is set but label empty
-			current_output_count = 1
+			current_visual_output_count = 1
 			
 	# Update the output slot's visual state
-	output_slot.setup(output_item, "", true, current_output_count + 1)
-	
-	# --- We already removed input items from SaveGame in _on_produce_button_pressed ---
-	# --- We already updated the visual input slots there too ---
-	
-	# Use the optimized refresh method for better performance (might not be needed here)
-	# _refresh_targeted_inventory_ui(current_workstation) 
-	
-	# --- No need to save game here, was saved when production started ---
-	# call_deferred("_save_game_deferred")
+	# Avoid double-counting if the global check already updated the saved state
+	# by checking the SaveGame output state directly before incrementing visually.
+	var saved_output_state = SaveGame.get_workstation_output(current_workstation)
+	var target_visual_count = current_visual_output_count + 1
+	if not saved_output_state.is_empty() and saved_output_state.item == output_item:
+		# If saved state exists and matches, use its count as the target visual
+		target_visual_count = saved_output_state.count
+		
+	if output_slot.has_method("setup"):
+		output_slot.setup(output_item, "", true, target_visual_count)
 	
 	# Disable the produce button until more input is added VISUALLY
 	if produce_button:
@@ -465,8 +556,7 @@ func add_input_item(item_name: String) -> void:
 	# refresh_timer.timeout.connect(func(): _refresh_targeted_inventory_ui(current_workstation))
 
 	# INSTEAD: Directly tell the inventory UI to visually decrement the count
-	print("[ProductionUI] Calling refresh to visually adjust item: ", item_name, " by -1")
-	_refresh_targeted_inventory_ui(current_workstation, item_name, -1)
+	_refresh_targeted_inventory_ui(item_name, -1)
 
 # New helper function to update a specific input slot
 func _update_input_slot_with_target(target_slot, item_name, new_count):
@@ -546,58 +636,28 @@ func _find_scheune_ui():
 
 # More efficient function to refresh just the relevant inventory UI
 # OR adjust visual count for a specific item
-func _refresh_targeted_inventory_ui(workstation: String, item_to_adjust: String = "", adjustment: int = 0):
-	# First try to find the inventory UI directly - prioritize exact match
-	var scheune_ui = null
-	
-	# Get parent node
-	var parent = get_parent()
-	if parent:
-		# First try exact match with workstation name
-		for child in parent.get_children():
-			if workstation in child.name and "inventory_ui" in child.name and child.has_method("reload_slots"): # Check for reload_slots for safety
-				scheune_ui = child
-				break
-				
-		# If not found, try any inventory UI that looks like a scheune
-		if not scheune_ui:
-			for child in parent.get_children():
-				if "scheune" in child.name and child.has_method("reload_slots"):
-					scheune_ui = child
-					break
-		
-		# Fallback to generic inventory_ui name
-		if not scheune_ui:
-			for child in parent.get_children():
-				if "inventory_ui" in child.name and child.has_method("reload_slots"):
-					scheune_ui = child
-					break
+func _refresh_targeted_inventory_ui(item_to_adjust: String = "", adjustment: int = 0):
+	# Use the stored direct reference
+	var scheune_ui = target_inventory_ui 
 
-	if scheune_ui:
+	if scheune_ui and is_instance_valid(scheune_ui): # Check if reference is valid
 		if item_to_adjust != "" and adjustment != 0 and scheune_ui.has_method("adjust_visual_count"):
 			# Adjust visual count directly if requested
-			print("[ProductionUI] Found scheune UI (", scheune_ui.name, "), calling adjust_visual_count(", item_to_adjust, ", ", adjustment, ")")
 			scheune_ui.adjust_visual_count(item_to_adjust, adjustment)
-			return # <--- ADD RETURN HERE to stop execution after visual adjustment
+			return # Stop execution after visual adjustment
 		elif scheune_ui.has_method("reload_slots"): # Check again for safety
 			# Otherwise, do a full reload (e.g., when production finishes or fails)
-			print("[ProductionUI] Found scheune UI (", scheune_ui.name, "), calling reload_slots")
 			if scheune_ui.has_method("set_workstation_filter"): # Check method existence
-				scheune_ui.set_workstation_filter(workstation)
-			scheune_ui.reload_slots(true)
+				# Pass the *base* workstation name for filtering purposes
+				var base_workstation_name = current_workstation.replace("molkerei_", "").replace("weberei_", "") # Extract base name
+				# TODO: Add more replaces if other building prefixes exist (e.g., "futterhaus_")
+				scheune_ui.set_workstation_filter(base_workstation_name) # This already triggers reload_slots
 		else:
-			push_warning("Found Scheune UI, but it's missing required methods (reload_slots or adjust_visual_count).")
-			return
-	
-	# Fallback method - use find_scheune_ui as backup IF FULL RELOAD NEEDED
-	if item_to_adjust == "" and adjustment == 0:
-		scheune_ui = _find_scheune_ui() # This finds any inventory_ui
-		if scheune_ui and scheune_ui.has_method("reload_slots"): 
-			if scheune_ui.has_method("set_workstation_filter"): # Check method existence
-				scheune_ui.set_workstation_filter(workstation)
-			scheune_ui.reload_slots(true)
-		# else: 
-		#	 push_warning("Targeted inventory UI refresh failed: Could not find a suitable inventory UI.")
+			push_warning("Target inventory UI (", scheune_ui.name, ") is missing required methods (reload_slots or adjust_visual_count).")
+	else:
+		# Only warn if we expected an adjustment but had no valid UI reference
+		if item_to_adjust != "" or adjustment != 0:
+			push_warning("Targeted inventory UI refresh/adjust failed: No valid target_inventory_ui reference set.")
 
 # Deferred save game function to improve performance
 func _save_game_deferred():
