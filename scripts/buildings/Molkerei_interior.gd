@@ -109,16 +109,6 @@ func _on_workstation_area_body_entered(body, workstation_name):
 				current_inventory_ui = inventory_ui_mayomaker
 				current_animation = mayomaker_anim
 		
-		# Connect production start signal to play animation
-		var prod_cb = Callable(self, "_on_production_started")
-		if current_ui and not current_ui.is_connected("production_started", prod_cb):
-			current_ui.connect("production_started", prod_cb)
-		
-		# Connect production complete signal to stop animation
-		var finish_cb = Callable(self, "_on_production_complete")
-		if current_ui and not current_ui.is_connected("process_complete", finish_cb):
-			current_ui.connect("process_complete", finish_cb)
-		
 		if body.has_method("show_interaction_prompt"):
 			var prompt_text = "Press E to use "
 			match workstation_name:
@@ -149,19 +139,10 @@ func _cleanup_current():
 	if current_inventory_ui:
 		current_inventory_ui.hide()
 	
-	# Stop current animation if any
-	if current_animation:
-		current_animation.stop()
-	
-	# Disconnect production_started to avoid leaks
-	var prod_cb = Callable(self, "_on_production_started")
-	if current_ui and current_ui.is_connected("production_started", prod_cb):
-		current_ui.disconnect("production_started", prod_cb)
-	
-	# Disconnect production_complete to avoid leaks
-	var finish_cb = Callable(self, "_on_production_complete")
-	if current_ui and current_ui.is_connected("process_complete", finish_cb):
-		current_ui.disconnect("process_complete", finish_cb)
+	# --- Stop current animation if any (This might stop it prematurely, handled by _process now) ---
+	# if current_animation:
+	# 	 current_animation.stop()
+	# --- END STOP --- 
 	
 	current_workstation = null
 	current_ui = null
@@ -214,20 +195,37 @@ func _unhandled_input(event):
 		if current_animation:
 			current_animation.stop()
 
-func _on_production_started():
-	# Play workstation animation when production actually starts
-	if current_animation and current_workstation:
-		var animation_name = current_workstation
-		if current_animation.sprite_frames and current_animation.sprite_frames.has_animation(animation_name):
-			current_animation.play(animation_name)
-
-func _on_production_complete():
-	# Stop tool animation when production finishes
-	if current_animation:
-		current_animation.stop()
-
 func _process(delta):
 	# auto-hide UI if player leaves area without firing exit signal
 	if current_ui and current_ui.visible and current_area_node and player_body:
 		if not current_area_node.get_overlapping_bodies().has(player_body):
 			_cleanup_current()
+			# Don't return here, still need to check global animation state below
+			
+	# --- Global Animation State Check ---
+	var workstations = {
+		"molkerei_butterchurn": butterchurn_anim,
+		"molkerei_press_cheese": press_cheese_anim,
+		"molkerei_mayomaker": mayomaker_anim
+	}
+	
+	for id in workstations:
+		var anim_player = workstations[id]
+		if not is_instance_valid(anim_player):
+			continue
+			
+		var prod_state = SaveGame.get_production_state(id)
+		var base_name = id.replace("molkerei_", "")
+		
+		if not prod_state.is_empty():
+			# Production is active in SaveGame
+			if not anim_player.is_playing() or anim_player.animation != base_name:
+				# Start animation if not playing or wrong one is playing
+				if anim_player.sprite_frames and anim_player.sprite_frames.has_animation(base_name):
+					anim_player.play(base_name)
+		else:
+			# Production is NOT active in SaveGame
+			if anim_player.is_playing():
+				# Stop animation if it's running
+				anim_player.stop()
+	# --- End Global Animation State Check ---
