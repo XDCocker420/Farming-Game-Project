@@ -556,7 +556,6 @@ func add_input_item(item_name: String) -> void:
 	# refresh_timer.timeout.connect(func(): _refresh_targeted_inventory_ui(current_workstation))
 
 	# INSTEAD: Directly tell the inventory UI to visually decrement the count
-	print("[ProductionUI] Calling refresh to visually adjust item: ", item_name, " by -1")
 	_refresh_targeted_inventory_ui(item_name, -1)
 
 # New helper function to update a specific input slot
