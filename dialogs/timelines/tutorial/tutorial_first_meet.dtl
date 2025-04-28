@@ -1,14 +1,14 @@
 join martha center
 martha: HAAALLLT!!!!
-martha: Du bist neu hier oder?
-- Ja
-	martha: Oh cool dich kennen zu lernen
-	[text_input text="Wie heißt du nochmal?" var="global.player_name"]
-	martha: Cool dich kennen zu lernen {global.player_name}
-	martha: Komm mit ich zeig dir deine Farm
+martha: You're new here, right?
+- Yes
+	martha: Oh cool to meet you
+	[text_input text="What's your name again?" var="global.player_name"]
+	martha: Cool to meet you {global.player_name}
+	martha: Come with me, I'll show you your farm
 	[signal arg="start_moving"]
-- Nein (Kein Tutorial)
-	martha: Oh sorry hab dich ganz vergessen
-	[text_input text="Wie heißt du nochmal?" var="global.player_name"]
+- No (No Tutorial)
+	martha: Oh sorry, I completely forgot you
+	[text_input text="What's your name again?" var="global.player_name"]
 	set {global.done_tutorial} = true
 	[signal arg="done_tutorial"]
