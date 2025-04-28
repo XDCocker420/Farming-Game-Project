@@ -43,7 +43,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact") && player_in_area:
 		if !once2:
 			once2 = true
-			label.text = "Jetzt click nochmal auf das selbe Feld mit der Maus"
+			label.text = "Now click on the same field again with the mouse"
 		state = !state
 		
 		if state:
@@ -68,14 +68,14 @@ func _on_field_clicked(field:Area2D) -> void:
 		if field.get_child(2).can_harvest() && !state:
 			field.get_child(2).harvest()
 			await get_tree().create_timer(0.5).timeout
-			label.text = "Drücke nun F und geh wieder aus dem Feld raus"
+			label.text = "Now press F and leave the field again"
 			
 		if state:
 			if player:
 				player.do_water()
 
 			if field.get_child(2).water():
-				label.text = "Supa! Nun drück E und warte bis die Pflanze gewachsen ist"
+				label.text = "Great! Now press E and wait until the plant has grown"
 			
 	else:
 		if ui_farming.selection != '' && !anbau_once:
@@ -84,12 +84,12 @@ func _on_field_clicked(field:Area2D) -> void:
 				player.do_harvest()
 			var crop:AnimatedSprite2D = load("res://scenes/crops/tutorial_wheat.tscn").instantiate()
 			field.add_child(crop)
-			label.text = "Sehr gut! Nun drück E"
+			label.text = "Very good! Now press E"
 	
 	
 func _on_player_entered(body: Node2D) -> void:
 	if body.is_in_group("Player"):
-		label.text = "Click auf die Weizensamen"
+		label.text = "Click on the wheat seeds"
 		player_in_area = true
 		ui_farming.show()
 		arrow.show()
@@ -134,8 +134,8 @@ func _on_right_pressed():
 		anim_player.stop()
 		arrow.hide()
 		once = true
-		label.text = "Sehr gut nun click mal auf ein Feld"
+		label.text = "Very good, now click on a field"
 		
 func _on_crop_growed():
 	crop_growd = true
-	label.text = "Click auf das Feld zum ernten"
+	label.text = "Click on the field to harvest"

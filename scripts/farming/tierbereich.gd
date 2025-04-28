@@ -31,13 +31,15 @@ func _on_collection():
 	SaveGame.add_to_inventory("chicken_food", 10)
 	
 	collecting_state.emit()
-	text.text = "Einsammeln"
+	text.text = "Collect"
 	text.show()
+	text.modulate = Color.WHITE
 	
 func _on_feeding():
 	feeding_state.emit()
-	text.text = "Füttern"
+	text.text = "Feed"
 	text.show()
+	text.modulate = Color.WHITE
 	
 func _on_door_entered(body:Node2D):
 	if body.is_in_group("Player") && LevelingHandler.is_building_unlocked(name.to_lower()):

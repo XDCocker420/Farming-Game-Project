@@ -24,6 +24,7 @@ signal interact2
 
 @onready var player_animplayer:AnimationPlayer = $CanvasLayer/AnimationPlayer
 @onready var player_center_label:Label = $CanvasLayer/NotUnlocked
+@onready var player_center_label_timer:Timer = $CanvasLayer/NotUnlockedTimer
 
 @onready var camera:Camera2D = $Camera2D
 
@@ -234,8 +235,10 @@ func _on_new_lvl_finished(anim_name):
 	if anim_name == "fade_out":
 		new_lvl_anim_control.hide()
 		
-func _on_building_not_unlocked(level:int) -> void:
-	player_center_label.text = "Wird mit Level " + str(level) + " freigschalten"
+func _on_building_not_unlocked(level: int) -> void:
+	player_center_label.text = "Unlocks at Level " + str(level)
+	player_center_label.visible = true
+	player_center_label_timer.start()
 	player_animplayer.play("show_up")
 	
 func _on_player_anim_finished(anim_name):
