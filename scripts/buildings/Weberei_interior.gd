@@ -24,13 +24,13 @@ func _ready():
 	exit_area.body_entered.connect(_on_exit_area_body_entered)
 	exit_area.body_exited.connect(_on_exit_area_body_exited)
 	
-	# Connect signals for both workstations
+	# Connect signals for both workstations using FULL IDs
 	if clothmaker_area:
-		clothmaker_area.body_entered.connect(_on_workstation_area_body_entered.bind("clothmaker"))
+		clothmaker_area.body_entered.connect(_on_workstation_area_body_entered.bind("weberei_clothmaker"))
 		clothmaker_area.body_exited.connect(_on_workstation_area_body_exited)
 	
 	if spindle_area:
-		spindle_area.body_entered.connect(_on_workstation_area_body_entered.bind("spindle"))
+		spindle_area.body_entered.connect(_on_workstation_area_body_entered.bind("weberei_spindle"))
 		spindle_area.body_exited.connect(_on_workstation_area_body_exited)
 	
 	# Hide all production UIs initially
@@ -69,30 +69,33 @@ func _on_exit_area_body_exited(body):
 		if body.has_method("hide_interaction_prompt"):
 			body.hide_interaction_prompt()
 
-func _on_workstation_area_body_entered(body, workstation_name):
+func _on_workstation_area_body_entered(body, workstation_id):
 	if body.is_in_group("Player"):
 		# Track player and which area
 		player_body = body
-		match workstation_name:
-			"clothmaker": current_area_node = clothmaker_area
-			"spindle": current_area_node = spindle_area
+		# Assign area node based on the full ID
+		match workstation_id:
+			"weberei_clothmaker": current_area_node = clothmaker_area
+			"weberei_spindle": current_area_node = spindle_area
 		player_in_workstation_area = true
-		current_workstation = workstation_name
+		current_workstation = workstation_id # Store the full ID
 		
-		# Set the current UI based on workstation
-		match workstation_name:
-			"clothmaker":
+		# Set the current UI based on workstation ID
+		match workstation_id:
+			"weberei_clothmaker":
 				current_ui = clothmaker_ui
 				current_inventory_ui = inventory_ui_clothmaker
 				current_animation = clothmaker_anim
-			"spindle":
+			"weberei_spindle":
 				current_ui = spindle_ui
 				current_inventory_ui = inventory_ui_spindle
 				current_animation = spindle_anim
 				
 		if body.has_method("show_interaction_prompt"):
 			var prompt_text = "Press E to use "
-			match workstation_name:
+			# Use base name for prompt text
+			var base_name = workstation_id.replace("weberei_","")
+			match base_name:
 				"clothmaker":
 					prompt_text += "Cloth Maker"
 				"spindle":
@@ -151,6 +154,9 @@ func _cleanup_current():
 func _unhandled_input(event):
 	# Exit interior when pressing interact in exit area
 	if event.is_action_pressed("interact") and in_exit_area:
+		# --- SAVE WORKSTATION OUTPUTS BEFORE LEAVING ---
+		_save_all_workstation_outputs()
+		# --- END SAVE ---
 		SceneSwitcher.transition_to_main.emit()
 		return
 
@@ -166,22 +172,23 @@ func _unhandled_input(event):
 		current_ui.show()
 		current_inventory_ui.show()
 		
-		# Set up the production UI first
-		current_ui.setup(current_workstation)
+		# Set up the production UI first, passing the full workstation ID and inventory UI reference
+		current_ui.setup(current_workstation, current_inventory_ui)
 		
-		# Setup inventory UI with filtered items for this workstation
-		current_inventory_ui.setup_and_show(current_workstation)
+		# Setup inventory UI with filtered items for this workstation (use base name)
+		var base_workstation_name = current_workstation.replace("weberei_", "") # Extract base name
+		current_inventory_ui.setup_and_show(base_workstation_name)
 		
 		# Set the active production UI in the inventory UI AFTER setting up the inventory UI
 		# This is critical because setup_and_show recreates all the slots
 		if current_inventory_ui.has_method("set_active_production_ui"):
 			current_inventory_ui.set_active_production_ui(current_ui)
 		
-		# Start the animation for the current workstation
-		if current_animation:
-			var animation_name = current_workstation 
-			if current_animation.sprite_frames and current_animation.sprite_frames.has_animation(animation_name):
-				current_animation.play(animation_name)
+		# Start the animation for the current workstation (This seems wrong, animation should start on production)
+		# if current_animation:
+		# 	 var animation_name = current_workstation 
+		# 	 if current_animation.sprite_frames and current_animation.sprite_frames.has_animation(animation_name):
+		# 		 current_animation.play(animation_name)
 	
 	# Close UIs and stop animation when ESC is pressed
 	if event.is_action_pressed("ui_cancel") and current_ui and current_ui.visible:
@@ -198,6 +205,51 @@ func _process(delta):
 		if not current_area_node.get_overlapping_bodies().has(player_body):
 			_cleanup_current()
 			return
+
+# NEW function to save output slot states for all workstations in this interior
+func _save_all_workstation_outputs():
+	var uis_to_check = {
+		"weberei_clothmaker": clothmaker_ui,
+		"weberei_spindle": spindle_ui
+	}
+	
+	for workstation_id in uis_to_check:
+		var ui_node = uis_to_check[workstation_id]
+		# Check if UI node and its output_slot variable are valid
+		if is_instance_valid(ui_node) and is_instance_valid(ui_node.output_slot):
+			var output_slot = ui_node.output_slot
+			var item_name = output_slot.item_name
+			var count = 0
+			
+			# Get count safely from label
+			if item_name != "":
+				# Assuming production_ui has the _get_amount_label helper
+				var amount_label = null
+				if ui_node.has_method("_get_amount_label"):
+					amount_label = ui_node._get_amount_label(output_slot)
+				else: # Fallback if helper not found
+					amount_label = output_slot.get_node_or_null("amount")
+					
+				if amount_label and amount_label is Label and amount_label.text.is_valid_int():
+					count = int(amount_label.text)
+				else:
+					count = 1 # Assuming 1 if item present but label missing/invalid
+			
+			# Save if item exists and count > 0
+			if item_name != "" and count > 0:
+				SaveGame.set_workstation_output(workstation_id, {"item": item_name, "count": count})
+				print("[Weberei] Saved state for ", workstation_id, ": ", {"item": item_name, "count": count})
+			else:
+				# Ensure state is cleared if slot is empty or invalid
+				SaveGame.clear_workstation_output(workstation_id)
+				print("[Weberei] Cleared state for ", workstation_id, " (slot empty/invalid)")
+		else:
+			# If UI or slot doesn't exist, clear any potentially stale saved state
+			print("[Weberei] Failed validity check for ", workstation_id, ". Clearing state.")
+			SaveGame.clear_workstation_output(workstation_id)
+			
+	# Save the game immediately after updating states
+	SaveGame.save_game()
 
 func _on_production_started():
 	# Play workstation animation when production actually starts

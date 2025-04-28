@@ -598,10 +598,11 @@ func _refresh_targeted_inventory_ui(item_to_adjust: String = "", adjustment: int
 			# print("[ProductionUI] Found scheune UI (", scheune_ui.name, "), calling reload_slots") # Debug print removed for clarity
 			if scheune_ui.has_method("set_workstation_filter"): # Check method existence
 				# Pass the *base* workstation name for filtering purposes
-				var base_workstation_name = current_workstation.replace("molkerei_", "") # Extract base name
-				# TODO: Add more replaces if other building prefixes exist (e.g., "weberei_")
-				scheune_ui.set_workstation_filter(base_workstation_name)
-			scheune_ui.reload_slots(true)
+				var base_workstation_name = current_workstation.replace("molkerei_", "").replace("weberei_", "") # Extract base name
+				# TODO: Add more replaces if other building prefixes exist (e.g., "futterhaus_")
+				scheune_ui.set_workstation_filter(base_workstation_name) # This already triggers reload_slots
+			# REMOVED: Redundant reload_slots call, as set_workstation_filter already calls it.
+			# scheune_ui.reload_slots(true) 
 		else:
 			push_warning("Target inventory UI (", scheune_ui.name, ") is missing required methods (reload_slots or adjust_visual_count).")
 	else:
