@@ -146,9 +146,6 @@ func add_slot(item: String, amount: int) -> void:
 func _on_slot_button_pressed(slot, item_name) -> void:
 	# Only emit the signal, don't call directly to avoid double addition
 	item_selected.emit(item_name)
-	
-	# Reload slots to reflect inventory changes
-	reload_slots(true)
 
 func load_slots() -> void:
 	var inventory = SaveGame.get_inventory()
@@ -231,12 +228,12 @@ func _full_slot_rebuild(inventory_data, apply_filter):
 	if not is_instance_valid(slots):
 		push_error("Slots container is not valid during rebuild")
 		return
-		
+
 	# Clear existing slots
 	slot_list.clear()
 	for slot in slots.get_children():
 		slot.queue_free()
-	
+
 	# Add slots for all items if no filter
 	if not apply_filter or current_filter.is_empty():
 		for item in inventory_data:
@@ -247,10 +244,92 @@ func _full_slot_rebuild(inventory_data, apply_filter):
 		for item in inventory_data:
 			if current_filter.has(item) and inventory_data[item] > 0:
 				add_slot(item, inventory_data[item])
-	
-	# Reset scroll position to top
-	var scroll_container = $MarginContainer/ScrollContainer
-	scroll_container.scroll_vertical = 0
+
+# NEW: Function to find a specific slot by item name
+func find_slot_by_item_name(item_name: String):
+	for slot in slot_list:
+		if is_instance_valid(slot) and "item_name" in slot and slot.item_name == item_name:
+			return slot
+	return null
+
+# NEW: Function to visually adjust the count of an item without changing SaveGame
+func adjust_visual_count(item_name: String, adjustment: int):
+	print("[ScheuneUI] adjust_visual_count called for item: ", item_name, " adjustment: ", adjustment)
+	var slot = find_slot_by_item_name(item_name)
+	if slot:
+		print("[ScheuneUI] Found slot for item: ", item_name)
+		var amount_label = slot.get_node_or_null("amount") # Adjust path if needed
+		if amount_label is Label:
+			print("[ScheuneUI] Found amount label: ", amount_label.text)
+			var current_count = 0
+			if amount_label.text.is_valid_int():
+				current_count = int(amount_label.text)
+			
+			var new_count = current_count + adjustment
+			print("[ScheuneUI] Current count: ", current_count, " New count: ", new_count)
+			
+			if new_count > 0:
+				amount_label.text = str(new_count)
+				amount_label.show()
+				# Ensure the slot itself is visible if it might have been hidden
+				slot.show()
+				print("[ScheuneUI] Updated label text to: ", new_count, " and showed slot.")
+			else:
+				# If count drops to 0 or below, hide the slot visually
+				# We don't remove it, as a full refresh would bring it back
+				# if the SaveGame still has it.
+				amount_label.text = "0"
+				slot.hide() # Hide the entire slot
+				print("[ScheuneUI] Set label text to 0 and hid slot.")
+		else:
+			push_warning("Could not find amount Label in slot for visual adjustment: %s" % item_name)
+			print("[ScheuneUI] ERROR: Could not find amount label for slot.")
+	else:
+		# If the slot doesn't exist (e.g., item count was already 0 visually),
+		# and we are incrementing, we might need to trigger a full reload
+		# if adjustment > 0:
+		#     reload_slots(true) # Consider if this is needed
+		pass # Do nothing if slot not found for decrement
+		print("[ScheuneUI] Did not find slot for item: ", item_name)
+
+# Function to update the visual count in the UI
+func update_visuals():
+	# Loop through existing slots and update their visibility/count
+	# based on SaveGame state - similar logic to reload_slots but without recreating
+	var inventory = SaveGame.get_inventory()
+	var items_shown = {}
+
+	for slot in slot_list:
+		if is_instance_valid(slot) and "item_name" in slot:
+			var item_name = slot.item_name
+			var count = inventory.get(item_name, 0)
+			items_shown[item_name] = true # Mark item as handled
+
+			var amount_label = slot.get_node_or_null("amount") # Adjust path if needed
+			if amount_label is Label:
+				if count > 0:
+					amount_label.text = str(count)
+					amount_label.show()
+					slot.show()
+				else:
+					amount_label.text = "0"
+					slot.hide() # Hide slot if count is 0
+			else:
+				# If amount label not found, maybe just hide/show slot
+				if count > 0:
+					slot.show()
+				else:
+					slot.hide()
+
+	# Add slots for items in inventory but not currently shown (if any)
+	# This handles cases where an item was added to inventory externally
+	for item in inventory:
+		if not items_shown.has(item) and inventory[item] > 0:
+			# Check filter before adding
+			if current_filter.is_empty() or item in current_filter:
+				add_slot(item, inventory[item])
+				
+	call_deferred("_ensure_scroll_updated")
 
 func _on_visibility_changed() -> void:
 	if visible:
@@ -348,9 +427,6 @@ func set_active_production_ui(ui) -> void:
 func _on_item_selected(item_name: String, _price: int, _item_texture: Texture2D) -> void:
 	# Only emit the signal, don't call directly to avoid double addition
 	item_selected.emit(item_name)
-	
-	# Reload slots to reflect any inventory changes
-	reload_slots(true)
 
 # Direct input handler for slots container
 func _on_slots_gui_input(event: InputEvent) -> void:
