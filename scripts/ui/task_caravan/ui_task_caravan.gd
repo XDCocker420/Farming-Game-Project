@@ -13,21 +13,6 @@ var slot_array: Array
 
 @onready var task_label: Label
 
-var item1_current: Dictionary = {
-	"name": "",
-	"amount": 0
-}
-
-var item2_current: Dictionary = {
-	"name": "",
-	"amount": 0
-}
-
-var item3_current: Dictionary = {
-	"name": "",
-	"amount": 0
-}
-
 
 func _ready() -> void:
 	slot_array = grid_container.get_children()
@@ -86,18 +71,3 @@ func clear() -> void:
 	item2_icon_texture.texture = null
 	item3_amount_label.text = ""
 	item3_icon_texture.texture = null
-	
-	item1_current = {
-		"name": "",
-		"amount": 0
-	}
-
-	item2_current = {
-		"name": "",
-		"amount": 0
-	}
-
-	item3_current = {
-		"name": "",
-		"amount": 0
-	}
