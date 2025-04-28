@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" load_steps=3 format=3 uid="uid://ns2vki3n45m"]
 
-[ext_resource type="Texture2D" uid="uid://c4jhj1os7w6kr" path="res://assets/farming/farming_tiles.png" id="1_cm1ci"]
+[ext_resource type="Texture2D" uid="uid://ws1p1k2fdqqx" path="res://assets/farming/farming_tiles.png" id="1_cm1ci"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_5bhd8"]
 texture = ExtResource("1_cm1ci")
@@ -1053,7 +1053,9 @@ texture = ExtResource("1_cm1ci")
 52:23/0 = 0
 53:23/0 = 0
 0:24/0 = 0
+0:24/0/z_index = 6
 1:24/0 = 0
+1:24/0/z_index = 6
 2:24/0 = 0
 3:24/0 = 0
 4:24/0 = 0
@@ -1093,7 +1095,9 @@ texture = ExtResource("1_cm1ci")
 44:24/0 = 0
 45:24/0 = 0
 0:25/0 = 0
+0:25/0/physics_layer_0/polygon_0/points = PackedVector2Array(-0.899294, 8, 8, 8, 8, -8, -8, -8, -8, 8)
 1:25/0 = 0
+1:25/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 2:25/0 = 0
 3:25/0 = 0
 4:25/0 = 0
@@ -1675,4 +1679,5 @@ texture = ExtResource("1_cm1ci")
 13:49/0 = 0
 
 [resource]
+physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_5bhd8")

@@ -12,6 +12,7 @@ extends Node2D
 
 @onready var arrow:Sprite2D = $DirectionArrow
 @onready var controls_label:Label = $Controls
+@onready var anti_raus:StaticBody2D = $AntiRauslaufen
 
 var new_camera:Camera2D = Camera2D.new()
 
@@ -33,6 +34,7 @@ func _ready() -> void:
 func _anim_finished(anim_name):
 	if anim_name == "driving_farm":
 		anim_pl.speed_scale = 1
+		_set_collision(true)
 		anim_pl.play("exit_car")
 		
 	if anim_name == "exit_car":
@@ -43,6 +45,7 @@ func _anim_finished(anim_name):
 		player_collison.disabled = false
 		player.cant_move = false
 		#controls_label.show()
+		_set_collision(false)
 		arrow.show()
 		anim_pl.play("text_fade_in")
 		
@@ -51,6 +54,7 @@ func _anim_finished(anim_name):
 		
 func _on_to_meet_martha(body:Node2D):
 	if body.is_in_group("Player") && !once1:
+		_set_collision(true)
 		controls_label.hide()
 		arrow.hide()
 		anim_pl.stop()
@@ -67,4 +71,6 @@ func _on_farming_enter(body:Node2D):
 func _on_farming_ended():
 	farming_end = true
 		
-## TODO: Pfeil blinken und Label mit den Commands anzeigen
+func _set_collision(val:bool):
+	for i in anti_raus.get_children():
+		i.set_deferred("disabled", val)
