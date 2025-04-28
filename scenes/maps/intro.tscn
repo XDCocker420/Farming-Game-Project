@@ -1,4 +1,4 @@
-[gd_scene load_steps=48 format=4 uid="uid://c1rx8mb7g7ji8"]
+[gd_scene load_steps=51 format=4 uid="uid://c1rx8mb7g7ji8"]
 
 [ext_resource type="PackedScene" uid="uid://exndmgultn3t" path="res://scenes/buildings/car_1.tscn" id="1_3w8xg"]
 [ext_resource type="Script" uid="uid://dn47tuat26sep" path="res://scripts/tutorial/into.gd" id="1_bjkl5"]
@@ -244,6 +244,18 @@ _data = {
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0ndkq"]
 size = Vector2(12, 58)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_0cyom"]
+a = Vector2(195, -4)
+b = Vector2(-172, -4)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_rt478"]
+a = Vector2(-168, -4)
+b = Vector2(-168, 46)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_2utue"]
+a = Vector2(-171, 36)
+b = Vector2(198, 38)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3ifry"]
 size = Vector2(375, 115)
@@ -3764,6 +3776,19 @@ Shift - Schneller laufen
 E - Mit Sachen interagieren
 F - Farmfelder verlassen
 Esc - Spielmenü"
+
+[node name="AntiRauslaufen" type="StaticBody2D" parent="."]
+z_index = 10
+position = Vector2(-247, 69)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AntiRauslaufen"]
+shape = SubResource("SegmentShape2D_0cyom")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="AntiRauslaufen"]
+shape = SubResource("SegmentShape2D_rt478")
+
+[node name="CollisionShape2D3" type="CollisionShape2D" parent="AntiRauslaufen"]
+shape = SubResource("SegmentShape2D_2utue")
 
 [node name="DirectionArrow" type="Sprite2D" parent="."]
 visible = false

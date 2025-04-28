@@ -1,8 +1,8 @@
 [gd_scene load_steps=45 format=4 uid="uid://7401yxdfc7e2"]
 
 [ext_resource type="PackedScene" uid="uid://cckq6n703hhfn" path="res://scenes/characters/player.tscn" id="1_0u3w2"]
-[ext_resource type="Script" uid="uid://bomeg6ht84y2d" path="res://scripts/utility/game_map_load.gd" id="1_dnbah"]
-[ext_resource type="Texture2D" uid="uid://ws1p1k2fdqqx" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
+[ext_resource type="Script" uid="uid://ca5722omxd1c8" path="res://scripts/utility/game_map_load.gd" id="1_dnbah"]
+[ext_resource type="Texture2D" uid="uid://cyh1omxd2mptb" path="res://assets/farming/farming_tiles.png" id="2_6ts4f"]
 [ext_resource type="PackedScene" uid="uid://by8sfn1p2h5nh" path="res://scenes/buildings/player_house.tscn" id="4_1xy5d"]
 [ext_resource type="TileSet" uid="uid://ns2vki3n45m" path="res://assets/tilesets/terrain_tileset.tres" id="4_xsdhu"]
 [ext_resource type="PackedScene" uid="uid://r75uh477j4dy" path="res://scenes/buildings/Molkerei.tscn" id="5_d2gmw"]
