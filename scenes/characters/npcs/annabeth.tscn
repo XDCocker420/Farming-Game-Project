@@ -1,7 +1,7 @@
 [gd_scene load_steps=39 format=3 uid="uid://bbncnutg3tli0"]
 
-[ext_resource type="Script" uid="uid://qocsy8k1b0py" path="res://scripts/characters/npcs/default_npc.gd" id="1_8nqqp"]
-[ext_resource type="Texture2D" uid="uid://c8p6uwyo6iyx7" path="res://assets/characters/named_characters/Annabeth/Annabeth_walk.png" id="2_8nqqp"]
+[ext_resource type="Script" uid="uid://ncggxede455i" path="res://scripts/characters/npcs/default_npc.gd" id="1_8nqqp"]
+[ext_resource type="Texture2D" uid="uid://bgsk7pmnfxp8o" path="res://assets/characters/named_characters/Annabeth/Annabeth_walk.png" id="2_8nqqp"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_qrukt"]
 atlas = ExtResource("2_8nqqp")
@@ -264,7 +264,7 @@ animations = [{
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_86r7p"]
 radius = 7.0
-height = 22.0
+height = 18.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_2xpu3"]
 size = Vector2(49.5, 29)
@@ -280,7 +280,6 @@ sprite_frames = SubResource("SpriteFrames_0slrx")
 animation = &"down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
 position = Vector2(0, 5)
 shape = SubResource("CapsuleShape2D_86r7p")
 

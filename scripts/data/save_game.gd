@@ -17,6 +17,7 @@ var new_game:bool = false
 
 signal money_added(money:int, added_value:int)
 signal money_removed(money:int, removed_value:int)
+signal market_bought(item_name:String)
 
 func _ready() -> void:
 	var map_nodes = get_tree().get_nodes_in_group("game_map")
@@ -25,7 +26,8 @@ func _ready() -> void:
 
 	start_auto_save_timer()
 	# Attempt to load existing game data
-	load_game()
+	if SceneSwitcher.get_current_scene_name() not in ["start_screen", "intro"]:
+		load_game()
 
 
 func save_game() -> void:
@@ -63,9 +65,9 @@ func load_game() -> void:
 	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
 	if saved_game == null:
 		# For testing
-		#LevelingHandler.set_player_level(10)
+		LevelingHandler.set_player_level(10)
 		# For production
-		LevelingHandler.set_player_level(1)
+		#LevelingHandler.set_player_level(1)
 		inventory.money = 100
 		new_game = true
 		return
@@ -79,11 +81,14 @@ func load_game() -> void:
 			old_inventory = inventory.data.duplicate()
 		
 		inventory = saved_game.inventory
+		#await get_tree().process_frame
 		LevelingHandler.set_player_level(saved_game.player_level)
 		LevelingHandler.set_experience_in_current_level(saved_game.player_experience_per_level)
 		player.global_position = saved_game.player_position
 		con_sav = saved_game.contracts
 		market_sav = saved_game.market_items
+		player.do_set_level()
+		player.do_set_money()
 	
 	await get_tree().process_frame
 	
@@ -230,6 +235,7 @@ func start_auto_save_timer() -> void:
 	
 func update_player() -> void:
 	player = get_tree().get_first_node_in_group("Player")
+#	player.do_set_level()
 	
 func check_new_game():
 	return new_game

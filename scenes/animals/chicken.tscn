@@ -1,12 +1,12 @@
 [gd_scene load_steps=34 format=3 uid="uid://rjwuxr2sss3k"]
 
-[ext_resource type="Texture2D" uid="uid://degwpnrjmyc4m" path="res://assets/animals/farm_animals/chicken animation.png" id="1_uyh8i"]
-[ext_resource type="Script" uid="uid://dwp2bkf7u87nq" path="res://scripts/animals/animal_help.gd" id="1_ysyug"]
+[ext_resource type="Texture2D" uid="uid://by1ds6dp1yakh" path="res://assets/animals/farm_animals/chicken animation.png" id="1_uyh8i"]
+[ext_resource type="Script" uid="uid://dbyhs3b417m6h" path="res://scripts/animals/animal_help.gd" id="1_ysyug"]
 [ext_resource type="Script" uid="uid://cdwxjc2autrp8" path="res://scripts/state_management/state_machine.gd" id="2_pbhin"]
 [ext_resource type="Script" uid="uid://bdmdtyk52qm4n" path="res://scripts/animals/animal_fed.gd" id="3_sjo8e"]
 [ext_resource type="Script" uid="uid://b4m6baeg7pxyh" path="res://scripts/animals/animal_full.gd" id="4_bl8x8"]
 [ext_resource type="Script" uid="uid://cfadmajc7cjkx" path="res://scripts/animals/animal_hungry.gd" id="5_ib16o"]
-[ext_resource type="Texture2D" uid="uid://bb6dl1x1f0y46" path="res://assets/ui/icons/egg.png" id="6_uyh8i"]
+[ext_resource type="Texture2D" uid="uid://cfdbmdf0bsx6q" path="res://assets/ui/icons/egg.png" id="6_uyh8i"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ysyug"]
 atlas = ExtResource("1_uyh8i")
@@ -222,6 +222,7 @@ _data = {
 
 [node name="Chicken" type="CharacterBody2D" groups=["Animal"]]
 motion_mode = 1
+wall_min_slide_angle = 0.0
 script = ExtResource("1_ysyug")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]

@@ -25,6 +25,7 @@ var cooldown_time = 0.12    # Restored for production UI
 
 
 func _ready() -> void:
+	SaveGame.market_bought.connect(_on_buy)
 	# CRITICAL FIX: Use the simplest approach to get input working
 	mouse_filter = Control.MOUSE_FILTER_STOP
 	
@@ -182,3 +183,10 @@ func clear() -> void:
 	item_texture.texture = null
 	amount_label.text = ""
 	amount_label.hide()
+
+
+func _on_buy(item:String):
+	print(item_name)
+	if item == item_name:
+		SaveGame.add_money(int(amount_label.text))
+		clear()
