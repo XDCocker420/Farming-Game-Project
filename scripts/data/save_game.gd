@@ -86,6 +86,7 @@ func load_game() -> void:
 		#LevelingHandler.set_player_level(1)
 		inventory.money = 100
 		new_game = true
+		print("new gameing")
 		return
 	
 	if player:

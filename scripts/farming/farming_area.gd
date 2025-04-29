@@ -53,10 +53,10 @@ func _on_field_clicked(field:Area2D) -> void:
 				player.do_water()
 			field.get_child(2).water()
 	else:
-		if ui_farming.selection != '':
+		if ui_farming.selection != '' && SaveGame.get_item_count(ui_farming.selection) > 0:
 			if player:
 				player.do_harvest()
-			var crop:AnimatedSprite2D = load("res://scenes/crops/" + ui_farming.selection +".tscn").instantiate()
+			var crop:AnimatedSprite2D = load("res://scenes/crops/" + ui_farming.selection.split("_")[0] +".tscn").instantiate()
 			field.add_child(crop)
 	
 	
