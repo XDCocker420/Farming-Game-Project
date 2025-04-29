@@ -38,6 +38,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact3") && player_in_area:
 		_set_collision(true)
 		if player:
+			state_label.hide()
 			player.normal_speed = 50
 			player.camera.make_current()
 			player._follow_mouse(false)
@@ -87,6 +88,12 @@ func _on_player_exited(body: Node2D) -> void:
 		state_label.hide()
 		ui_farming.hide()
 		if player:
+			state_label.hide()
+			await get_tree().create_timer(0.2).timeout
+			_set_collision(true)
+			player.normal_speed = 50
+			player.camera.make_current()
+			player._follow_mouse(false)
 			player.camera.make_current()
 			
 	
