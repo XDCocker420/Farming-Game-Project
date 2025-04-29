@@ -15,6 +15,8 @@ var player_in_area: bool
 # False for harvesting / True for watering
 var state:bool = false
 
+signal crop_used
+
 
 func _ready() -> void:
 	field_list = canvas_group.get_children()
@@ -38,6 +40,7 @@ func _input(event: InputEvent) -> void:
 	if event.is_action_pressed("interact3") && player_in_area:
 		_set_collision(true)
 		if player:
+			ui_farming.hide()
 			state_label.hide()
 			player.normal_speed = 50
 			player.camera.make_current()
@@ -55,6 +58,7 @@ func _on_field_clicked(field:Area2D) -> void:
 			field.get_child(2).water()
 	else:
 		if ui_farming.selection != '' && SaveGame.get_item_count(ui_farming.selection) > 0:
+			crop_used.emit()
 			if player:
 				player.do_harvest()
 			var crop:AnimatedSprite2D = load("res://scenes/crops/" + ui_farming.selection.split("_")[0] +".tscn").instantiate()
@@ -88,6 +92,7 @@ func _on_player_exited(body: Node2D) -> void:
 		state_label.hide()
 		ui_farming.hide()
 		if player:
+			ui_farming.hide()
 			state_label.hide()
 			await get_tree().create_timer(0.2).timeout
 			_set_collision(true)

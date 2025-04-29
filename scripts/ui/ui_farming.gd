@@ -20,15 +20,28 @@ extends PanelContainer
 @onready var panel8:PanelContainer = $MarginContainer/HBoxContainer/PanelContainer8
 @onready var panel9:PanelContainer = $MarginContainer/HBoxContainer/PanelContainer9
 
+@onready var label1:Label = $MarginContainer/HBoxContainer/PanelContainer/Label
+@onready var label2:Label = $MarginContainer/HBoxContainer/PanelContainer2/Label
+@onready var label3:Label = $MarginContainer/HBoxContainer/PanelContainer3/Label
+@onready var label4:Label = $MarginContainer/HBoxContainer/PanelContainer4/Label
+@onready var label5:Label = $MarginContainer/HBoxContainer/PanelContainer5/Label
+@onready var label6:Label = $MarginContainer/HBoxContainer/PanelContainer6/Label
+@onready var label7:Label = $MarginContainer/HBoxContainer/PanelContainer7/Label
+@onready var label8:Label = $MarginContainer/HBoxContainer/PanelContainer8/Label
+@onready var label9:Label = $MarginContainer/HBoxContainer/PanelContainer9/Label
+
 @onready var panel = $MarginContainer/HBoxContainer/PanelContainer
 @onready var hbox = $MarginContainer/HBoxContainer
 @onready var mar_box:MarginContainer = $MarginContainer
+
+@onready var area = $"../.."
 
 var current_btn:Button = null
 var items:Array[String] = ["wheat_seed", "corn_seed", "carrot_seed", "pumpkin_seed", "potatoe_seed", "tomatoe_seed", "lettuce_seed", "eggplant_seed", "melon_seed"]
 
 
 var corelation:Dictionary
+var corelation2:Dictionary
 
 var selection_highlight:NinePatchRect
 var selection:String = '':
@@ -38,6 +51,7 @@ var selection:String = '':
 			current_btn.remove_child(selection_highlight)
 
 func _ready() -> void:
+	area.crop_used.connect(_on_show)
 	_setup_highlight()
 	
 	corelation = {
@@ -51,8 +65,20 @@ func _ready() -> void:
 	"eggplant_seed": panel8,
 	"melon_seed": panel9
 }
+	corelation2 = {
+	"wheat_seed": label1,
+	"corn_seed": label2,
+	"carrot_seed": label3,
+	"pumpkin_seed": label4,
+	"potatoe_seed": label5,
+	"tomatoe_seed": label6,
+	"lettuce_seed": label7,
+	"eggplant_seed": label8,
+	"melon_seed": label9
+}
 	
 	level_handling()
+	count_handeling()
 	visibility_changed.connect(_on_show)
 
 	slot1.pressed.connect(_on_button_pressed)
@@ -81,7 +107,13 @@ func level_handling():
 		if i not in unlocked:
 			corelation[i].modulate = Color(0.5,0.5,0.5)
 			corelation[i].get_child(2).disabled = true
+
 	
+func count_handeling():
+	for i in corelation2.keys():
+		corelation2[i].text = str(SaveGame.get_item_count(i))
+		
+			
 func _on_button_pressed():
 	selection = 'wheat_seed'
 	current_btn = slot1
@@ -144,4 +176,5 @@ func _on_button9_pressed():
 	slot9.add_child(selection_highlight)
 	
 func _on_show():
+	count_handeling()
 	level_handling()
