@@ -86,7 +86,9 @@ func load_game() -> void:
 		#LevelingHandler.set_player_level(1)
 		inventory.money = 100
 		new_game = true
-		print("new gameing")
+		if player:
+			player.do_set_level()
+			player.do_set_money()
 		return
 	
 	if player:
@@ -96,8 +98,9 @@ func load_game() -> void:
 		var old_inventory = {}
 		if inventory and inventory.data:
 			old_inventory = inventory.data.duplicate()
-		
+	
 		inventory = saved_game.inventory
+		print(inventory.data)
 		# Load workstation output states
 		workstation_output_states = saved_game.workstation_output_states
 		# Load workstation production states

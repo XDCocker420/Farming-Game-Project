@@ -69,6 +69,7 @@ func _ready() -> void:
 	
 	# Nur initialisieren, wenn das Inventar leer ist (neues Spiel)
 	if SaveGame.get_inventory().size() == 0:
+		SaveGame.add_to_inventory("wheat_seed", 20)
 		SaveGame.add_to_inventory("carrot", 20)
 		SaveGame.add_to_inventory("corn", 20)
 		SaveGame.add_to_inventory("eggplant", 20)

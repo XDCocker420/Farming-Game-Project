@@ -55,9 +55,12 @@ func physics_update(_delta:float):
 	if animal:
 		if (walk_to_point - animal.global_position).length() <= 2:
 			target = original_pos
-
+		
 		elif (original_pos - animal.global_position).length() <= 2:
 			target = walk_to_point
+			
+		print("Walk to distance: ",(walk_to_point - animal.global_position).length())
+		print("Original distance: ",(original_pos - animal.global_position).length())
 
 		move_direction = target - animal.global_position
 		animal.velocity = move_direction.normalized() * move_speed

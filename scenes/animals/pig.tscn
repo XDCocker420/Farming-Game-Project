@@ -6,7 +6,7 @@
 [ext_resource type="Script" uid="uid://bdmdtyk52qm4n" path="res://scripts/animals/animal_fed.gd" id="4_0nxyp"]
 [ext_resource type="Script" uid="uid://b4m6baeg7pxyh" path="res://scripts/animals/animal_full.gd" id="5_pjij6"]
 [ext_resource type="Script" uid="uid://cfadmajc7cjkx" path="res://scripts/animals/animal_hungry.gd" id="6_u8lkb"]
-[ext_resource type="Texture2D" uid="uid://epnpb04cyark" path="res://assets/ui/icons/milk.png" id="7_jhfv3"]
+[ext_resource type="Texture2D" uid="uid://dyugyh3ffrwdr" path="res://assets/ui/icons/feed.png" id="7_l1uqc"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_l1uqc"]
 atlas = ExtResource("3_0lnhb")
@@ -263,7 +263,7 @@ shape = SubResource("RectangleShape2D_e5r1s")
 modulate = Color(1, 1, 1, 0)
 position = Vector2(11, -21)
 scale = Vector2(0.75, 0.75)
-texture = ExtResource("7_jhfv3")
+texture = ExtResource("7_l1uqc")
 
 [node name="Action" type="AnimationPlayer" parent="."]
 libraries = {

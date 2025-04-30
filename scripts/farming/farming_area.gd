@@ -52,12 +52,13 @@ func _on_field_clicked(field:Area2D) -> void:
 		if field.get_child(2).can_harvest() && !state:
 			field.get_child(2).harvest()
 			
-		if state:
+		if state && field.get_child(2).can_water():
 			if player:
 				player.do_water()
 			field.get_child(2).water()
 	else:
-		if ui_farming.selection != '' && SaveGame.get_item_count(ui_farming.selection) > 0:
+		if ui_farming.selection != '' && SaveGame.get_item_count(ui_farming.selection) > 0 && !state:
+			SaveGame.remove_from_inventory(ui_farming.selection)
 			crop_used.emit()
 			if player:
 				player.do_harvest()

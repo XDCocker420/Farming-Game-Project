@@ -58,6 +58,8 @@ func water() -> bool:
 		return true
 	return false
 
+func can_water() -> bool:
+	return !is_watered
 
 func can_harvest() -> bool:
 	return frame == 5
