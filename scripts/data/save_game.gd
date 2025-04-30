@@ -82,9 +82,9 @@ func load_game() -> void:
 	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
 	if saved_game == null:
 		# For testing
-		#LevelingHandler.set_player_level(10)
+		LevelingHandler.set_player_level(10)
 		# For production
-		LevelingHandler.set_player_level(1)
+		#LevelingHandler.set_player_level(1)
 		inventory.money = 100
 		new_game = true
 		if player:

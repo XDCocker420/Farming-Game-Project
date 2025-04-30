@@ -67,7 +67,10 @@ func _ready() -> void:
 	do_set_money()
 	
 	# Nur initialisieren, wenn das Inventar leer ist (neues Spiel)
+	await get_tree().process_frame
+
 	if SaveGame.get_inventory().size() == 0:
+		print("adding testing item")
 		SaveGame.add_to_inventory("wheat_seed", 20)
 		SaveGame.add_to_inventory("carrot", 20)
 		SaveGame.add_to_inventory("corn", 20)
