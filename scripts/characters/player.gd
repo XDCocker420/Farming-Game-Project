@@ -48,6 +48,7 @@ func _ready() -> void:
 	
 	SaveGame.money_added.connect(_on_money_added)
 	SaveGame.money_removed.connect(_on_money_removed)
+	SaveGame.loaded_game.connect(_on_loaded_game)
 	
 	money_animation.animation_finished.connect(_on_money_anim_finished)
 	exp_animation.animation_finished.connect(_on_exp_anim_finished)
@@ -55,6 +56,7 @@ func _ready() -> void:
 	player_animplayer.animation_finished.connect(_on_player_anim_finished)
 	
 	body.animation_finished.connect(_on_anim_end)
+	#Every thing else is in _on_loaded_game
 	
 	$CanvasLayer.visible = !no_ui
 	
@@ -68,7 +70,7 @@ func _ready() -> void:
 	
 	# Nur initialisieren, wenn das Inventar leer ist (neues Spiel)
 	await get_tree().process_frame
-
+	
 	if SaveGame.get_inventory().size() == 0:
 		print("adding testing item")
 		SaveGame.add_to_inventory("wheat_seed", 20)
@@ -274,3 +276,44 @@ func do_set_money():
 # Function to get the player's current money from SaveGame
 func get_money() -> int:
 	return SaveGame.get_money()
+
+func _on_loaded_game():
+	body.animation_finished.connect(_on_anim_end)
+	#Every thing else is in _on_loaded_game
+	
+	$CanvasLayer.visible = !no_ui
+	
+	current_speed = normal_speed
+	
+	if SceneSwitcher.player_position != Vector2.ZERO:
+		call_deferred("_check_position_after_building_exit")
+	
+	# Update money display immediately on ready
+	do_set_money()
+	
+	# Nur initialisieren, wenn das Inventar leer ist (neues Spiel)
+	
+	if SaveGame.get_inventory().size() == 0:
+		print("adding testing item")
+		SaveGame.add_to_inventory("wheat_seed", 20)
+		SaveGame.add_to_inventory("carrot", 20)
+		SaveGame.add_to_inventory("corn", 20)
+		SaveGame.add_to_inventory("eggplant", 20)
+		SaveGame.add_to_inventory("potatoe", 20)
+		
+		# Add input materials for production testing
+		SaveGame.add_to_inventory("milk", 20)
+		SaveGame.add_to_inventory("egg", 20)
+		SaveGame.add_to_inventory("white_wool", 20)
+		SaveGame.add_to_inventory("wheat", 20)
+		
+		# Add output products for production testing
+		SaveGame.add_to_inventory("butter", 20)
+		SaveGame.add_to_inventory("cheese", 20)
+		SaveGame.add_to_inventory("mayo", 20)
+		SaveGame.add_to_inventory("white_cloth", 20)
+		SaveGame.add_to_inventory("white_string", 20)
+		SaveGame.add_to_inventory("feed", 20)
+		
+		#if SaveGame.get_money() <= 0:
+			#SaveGame.add_money(5000)

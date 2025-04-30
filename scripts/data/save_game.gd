@@ -22,6 +22,7 @@ var new_game:bool = false
 signal money_added(money:int, added_value:int)
 signal money_removed(money:int, removed_value:int)
 signal market_bought(item_name:String)
+signal loaded_game
 
 func _ready() -> void:
 	var map_nodes = get_tree().get_nodes_in_group("game_map")
@@ -99,7 +100,7 @@ func load_game() -> void:
 		var old_inventory = {}
 		if inventory and inventory.data:
 			old_inventory = inventory.data.duplicate()
-	
+
 		inventory = saved_game.inventory
 		# Load workstation output states
 		workstation_output_states = saved_game.workstation_output_states
@@ -139,7 +140,8 @@ func load_game() -> void:
 			map.add_child(restored_node)
 			if restored_node.has_method("on_load_game"):
 				restored_node.on_load_game(item)
-
+	# for correct loading
+	loaded_game.emit()
 
 func add_to_inventory(item:String, count:int=1) -> void:
 	if count < 1:
