@@ -63,6 +63,7 @@ func save_game() -> void:
 	
 	save.saved_data = saved_data
 	save.inventory = inventory
+	print(save.inventory.data)
 	# Save workstation output states
 	save.workstation_output_states = workstation_output_states
 	# Save workstation production states
@@ -81,9 +82,9 @@ func load_game() -> void:
 	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
 	if saved_game == null:
 		# For testing
-		LevelingHandler.set_player_level(10)
+		#LevelingHandler.set_player_level(10)
 		# For production
-		#LevelingHandler.set_player_level(1)
+		LevelingHandler.set_player_level(1)
 		inventory.money = 100
 		new_game = true
 		if player:
@@ -100,7 +101,6 @@ func load_game() -> void:
 			old_inventory = inventory.data.duplicate()
 	
 		inventory = saved_game.inventory
-		print(inventory.data)
 		# Load workstation output states
 		workstation_output_states = saved_game.workstation_output_states
 		# Load workstation production states
