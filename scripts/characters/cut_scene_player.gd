@@ -65,7 +65,7 @@ func _physics_process(delta: float) -> void:
 			direction.x = Input.get_axis("move_left", "move_right")
 			direction.y = Input.get_axis("move_up", "move_down")
 		elif follow:
-			direction = (martha.global_position + Vector2(-20, 20)) - global_position
+			direction = (martha.global_position + Vector2(-30, 30)) - global_position
 			if direction.length() < 1.0:
 				direction = Vector2.ZERO
 		elif follow_pos:
@@ -83,14 +83,20 @@ func _physics_process(delta: float) -> void:
 		
 		velocity = direction * current_speed
 
-		if direction.x > 0:
-			looking_direction = "right"
-		elif direction.x < 0:
-			looking_direction = "left"
-		elif direction.y > 0:
-			looking_direction = "down"
-		elif direction.y < 0:
-			looking_direction = "up"
+		# Update looking direction based on movement
+		# Prioritize horizontal movement when moving diagonally
+		if abs(direction.x) > abs(direction.y):
+			# Horizontal movement has priority
+			if direction.x > 0:
+				looking_direction = "right"
+			elif direction.x < 0:
+				looking_direction = "left"
+		else:
+			# Vertical movement has priority or equal priority
+			if direction.y > 0:
+				looking_direction = "down"
+			elif direction.y < 0:
+				looking_direction = "up"
 
 		update_animation(direction)
 		move_and_slide()

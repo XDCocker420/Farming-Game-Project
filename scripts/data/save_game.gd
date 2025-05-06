@@ -113,8 +113,9 @@ func load_game() -> void:
 		player.global_position = saved_game.player_position
 		con_sav = saved_game.contracts
 		market_sav = saved_game.market_items
-		player.do_set_level()
-		player.do_set_money()
+		if player.has_method("do_set_level"):
+			player.do_set_level()
+			player.do_set_money()
 	
 	await get_tree().process_frame
 	
