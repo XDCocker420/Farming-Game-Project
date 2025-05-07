@@ -57,23 +57,17 @@ func _on_accept() -> void:
 		if verify_item_path(item_to_add):
 			SaveGame.add_to_inventory(item_to_add, amount)
 			SaveGame.remove_money(total_price)
-			# Print debug information
-			print("Added " + str(amount) + " " + item_to_add + " to inventory")
 			hide()
 			reset()
 		else:
-			print("Error: Could not find texture for " + item_to_add)
 			# Fallback - try adding without _seed suffix as a fallback
 			if verify_item_path(selected_item):
 				SaveGame.add_to_inventory(selected_item, amount)
 				SaveGame.remove_money(total_price)
-				print("Added " + str(amount) + " " + selected_item + " to inventory (fallback)")
 				hide()
 				reset()
-			else:
-				print("Error: Could not find texture for " + selected_item + " either")
-	
-	
+
+
 func _on_cancel() -> void:
 	hide()
 	reset()
