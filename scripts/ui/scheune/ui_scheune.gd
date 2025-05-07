@@ -345,8 +345,13 @@ func _on_visibility_changed() -> void:
 		if had_filter:
 			current_filter.clear()
 		
-		# Force a reload with fresh data from SaveGame
-		reload_slots(false)
+		# Clear existing slots and completely rebuild from SaveGame
+		slot_list.clear()
+		for slot in slots.get_children():
+			slot.queue_free()
+		
+		# Load fresh inventory data
+		load_slots()
 		
 		# Restore filter if needed
 		if had_filter and not current_filter_copy.is_empty():

@@ -25,7 +25,10 @@ func _ready() -> void:
 	cancel.pressed.connect(_on_cancel)
 	amount_spinbox.value_changed.connect(_on_amount_changed)
 	
-	
+	# Connect visibility changed signal to handle UI state
+	visibility_changed.connect(_on_visibility_changed)
+
+
 func _on_item_selected(item_name: String, price: int, texture: Texture2D) -> void:
 	selected_item = item_name
 	price_label.text = str(price) + "$"
@@ -47,10 +50,28 @@ func _on_accept() -> void:
 		return
 	
 	if SaveGame.get_money() >= total_price:
-		SaveGame.add_to_inventory(selected_item, amount)
-		SaveGame.remove_money(total_price)
-		hide()
-		reset()
+		# Add the "_seed" suffix to item names as these are seed items
+		var item_to_add = selected_item + "_seed"
+		
+		# Verify the item texture exists
+		if verify_item_path(item_to_add):
+			SaveGame.add_to_inventory(item_to_add, amount)
+			SaveGame.remove_money(total_price)
+			# Print debug information
+			print("Added " + str(amount) + " " + item_to_add + " to inventory")
+			hide()
+			reset()
+		else:
+			print("Error: Could not find texture for " + item_to_add)
+			# Fallback - try adding without _seed suffix as a fallback
+			if verify_item_path(selected_item):
+				SaveGame.add_to_inventory(selected_item, amount)
+				SaveGame.remove_money(total_price)
+				print("Added " + str(amount) + " " + selected_item + " to inventory (fallback)")
+				hide()
+				reset()
+			else:
+				print("Error: Could not find texture for " + selected_item + " either")
 	
 	
 func _on_cancel() -> void:
@@ -65,3 +86,16 @@ func reset() -> void:
 	selected_item = ""
 	amount_spinbox.value = 1
 	price_label.text = ""
+
+
+func _on_visibility_changed() -> void:
+	if visible:
+		# Reset UI state when shown
+		reset()
+
+
+# Verify the item exists in the assets folder
+func verify_item_path(item_name: String) -> bool:
+	var file_path = "res://assets/ui/icons/" + item_name + ".png"
+	var file = FileAccess.open(file_path, FileAccess.READ)
+	return file != null
