@@ -190,3 +190,9 @@ func _on_buy(item:String):
 	if item == item_name:
 		SaveGame.add_money(int(amount_label.text))
 		clear()
+
+
+# Add a method to deselect the slot (unpress the button)
+func deselect() -> void:
+	if button and button.button_pressed:
+		button.button_pressed = false

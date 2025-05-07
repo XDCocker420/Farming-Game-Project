@@ -2,7 +2,7 @@ extends PanelContainer
 
 
 signal put_item(item_name: String, item_texture: Texture2D)
-signal accept(amount: int)
+signal accept(amount: int, price: int)
 
 @onready var slots: GridContainer = $HBoxContainer/MarginContainer/ScrollContainer/slots
 @onready var accept_button: TextureButton = $HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer/HBoxContainer/accept
@@ -66,27 +66,51 @@ func _on_slot_selected(slot: PanelContainer) -> void:
 	
 	amount_spinbox.max_value = max_amount
 	amount_spinbox.value = 1
+	
+	if current_item != "":
+		price_spinbox.value = 1
 
 
 func _on_item_selected(item_name: String, price: int, item_texture: Texture2D) -> void:
 	current_item = item_name
-	price_spinbox.max_value = ConfigReader.get_max_price(item_name)
+	
+	var max_price = ConfigReader.get_max_price(item_name)
+	price_spinbox.max_value = max_price
+	
+	price_spinbox.value = 1
+	
 	put_item.emit(item_name, item_texture)
 	
 	
 func _on_cancel() -> void:
+	reset_ui()
 	hide()
 	
 	
 func _on_accept() -> void:
 	var amount: int = int(amount_spinbox.value)
+	var price: int = int(price_spinbox.value)
 	amount_spinbox.value = 1
-	accept.emit(amount)
+	price_spinbox.value = 1
+	accept.emit(amount, price)
 
 
 func _on_visibility_changed():
 	if visible == false:
+		reset_ui()
 		reload_slots()
-		
+	else:
+		reset_ui()
+
 func _on_amount_changed(value:float) -> void:
 	price_spinbox.max_value = ConfigReader.get_max_price(current_item) * value
+
+func reset_ui() -> void:
+	amount_spinbox.value = 1
+	price_spinbox.value = 1
+	
+	for slot in slot_list:
+		if slot.has_method("deselect"):
+			slot.deselect()
+		elif slot.has_node("button"):
+			slot.get_node("button").button_pressed = false

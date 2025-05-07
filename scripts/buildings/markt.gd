@@ -86,7 +86,7 @@ func _on_put(item_name: String, item_texture: Texture2D) -> void:
 	selected_name = item_name
 		
 
-func _on_accept(amount: int) -> void:
+func _on_accept(amount: int, price: int) -> void:
 	if selected_texture == null:
 		return
 	
@@ -98,12 +98,16 @@ func _on_accept(amount: int) -> void:
 		current_texture.texture = selected_texture
 		current_amount_label.text = str(amount)
 		
+		# Verwende den vom Spieler angegebenen Preis
+		selected_slot.price = price
+		selected_slot.item_name = selected_name
+		
 		SaveGame.remove_from_inventory(selected_name, amount)
 		
 		selected_texture = null
 		ui_selection.hide()
 		
-		SaveGame.add_market_slot(0, selected_name, amount, 0)
+		SaveGame.add_market_slot(0, selected_name, amount, price)
 	else:
 		# Could not find required nodes
 		pass

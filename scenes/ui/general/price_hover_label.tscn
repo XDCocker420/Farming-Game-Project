@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://ctnmb4i7elgou"]
+
+[ext_resource type="Script" path="res://scripts/ui/general/price_hover_label.gd" id="1_vhd5c"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_cg4w8"]
+bg_color = Color(0.0, 0.0, 0.0, 0.6)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[node name="PriceHoverLabel" type="Label"]
+visible = false
+layout_mode = 0
+offset_right = 22.0
+offset_bottom = 10.0
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_styles/normal = SubResource("StyleBoxFlat_cg4w8")
+text = "100$"
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("1_vhd5c") 
