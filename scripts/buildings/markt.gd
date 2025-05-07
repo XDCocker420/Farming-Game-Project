@@ -66,6 +66,14 @@ func _on_select(slot: PanelContainer) -> void:
 	# CRITICAL FIX: Only continue if the slot is not locked
 	if slot.get("locked"):
 		return
+	
+	# Wenn der Slot bereits ein Item enthält, ignorieren wir die Auswahl
+	if slot.item_name != "" && slot.item_name != null:
+		return
+	
+	# Oder alternativ prüfen, ob ein Item-Texture vorhanden ist
+	if slot.has_node("MarginContainer/item") && slot.get_node("MarginContainer/item").texture != null:
+		return
 		
 	# Save the selected slot for later
 	selected_slot = slot
@@ -73,13 +81,7 @@ func _on_select(slot: PanelContainer) -> void:
 	# Show the selection UI
 	ui_selection.show()
 	ui_selection.z_index = 1001
-	
-	# Check if this slot already has an item assigned
-	if slot.has_node("MarginContainer/item") and slot.get_node("MarginContainer/item").texture != null:
-		# We could implement removing/modifying existing items here
-		# But for now we'll just allow adding new items
-		pass
-		
+
 
 func _on_put(item_name: String, item_texture: Texture2D) -> void:
 	selected_texture = item_texture
