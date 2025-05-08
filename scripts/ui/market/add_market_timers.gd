@@ -1,23 +1,14 @@
 extends Node
 
-# Hilfsskript, das Timer-Labels zu allen Markt-Slots hinzufügt
+# Hilfsskript für das Markt-System (Timer werden im Hintergrund verwaltet)
 
 func _ready():
 	# Warte einen Frame, damit die UI vollständig initialisiert ist
 	await get_tree().process_frame
 	
-	# Finde ui_markt in der Hierarchie
-	var ui_markt = get_ui_markt()
-	if not ui_markt:
-		print("Konnte ui_markt nicht finden")
-		return
-	
 	# Verbinde mit SaveGame-Signalen
 	SaveGame.items_added_to_market.connect(_on_market_item_added)
 	SaveGame.market_item_sold.connect(_on_market_item_sold)
-	
-	# Füge Timer zu allen Slots hinzu
-	add_timers_to_slots(ui_markt)
 
 # Utility-Funktion, um die ui_markt Instanz zu finden
 func get_ui_markt():
@@ -28,32 +19,10 @@ func get_ui_markt():
 		parent = parent.get_parent()
 	return null
 
-# Fügt Timer-Labels zu allen Markt-Slots hinzu
-func add_timers_to_slots(ui_markt):
-	if not ui_markt.has_node("MarginContainer/slots"):
-		print("Konnte slots-Container nicht finden")
-		return
-	
-	var slots_container = ui_markt.get_node("MarginContainer/slots")
-	var timer_scene = preload("res://scenes/ui/market/market_timer_label.tscn")
-	
-	for slot in slots_container.get_children():
-		# Wenn es ein PanelContainer Objekt ist (Typ-Check statt "is")
-		if slot is PanelContainer:
-			# Wenn noch kein Timer-Label existiert, füge eines hinzu
-			if not slot.has_node("MarketTimerLabel"):
-				var timer_label = timer_scene.instantiate()
-				slot.add_child(timer_label)
-				# Positioniere das Label am oberen Rand des Slots
-				timer_label.position = Vector2(0, 0)
-				timer_label.size.x = slot.size.x
-
 # Signal-Handler für hinzugefügte Markt-Items
 func _on_market_item_added(_item_name):
-	# Aktualisiere die Anzeige, wenn ein neues Item zum Markt hinzugefügt wurde
-	var ui_markt = get_ui_markt()
-	if ui_markt:
-		add_timers_to_slots(ui_markt)
+	# Nur noch für Debug-Zwecke
+	pass
 
 # Signal-Handler für verkaufte Markt-Items
 func _on_market_item_sold(item_name, count, total_price):
@@ -79,9 +48,5 @@ func _on_market_item_sold(item_name, count, total_price):
 				# Wichtig: Setze alle relevanten Eigenschaften zurück
 				slot.set("item_name", "")
 				slot.set("price", 0)
-				
-				# Verstecke das Timer-Label, falls vorhanden
-				if slot.has_node("MarketTimerLabel"):
-					slot.get_node("MarketTimerLabel").visible = false
 	
 	print("Verkauft: %d x %s für %d$" % [count, item_name, total_price]) 
