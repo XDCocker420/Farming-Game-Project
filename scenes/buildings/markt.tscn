@@ -1,4 +1,4 @@
-[gd_scene load_steps=13 format=4 uid="uid://ddeef2warcy2e"]
+[gd_scene load_steps=14 format=4 uid="uid://ddeef2warcy2e"]
 
 [ext_resource type="Script" uid="uid://rrcf3dtn54ky" path="res://scripts/buildings/markt.gd" id="1_watet"]
 [ext_resource type="Texture2D" uid="uid://u7h7gr0j0oi3" path="res://assets/buildings/farm_buildings_all.png" id="2_kk4sm"]
@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://bgatkx86onbu6" path="res://scenes/ui/market/ui_markt.tscn" id="3_ui650"]
 [ext_resource type="PackedScene" uid="uid://dqljx4yrs6ttv" path="res://scenes/ui/market/ui_selection.tscn" id="4_jpnmi"]
 [ext_resource type="Script" uid="uid://smoa35xocrid" path="res://scripts/ui/market/add_price_labels.gd" id="5_2o2jb"]
+[ext_resource type="Script" path="res://scripts/ui/market/add_market_timers.gd" id="6_wbgh5"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_bsug3"]
 size = Vector2(80, 45)
@@ -108,3 +109,6 @@ vertices = PackedVector2Array(-40, -63, 39, -63, 40, -17, -40, -17)
 
 [node name="PriceLabelHelper" type="Node" parent="."]
 script = ExtResource("5_2o2jb")
+
+[node name="MarketTimerHelper" type="Node" parent="."]
+script = ExtResource("6_wbgh5")

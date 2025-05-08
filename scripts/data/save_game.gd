@@ -23,6 +23,8 @@ signal money_added(money:int, added_value:int)
 signal money_removed(money:int, removed_value:int)
 signal market_bought(item_name:String)
 signal loaded_game
+signal items_added_to_market
+signal market_item_sold(item_name: String, count: int, total_price: int)
 
 func _ready() -> void:
 	var map_nodes = get_tree().get_nodes_in_group("game_map")
@@ -30,6 +32,7 @@ func _ready() -> void:
 		map = map_nodes[0]
 
 	start_auto_save_timer()
+	start_market_check_timer() # Markt-Timer starten
 	# Attempt to load existing game data
 	if SceneSwitcher.get_current_scene_name() not in ["start_screen", "intro"]:
 		load_game()
@@ -226,8 +229,6 @@ func get_contract_by_id(id:int) -> SavedContracts:
 			return i
 	return null
 
-signal items_added_to_market
-
 func add_market_slot(id:int, item:String, count:int=1, amount_to_sell:int=1) -> SavedMarket:
 	items_added_to_market.emit(item)
 	var temp:SavedMarket = SavedMarket.new()
@@ -235,6 +236,35 @@ func add_market_slot(id:int, item:String, count:int=1, amount_to_sell:int=1) -> 
 	temp.item = item
 	temp.count = count
 	temp.price = amount_to_sell
+	
+	# Berechne die Verkaufszeit basierend auf Preis und Menge
+	# Wir verwenden MAX_PRICE (den höchstmöglichen Preis) und MAX_COUNT (maximale Stückzahl)
+	# um eine Skala zu erstellen, die von 1 Minute bis 1 Stunde reicht
+	var MAX_PRICE = 100 # Annahme: maximaler Preis ist 100
+	var MAX_COUNT = 99  # Maximale Anzahl in einem Slot (aus dem Spiel-Code)
+	var MIN_TIME = 60   # 1 Minute in Sekunden
+	var MAX_TIME = 3600 # 1 Stunde in Sekunden
+	
+	# Preisfaktor: wie nahe ist der Preis am Maximum (0.0 bis 1.0)
+	var price_factor = float(amount_to_sell) / MAX_PRICE
+	price_factor = clamp(price_factor, 0.0, 1.0)
+	
+	# Mengenfaktor: wie nahe ist die Menge am Maximum (0.0 bis 1.0)
+	var count_factor = float(count) / MAX_COUNT
+	count_factor = clamp(count_factor, 0.0, 1.0)
+	
+	# Kombinierter Faktor (Beide Faktoren sind gleich wichtig)
+	var combined_factor = (price_factor + count_factor) / 2.0
+	
+	# Berechne die Zeit zwischen MIN_TIME und MAX_TIME basierend auf dem kombinierten Faktor
+	var time_range = MAX_TIME - MIN_TIME
+	var sell_time = MIN_TIME + (time_range * combined_factor)
+	
+	# Speichere Zeitinformationen
+	temp.sell_time_seconds = int(sell_time)
+	temp.start_time_ms = Time.get_ticks_msec()
+	temp.end_time_ms = temp.start_time_ms + (temp.sell_time_seconds * 1000) # Konvertierung zu ms
+	
 	market_sav.append(temp)
 	return temp
 
@@ -356,3 +386,49 @@ func _notification(what):
 		call_deferred("save_game")
 		# Allow the application to quit
 		get_tree().quit()
+
+# --- Marktverkauf-System ---
+func check_market_sales() -> bool:
+	var current_time_ms = Time.get_ticks_msec()
+	var sales_occurred = false
+	var items_to_remove = []
+	
+	# Überprüfe alle Markt-Items
+	for market_item in market_sav:
+		# Überprüfe, ob die Verkaufszeit abgelaufen ist
+		if market_item.end_time_ms > 0 && current_time_ms >= market_item.end_time_ms:
+			# Zeit abgelaufen - Verkauf durchführen
+			var total_price = market_item.price * market_item.count
+			
+			# Füge Geld zum Spieler-Inventar hinzu
+			add_money(total_price)
+			
+			# Wichtig: Zuerst das Signal senden, bevor das Item entfernt wird
+			# So können die UI-Handler noch auf die Daten zugreifen
+			market_item_sold.emit(market_item.item, market_item.count, total_price)
+			
+			# Markiere das Item zum Entfernen
+			items_to_remove.append(market_item)
+			
+			sales_occurred = true
+	
+	# Entferne verkaufte Items
+	for item in items_to_remove:
+		remove_market_item(item)
+	
+	return sales_occurred
+
+# Starte einen Timer für regelmäßige Überprüfung der Verkäufe
+func start_market_check_timer() -> void:
+	var timer = Timer.new()
+	timer.name = "MarketSaleTimer"
+	timer.wait_time = 1.0 # Überprüfe jede Sekunde
+	timer.autostart = true
+	timer.timeout.connect(_on_market_check_timeout)
+	add_child(timer)
+
+func _on_market_check_timeout() -> void:
+	if check_market_sales():
+		# Wenn Verkäufe stattgefunden haben, speichere das Spiel
+		save_game()
+# --- Ende des Marktverkauf-Systems ---
