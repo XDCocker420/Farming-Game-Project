@@ -31,17 +31,31 @@ func _ready() -> void:
 
 func _on_item_selected(item_name: String, price: int, texture: Texture2D) -> void:
 	selected_item = item_name
-	price_label.text = str(price) + "$"
 	selected_price = price
+	price_label.text = str(price) + "$"
 	total_price = price
 	amount_spinbox.value = 1
 	amount = 1
 	
 
 func _on_amount_changed(value: float) -> void:
+	if selected_item == "":
+		return
+		
 	amount = int(value)
+	
+	# Sicherstellen, dass selected_price gültig ist, bevor wir es verwenden
+	if selected_price <= 0:
+		# Preisfehler erkannt, nach dem richtigen Preis im Slot-Grid suchen
+		for slot in slot_list:
+			if slot.item_name == selected_item:
+				selected_price = slot.price
+				break
+	
+	# Berechnung des Gesamtpreises
 	total_price = selected_price * amount
 	
+	# Aktualisierung des Preislabels
 	price_label.text = str(total_price) + "$"
 
 
@@ -78,14 +92,26 @@ func reset() -> void:
 		slot.get_node("button").button_pressed = false
 	
 	selected_item = ""
+	selected_price = 0
+	total_price = 0
+	amount = 1
 	amount_spinbox.value = 1
 	price_label.text = ""
 
 
 func _on_visibility_changed() -> void:
 	if visible:
-		# Reset UI state when shown
-		reset()
+		# Vollständige Initialisierung aller Variablen beim Anzeigen
+		selected_item = ""
+		selected_price = 0
+		total_price = 0
+		amount = 1
+		amount_spinbox.value = 1
+		price_label.text = ""
+		
+		# UI-Elemente zurücksetzen
+		for slot in slot_list:
+			slot.get_node("button").button_pressed = false
 
 
 # Verify the item exists in the assets folder

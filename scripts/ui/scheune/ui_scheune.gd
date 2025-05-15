@@ -384,6 +384,7 @@ func set_workstation_filter(workstation: String) -> void:
 			current_filter.append("white_wool")
 		"feed_mill":
 			current_filter.append("corn")
+			current_filter.append("wheat")
 	
 	# Reload slots with new filter
 	reload_slots()

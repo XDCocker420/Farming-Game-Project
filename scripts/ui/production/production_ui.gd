@@ -344,7 +344,7 @@ func setup(workstation_name: String, inventory_ui_ref = null):
 			input_items = ["white_wool"]
 			output_items = ["white_string"]
 		"feed_mill":
-			input_items = ["corn"]
+			input_items = ["corn", "wheat"]
 			output_items = ["feed"]
 	
 	# --- LOAD SAVED OUTPUT STATE --- 
