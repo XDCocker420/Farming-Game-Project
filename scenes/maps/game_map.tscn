@@ -3678,7 +3678,7 @@ position = Vector2(2529, 283)
 position = Vector2(2248, 54)
 
 [node name="BasicTownHouse2" parent="Map/Town" instance=ExtResource("9_syuog")]
-position = Vector2(1610, 143)
+position = Vector2(1610, 135)
 
 [node name="BasicTownHouse3" parent="Map/Town" instance=ExtResource("9_syuog")]
 position = Vector2(2046, -207)
