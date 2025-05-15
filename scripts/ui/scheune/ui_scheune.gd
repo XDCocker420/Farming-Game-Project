@@ -74,9 +74,14 @@ func _ready() -> void:
 	
 	load_slots()
 
-func add_slot(item: String, amount: int) -> void:
-	# Don't add slots for empty items or with zero quantity
-	if item.strip_edges() == "" or amount <= 0:
+func add_slot(item: String, amount: int, is_part_of_active_filter: bool = false) -> void:
+	# Don't add slots for empty items
+	if item.strip_edges() == "":
+		return
+		
+	# If this item is part of an active filter, we *always* want to show it, even if amount is 0.
+	# If it's NOT part of an active filter, then we only show it if amount > 0.
+	if not is_part_of_active_filter and amount <= 0:
 		return
 		
 	var slot: PanelContainer = slot_scenen.instantiate()
@@ -150,10 +155,16 @@ func _on_slot_button_pressed(slot, item_name) -> void:
 func load_slots() -> void:
 	var inventory = SaveGame.get_inventory()
 	
-	for item in inventory.keys():
-		# If we have a filter active, only show matching items
-		if current_filter.is_empty() or item in current_filter:
-			add_slot(item, inventory[item])
+	if not current_filter.is_empty():
+		# Filter is active, show all filter items, with 0 count if not in inventory
+		for item_in_filter in current_filter:
+			var count = inventory.get(item_in_filter, 0)
+			add_slot(item_in_filter, count, true) # Pass true for is_part_of_active_filter
+	else:
+		# No filter active, show items from inventory with count > 0
+		for item in inventory.keys():
+			if inventory[item] > 0:
+				add_slot(item, inventory[item], false) # Pass false
 		
 	
 func reload_slots(apply_filter: bool = true) -> void:
@@ -166,14 +177,9 @@ func reload_slots(apply_filter: bool = true) -> void:
 	# Only rebuild slots if needed
 	if apply_filter and not current_filter.is_empty():
 		# For filtered reloads, more selective approach
-		var filtered_items = []
-		for item in inventory_data:
-			if current_filter.has(item):
-				filtered_items.append(item)
-		
-		# If we're only showing a few items, do a selective update
-		if filtered_items.size() <= 6:
-			_selective_slot_update(filtered_items, inventory_data)
+		# We base the decision for selective update on the size of the filter itself
+		if current_filter.size() <= 6: # Check against current_filter size
+			_selective_slot_update(inventory_data) # Pass only inventory_data
 			call_deferred("_ensure_scroll_updated")
 			return
 	
@@ -188,39 +194,34 @@ func reload_slots(apply_filter: bool = true) -> void:
 	call_deferred("_ensure_scroll_updated")
 
 # Helper method for selective slot updates (more efficient)
-func _selective_slot_update(filtered_items, inventory_data):
-	var updated_items = {}
+func _selective_slot_update(inventory_data): # Takes inventory_data, uses self.current_filter
+	var items_processed_from_filter = {}
 	
-	# First pass: Update existing slots or mark for removal
-	for slot in slots.get_children():
-		if "item_name" in slot and slot.item_name != "":
-			var item_name = slot.item_name
-			if item_name in filtered_items:
-				# Get the current inventory count
-				var inv_count = inventory_data.get(item_name, 0)
-				
-				# Update amount if needed
-				var amount_label = slot.get_node("amount")
-				if amount_label:
-					if inv_count > 0:
-						amount_label.text = str(inv_count)
-						amount_label.show()
-					else:
-						# If item count is 0, don't show but don't remove either
-						amount_label.text = "0"
-						amount_label.show()
-				
-				# Mark as updated
-				updated_items[item_name] = true
+	# First pass: Update existing slots or remove if no longer in current_filter
+	for slot_idx in range(slots.get_child_count() - 1, -1, -1): # Iterate backwards for safe removal
+		var slot = slots.get_child(slot_idx)
+		if is_instance_valid(slot) and "item_name" in slot and slot.item_name != "":
+			var slot_item_name = slot.item_name
+			
+			if current_filter.has(slot_item_name):
+				# Item is in the current filter, update it
+				var inv_count = inventory_data.get(slot_item_name, 0)
+				var amount_label = slot.get_node_or_null("amount")
+				if amount_label is Label:
+					amount_label.text = str(inv_count)
+					amount_label.show()
+				slot.show() # Ensure slot is visible
+				items_processed_from_filter[slot_item_name] = true
 			else:
-				# Not in filter, safely remove
-				slot_list.erase(slot)
+				# Item is not in the current filter, remove it
+				slot_list.erase(slot) # Assuming slot_list still tracks these
 				slot.queue_free()
 	
-	# Second pass: Add new slots for filtered items not already shown
-	for item in filtered_items:
-		if not updated_items.has(item) and inventory_data.has(item) and inventory_data[item] > 0:
-			add_slot(item, inventory_data[item])
+	# Second pass: Add new slots for current_filter items not already shown/processed
+	for item_in_filter in current_filter:
+		if not items_processed_from_filter.has(item_in_filter):
+			var inv_count = inventory_data.get(item_in_filter, 0)
+			add_slot(item_in_filter, inv_count, true) # Add as part of active filter
 
 # Helper method for full rebuild (original approach)
 func _full_slot_rebuild(inventory_data, apply_filter):
@@ -234,16 +235,17 @@ func _full_slot_rebuild(inventory_data, apply_filter):
 	for slot in slots.get_children():
 		slot.queue_free()
 
-	# Add slots for all items if no filter
-	if not apply_filter or current_filter.is_empty():
-		for item in inventory_data:
-			if inventory_data[item] > 0:  # Only show items with quantity > 0
-				add_slot(item, inventory_data[item])
+	# Add slots based on filter or full inventory
+	if apply_filter and not current_filter.is_empty():
+		# Filter is active, iterate current_filter and add all items
+		for item_name in current_filter:
+			var item_count = inventory_data.get(item_name, 0) # Default to 0 if not in inventory
+			add_slot(item_name, item_count, true) # True: is_part_of_active_filter
 	else:
-		# Add slots only for filtered items
-		for item in inventory_data:
-			if current_filter.has(item) and inventory_data[item] > 0:
-				add_slot(item, inventory_data[item])
+		# No filter or filter is empty, show items with quantity > 0 from inventory
+		for item_name in inventory_data:
+			if inventory_data[item_name] > 0:
+				add_slot(item_name, inventory_data[item_name], false) # False: not part of active filter
 
 # NEW: Function to find a specific slot by item name
 func find_slot_by_item_name(item_name: String):
@@ -274,13 +276,15 @@ func adjust_visual_count(item_name: String, adjustment: int):
 				# Ensure the slot itself is visible if it might have been hidden
 				slot.show()
 				# print("[ScheuneUI] Updated label text to: ", new_count, " and showed slot.")
-			else:
-				# If count drops to 0 or below, hide the slot visually
-				# We don't remove it, as a full refresh would bring it back
-				# if the SaveGame still has it.
-				amount_label.text = "0"
-				slot.hide() # Hide the entire slot
-				# print("[ScheuneUI] Set label text to 0 and hid slot.")
+			else: # new_count is <= 0
+				amount_label.text = "0" # Always show "0"
+				# Hide the slot only if it's NOT part of an active filter
+				if not current_filter.has(item_name):
+					slot.hide()
+				else:
+					# If it IS part of the filter, ensure it's visible (even with 0 count)
+					slot.show()
+				# print("[ScheuneUI] Set label text to 0 and hid/showed slot based on filter.")
 		else:
 			push_warning("Could not find amount Label in slot for visual adjustment: %s" % item_name)
 			# print("[ScheuneUI] ERROR: Could not find amount label for slot.")
@@ -311,23 +315,39 @@ func update_visuals():
 					amount_label.text = str(count)
 					amount_label.show()
 					slot.show()
-				else:
+				else: # count is 0
 					amount_label.text = "0"
-					slot.hide() # Hide slot if count is 0
+					# Hide slot only if count is 0 AND item is not in active filter
+					if not current_filter.has(item_name):
+						slot.hide()
+					else:
+						slot.show() # Ensure visible if part of filter and count is 0
 			else:
 				# If amount label not found, maybe just hide/show slot
 				if count > 0:
 					slot.show()
-				else:
-					slot.hide()
+				else: # count is 0
+					if not current_filter.has(item_name):
+						slot.hide()
+					else:
+						slot.show()
 
 	# Add slots for items in inventory but not currently shown (if any)
 	# This handles cases where an item was added to inventory externally
 	for item in inventory:
-		if not items_shown.has(item) and inventory[item] > 0:
-			# Check filter before adding
-			if current_filter.is_empty() or item in current_filter:
-				add_slot(item, inventory[item])
+		if not items_shown.has(item) and inventory[item] > 0: # Only add if count > 0
+			var add_this_item = false
+			var is_filtered_item = false
+			
+			if current_filter.is_empty(): # No filter active, add it
+				add_this_item = true
+				is_filtered_item = false
+			elif item in current_filter: # Filter active, and this inventory item is part of it
+				add_this_item = true
+				is_filtered_item = true
+			
+			if add_this_item:
+				add_slot(item, inventory[item], is_filtered_item)
 				
 	call_deferred("_ensure_scroll_updated")
 

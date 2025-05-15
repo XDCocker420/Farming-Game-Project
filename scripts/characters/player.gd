@@ -73,17 +73,17 @@ func _ready() -> void:
 	
 	if SaveGame.get_inventory().size() == 0:
 		print("adding testing item")
-		SaveGame.add_to_inventory("wheat_seed", 20)
-		SaveGame.add_to_inventory("carrot", 20)
-		SaveGame.add_to_inventory("corn", 20)
-		SaveGame.add_to_inventory("eggplant", 20)
-		SaveGame.add_to_inventory("potatoe", 20)
+		SaveGame.add_to_inventory("wheat_seed", 80)
+		SaveGame.add_to_inventory("carrot", 80)
+		SaveGame.add_to_inventory("corn", 80)
+		SaveGame.add_to_inventory("eggplant", 80)
+		SaveGame.add_to_inventory("potatoe", 80)
 		
 		# Add input materials for production testing
-		SaveGame.add_to_inventory("milk", 20)
-		SaveGame.add_to_inventory("egg", 20)
-		SaveGame.add_to_inventory("white_wool", 20)
-		SaveGame.add_to_inventory("wheat", 20)
+		SaveGame.add_to_inventory("milk", 80)
+		SaveGame.add_to_inventory("egg", 80)
+		SaveGame.add_to_inventory("white_wool", 80)
+		SaveGame.add_to_inventory("wheat", 80)
 		
 		# Add output products for production testing
 		SaveGame.add_to_inventory("butter", 20)
