@@ -75,7 +75,24 @@ func _ready() -> void:
 	# make sure we connect to gui_input to capture mouse wheel events
 	scroll_container.gui_input.connect(_on_scroll_container_gui_input)
 	
+	# Make sure existing slots are cleared before initial load
+	_clear_all_slots()
+	
+	# Then do the initial load
 	load_slots()
+
+# New helper function to properly clear all slots
+func _clear_all_slots() -> void:
+	# Clear list of references first
+	slot_list.clear()
+	
+	# Then remove all child slots
+	for slot in slots.get_children():
+		# Properly disconnect signals to prevent memory leaks
+		if slot.has_signal("item_selection") and slot.item_selection.is_connected(_on_item_selected):
+			slot.item_selection.disconnect(_on_item_selected)
+		# Remove the slot from the scene
+		slot.queue_free()
 
 func add_slot(item: String, amount: int, is_part_of_active_filter: bool = false) -> void:
 	# Don't add slots for empty items
@@ -86,6 +103,24 @@ func add_slot(item: String, amount: int, is_part_of_active_filter: bool = false)
 	# If it's NOT part of an active filter, then we only show it if amount > 0.
 	if not is_part_of_active_filter and amount <= 0:
 		return
+	
+	# DUPLICATION FIX: Check if a slot for this item already exists
+	for existing_slot in slots.get_children():
+		if "item_name" in existing_slot and existing_slot.item_name == item:
+			# Update the existing slot instead of creating a new one
+			if existing_slot.has_method("setup"):
+				existing_slot.setup(item, "", true, amount)
+			else:
+				# Manual update
+				var amount_label = _get_amount_label(existing_slot)
+				if amount_label:
+					amount_label.text = str(amount)
+			
+			# Ensure this slot is in our slot_list
+			if not existing_slot in slot_list:
+				slot_list.append(existing_slot)
+				
+			return
 		
 	var slot: PanelContainer = slot_scenen.instantiate()
 	var slot_item: TextureRect = slot.get_node("MarginContainer/item")
@@ -166,10 +201,18 @@ func _on_slot_button_pressed(slot, item_name) -> void:
 	item_selected.emit(item_name)
 
 func load_slots() -> void:
+	# CRITICAL FIX: Ensure there are no existing slots before adding new ones
+	_clear_all_slots()
+	
+	# Wait a frame to ensure all slots are fully removed
+	await get_tree().process_frame
+	
 	var inventory = SaveGame.get_inventory()
+	print("UI SCHEUNE: Loading slots with inventory:", inventory)
 	
 	if not current_filter.is_empty():
 		# Filter is active, show all filter items, with 0 count if not in inventory
+		print("UI SCHEUNE: Loading with filter:", current_filter)
 		for item_in_filter in current_filter:
 			var count = inventory.get(item_in_filter, 0)
 			add_slot(item_in_filter, count, true) # Pass true for is_part_of_active_filter
@@ -203,10 +246,10 @@ func reload_slots(apply_filter: bool = true) -> void:
 	var current_production_ui = active_production_ui
 	
 	# CRITICAL: Clear all existing slots first to prevent any lingering visual state
-	slot_list.clear()
-	for slot in slots.get_children():
-		slot.queue_free()
-	await get_tree().process_frame  # Wait for slots to be fully removed
+	_clear_all_slots()
+	
+	# Wait a frame to ensure slots are fully removed
+	await get_tree().process_frame
 	
 	# Build the slots using the fresh inventory data we captured
 	if apply_filter and not current_filter.is_empty():
@@ -343,31 +386,38 @@ func update_visuals():
 
 func _on_visibility_changed() -> void:
 	if visible:
+		print("UI SCHEUNE: Visibility changed to visible")
+		
 		# Ensure ScrollContainer is set up for scrolling
 		var scroll_container = $MarginContainer/ScrollContainer
 		scroll_container.vertical_scroll_mode = 3
 		
-		# Only store current_filter if it's not empty
+		# Save the current filter state
 		var current_filter_copy = current_filter.duplicate() if not current_filter.is_empty() else []
 		
-		# Only temporarily clear filter if we have one
-		var had_filter = not current_filter.is_empty()
-		if had_filter:
-			current_filter.clear()
+		# CRITICAL FIX: Always clear all slots when becoming visible to prevent duplicates
+		_clear_all_slots()
 		
-		# Clear existing slots and completely rebuild from SaveGame
-		slot_list.clear()
-		for slot in slots.get_children():
-			slot.queue_free()
+		# Wait a frame to ensure slots are fully removed
+		await get_tree().process_frame
 		
-		# Load fresh inventory data
-		load_slots()
-		
-		# Restore filter if needed
-		if had_filter and not current_filter_copy.is_empty():
+		if current_filter_copy.is_empty():
+			# No filter was active, just load all slots normally
+			print("UI SCHEUNE: No filter active, loading all slots")
+			load_slots()
+		else:
+			# Filter was active, restore it and load with filter applied
+			print("UI SCHEUNE: Restoring filter:", current_filter_copy)
 			current_filter = current_filter_copy
-			reload_slots(true)
 			
+			# Get fresh inventory data
+			var inventory = SaveGame.get_inventory()
+			
+			# Add items from the filter, even if count is 0
+			for item_in_filter in current_filter:
+				var count = inventory.get(item_in_filter, 0)
+				add_slot(item_in_filter, count, true)
+		
 		# Always ensure scroll is updated after becoming visible
 		call_deferred("_ensure_scroll_updated")
 
@@ -626,3 +676,29 @@ func _input(event: InputEvent) -> void:
 # Function for production_ui to notify us that refresh is happening during production
 func set_refresh_during_production(active: bool) -> void:
 	_refresh_during_production = active
+
+# Helper function to get amount label from a slot
+func _get_amount_label(slot) -> Label:
+	if not slot:
+		return null
+		
+	# Try direct path first
+	if slot.has_node("amount"):
+		var label = slot.get_node("amount")
+		if label is Label:
+			return label
+		
+	# Try alternative paths
+	var possible_paths = ["MarginContainer/amount", "amount_label", "MarginContainer/amount_label"]
+	for path in possible_paths:
+		if slot.has_node(path):
+			var label = slot.get_node(path)
+			if label is Label:
+				return label
+				
+	# Try accessing the property directly if it exists
+	if "amount_label" in slot and slot.amount_label != null:
+		if slot.amount_label is Label:
+			return slot.amount_label
+			
+	return null
