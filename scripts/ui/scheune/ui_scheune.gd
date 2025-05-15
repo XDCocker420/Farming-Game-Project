@@ -514,8 +514,7 @@ func _ensure_scroll_updated() -> void:
 	# Get the scroll container and force it to update its minimum size
 	var scroll_container = $MarginContainer/ScrollContainer
 	
-	# Set scroll mode again to ensure it's correct
-	scroll_container.vertical_scroll_mode = 3
+	# Always update scroll mode
 	scroll_container.horizontal_scroll_mode = 0
 	
 	# Make sure the slots grid is set up for scrolling
@@ -523,25 +522,57 @@ func _ensure_scroll_updated() -> void:
 	slots.layout_mode = 2  # Very important! This must match the scene's layout_mode
 	slots.mouse_filter = Control.MOUSE_FILTER_PASS
 	
-	# CRITICAL: Keep minimum size LARGER than container to force scrolling
-	var rows = ceil(slots.get_child_count() / float(slots.columns))
-	var estimated_height = max(300, rows * 30.0)  # Ensure much larger minimum height
-	slots.custom_minimum_size = Vector2(0, estimated_height)
+	# DYNAMIC SCROLL: Check if we need scrolling based on item count
+	var visible_slot_count = slots.get_child_count()
+	var rows_needed = ceil(visible_slot_count / float(slots.columns))
 	
-	# Force scrollbar visibility
-	var v_scrollbar = scroll_container.get_v_scroll_bar()
-	if v_scrollbar:
-		v_scrollbar.visible = true
+	# Calculate how many rows can fit in the visible area
+	# We'll approximate each row as 26 pixels high (adjust if your UI differs)
+	var slot_height = 26
+	var visible_height = scroll_container.size.y
+	var max_visible_rows = floor(visible_height / slot_height)
+	
+	print("UI SCHEUNE: Rows needed:", rows_needed, " Max visible rows:", max_visible_rows)
+	
+	# Set scrollbar based on whether we need it
+	if rows_needed > max_visible_rows and visible_slot_count > slots.columns:
+		# Need scrolling - set vertical mode to always show
+		scroll_container.vertical_scroll_mode = 3 # ALWAYS
 		
-		# Debug testing - set size to ensure visibility
-		v_scrollbar.custom_minimum_size = Vector2(6, scroll_container.size.y)
-		v_scrollbar.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		# Set minimum size to ensure proper scrolling
+		var estimated_height = rows_needed * slot_height
+		slots.custom_minimum_size = Vector2(0, max(estimated_height, 300))
+		
+		# Make sure scrollbar is visible
+		var v_scrollbar = scroll_container.get_v_scroll_bar()
+		if v_scrollbar:
+			v_scrollbar.visible = true
+			v_scrollbar.custom_minimum_size = Vector2(6, scroll_container.size.y)
+			v_scrollbar.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	else:
+		# Don't need scrolling - completely disable it
+		scroll_container.vertical_scroll_mode = 0 # DISABLED
+		
+		# CRITICAL FIX: For non-scrollable content, set size to exact content size or LESS
+		# This ensures no scrolling is possible
+		var exact_content_height = rows_needed * slot_height
+		
+		# Ensure content doesn't exceed visible height
+		slots.custom_minimum_size = Vector2(0, min(exact_content_height, visible_height - 4))
+		
+		# Force scrollbar to be hidden
+		var v_scrollbar = scroll_container.get_v_scroll_bar()
+		if v_scrollbar:
+			v_scrollbar.visible = false
+		
+		# Set scroll position to 0 to prevent any residual scrolling
+		scroll_container.scroll_vertical = 0
 	
 	# Make sure slots have consistent sizes and proper filters
 	for slot in slots.get_children():
 		if slot is Control:
-			# Ensure consistent size for all slots - keep them small
-			slot.custom_minimum_size = Vector2(22, 23)  # Original slot size
+			# Ensure consistent size for all slots
+			slot.custom_minimum_size = Vector2(22, 23)
 			
 			# These ensure proper alignment in the grid
 			slot.size_flags_horizontal = Control.SIZE_FILL
@@ -554,8 +585,9 @@ func _ensure_scroll_updated() -> void:
 	scroll_container.queue_sort()
 	slots.queue_sort()
 	
-	# Reset scroll position to top
-	scroll_container.scroll_vertical = 0
+	# Reset scroll position to top if needed
+	if rows_needed > max_visible_rows:
+		scroll_container.scroll_vertical = 0
 	
 	# Delay a frame to allow the container to finish updating
 	await get_tree().process_frame
@@ -565,36 +597,63 @@ func _process(_delta):
 	if visible:
 		var scroll_container = $MarginContainer/ScrollContainer
 		
-		# Make sure vertical scrolling is always enabled
-		if scroll_container.vertical_scroll_mode != 3:  # Mode 3 = Always show scroll
-			scroll_container.vertical_scroll_mode = 3
+		# Calculate if we need scrolling
+		var visible_slot_count = slots.get_child_count()
+		if visible_slot_count == 0:
+			return  # Nothing to scroll
 			
-		# If we have more slots than can fit in the visible area, ensure they're scrollable
-		if slots.get_child_count() > 9:  # 3 columns x 3 rows would need scrolling
-			var first_slot_size = Vector2.ZERO
-			if slots.get_child_count() > 0:
-				first_slot_size = slots.get_child(0).size
+		var rows_needed = ceil(visible_slot_count / float(slots.columns))
+		var slot_height = 26  # Approximate slot height
+		var visible_height = scroll_container.size.y
+		var max_visible_rows = floor(visible_height / slot_height)
+		
+		# Only enable scrolling if we definitely need it
+		if rows_needed > max_visible_rows and visible_slot_count > slots.columns:
+			# Need scrolling
+			if scroll_container.vertical_scroll_mode != 3:
+				scroll_container.vertical_scroll_mode = 3  # Always show
 				
-			# Compute the total height needed for all slots
-			var rows = ceil(slots.get_child_count() / 3.0)  # 3 columns per row
-			var total_height_needed = rows * first_slot_size.y
-			
-			# If the slots need more space than available, ensure we can scroll
-			if total_height_needed > scroll_container.size.y and Engine.get_process_frames() % 30 == 0:
-				# Force the content to be larger than the scroll container
-				slots.custom_minimum_size.y = max(140, total_height_needed + 10)
+			# If we have more slots than can fit, ensure content is sized properly
+			if Engine.get_process_frames() % 30 == 0:  # Only update occasionally
+				var total_height_needed = rows_needed * slot_height
+				slots.custom_minimum_size.y = max(visible_height + 10, total_height_needed)
+				slots.queue_sort()
+				scroll_container.queue_sort()
+		else:
+			# Don't need scrolling
+			if scroll_container.vertical_scroll_mode != 0:
+				scroll_container.vertical_scroll_mode = 0  # Disable
 				
-				# Force the ScrollContainer to acknowledge its actual content size
+				# CRITICAL FIX: For non-scrollable content, set size to SMALLER than visible area
+				var exact_content_height = rows_needed * slot_height
+				slots.custom_minimum_size.y = min(exact_content_height, visible_height - 4)
+				
+				# Reset scroll position
+				scroll_container.scroll_vertical = 0
+				
+				# Update layout
 				slots.queue_sort()
 				scroll_container.queue_sort()
 
-# Handle ScrollContainer gui_input directly
+# Add a new method to completely prevent scroll events when not needed
 func _on_scroll_container_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and (event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN):
 		# Get the scroll container
 		var scroll_container = $MarginContainer/ScrollContainer
 		
-		# Get current and max scroll values
+		# Check if we need scrolling (similar logic to _ensure_scroll_updated)
+		var visible_slot_count = slots.get_child_count()
+		var rows_needed = ceil(visible_slot_count / float(slots.columns))
+		var slot_height = 26
+		var visible_height = scroll_container.size.y
+		var max_visible_rows = floor(visible_height / slot_height)
+		
+		# If we don't need scrolling, completely block the scroll event
+		if rows_needed <= max_visible_rows or visible_slot_count <= slots.columns:
+			get_viewport().set_input_as_handled()
+			return
+		
+		# If we do need scrolling, process the scroll as before
 		var current_scroll = scroll_container.scroll_vertical
 		var v_scrollbar = scroll_container.get_v_scroll_bar()
 		var max_scroll = v_scrollbar.max_value if v_scrollbar else 0
@@ -625,11 +684,7 @@ func _on_scroll_container_gui_input(event: InputEvent) -> void:
 		# Make sure we don't propagate the event further
 		get_viewport().set_input_as_handled()
 
-# Handle scrollbar value changes - simplified to use scroll_vertical
-func _on_scroll_value_changed(value: float) -> void:
-	pass
-
-# Override _input to ensure scroll wheel events are properly processed
+# Modify _input to also check if scrolling is needed
 func _input(event: InputEvent) -> void:
 	if not visible:
 		return
@@ -640,7 +695,20 @@ func _input(event: InputEvent) -> void:
 		var scroll_container = $MarginContainer/ScrollContainer
 		var scroll_container_rect = scroll_container.get_global_rect()
 		
-		# If mouse is over our scroll container, manually handle the scroll
+		# First check if we even need scrolling
+		var visible_slot_count = slots.get_child_count()
+		var rows_needed = ceil(visible_slot_count / float(slots.columns))
+		var slot_height = 26
+		var visible_height = scroll_container.size.y
+		var max_visible_rows = floor(visible_height / slot_height)
+		
+		# If we don't need scrolling, completely block the scroll event
+		if rows_needed <= max_visible_rows or visible_slot_count <= slots.columns:
+			if scroll_container_rect.has_point(get_global_mouse_position()):
+				get_viewport().set_input_as_handled()
+				return
+		
+		# If mouse is over our scroll container and we do need scrolling, manually handle the scroll
 		if scroll_container_rect.has_point(get_global_mouse_position()):
 			# Get current and max scroll values
 			var current_scroll = scroll_container.scroll_vertical
@@ -672,6 +740,10 @@ func _input(event: InputEvent) -> void:
 			
 			# Make sure we don't propagate the event further
 			get_viewport().set_input_as_handled()
+
+# Handle scrollbar value changes - simplified to use scroll_vertical
+func _on_scroll_value_changed(value: float) -> void:
+	pass
 
 # Function for production_ui to notify us that refresh is happening during production
 func set_refresh_during_production(active: bool) -> void:
