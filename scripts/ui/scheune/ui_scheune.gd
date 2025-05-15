@@ -29,7 +29,7 @@ func _ready() -> void:
 	# CRITICAL FIX: Make sure the slots are actually a direct child of ScrollContainer
 	# with proper container layout mode relationship
 	if slots.get_parent() != scroll_container:
-		print("WARNING: Slots not directly parented to ScrollContainer. This is likely the root cause.")
+		pass # Entferne den Debug-Print
 	
 	# SET THE SAME EXACT VALUES AS IN THE SCENE FILE
 	# vertical_scroll_mode = 3 (ALWAYS_ENABLED) - scene shows this value specifically
@@ -208,11 +208,9 @@ func load_slots() -> void:
 	await get_tree().process_frame
 	
 	var inventory = SaveGame.get_inventory()
-	print("UI SCHEUNE: Loading slots with inventory:", inventory)
 	
 	if not current_filter.is_empty():
 		# Filter is active, show all filter items, with 0 count if not in inventory
-		print("UI SCHEUNE: Loading with filter:", current_filter)
 		for item_in_filter in current_filter:
 			var count = inventory.get(item_in_filter, 0)
 			add_slot(item_in_filter, count, true) # Pass true for is_part_of_active_filter
@@ -235,9 +233,6 @@ func reload_slots(apply_filter: bool = true) -> void:
 	# CRITICAL FIX: Always get a fresh copy of inventory data directly from SaveGame
 	# This ensures we never work with stale data
 	var inventory_data = SaveGame.get_inventory().duplicate()
-	
-	# Log inventory state for debugging
-	print("INVENTORY UI RELOAD: Current SaveGame state: ", inventory_data)
 	
 	# Check for _refresh_during_production at the beginning
 	var suppress_signals = _refresh_during_production
@@ -277,7 +272,6 @@ func reload_slots(apply_filter: bool = true) -> void:
 func _selective_slot_update(inventory_data): 
 	# CRITICAL FIX: Always work with a fresh copy of the inventory data
 	var current_inventory = inventory_data.duplicate()
-	print("SELECTIVE UPDATE: Current inventory state: ", current_inventory)
 	
 	var items_processed_from_filter = {}
 	
@@ -317,8 +311,6 @@ func find_slot_by_item_name(item_name: String):
 
 # IMPORTANT: Override adjust_visual_count to ensure it directly updates SaveGame
 func adjust_visual_count(item_name: String, adjustment: int):
-	print("ADJUST VISUAL: Item: ", item_name, " adjustment: ", adjustment)
-	
 	# Find the slot for this item
 	var slot = find_slot_by_item_name(item_name)
 	if slot:
@@ -326,7 +318,6 @@ func adjust_visual_count(item_name: String, adjustment: int):
 		if amount_label is Label:
 			# CRITICAL FIX: Always get the current count directly from SaveGame
 			var current_count = SaveGame.get_item_count(item_name)
-			print("ADJUST VISUAL: SaveGame count for ", item_name, ": ", current_count)
 			
 			if current_count > 0:
 				amount_label.text = str(current_count)
@@ -349,7 +340,6 @@ func adjust_visual_count(item_name: String, adjustment: int):
 func update_visuals():
 	# Get fresh inventory data
 	var inventory = SaveGame.get_inventory()
-	print("UPDATE VISUALS: Fresh SaveGame inventory: ", inventory)
 	
 	# Loop through existing slots and update their visibility/count directly from SaveGame
 	for slot in slot_list:
@@ -386,8 +376,6 @@ func update_visuals():
 
 func _on_visibility_changed() -> void:
 	if visible:
-		print("UI SCHEUNE: Visibility changed to visible")
-		
 		# Ensure ScrollContainer is set up for scrolling
 		var scroll_container = $MarginContainer/ScrollContainer
 		scroll_container.vertical_scroll_mode = 3
@@ -403,11 +391,9 @@ func _on_visibility_changed() -> void:
 		
 		if current_filter_copy.is_empty():
 			# No filter was active, just load all slots normally
-			print("UI SCHEUNE: No filter active, loading all slots")
 			load_slots()
 		else:
 			# Filter was active, restore it and load with filter applied
-			print("UI SCHEUNE: Restoring filter:", current_filter_copy)
 			current_filter = current_filter_copy
 			
 			# Get fresh inventory data
@@ -531,8 +517,6 @@ func _ensure_scroll_updated() -> void:
 	var slot_height = 26
 	var visible_height = scroll_container.size.y
 	var max_visible_rows = floor(visible_height / slot_height)
-	
-	print("UI SCHEUNE: Rows needed:", rows_needed, " Max visible rows:", max_visible_rows)
 	
 	# Set scrollbar based on whether we need it
 	if rows_needed > max_visible_rows and visible_slot_count > slots.columns:

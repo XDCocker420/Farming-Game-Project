@@ -166,7 +166,8 @@ func _try_start_production_cycle():
 
 			if slot_to_remove_from:
 				# Check inventory count *before* attempting removal (CRUCIAL for auto-production)
-				if SaveGame.get_item_count(required_item) > 0:
+				var inventory_count = SaveGame.get_item_count(required_item)
+				if inventory_count > 0:
 					SaveGame.remove_from_inventory(required_item, 1)
 					# Update the visual count in the input slot immediately after removal
 					var current_count = 0
@@ -521,18 +522,15 @@ func add_input_item(item_name: String) -> void:
 		
 	# Check if this item is valid for this workstation
 	if not (item_name in input_items):
-		# print("Item %s not valid for workstation %s" % [item_name, current_workstation])
 		return
 
 	# CRITICAL FIX: Always verify SaveGame state first for the most accurate check
 	var inventory_count = SaveGame.get_item_count(item_name)
 	if inventory_count <= 0:
-		print("PRODUCTION UI: Blocked input add because SaveGame shows 0 for item: ", item_name)
 		return
 
 	# Add cooldown check to prevent multiple calls
 	if (Time.get_ticks_msec() - last_add_time) < 100:
-		# print("Cooldown active, skipping add_input_item")
 		return
 
 	# Store the current time
@@ -559,11 +557,9 @@ func add_input_item(item_name: String) -> void:
 			other_slot = input_slot
 		else:
 			# All slots are filled with other items, we can't add this one
-			print("PRODUCTION UI: No empty slot found for item: ", item_name)
 			return
 
 	if not target_slot:
-		# print("No target slot found.")
 		return
 
 	# Get current count if the slot already has this item
@@ -591,7 +587,6 @@ func add_input_item(item_name: String) -> void:
 
 	# IMPORTANT: Directly tell the inventory UI to visually decrement the count *once* 
 	# and only for the newly added item (not all input items)
-	print("PRODUCTION UI: Telling inventory to adjust visual count for: ", item_name, " by -1")
 	_refresh_targeted_inventory_ui(item_name, -1)
 
 # New helper function to update a specific input slot
