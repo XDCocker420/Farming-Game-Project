@@ -37,7 +37,7 @@ var go_to_market:bool = false
 var save_dialog_pos:Vector2
 
 func _ready() -> void:
-	wait_timer.timeout.connect(_on_wait_timeout)
+	#wait_timer.timeout.connect(_on_wait_timeout)
 	
 	SaveGame.items_added_to_market.connect(_added_to_market)
 	
@@ -52,9 +52,9 @@ func _ready() -> void:
 
 	interaction_area.body_exited.connect(_on_area_exited)
 	
-	choose_new_target()
+	#choose_new_target()
 	
-
+"""
 func _physics_process(delta: float) -> void:
 	if  not navigation_agent:
 		return
@@ -105,7 +105,7 @@ func _physics_process(delta: float) -> void:
 	else:
 		velocity = Vector2.ZERO
 		_play_animation("idle")
-			
+"""
 func _on_velocity_computed(safe_velocity: Vector2):
 	velocity = safe_velocity
 	move_and_slide()

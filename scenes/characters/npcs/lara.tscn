@@ -1,7 +1,7 @@
 [gd_scene load_steps=39 format=3 uid="uid://dwtkif1trh58i"]
 
-[ext_resource type="Script" uid="uid://qocsy8k1b0py" path="res://scripts/characters/npcs/default_npc.gd" id="1_cmtgn"]
-[ext_resource type="Texture2D" uid="uid://bvq86yrxygwve" path="res://assets/characters/named_characters/Lara/Lara_walk.png" id="2_cmtgn"]
+[ext_resource type="Script" uid="uid://ncggxede455i" path="res://scripts/characters/npcs/default_npc.gd" id="1_cmtgn"]
+[ext_resource type="Texture2D" uid="uid://brmc1yrksltj0" path="res://assets/characters/named_characters/Lara/Lara_walk.png" id="2_cmtgn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_cmtgn"]
 atlas = ExtResource("2_cmtgn")
@@ -275,7 +275,7 @@ wait_timer = NodePath("Timer")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_gxpaf")
-animation = &"up"
+animation = &"down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5)

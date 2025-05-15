@@ -1,7 +1,7 @@
 [gd_scene load_steps=39 format=3 uid="uid://bngv8uy0ittlj"]
 
-[ext_resource type="Script" uid="uid://qocsy8k1b0py" path="res://scripts/characters/npcs/default_npc.gd" id="1_guk5e"]
-[ext_resource type="Texture2D" uid="uid://brjjlslkp76fk" path="res://assets/characters/named_characters/Joshua/Joshua_walk.png" id="2_guk5e"]
+[ext_resource type="Script" uid="uid://ncggxede455i" path="res://scripts/characters/npcs/default_npc.gd" id="1_guk5e"]
+[ext_resource type="Texture2D" uid="uid://by5u7uh51axfd" path="res://assets/characters/named_characters/Joshua/Joshua_walk.png" id="2_guk5e"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mrqy4"]
 atlas = ExtResource("2_guk5e")
@@ -275,7 +275,7 @@ wait_timer = NodePath("Timer")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_xulas")
-animation = &"up"
+animation = &"down"
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5)
