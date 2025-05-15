@@ -9,6 +9,9 @@ var slot_list: Array
 var current_filter: Array = []
 var active_production_ui = null
 
+# Add a flag to track if we're refreshing during active production
+var _refresh_during_production: bool = false
+
 func _ready() -> void:
 	visibility_changed.connect(_on_visibility_changed)
 	
@@ -111,27 +114,37 @@ func add_slot(item: String, amount: int, is_part_of_active_filter: bool = false)
 	slots.add_child(slot)
 	slot_list.append(slot)
 	
-	# Connect the slot's signals after adding to the tree to avoid lifecycle issues
-	if slot.has_signal("item_selection"):
-		if slot.item_selection.is_connected(_on_item_selected):
-			slot.item_selection.disconnect(_on_item_selected)
-		slot.item_selection.connect(_on_item_selected)
-	
-	# Ensure the button uses the proper mouse filter for input
+	# Get button reference once for both branches
 	var button = slot.get_node("button")
-	if button:
-		# Use STOP for the button so it captures clicks but not scroll events
-		button.mouse_filter = Control.MOUSE_FILTER_STOP
+	
+	# Connect the slot's signals after adding to the tree to avoid lifecycle issues
+	if not _refresh_during_production:
+		if slot.has_signal("item_selection"):
+			if slot.item_selection.is_connected(_on_item_selected):
+				slot.item_selection.disconnect(_on_item_selected)
+			slot.item_selection.connect(_on_item_selected)
 		
-		# Make sure button is visible and enabled
-		button.visible = true
-		button.disabled = false
-		button.toggle_mode = true
-		
-		# Directly connect the button press event
-		if button.pressed.is_connected(_on_slot_button_pressed.bind(slot, item)):
-			button.pressed.disconnect(_on_slot_button_pressed.bind(slot, item))
-		button.pressed.connect(_on_slot_button_pressed.bind(slot, item))
+		# Ensure the button uses the proper mouse filter for input
+		if button:
+			# Use STOP for the button so it captures clicks but not scroll events
+			button.mouse_filter = Control.MOUSE_FILTER_STOP
+			
+			# Make sure button is visible and enabled
+			button.visible = true
+			button.disabled = false
+			button.toggle_mode = true
+			
+			# Directly connect the button press event
+			if button.pressed.is_connected(_on_slot_button_pressed.bind(slot, item)):
+				button.pressed.disconnect(_on_slot_button_pressed.bind(slot, item))
+			button.pressed.connect(_on_slot_button_pressed.bind(slot, item))
+	else:
+		# During production refresh, still set up the button UI properly but don't connect signals
+		if button:
+			button.mouse_filter = Control.MOUSE_FILTER_STOP
+			button.visible = true
+			button.disabled = false
+			button.toggle_mode = true
 	
 	# Set the production UI reference if we have one
 	if active_production_ui:
@@ -166,35 +179,63 @@ func load_slots() -> void:
 			if inventory[item] > 0:
 				add_slot(item, inventory[item], false) # Pass false
 		
+	# After adding all slots, only connect signals if not during production refresh
+	if not _refresh_during_production:
+		for slot: PanelContainer in slot_list:
+			if slot.item_selection.is_connected(_on_item_selected):
+				slot.item_selection.disconnect(_on_item_selected)
+			slot.item_selection.connect(_on_item_selected)
 	
+	call_deferred("_ensure_scroll_updated")
+
 func reload_slots(apply_filter: bool = true) -> void:
+	# CRITICAL FIX: Always get a fresh copy of inventory data directly from SaveGame
+	# This ensures we never work with stale data
+	var inventory_data = SaveGame.get_inventory().duplicate()
+	
+	# Log inventory state for debugging
+	print("INVENTORY UI RELOAD: Current SaveGame state: ", inventory_data)
+	
+	# Check for _refresh_during_production at the beginning
+	var suppress_signals = _refresh_during_production
+	
 	# Store current production UI reference
 	var current_production_ui = active_production_ui
 	
-	# Get fresh inventory data
-	var inventory_data = SaveGame.get_inventory()
+	# CRITICAL: Clear all existing slots first to prevent any lingering visual state
+	slot_list.clear()
+	for slot in slots.get_children():
+		slot.queue_free()
+	await get_tree().process_frame  # Wait for slots to be fully removed
 	
-	# Only rebuild slots if needed
+	# Build the slots using the fresh inventory data we captured
 	if apply_filter and not current_filter.is_empty():
-		# For filtered reloads, more selective approach
-		# We base the decision for selective update on the size of the filter itself
-		if current_filter.size() <= 6: # Check against current_filter size
-			_selective_slot_update(inventory_data) # Pass only inventory_data
-			call_deferred("_ensure_scroll_updated")
-			return
-	
-	# Standard rebuild approach for larger sets
-	_full_slot_rebuild(inventory_data, apply_filter)
+		# For filtered reloads, add each filtered item
+		for item_name in current_filter:
+			var item_count = inventory_data.get(item_name, 0) 
+			add_slot(item_name, item_count, true)
+	else:
+		# No filter, add items with quantity > 0
+		for item_name in inventory_data:
+			if inventory_data[item_name] > 0:
+				add_slot(item_name, inventory_data[item_name], false)
 	
 	# Re-establish production UI reference if it exists
 	if current_production_ui:
 		set_active_production_ui(current_production_ui)
-		
+	
 	# Ensure scroll container updates after rebuilding slots
 	call_deferred("_ensure_scroll_updated")
+	
+	# Make sure the refresh state is cleared
+	_refresh_during_production = false
 
-# Helper method for selective slot updates (more efficient)
-func _selective_slot_update(inventory_data): # Takes inventory_data, uses self.current_filter
+# Helper method for selective slot updates
+func _selective_slot_update(inventory_data): 
+	# CRITICAL FIX: Always work with a fresh copy of the inventory data
+	var current_inventory = inventory_data.duplicate()
+	print("SELECTIVE UPDATE: Current inventory state: ", current_inventory)
+	
 	var items_processed_from_filter = {}
 	
 	# First pass: Update existing slots or remove if no longer in current_filter
@@ -204,48 +245,25 @@ func _selective_slot_update(inventory_data): # Takes inventory_data, uses self.c
 			var slot_item_name = slot.item_name
 			
 			if current_filter.has(slot_item_name):
-				# Item is in the current filter, update it
-				var inv_count = inventory_data.get(slot_item_name, 0)
+				# Item is in the current filter, update it from current inventory
+				var inv_count = current_inventory.get(slot_item_name, 0)
 				var amount_label = slot.get_node_or_null("amount")
 				if amount_label is Label:
+					# CRITICAL: Always update with fresh count
 					amount_label.text = str(inv_count)
 					amount_label.show()
-				slot.show() # Ensure slot is visible
+				slot.show()
 				items_processed_from_filter[slot_item_name] = true
 			else:
 				# Item is not in the current filter, remove it
-				slot_list.erase(slot) # Assuming slot_list still tracks these
+				slot_list.erase(slot)
 				slot.queue_free()
 	
 	# Second pass: Add new slots for current_filter items not already shown/processed
 	for item_in_filter in current_filter:
 		if not items_processed_from_filter.has(item_in_filter):
-			var inv_count = inventory_data.get(item_in_filter, 0)
-			add_slot(item_in_filter, inv_count, true) # Add as part of active filter
-
-# Helper method for full rebuild (original approach)
-func _full_slot_rebuild(inventory_data, apply_filter):
-	# Safety check for the slot container
-	if not is_instance_valid(slots):
-		push_error("Slots container is not valid during rebuild")
-		return
-
-	# Clear existing slots
-	slot_list.clear()
-	for slot in slots.get_children():
-		slot.queue_free()
-
-	# Add slots based on filter or full inventory
-	if apply_filter and not current_filter.is_empty():
-		# Filter is active, iterate current_filter and add all items
-		for item_name in current_filter:
-			var item_count = inventory_data.get(item_name, 0) # Default to 0 if not in inventory
-			add_slot(item_name, item_count, true) # True: is_part_of_active_filter
-	else:
-		# No filter or filter is empty, show items with quantity > 0 from inventory
-		for item_name in inventory_data:
-			if inventory_data[item_name] > 0:
-				add_slot(item_name, inventory_data[item_name], false) # False: not part of active filter
+			var inv_count = current_inventory.get(item_in_filter, 0)
+			add_slot(item_in_filter, inv_count, true)
 
 # NEW: Function to find a specific slot by item name
 func find_slot_by_item_name(item_name: String):
@@ -254,101 +272,73 @@ func find_slot_by_item_name(item_name: String):
 			return slot
 	return null
 
-# NEW: Function to visually adjust the count of an item without changing SaveGame
+# IMPORTANT: Override adjust_visual_count to ensure it directly updates SaveGame
 func adjust_visual_count(item_name: String, adjustment: int):
-	# print("[ScheuneUI] adjust_visual_count called for item: ", item_name, " adjustment: ", adjustment)
+	print("ADJUST VISUAL: Item: ", item_name, " adjustment: ", adjustment)
+	
+	# Find the slot for this item
 	var slot = find_slot_by_item_name(item_name)
 	if slot:
-		# print("[ScheuneUI] Found slot for item: ", item_name)
-		var amount_label = slot.get_node_or_null("amount") # Adjust path if needed
+		var amount_label = slot.get_node_or_null("amount")
 		if amount_label is Label:
-			# print("[ScheuneUI] Found amount label: ", amount_label.text)
-			var current_count = 0
-			if amount_label.text.is_valid_int():
-				current_count = int(amount_label.text)
+			# CRITICAL FIX: Always get the current count directly from SaveGame
+			var current_count = SaveGame.get_item_count(item_name)
+			print("ADJUST VISUAL: SaveGame count for ", item_name, ": ", current_count)
 			
-			var new_count = current_count + adjustment
-			# print("[ScheuneUI] Current count: ", current_count, " New count: ", new_count)
-			
-			if new_count > 0:
-				amount_label.text = str(new_count)
+			if current_count > 0:
+				amount_label.text = str(current_count)
 				amount_label.show()
-				# Ensure the slot itself is visible if it might have been hidden
 				slot.show()
-				# print("[ScheuneUI] Updated label text to: ", new_count, " and showed slot.")
-			else: # new_count is <= 0
-				amount_label.text = "0" # Always show "0"
-				# Hide the slot only if it's NOT part of an active filter
+			else: # count is 0
+				amount_label.text = "0"
 				if not current_filter.has(item_name):
 					slot.hide()
 				else:
-					# If it IS part of the filter, ensure it's visible (even with 0 count)
 					slot.show()
-				# print("[ScheuneUI] Set label text to 0 and hid/showed slot based on filter.")
 		else:
 			push_warning("Could not find amount Label in slot for visual adjustment: %s" % item_name)
-			# print("[ScheuneUI] ERROR: Could not find amount label for slot.")
 	else:
-		# If the slot doesn't exist (e.g., item count was already 0 visually),
-		# and we are incrementing, we might need to trigger a full reload
-		# if adjustment > 0:
-		#     reload_slots(true) # Consider if this is needed
-		pass # Do nothing if slot not found for decrement
-		# print("[ScheuneUI] Did not find slot for item: ", item_name)
+		# If item's slot doesn't exist but should be displayed, reload slots
+		if current_filter.has(item_name) or SaveGame.get_item_count(item_name) > 0:
+			update_visuals()  # Full refresh with fresh SaveGame data
 
-# Function to update the visual count in the UI
+# Update the visual count in the UI - completely rewritten to always use fresh SaveGame data
 func update_visuals():
-	# Loop through existing slots and update their visibility/count
-	# based on SaveGame state - similar logic to reload_slots but without recreating
+	# Get fresh inventory data
 	var inventory = SaveGame.get_inventory()
-	var items_shown = {}
-
+	print("UPDATE VISUALS: Fresh SaveGame inventory: ", inventory)
+	
+	# Loop through existing slots and update their visibility/count directly from SaveGame
 	for slot in slot_list:
-		if is_instance_valid(slot) and "item_name" in slot:
+		if is_instance_valid(slot) and "item_name" in slot and slot.item_name != "":
 			var item_name = slot.item_name
-			var count = inventory.get(item_name, 0)
-			items_shown[item_name] = true # Mark item as handled
-
-			var amount_label = slot.get_node_or_null("amount") # Adjust path if needed
+			var count = inventory.get(item_name, 0)  # Get count directly from SaveGame
+			
+			var amount_label = slot.get_node_or_null("amount")
 			if amount_label is Label:
+				# ALWAYS update with fresh count from SaveGame
+				amount_label.text = str(count)
 				if count > 0:
-					amount_label.text = str(count)
 					amount_label.show()
 					slot.show()
 				else: # count is 0
-					amount_label.text = "0"
-					# Hide slot only if count is 0 AND item is not in active filter
 					if not current_filter.has(item_name):
 						slot.hide()
 					else:
-						slot.show() # Ensure visible if part of filter and count is 0
-			else:
-				# If amount label not found, maybe just hide/show slot
-				if count > 0:
-					slot.show()
-				else: # count is 0
-					if not current_filter.has(item_name):
-						slot.hide()
-					else:
-						slot.show()
-
-	# Add slots for items in inventory but not currently shown (if any)
-	# This handles cases where an item was added to inventory externally
-	for item in inventory:
-		if not items_shown.has(item) and inventory[item] > 0: # Only add if count > 0
-			var add_this_item = false
-			var is_filtered_item = false
-			
-			if current_filter.is_empty(): # No filter active, add it
-				add_this_item = true
-				is_filtered_item = false
-			elif item in current_filter: # Filter active, and this inventory item is part of it
-				add_this_item = true
-				is_filtered_item = true
-			
-			if add_this_item:
-				add_slot(item, inventory[item], is_filtered_item)
-				
+						slot.show()  # Show it anyway if part of filter
+	
+	# Check for any items in SaveGame that aren't shown but should be
+	var slots_to_add = []
+	for item_name in inventory:
+		if inventory[item_name] > 0 and not find_slot_by_item_name(item_name):
+			if current_filter.is_empty() or current_filter.has(item_name):
+				slots_to_add.append([item_name, inventory[item_name]])
+	
+	# Add any missing slots in a second pass
+	for item_data in slots_to_add:
+		add_slot(item_data[0], item_data[1], current_filter.has(item_data[0]))
+	
+	# Make sure the UI layout is updated
 	call_deferred("_ensure_scroll_updated")
 
 func _on_visibility_changed() -> void:
@@ -632,3 +622,7 @@ func _input(event: InputEvent) -> void:
 			
 			# Make sure we don't propagate the event further
 			get_viewport().set_input_as_handled()
+
+# Function for production_ui to notify us that refresh is happening during production
+func set_refresh_during_production(active: bool) -> void:
+	_refresh_during_production = active

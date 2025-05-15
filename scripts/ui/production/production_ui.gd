@@ -25,6 +25,10 @@ var production_duration: float = 0.0
 var item_config: ConfigFile
 # NEW: Direct reference to the associated inventory UI
 var target_inventory_ui = null
+var auto_production_active: bool = false # New variable for auto production
+
+# Add a variable to track when we're handling refresh operations
+var _handling_refresh: bool = false
 
 func _ready():
 	# Initialize our cooldown tracker
@@ -118,10 +122,36 @@ func _on_produce_button_pressed():
 
 	last_add_time = Time.get_ticks_msec()
 
+	if auto_production_active:
+		auto_production_active = false
+		if produce_button:
+			produce_button.text = "Produce" # Or your default text
+			# Potentially re-enable button if it was disabled during auto-production,
+			# but this will be handled after current item finishes.
+	elif not production_in_progress:
+		auto_production_active = true
+		if produce_button:
+			produce_button.text = "Stop" # Or "Producing..."
+		_try_start_production_cycle() # New function to attempt starting a cycle
+	elif production_in_progress and not auto_production_active:
+		# If production is running for a single item, and we want to switch to auto
+		auto_production_active = true
+		if produce_button:
+			produce_button.text = "Stop" # Or "Producing..."
+	
+	# Original check for starting single production is now part of _try_start_production_cycle
+	# if not production_in_progress and _has_required_inputs_visual():
+	# ... (rest of the original logic will be moved)
+
+# NEW function to handle the logic for starting one production cycle
+func _try_start_production_cycle():
+	if production_in_progress: # Don't start a new one if one is already running
+		return
+
 	# Check if we have valid input items visually present and not already producing
-	if not production_in_progress and _has_required_inputs_visual():
+	if _has_required_inputs_visual():
 		
-		# --- START: Item Removal Logic ---
+		# --- START: Item Removal Logic (from original _on_produce_button_pressed) ---
 		# Remove items from SaveGame *before* starting production
 		var items_removed_successfully = true
 		var item_that_failed = "" # Variable to store the item causing failure
@@ -135,7 +165,7 @@ func _on_produce_button_pressed():
 				slot_to_remove_from = input_slot2
 
 			if slot_to_remove_from:
-				# Check inventory count *before* attempting removal
+				# Check inventory count *before* attempting removal (CRUCIAL for auto-production)
 				if SaveGame.get_item_count(required_item) > 0:
 					SaveGame.remove_from_inventory(required_item, 1)
 					# Update the visual count in the input slot immediately after removal
@@ -154,59 +184,70 @@ func _on_produce_button_pressed():
 					push_warning("Attempted to start production but SaveGame inventory count for %s was 0." % required_item)
 					items_removed_successfully = false
 					item_that_failed = required_item # Store the failing item
+					auto_production_active = false # Stop auto production if ingredients run out
+					if produce_button: produce_button.text = "Produce"
 					break # Stop processing if an item is missing
 			else:
 				# This also shouldn't happen if _has_required_inputs_visual is correct
 				push_warning("Attempted to start production but couldn't find visual slot for %s." % required_item)
 				items_removed_successfully = false
 				item_that_failed = required_item # Store the failing item
+				auto_production_active = false # Stop auto production
+				if produce_button: produce_button.text = "Produce"
 				break
 
 		if not items_removed_successfully:
-			# Refresh UI to reflect actual SaveGame state if removal failed
-			# This time, visually ADD BACK the item that failed removal
-			if item_that_failed != "": # Ensure we have a valid item name
+			if item_that_failed != "": 
 				_refresh_targeted_inventory_ui(item_that_failed, 1)
-			# Optionally, also trigger a full refresh for the production UI itself to be safe
-			# setup(current_workstation) # Uncomment if needed
 			return # Don't start production
 
-		# Save game *after* successfully removing all items
 		SaveGame.save_game()
 		# --- END: Item Removal Logic ---
 
-		# Read duration from config (default to 1s)
 		var out_item = output_items[0] if output_items.size() > 0 else ""
 		production_duration = float(item_config.get_value(out_item, "time")) if item_config and item_config.has_section(out_item) else 1.0
 		
-		# --- START: Persist Production State ---
 		var end_time_ms = Time.get_ticks_msec() + int(production_duration * 1000)
-		var workstation_id = current_workstation # Assuming this holds the unique ID
+		var workstation_id = current_workstation 
 		if workstation_id != "" and out_item != "":
 			SaveGame.set_production_state(workstation_id, {"output_item": out_item, "end_time_ms": end_time_ms})
-			SaveGame.save_game() # Save immediately after starting production
-		# --- END: Persist Production State ---
+			SaveGame.save_game() 
 		
 		production_timer = 0.0
 		production_in_progress = true
 		
-		# Setup progress bar
 		progress_bar.min_value = 0
 		progress_bar.max_value = production_duration
 		progress_bar.value = 0
 		progress_bar.show()
 		
-		# Disable interactions during production
-		produce_button.disabled = true
-		input_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE # Disable clicking input slots
+		if produce_button : produce_button.disabled = true # Disable button while producing this item
+		input_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE 
 		if input_slot2: input_slot2.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		output_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE # Disable clicking output slot during production
+		output_slot.mouse_filter = Control.MOUSE_FILTER_IGNORE 
 
-		# Notify that production has started so the tool animation can play
 		emit_signal("production_started")
 		
-		# Refresh inventory UI one last time after SaveGame changes
-		_refresh_targeted_inventory_ui()
+		# _refresh_targeted_inventory_ui() # Original direct call
+		call_deferred("_deferred_refresh_inventory_ui") # Deferred call
+	else:
+		# No visual inputs, or other condition failed
+		auto_production_active = false # Ensure auto production stops if it can't start
+		if produce_button: 
+			produce_button.text = "Produce"
+			produce_button.disabled = not _has_required_inputs_visual() # Re-evaluate button state
+
+# NEW: Deferred function to refresh inventory UI
+func _deferred_refresh_inventory_ui():
+	# Set a guard flag to prevent unwanted recursion/feedback loops 
+	_handling_refresh = true
+	
+	# Call the actual refresh function
+	_refresh_targeted_inventory_ui()
+	
+	# Clear the guard flag after a short delay to ensure all UI operations complete
+	await get_tree().create_timer(0.1).timeout
+	_handling_refresh = false
 
 # Direct input handler for output slot
 func _on_output_slot_input(event):
@@ -471,15 +512,22 @@ func _process_single_item() -> void:
 
 # New function to receive items from inventory UI
 func add_input_item(item_name: String) -> void:
+	if production_in_progress: # If production is active, don't process new input additions
+		return
+
+	# Add a flag to prevent unwanted recursion during slot refresh
+	if _handling_refresh:
+		return
+		
 	# Check if this item is valid for this workstation
 	if not (item_name in input_items):
 		# print("Item %s not valid for workstation %s" % [item_name, current_workstation])
 		return
 
-	# Make sure we have this item in inventory - check this FIRST
+	# CRITICAL FIX: Always verify SaveGame state first for the most accurate check
 	var inventory_count = SaveGame.get_item_count(item_name)
 	if inventory_count <= 0:
-		# print("No %s in SaveGame inventory." % item_name)
+		print("PRODUCTION UI: Blocked input add because SaveGame shows 0 for item: ", item_name)
 		return
 
 	# Add cooldown check to prevent multiple calls
@@ -510,10 +558,9 @@ func add_input_item(item_name: String) -> void:
 			target_slot = input_slot2
 			other_slot = input_slot
 		else:
-			# If both slots are full but one has a different item, use the first slot
-			# This logic might need refinement depending on desired behavior for replacing items
-			target_slot = input_slot 
-			other_slot = input_slot2
+			# All slots are filled with other items, we can't add this one
+			print("PRODUCTION UI: No empty slot found for item: ", item_name)
+			return
 
 	if not target_slot:
 		# print("No target slot found.")
@@ -532,16 +579,9 @@ func add_input_item(item_name: String) -> void:
 	# Calculate new count - only add one at a time
 	var new_count = current_count + 1
 
-	# --- REMOVED SaveGame modifications ---
-	# # Remove the item from inventory FIRST - this must be done before updating UI
-	# # to avoid race conditions with reload_slots
-	# SaveGame.remove_from_inventory(item_name, 1)
-	#
-	# # IMPORTANT: Save game IMMEDIATELY after inventory modification to prevent
-	# # race conditions with reload_slots
-	# SaveGame.save_game()
-	# --- END REMOVED ---
-
+	# CRITICAL FIX: Only update the production UI *after* updating SaveGame state
+	# This ensures the inventory refresh gets the correct state
+	
 	# Update the UI immediately for better responsiveness with rapid clicks
 	_update_input_slot_with_target(target_slot, item_name, new_count)
 	
@@ -549,13 +589,9 @@ func add_input_item(item_name: String) -> void:
 	if produce_button:
 		produce_button.disabled = not _has_required_inputs_visual()
 
-	# Use a very short timer to refresh inventory UI to handle rapid clicks better
-	# This refresh is important to show the *actual* inventory count from SaveGame
-	# NO LONGER USING TIMER FOR THIS - DIRECT VISUAL UPDATE NOW
-	# var refresh_timer = get_tree().create_timer(0.08) # Schnellere Aktualisierung
-	# refresh_timer.timeout.connect(func(): _refresh_targeted_inventory_ui(current_workstation))
-
-	# INSTEAD: Directly tell the inventory UI to visually decrement the count
+	# IMPORTANT: Directly tell the inventory UI to visually decrement the count *once* 
+	# and only for the newly added item (not all input items)
+	print("PRODUCTION UI: Telling inventory to adjust visual count for: ", item_name, " by -1")
 	_refresh_targeted_inventory_ui(item_name, -1)
 
 # New helper function to update a specific input slot
@@ -648,10 +684,27 @@ func _refresh_targeted_inventory_ui(item_to_adjust: String = "", adjustment: int
 		elif scheune_ui.has_method("reload_slots"): # Check again for safety
 			# Otherwise, do a full reload (e.g., when production finishes or fails)
 			if scheune_ui.has_method("set_workstation_filter"): # Check method existence
+				# Set the _handling_refresh flag here too to prevent unwanted recursion
+				_handling_refresh = true
+				
 				# Pass the *base* workstation name for filtering purposes
 				var base_workstation_name = current_workstation.replace("molkerei_", "").replace("weberei_", "") # Extract base name
 				# TODO: Add more replaces if other building prefixes exist (e.g., "futterhaus_")
-				scheune_ui.set_workstation_filter(base_workstation_name) # This already triggers reload_slots
+				
+				# Notify the scheune_ui that this is being triggered during production
+				# to help it avoid unwanted signal emissions
+				if production_in_progress and scheune_ui.has_method("set_refresh_during_production"):
+					scheune_ui.set_refresh_during_production(true)
+					
+				# This triggers reload_slots internally
+				scheune_ui.set_workstation_filter(base_workstation_name)
+				
+				# Clear the production flag in scheune_ui if we set it
+				if production_in_progress and scheune_ui.has_method("set_refresh_during_production"):
+					scheune_ui.set_refresh_during_production(false)
+				
+				# Reset the handling flag with a small delay
+				get_tree().create_timer(0.1).timeout.connect(func(): _handling_refresh = false)
 		else:
 			push_warning("Target inventory UI (", scheune_ui.name, ") is missing required methods (reload_slots or adjust_visual_count).")
 	else:
@@ -736,15 +789,35 @@ func _process(delta: float) -> void:
 		production_timer += delta
 		progress_bar.value = production_timer
 		if production_timer >= production_duration:
+			# Save the current production state before completing
+			var was_production_active = auto_production_active
+			
 			production_in_progress = false
-			progress_bar.hide()
-			# Complete production and update slots
+			# progress_bar.hide() # Don't hide immediately if we might loop
 			_process_single_item() 
-			# Re-enable produce button if inputs remain VISUALLY
-			produce_button.disabled = not _has_required_inputs_visual()
-			# Re-enable interactions after production
-			input_slot.mouse_filter = Control.MOUSE_FILTER_STOP
-			if input_slot2: input_slot2.mouse_filter = Control.MOUSE_FILTER_STOP
-			output_slot.mouse_filter = Control.MOUSE_FILTER_STOP
+			
+			if was_production_active && auto_production_active:
+				# Only try next cycle if auto_production_active wasn't changed during _process_single_item
+				_try_start_production_cycle() # Attempt to start the next item
+				if not production_in_progress: # If it couldn't start (e.g. no items)
+					progress_bar.hide()
+					if produce_button:
+						produce_button.disabled = not _has_required_inputs_visual()
+						produce_button.text = "Produce" # Reset button text
+					# Re-enable interactions
+					input_slot.mouse_filter = Control.MOUSE_FILTER_STOP
+					if input_slot2: input_slot2.mouse_filter = Control.MOUSE_FILTER_STOP
+					output_slot.mouse_filter = Control.MOUSE_FILTER_STOP
+			else:
+				# Auto production is not active, so clean up
+				progress_bar.hide()
+				if produce_button:
+					produce_button.disabled = not _has_required_inputs_visual()
+					# produce_button.text will be "Produce" if auto_production_active was turned off by button press
+					# or was never on. If it was on and ran out of items, text is also reset.
+				# Re-enable interactions after production
+				input_slot.mouse_filter = Control.MOUSE_FILTER_STOP
+				if input_slot2: input_slot2.mouse_filter = Control.MOUSE_FILTER_STOP
+				output_slot.mouse_filter = Control.MOUSE_FILTER_STOP
 			
 # ... existing code ...
