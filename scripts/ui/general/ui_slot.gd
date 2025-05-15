@@ -183,6 +183,7 @@ func clear() -> void:
 	item_texture.texture = null
 	amount_label.text = ""
 	amount_label.hide()
+	price = 0  # Wichtig: Setze auch den Preis zurück
 
 
 func _on_buy(item:String):

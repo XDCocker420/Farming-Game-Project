@@ -32,6 +32,9 @@ func _ready() -> void:
 	ui_selection.put_item.connect(_on_put)
 	ui_selection.accept.connect(_on_accept)
 	
+	# Verbinde mit dem market_item_sold Signal, um die UI zu aktualisieren
+	SaveGame.market_item_sold.connect(_on_market_item_sold)
+
 
 func _on_player_interact() -> void:
 	if player_in_area:
@@ -104,12 +107,18 @@ func _on_accept(amount: int, price: int) -> void:
 		selected_slot.price = price
 		selected_slot.item_name = selected_name
 		
+		# Die Slot-ID abrufen, um das Markt-Item korrekt zu identifizieren
+		var slot_id = 0
+		if selected_slot.get("id") != null:
+			slot_id = selected_slot.get("id")
+		
 		SaveGame.remove_from_inventory(selected_name, amount)
 		
 		selected_texture = null
 		ui_selection.hide()
 		
-		SaveGame.add_market_slot(0, selected_name, amount, price)
+		# Erstelle das Market-Item mit der richtigen Slot-ID
+		SaveGame.add_market_slot(slot_id, selected_name, amount, price)
 	else:
 		# Could not find required nodes
 		pass
@@ -127,3 +136,41 @@ func _on_player_exited(body: Node2D) -> void:
 		ui_markt.hide()
 		ui_selection.hide()
 		door.play_backwards("open")
+
+
+# Neuer Signal-Handler: Entfernt das Item aus dem UI-Slot, wenn es verkauft wurde
+func _on_market_item_sold(item_name: String, count: int, total_price: int) -> void:
+	print("Markt: Verkauft - %d x %s für %d$" % [count, item_name, total_price])
+	
+	if not ui_markt or not ui_markt.has_node("MarginContainer/slots"):
+		return
+		
+	# Finde alle Slots, die das verkaufte Item enthalten könnten
+	var slots_container = ui_markt.get_node("MarginContainer/slots")
+	for slot in slots_container.get_children():
+		if not (slot is PanelContainer):
+			continue
+			
+		# Prüfe, ob der Slot das verkaufte Item enthält
+		if slot.get("item_name") == item_name:
+			print("Slot mit verkauftem Item gefunden - leere Slot %s" % slot.get("id"))
+			
+			# Direkte manuelle Leerung des Slots
+			if slot.has_node("MarginContainer/item"):
+				slot.get_node("MarginContainer/item").texture = null
+			if slot.has_node("amount"):
+				slot.get_node("amount").text = ""
+				slot.get_node("amount").hide()
+			
+			# Setze Eigenschaften direkt zurück
+			slot.set("item_name", "")
+			slot.set("price", 0)
+			
+			# Falls der Slot eine clear() Methode hat, rufe sie zusätzlich auf
+			if slot.has_method("clear"):
+				slot.clear()
+			
+	# Aktualisiere die UI nach dem Verkauf
+	if ui_markt.visible:
+		ui_markt.hide()
+		ui_markt.show()  # Erzwinge eine Neuzeichnung

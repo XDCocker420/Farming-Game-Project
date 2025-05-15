@@ -1,8 +1,8 @@
 [gd_resource type="Resource" script_class="DialogicStyle" load_steps=5 format=3 uid="uid://btcnfjjt24b47"]
 
-[ext_resource type="Script" uid="uid://2obsawejxy2a" path="res://addons/dialogic/Resources/dialogic_style_layer.gd" id="1_6pdbc"]
+[ext_resource type="Script" uid="uid://lybwqi0v6q6q" path="res://addons/dialogic/Resources/dialogic_style_layer.gd" id="1_6pdbc"]
 [ext_resource type="PackedScene" uid="uid://b4qlmw0t0i2yn" path="res://dialogs/styling/full_custom_test/CustomTest1/custom_test_1.tscn" id="1_ojmum"]
-[ext_resource type="Script" uid="uid://ceyclbqbnmuok" path="res://addons/dialogic/Resources/dialogic_style.gd" id="10_0e8qn"]
+[ext_resource type="Script" uid="uid://dyufi27wts3rx" path="res://addons/dialogic/Resources/dialogic_style.gd" id="10_0e8qn"]
 
 [sub_resource type="Resource" id="Resource_0l6vy"]
 script = ExtResource("1_6pdbc")
