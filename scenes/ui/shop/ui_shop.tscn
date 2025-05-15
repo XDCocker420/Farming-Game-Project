@@ -2,17 +2,17 @@
 
 [ext_resource type="PackedScene" uid="uid://b24bo4ir8kd3p" path="res://scenes/ui/general/ui_slot.tscn" id="1_tmm8h"]
 [ext_resource type="Script" uid="uid://btqbhyr0h7dmr" path="res://scripts/ui/shop/ui_shop.gd" id="1_xk6pj"]
-[ext_resource type="Texture2D" uid="uid://cejx1fofh77kj" path="res://assets/ui/icons/carrot_seed.png" id="2_npjpc"]
-[ext_resource type="Texture2D" uid="uid://bb16l58kjdrdj" path="res://assets/ui/icons/potatoe_seed.png" id="3_10w74"]
-[ext_resource type="Texture2D" uid="uid://dkm5h15lplr0m" path="res://assets/ui/icons/corn_seed.png" id="4_g6w5w"]
-[ext_resource type="Texture2D" uid="uid://bwty2d0vtvr61" path="res://assets/ui/icons/eggplant_seed.png" id="5_vf14d"]
-[ext_resource type="Texture2D" uid="uid://s7k58d4ltiw4" path="res://assets/ui/icons/lettuce_seed.png" id="6_xk6pj"]
-[ext_resource type="Texture2D" uid="uid://bxibssxcvfks5" path="res://assets/ui/icons/pumpkin_seed.png" id="7_75kwg"]
-[ext_resource type="Texture2D" uid="uid://da8cy13qhdjk8" path="res://assets/ui/icons/wheat_seed.png" id="8_10w74"]
-[ext_resource type="Texture2D" uid="uid://bycr0q1wrw14w" path="res://assets/ui/icons/watermelon_seed.png" id="9_rsyj8"]
-[ext_resource type="Texture2D" uid="uid://hmamh080tsxk" path="res://assets/ui/general/accept.png" id="10_vf14d"]
-[ext_resource type="Texture2D" uid="uid://brv73kyhlpux7" path="res://assets/ui/icons/tomatoe_seed.png" id="11_75kwg"]
-[ext_resource type="Texture2D" uid="uid://dty1avx142hry" path="res://assets/ui/general/cancel.png" id="11_xk6pj"]
+[ext_resource type="Texture2D" uid="uid://kjg6vse5q5nc" path="res://assets/ui/icons/carrot_seed.png" id="2_npjpc"]
+[ext_resource type="Texture2D" uid="uid://dsj26v2df5o4n" path="res://assets/ui/icons/potatoe_seed.png" id="3_10w74"]
+[ext_resource type="Texture2D" uid="uid://c8e1p2r4s8wf8" path="res://assets/ui/icons/corn_seed.png" id="4_g6w5w"]
+[ext_resource type="Texture2D" uid="uid://b4wqdfgoji2ql" path="res://assets/ui/icons/eggplant_seed.png" id="5_vf14d"]
+[ext_resource type="Texture2D" uid="uid://0bakk4fcj8cg" path="res://assets/ui/icons/lettuce_seed.png" id="6_xk6pj"]
+[ext_resource type="Texture2D" uid="uid://dernei4u36rpx" path="res://assets/ui/icons/pumpkin_seed.png" id="7_75kwg"]
+[ext_resource type="Texture2D" uid="uid://c66mnukhc1jyi" path="res://assets/ui/icons/wheat_seed.png" id="8_10w74"]
+[ext_resource type="Texture2D" uid="uid://dnd4ja1s80thy" path="res://assets/ui/icons/watermelon_seed.png" id="9_rsyj8"]
+[ext_resource type="Texture2D" uid="uid://cc7uqvh4j840m" path="res://assets/ui/general/accept.png" id="10_vf14d"]
+[ext_resource type="Texture2D" uid="uid://cpsvdveh1y8h4" path="res://assets/ui/icons/tomatoe_seed.png" id="11_75kwg"]
+[ext_resource type="Texture2D" uid="uid://bn4yef2biw0rm" path="res://assets/ui/general/cancel.png" id="11_xk6pj"]
 
 [sub_resource type="StyleBoxLine" id="StyleBoxLine_tmm8h"]
 color = Color(0.458824, 0.352941, 0.239216, 1)
@@ -40,65 +40,65 @@ columns = 3
 [node name="slot_bg" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
 layout_mode = 2
 mouse_default_cursor_shape = 0
-item_name = "carrot"
-price = 3
-def_texture = ExtResource("2_npjpc")
+item_name = "wheat"
+price = 1
+def_texture = ExtResource("8_10w74")
 
 [node name="slot_bg2" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
 layout_mode = 2
 mouse_default_cursor_shape = 0
-item_name = "potatoe"
-price = 5
-def_texture = ExtResource("3_10w74")
+item_name = "corn"
+price = 3
+def_texture = ExtResource("4_g6w5w")
 
 [node name="slot_bg3" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
 layout_mode = 2
 mouse_default_cursor_shape = 0
-item_name = "corn"
-price = 10
-def_texture = ExtResource("4_g6w5w")
+item_name = "carrot"
+price = 5
+def_texture = ExtResource("2_npjpc")
 
 [node name="slot_bg4" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
 layout_mode = 2
 mouse_default_cursor_shape = 0
-item_name = "eggplant"
-price = 20
-def_texture = ExtResource("5_vf14d")
+item_name = "pumpkin"
+price = 10
+def_texture = ExtResource("7_75kwg")
 
 [node name="slot_bg5" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
+layout_mode = 2
+mouse_default_cursor_shape = 0
+item_name = "potatoe"
+price = 15
+def_texture = ExtResource("3_10w74")
+
+[node name="slot_bg6" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
+layout_mode = 2
+mouse_default_cursor_shape = 0
+item_name = "tomatoe"
+price = 20
+def_texture = ExtResource("11_75kwg")
+
+[node name="slot_bg7" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
 layout_mode = 2
 mouse_default_cursor_shape = 0
 item_name = "lettuce"
 price = 30
 def_texture = ExtResource("6_xk6pj")
 
-[node name="slot_bg6" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
-layout_mode = 2
-mouse_default_cursor_shape = 0
-item_name = "pumpkin"
-price = 50
-def_texture = ExtResource("7_75kwg")
-
-[node name="slot_bg7" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
-layout_mode = 2
-mouse_default_cursor_shape = 0
-item_name = "wheat"
-price = 1
-def_texture = ExtResource("8_10w74")
-
 [node name="slot_bg8" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
+layout_mode = 2
+mouse_default_cursor_shape = 0
+item_name = "eggplant"
+price = 40
+def_texture = ExtResource("5_vf14d")
+
+[node name="slot_bg9" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
 layout_mode = 2
 mouse_default_cursor_shape = 0
 item_name = "watermelon"
 price = 50
 def_texture = ExtResource("9_rsyj8")
-
-[node name="slot_bg9" parent="HBoxContainer/MarginContainer/GridContainer" instance=ExtResource("1_tmm8h")]
-layout_mode = 2
-mouse_default_cursor_shape = 0
-item_name = "tomatoe"
-price = 25
-def_texture = ExtResource("11_75kwg")
 
 [node name="VSeparator" type="VSeparator" parent="HBoxContainer"]
 layout_mode = 2
