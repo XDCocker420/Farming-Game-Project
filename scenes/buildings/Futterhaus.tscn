@@ -134,19 +134,20 @@ position = Vector2(0, 16)
 shape = SubResource("RectangleShape2D_1g2wl")
 
 [node name="inventory_ui_feed" parent="." instance=ExtResource("4_ss63k")]
+z_index = 1
 offset_left = -96.0
 offset_top = -48.0
 offset_right = -36.0
 offset_bottom = -10.0
 
 [node name="production_ui_feed" parent="." instance=ExtResource("5_2y3y5")]
+z_index = 1
 offset_left = -32.0
 offset_top = -64.0
 offset_right = 120.0
 offset_bottom = 1.0
 
 [node name="FutterhausLabel" type="Label" parent="."]
-z_index = -1
 offset_left = -40.0
 offset_top = -16.0
 offset_right = 43.0
