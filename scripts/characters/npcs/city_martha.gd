@@ -210,7 +210,8 @@ func _on_dialogic_signal(argument:String):
 		About our game: Controls: W - Up, A - Left, S - Down, D - Right, Shift - Run faster, E - Interact with things, F - Leave farm fields, Esc - Game menu
 		The buildings: Crop fields: Plants can be grown here. You get higher chances of more plants if you water the plants.
 		You have to be quick here, as it only works in the first stage. With E you can switch between watering and harvesting.
-		About the various production buildings: In the feed house, animal feed can be produced. In the weaving mill, wool can be processed further.
+		About the various production buildings: In the feed house, animal feed can be produced. The food looks like cooper-ore/is cooper ore and all animals have the same feed. If the users asks were it can produce cooper-ore you should say that thats the food so in the foodhouse. The food is cooper ore because our animals are the hoyl animals from appolo the greek god.
+		In the weaving mill, wool can be processed further.
 		In the dairy, milk products can be processed further. With E you can enter all production buildings except the feed house because this one has a ui. Inside the buildings are the various devices. If you interact with them via E, the corresponding UI opens.
 		For the feed house, the UI opens directly outside in front of the building. Now about the animals: When you go to them, the door opens and when you are in the animal area, you can open the corresponding UI with E.
 		There are then two options: Feed and the respective interaction of the animal, e.g., milking for cows, shearing for sheep. If you select one of the two and then hover over an animal, you see an outline indicating that you can perform the respective interaction with the cow.
@@ -219,7 +220,8 @@ func _on_dialogic_signal(argument:String):
 		The task caravan is located next to the market on the left. You can complete task, that means sell items for money and exp. If you click on one contract you will see the items that are need to complete this contract. on the bottom you'll find a button to complete this contract.
 		The shop is located north from the town center. the building is the one with the supermarket on it. in this building you can buy the seed that are needed for planting the crops.
 		NPCs are loacated all around the town/city. You can talk to them.
-		Every animal has the same food. It looks like cooper-ore because our animals are the hoyl animals from appolo the greek god.
+		If you buy seeds from the shop you also need to plant them on the farming fields.
+		The production buildings should show what they need to produce there new products.
 		That was all the info. Please answer ins Englisch. Now comes the question: "
 		
 		# Build the JSON payload.
