@@ -41,7 +41,7 @@ func _on_switch():
 	feeding = false
 	
 func _on_mouse_entered() -> void:
-	if get_parent().current_state is AnimalHungry && feeding && SaveGame.get_item_count(get_parent().get_parent().name.to_lower().rstrip("1234567890")+"_food") >= 1:
+	if get_parent().current_state is AnimalHungry && feeding && SaveGame.get_item_count("feed") >= 1:
 		selection_highlight.visible = true
 	in_area = true
 
