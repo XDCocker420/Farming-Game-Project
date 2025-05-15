@@ -1,12 +1,15 @@
 join martha center
 martha: STOOOOOP RIGHT THERE!!!!
-martha: You're new here, right?
+martha: You're the new guy in town, right?
 - Yes
 	martha: Oh that´s nice
 	[text_input text="What's your name again?" var="global.player_name"]
 	martha: Nice to meet you {global.player_name}
-	martha: Come with me, I'll show you your farm
-	[signal arg="start_moving"]
+	martha: You're here for the beer, aren't you?
+	- Yes
+		martha: You can find it in the pub in the center of the town
+		martha: Come with me, I'll show you your farm
+		[signal arg="start_moving"]
 - No (No Tutorial)
 	martha: Oh sorry, I completely forgot you
 	[text_input text="What's your name again?" var="global.player_name"]
