@@ -4120,7 +4120,6 @@ day_and_night = NodePath("../../../TagUndNacht")
 items_to_buy = Array[String](["carrot"])
 
 [node name="Martha" parent="Map/NPCs" instance=ExtResource("32_xsdhu")]
-z_index = 10
 position = Vector2(5290, -495)
 
 [node name="Thomas" parent="Map/NPCs" instance=ExtResource("33_4a4yq")]
@@ -4152,7 +4151,3 @@ visible = false
 color = Color(0.133333, 0.14902, 0.258824, 1)
 script = ExtResource("10_6ts4f")
 gradient_texture = ExtResource("19_s3576")
-
-[node name="PointLight2D" type="PointLight2D" parent="."]
-visible = false
-position = Vector2(768, -482)

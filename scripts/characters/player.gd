@@ -122,7 +122,7 @@ func set_selected_crop(crop_name: String) -> void:
 
 	
 func _physics_process(delta: float) -> void:
-	if !cant_move && body.animation in ["right", "left", "up", "down"]:
+	if !cant_move && body.animation in ["right", "left", "up", "down"] && Dialogic.current_timeline == null:
 		current_speed = sprint_speed if Input.is_action_pressed("sprint") else normal_speed
 		
 		

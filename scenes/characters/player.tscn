@@ -1220,6 +1220,7 @@ shape = SubResource("CapsuleShape2D_kx7bk")
 [node name="Camera2D" type="Camera2D" parent="."]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
+layer = 0
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="CanvasLayer"]
 anchors_preset = 4

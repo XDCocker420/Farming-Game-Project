@@ -1,27 +1,27 @@
 [gd_scene load_steps=32 format=3 uid="uid://b4qlmw0t0i2yn"]
 
-[ext_resource type="Script" uid="uid://b3okvwirdx71j" path="res://dialogs/styling/full_custom_test/CustomTest1/default_layout_base.gd" id="1_ifsho"]
+[ext_resource type="Script" uid="uid://yb7e1jyttj4a" path="res://dialogs/styling/full_custom_test/CustomTest1/default_layout_base.gd" id="1_ifsho"]
 [ext_resource type="PackedScene" uid="uid://c1k5m0w3r40xf" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_FullBackground/full_background_layer.tscn" id="2_4hauq"]
 [ext_resource type="PackedScene" uid="uid://cy1y14inwkplb" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Portraits/vn_portrait_layer.tscn" id="4_0vbwy"]
-[ext_resource type="Script" uid="uid://dowexww7tawdk" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Textbox/vn_textbox_layer.gd" id="5_0o0ro"]
-[ext_resource type="Script" uid="uid://go70sgd81ase" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Textbox/animations.gd" id="6_h37n0"]
+[ext_resource type="Script" uid="uid://dtjoiklysyfpi" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Textbox/vn_textbox_layer.gd" id="5_0o0ro"]
+[ext_resource type="Script" uid="uid://dwglt3avj4m5q" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Textbox/animations.gd" id="6_h37n0"]
 [ext_resource type="PackedScene" uid="uid://cn674foxwedqu" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Input/full_advance_input_layer.tscn" id="6_v555q"]
 [ext_resource type="StyleBox" uid="uid://dkv1pl1c1dq6" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Textbox/vn_textbox_default_panel.tres" id="7_i8cg4"]
-[ext_resource type="Script" uid="uid://cq8161icovxec" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Choices/vn_choice_layer.gd" id="7_u1a42"]
-[ext_resource type="Script" uid="uid://gie0eg1yjn8b" path="res://addons/dialogic/Modules/Choice/node_choice_button.gd" id="8_0fri1"]
-[ext_resource type="Script" uid="uid://d41yyp8m4r5u" path="res://addons/dialogic/Modules/Text/node_dialog_text.gd" id="8_v4mab"]
-[ext_resource type="Script" uid="uid://cdtrev8y73thp" path="res://addons/dialogic/Modules/Choice/node_button_sound.gd" id="9_3nr2w"]
-[ext_resource type="Script" uid="uid://1aqlwkr8jixb" path="res://addons/dialogic/Modules/Text/node_type_sound.gd" id="9_ngrja"]
-[ext_resource type="Script" uid="uid://bi8w6unwj2jae" path="res://addons/dialogic/Modules/Text/node_next_indicator.gd" id="10_raq5v"]
+[ext_resource type="Script" uid="uid://vuknd8mmffp" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Choices/vn_choice_layer.gd" id="7_u1a42"]
+[ext_resource type="Script" uid="uid://l7l4kdahdg72" path="res://addons/dialogic/Modules/Choice/node_choice_button.gd" id="8_0fri1"]
+[ext_resource type="Script" uid="uid://b5reupgxe251y" path="res://addons/dialogic/Modules/Text/node_dialog_text.gd" id="8_v4mab"]
+[ext_resource type="Script" uid="uid://8hjg7ortn8on" path="res://addons/dialogic/Modules/Choice/node_button_sound.gd" id="9_3nr2w"]
+[ext_resource type="Script" uid="uid://6thq5tuvfi1u" path="res://addons/dialogic/Modules/Text/node_type_sound.gd" id="9_ngrja"]
+[ext_resource type="Script" uid="uid://dsad7yugi6aml" path="res://addons/dialogic/Modules/Text/node_next_indicator.gd" id="10_raq5v"]
 [ext_resource type="AudioStream" uid="uid://b6c1p14bc20p1" path="res://addons/dialogic/Example Assets/sound-effects/typing1.wav" id="10_ttww5"]
 [ext_resource type="PackedScene" uid="uid://dsbwnp5hegnu3" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_Glossary/glossary_popup_layer.tscn" id="10_v4mab"]
 [ext_resource type="AudioStream" uid="uid://c2viukvbub6v6" path="res://addons/dialogic/Example Assets/sound-effects/typing4.wav" id="11_4hauq"]
 [ext_resource type="Texture2D" uid="uid://b0rpqfg4fhebk" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Textbox/next.svg" id="11_kty5e"]
-[ext_resource type="Script" uid="uid://cv1q8wyakpb3x" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Textbox/autoadvance_indicator.gd" id="12_gj0k6"]
-[ext_resource type="Script" uid="uid://bsfulotfy4uxv" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_TextInput/text_input_layer.gd" id="12_xly41"]
-[ext_resource type="Script" uid="uid://clh6fqwjbbf4x" path="res://addons/dialogic/Modules/TextInput/node_text_input.gd" id="13_0vbwy"]
+[ext_resource type="Script" uid="uid://de3qsqfugg86g" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Textbox/autoadvance_indicator.gd" id="12_gj0k6"]
+[ext_resource type="Script" uid="uid://p4ixyy25t7p" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_TextInput/text_input_layer.gd" id="12_xly41"]
+[ext_resource type="Script" uid="uid://b2lpj4fsl6km7" path="res://addons/dialogic/Modules/TextInput/node_text_input.gd" id="13_0vbwy"]
 [ext_resource type="StyleBox" uid="uid://m7gyepkysu83" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_VN_Textbox/vn_textbox_name_label_panel.tres" id="13_2m3q4"]
-[ext_resource type="Script" uid="uid://40tjc0e154v" path="res://addons/dialogic/Modules/Text/node_name_label.gd" id="14_eoh26"]
+[ext_resource type="Script" uid="uid://souy45i73big" path="res://addons/dialogic/Modules/Text/node_name_label.gd" id="14_eoh26"]
 [ext_resource type="PackedScene" uid="uid://lx24i8fl6uo" path="res://addons/dialogic/Modules/DefaultLayoutParts/Layer_History/history_layer.tscn" id="16_eoh26"]
 
 [sub_resource type="Animation" id="Animation_au0a2"]
@@ -233,15 +233,19 @@ script = ExtResource("1_ifsho")
 canvas_layer = 0
 
 [node name="BackgroundLayer" parent="." instance=ExtResource("2_4hauq")]
+z_index = 13
 apply_overrides_on_ready = true
 
 [node name="VN_PortraitLayer" parent="." instance=ExtResource("4_0vbwy")]
+z_index = 13
 apply_overrides_on_ready = true
 
 [node name="FullAdvanceInputLayer" parent="." instance=ExtResource("6_v555q")]
+z_index = 13
 apply_overrides_on_ready = true
 
 [node name="VN_TextboxLayer" type="Control" parent="."]
+z_index = 13
 layout_mode = 3
 anchors_preset = 7
 anchor_left = 0.5
@@ -383,9 +387,11 @@ script = ExtResource("14_eoh26")
 name_label_root = NodePath("..")
 
 [node name="Glossary" parent="." instance=ExtResource("10_v4mab")]
+z_index = 13
 apply_overrides_on_ready = true
 
 [node name="VN_ChoiceLayer" type="Control" parent="."]
+z_index = 13
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -476,6 +482,7 @@ sound_hover = ExtResource("11_4hauq")
 sound_focus = SubResource("AudioStream_pe27w")
 
 [node name="TextInputLayer" type="Control" parent="."]
+z_index = 13
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -557,6 +564,7 @@ grow_vertical = 0
 mouse_filter = 2
 
 [node name="ExampleHistoryScene" parent="." instance=ExtResource("16_eoh26")]
+z_index = 13
 font_use_global_size = true
 font_custom_size = 15
 font_use_global_fonts = true
