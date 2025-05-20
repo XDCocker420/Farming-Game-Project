@@ -1,52 +1,53 @@
 extends Node
 
-# Hilfsskript für das Markt-System (Timer werden im Hintergrund verwaltet)
+# Hilfsskript, um die Markt-UI zu aktualisieren, wenn Items über SaveGame verkauft wurden.
 
-func _ready():
-	# Warte einen Frame, damit die UI vollständig initialisiert ist
-	await get_tree().process_frame
+func _ready() -> void:
+	# Warte einen Frame, damit die gesamte Szene (inkl. ui_markt) wahrscheinlich initialisiert ist.
+	await get_tree().process_frame 
 	
-	# Verbinde mit SaveGame-Signalen
-	SaveGame.items_added_to_market.connect(_on_market_item_added)
-	SaveGame.market_item_sold.connect(_on_market_item_sold)
+	if SaveGame.has_signal("market_item_sold"):
+		SaveGame.market_item_sold.connect(_on_save_game_market_item_sold)
+	else:
+		printerr("add_market_timers.gd: SaveGame hat kein Signal 'market_item_sold'. UI-Slot-Leerung nach Verkauf wird nicht funktionieren.")
 
-# Utility-Funktion, um die ui_markt Instanz zu finden
-func get_ui_markt():
-	var parent = get_parent()
-	while parent:
-		if parent.has_node("CanvasLayer/ui_markt"):
-			return parent.get_node("CanvasLayer/ui_markt")
-		parent = parent.get_parent()
+
+# Utility-Funktion, um die ui_markt Instanz zu finden.
+func get_ui_markt_instance():
+	var root_node = get_tree().current_scene
+	if not root_node:
+		printerr("add_market_timers.gd: Konnte keinen root_node (current_scene) finden.")
+		return null
+
+	# Versuch 1: Standardpfad über CanvasLayer (häufig für UI)
+	var ui_markt_node = root_node.get_node_or_null("CanvasLayer/ui_markt")
+	if ui_markt_node and ui_markt_node is PanelContainer and ui_markt_node.has_method("clear_market_slot_for_item"):
+		return ui_markt_node
+	
+	# Versuch 2: Direkter Kindknoten des Root-Nodes mit dem Namen "ui_markt" (weniger wahrscheinlich, aber möglich)
+	# Diese Annahme ist stark von deiner Szenenstruktur abhängig.
+	# Wenn ui_markt tiefer verschachtelt ist, muss dieser Pfad angepasst werden oder eine robustere Suchmethode (z.B. via Gruppe) verwendet werden.
+	ui_markt_node = root_node.get_node_or_null("ui_markt")
+	if ui_markt_node and ui_markt_node is PanelContainer and ui_markt_node.has_method("clear_market_slot_for_item"):
+		return ui_markt_node
+
+	printerr("add_market_timers.gd: Konnte ui_markt Instanz nicht finden. Geprüfte Pfade: 'CanvasLayer/ui_markt' und 'ui_markt' direkt unter der aktuellen Szene. Stelle sicher, dass ui_markt geladen ist und einen dieser Pfade/Namen hat oder passe get_ui_markt_instance an.")
 	return null
 
-# Signal-Handler für hinzugefügte Markt-Items
-func _on_market_item_added(_item_name):
-	# Nur noch für Debug-Zwecke
-	pass
 
-# Signal-Handler für verkaufte Markt-Items
-func _on_market_item_sold(item_name, count, total_price):
-	# Aktualisiere die UI, nachdem ein Item verkauft wurde
-	var ui_markt = get_ui_markt()
-	if ui_markt and ui_markt.has_node("MarginContainer/slots"):
-		var slots_container = ui_markt.get_node("MarginContainer/slots")
-		
-		# Durchlaufe alle Slots
-		for slot in slots_container.get_children():
-			if not (slot is PanelContainer):
-				continue
-				
-			# Wenn der Slot das verkaufte Item enthält
-			if slot.get("item_name") == item_name:
-				# Leere den Slot manuell (ohne clear zu verwenden, da es Probleme geben könnte)
-				if slot.has_node("MarginContainer/item"):
-					slot.get_node("MarginContainer/item").texture = null
-				if slot.has_node("amount"):
-					slot.get_node("amount").text = ""
-					slot.get_node("amount").hide()
-				
-				# Wichtig: Setze alle relevanten Eigenschaften zurück
-				slot.set("item_name", "")
-				slot.set("price", 0)
+func _on_save_game_market_item_sold(item_name: String, amount_sold: int, total_price_for_stack: int):
+	# Dieses Signal wird von SaveGame.gd ausgelöst, NACHDEM das Geld hinzugefügt wurde und das Item
+	# aus der market_sav Liste entfernt wurde.
+	# Die Aufgabe hier ist nur, den visuellen Slot in der UI zu leeren.
 	
-	print("Verkauft: %d x %s für %d$" % [count, item_name, total_price]) 
+	print("add_market_timers.gd: Signal SaveGame.market_item_sold empfangen für Item '%s', Menge: %d, Gesamtpreis: %d." % [item_name, amount_sold, total_price_for_stack])
+	
+	var ui_markt_instance = get_ui_markt_instance()
+	
+	if ui_markt_instance:
+		# Die Methode clear_market_slot_for_item in ui_markt.gd erwartet:
+		# item_name_sold: String, amount_sold: int, price_sold_total: int
+		# Das Signal von SaveGame.market_item_sold liefert genau diese Parameter.
+		ui_markt_instance.clear_market_slot_for_item(item_name, amount_sold, total_price_for_stack)
+	else:
+		printerr("add_market_timers.gd: ui_markt Instanz nicht gefunden beim Versuch, Slot für verkauftes Item '%s' zu leeren." % item_name) 

@@ -2,7 +2,7 @@ extends PanelContainer
 
 
 signal put_item(item_name: String, item_texture: Texture2D)
-signal accept(amount: int, price: int)
+signal accept(item_name: String, amount: int, price: int)
 
 @onready var slots: GridContainer = $HBoxContainer/MarginContainer/ScrollContainer/slots
 @onready var accept_button: TextureButton = $HBoxContainer/MarginContainer2/VBoxContainer/MarginContainer/HBoxContainer/accept
@@ -92,7 +92,7 @@ func _on_accept() -> void:
 	var price: int = int(price_spinbox.value)
 	amount_spinbox.value = 1
 	price_spinbox.value = 1
-	accept.emit(amount, price)
+	accept.emit(current_item, amount, price)
 
 
 func _on_visibility_changed():
@@ -101,6 +101,7 @@ func _on_visibility_changed():
 		reload_slots()
 	else:
 		reset_ui()
+		reload_slots()
 
 func _on_amount_changed(value:float) -> void:
 	price_spinbox.max_value = ConfigReader.get_max_price(current_item) * value
