@@ -9,6 +9,9 @@ var slot_list: Array
 var current_filter: Array = []
 var active_production_ui = null
 
+# Add a flag to track if we're refreshing during active production
+var _refresh_during_production: bool = false
+
 func _ready() -> void:
 	visibility_changed.connect(_on_visibility_changed)
 	
@@ -26,7 +29,7 @@ func _ready() -> void:
 	# CRITICAL FIX: Make sure the slots are actually a direct child of ScrollContainer
 	# with proper container layout mode relationship
 	if slots.get_parent() != scroll_container:
-		print("WARNING: Slots not directly parented to ScrollContainer. This is likely the root cause.")
+		pass # Entferne den Debug-Print
 	
 	# SET THE SAME EXACT VALUES AS IN THE SCENE FILE
 	# vertical_scroll_mode = 3 (ALWAYS_ENABLED) - scene shows this value specifically
@@ -72,7 +75,24 @@ func _ready() -> void:
 	# make sure we connect to gui_input to capture mouse wheel events
 	scroll_container.gui_input.connect(_on_scroll_container_gui_input)
 	
+	# Make sure existing slots are cleared before initial load
+	_clear_all_slots()
+	
+	# Then do the initial load
 	load_slots()
+
+# New helper function to properly clear all slots
+func _clear_all_slots() -> void:
+	# Clear list of references first
+	slot_list.clear()
+	
+	# Then remove all child slots
+	for slot in slots.get_children():
+		# Properly disconnect signals to prevent memory leaks
+		if slot.has_signal("item_selection") and slot.item_selection.is_connected(_on_item_selected):
+			slot.item_selection.disconnect(_on_item_selected)
+		# Remove the slot from the scene
+		slot.queue_free()
 
 func add_slot(item: String, amount: int, is_part_of_active_filter: bool = false) -> void:
 	# Don't add slots for empty items
@@ -83,6 +103,24 @@ func add_slot(item: String, amount: int, is_part_of_active_filter: bool = false)
 	# If it's NOT part of an active filter, then we only show it if amount > 0.
 	if not is_part_of_active_filter and amount <= 0:
 		return
+	
+	# DUPLICATION FIX: Check if a slot for this item already exists
+	for existing_slot in slots.get_children():
+		if "item_name" in existing_slot and existing_slot.item_name == item:
+			# Update the existing slot instead of creating a new one
+			if existing_slot.has_method("setup"):
+				existing_slot.setup(item, "", true, amount)
+			else:
+				# Manual update
+				var amount_label = _get_amount_label(existing_slot)
+				if amount_label:
+					amount_label.text = str(amount)
+			
+			# Ensure this slot is in our slot_list
+			if not existing_slot in slot_list:
+				slot_list.append(existing_slot)
+				
+			return
 		
 	var slot: PanelContainer = slot_scenen.instantiate()
 	var slot_item: TextureRect = slot.get_node("MarginContainer/item")
@@ -111,27 +149,37 @@ func add_slot(item: String, amount: int, is_part_of_active_filter: bool = false)
 	slots.add_child(slot)
 	slot_list.append(slot)
 	
-	# Connect the slot's signals after adding to the tree to avoid lifecycle issues
-	if slot.has_signal("item_selection"):
-		if slot.item_selection.is_connected(_on_item_selected):
-			slot.item_selection.disconnect(_on_item_selected)
-		slot.item_selection.connect(_on_item_selected)
-	
-	# Ensure the button uses the proper mouse filter for input
+	# Get button reference once for both branches
 	var button = slot.get_node("button")
-	if button:
-		# Use STOP for the button so it captures clicks but not scroll events
-		button.mouse_filter = Control.MOUSE_FILTER_STOP
+	
+	# Connect the slot's signals after adding to the tree to avoid lifecycle issues
+	if not _refresh_during_production:
+		if slot.has_signal("item_selection"):
+			if slot.item_selection.is_connected(_on_item_selected):
+				slot.item_selection.disconnect(_on_item_selected)
+			slot.item_selection.connect(_on_item_selected)
 		
-		# Make sure button is visible and enabled
-		button.visible = true
-		button.disabled = false
-		button.toggle_mode = true
-		
-		# Directly connect the button press event
-		if button.pressed.is_connected(_on_slot_button_pressed.bind(slot, item)):
-			button.pressed.disconnect(_on_slot_button_pressed.bind(slot, item))
-		button.pressed.connect(_on_slot_button_pressed.bind(slot, item))
+		# Ensure the button uses the proper mouse filter for input
+		if button:
+			# Use STOP for the button so it captures clicks but not scroll events
+			button.mouse_filter = Control.MOUSE_FILTER_STOP
+			
+			# Make sure button is visible and enabled
+			button.visible = true
+			button.disabled = false
+			button.toggle_mode = true
+			
+			# Directly connect the button press event
+			if button.pressed.is_connected(_on_slot_button_pressed.bind(slot, item)):
+				button.pressed.disconnect(_on_slot_button_pressed.bind(slot, item))
+			button.pressed.connect(_on_slot_button_pressed.bind(slot, item))
+	else:
+		# During production refresh, still set up the button UI properly but don't connect signals
+		if button:
+			button.mouse_filter = Control.MOUSE_FILTER_STOP
+			button.visible = true
+			button.disabled = false
+			button.toggle_mode = true
 	
 	# Set the production UI reference if we have one
 	if active_production_ui:
@@ -153,6 +201,12 @@ func _on_slot_button_pressed(slot, item_name) -> void:
 	item_selected.emit(item_name)
 
 func load_slots() -> void:
+	# CRITICAL FIX: Ensure there are no existing slots before adding new ones
+	_clear_all_slots()
+	
+	# Wait a frame to ensure all slots are fully removed
+	await get_tree().process_frame
+	
 	var inventory = SaveGame.get_inventory()
 	
 	if not current_filter.is_empty():
@@ -166,35 +220,59 @@ func load_slots() -> void:
 			if inventory[item] > 0:
 				add_slot(item, inventory[item], false) # Pass false
 		
+	# After adding all slots, only connect signals if not during production refresh
+	if not _refresh_during_production:
+		for slot: PanelContainer in slot_list:
+			if slot.item_selection.is_connected(_on_item_selected):
+				slot.item_selection.disconnect(_on_item_selected)
+			slot.item_selection.connect(_on_item_selected)
 	
+	call_deferred("_ensure_scroll_updated")
+
 func reload_slots(apply_filter: bool = true) -> void:
+	# CRITICAL FIX: Always get a fresh copy of inventory data directly from SaveGame
+	# This ensures we never work with stale data
+	var inventory_data = SaveGame.get_inventory().duplicate()
+	
+	# Check for _refresh_during_production at the beginning
+	var suppress_signals = _refresh_during_production
+	
 	# Store current production UI reference
 	var current_production_ui = active_production_ui
 	
-	# Get fresh inventory data
-	var inventory_data = SaveGame.get_inventory()
+	# CRITICAL: Clear all existing slots first to prevent any lingering visual state
+	_clear_all_slots()
 	
-	# Only rebuild slots if needed
+	# Wait a frame to ensure slots are fully removed
+	await get_tree().process_frame
+	
+	# Build the slots using the fresh inventory data we captured
 	if apply_filter and not current_filter.is_empty():
-		# For filtered reloads, more selective approach
-		# We base the decision for selective update on the size of the filter itself
-		if current_filter.size() <= 6: # Check against current_filter size
-			_selective_slot_update(inventory_data) # Pass only inventory_data
-			call_deferred("_ensure_scroll_updated")
-			return
-	
-	# Standard rebuild approach for larger sets
-	_full_slot_rebuild(inventory_data, apply_filter)
+		# For filtered reloads, add each filtered item
+		for item_name in current_filter:
+			var item_count = inventory_data.get(item_name, 0) 
+			add_slot(item_name, item_count, true)
+	else:
+		# No filter, add items with quantity > 0
+		for item_name in inventory_data:
+			if inventory_data[item_name] > 0:
+				add_slot(item_name, inventory_data[item_name], false)
 	
 	# Re-establish production UI reference if it exists
 	if current_production_ui:
 		set_active_production_ui(current_production_ui)
-		
+	
 	# Ensure scroll container updates after rebuilding slots
 	call_deferred("_ensure_scroll_updated")
+	
+	# Make sure the refresh state is cleared
+	_refresh_during_production = false
 
-# Helper method for selective slot updates (more efficient)
-func _selective_slot_update(inventory_data): # Takes inventory_data, uses self.current_filter
+# Helper method for selective slot updates
+func _selective_slot_update(inventory_data): 
+	# CRITICAL FIX: Always work with a fresh copy of the inventory data
+	var current_inventory = inventory_data.duplicate()
+	
 	var items_processed_from_filter = {}
 	
 	# First pass: Update existing slots or remove if no longer in current_filter
@@ -204,48 +282,25 @@ func _selective_slot_update(inventory_data): # Takes inventory_data, uses self.c
 			var slot_item_name = slot.item_name
 			
 			if current_filter.has(slot_item_name):
-				# Item is in the current filter, update it
-				var inv_count = inventory_data.get(slot_item_name, 0)
+				# Item is in the current filter, update it from current inventory
+				var inv_count = current_inventory.get(slot_item_name, 0)
 				var amount_label = slot.get_node_or_null("amount")
 				if amount_label is Label:
+					# CRITICAL: Always update with fresh count
 					amount_label.text = str(inv_count)
 					amount_label.show()
-				slot.show() # Ensure slot is visible
+				slot.show()
 				items_processed_from_filter[slot_item_name] = true
 			else:
 				# Item is not in the current filter, remove it
-				slot_list.erase(slot) # Assuming slot_list still tracks these
+				slot_list.erase(slot)
 				slot.queue_free()
 	
 	# Second pass: Add new slots for current_filter items not already shown/processed
 	for item_in_filter in current_filter:
 		if not items_processed_from_filter.has(item_in_filter):
-			var inv_count = inventory_data.get(item_in_filter, 0)
-			add_slot(item_in_filter, inv_count, true) # Add as part of active filter
-
-# Helper method for full rebuild (original approach)
-func _full_slot_rebuild(inventory_data, apply_filter):
-	# Safety check for the slot container
-	if not is_instance_valid(slots):
-		push_error("Slots container is not valid during rebuild")
-		return
-
-	# Clear existing slots
-	slot_list.clear()
-	for slot in slots.get_children():
-		slot.queue_free()
-
-	# Add slots based on filter or full inventory
-	if apply_filter and not current_filter.is_empty():
-		# Filter is active, iterate current_filter and add all items
-		for item_name in current_filter:
-			var item_count = inventory_data.get(item_name, 0) # Default to 0 if not in inventory
-			add_slot(item_name, item_count, true) # True: is_part_of_active_filter
-	else:
-		# No filter or filter is empty, show items with quantity > 0 from inventory
-		for item_name in inventory_data:
-			if inventory_data[item_name] > 0:
-				add_slot(item_name, inventory_data[item_name], false) # False: not part of active filter
+			var inv_count = current_inventory.get(item_in_filter, 0)
+			add_slot(item_in_filter, inv_count, true)
 
 # NEW: Function to find a specific slot by item name
 func find_slot_by_item_name(item_name: String):
@@ -254,101 +309,69 @@ func find_slot_by_item_name(item_name: String):
 			return slot
 	return null
 
-# NEW: Function to visually adjust the count of an item without changing SaveGame
+# IMPORTANT: Override adjust_visual_count to ensure it directly updates SaveGame
 func adjust_visual_count(item_name: String, adjustment: int):
-	# print("[ScheuneUI] adjust_visual_count called for item: ", item_name, " adjustment: ", adjustment)
+	# Find the slot for this item
 	var slot = find_slot_by_item_name(item_name)
 	if slot:
-		# print("[ScheuneUI] Found slot for item: ", item_name)
-		var amount_label = slot.get_node_or_null("amount") # Adjust path if needed
+		var amount_label = slot.get_node_or_null("amount")
 		if amount_label is Label:
-			# print("[ScheuneUI] Found amount label: ", amount_label.text)
-			var current_count = 0
-			if amount_label.text.is_valid_int():
-				current_count = int(amount_label.text)
+			# CRITICAL FIX: Always get the current count directly from SaveGame
+			var current_count = SaveGame.get_item_count(item_name)
 			
-			var new_count = current_count + adjustment
-			# print("[ScheuneUI] Current count: ", current_count, " New count: ", new_count)
-			
-			if new_count > 0:
-				amount_label.text = str(new_count)
+			if current_count > 0:
+				amount_label.text = str(current_count)
 				amount_label.show()
-				# Ensure the slot itself is visible if it might have been hidden
 				slot.show()
-				# print("[ScheuneUI] Updated label text to: ", new_count, " and showed slot.")
-			else: # new_count is <= 0
-				amount_label.text = "0" # Always show "0"
-				# Hide the slot only if it's NOT part of an active filter
+			else: # count is 0
+				amount_label.text = "0"
 				if not current_filter.has(item_name):
 					slot.hide()
 				else:
-					# If it IS part of the filter, ensure it's visible (even with 0 count)
 					slot.show()
-				# print("[ScheuneUI] Set label text to 0 and hid/showed slot based on filter.")
 		else:
 			push_warning("Could not find amount Label in slot for visual adjustment: %s" % item_name)
-			# print("[ScheuneUI] ERROR: Could not find amount label for slot.")
 	else:
-		# If the slot doesn't exist (e.g., item count was already 0 visually),
-		# and we are incrementing, we might need to trigger a full reload
-		# if adjustment > 0:
-		#     reload_slots(true) # Consider if this is needed
-		pass # Do nothing if slot not found for decrement
-		# print("[ScheuneUI] Did not find slot for item: ", item_name)
+		# If item's slot doesn't exist but should be displayed, reload slots
+		if current_filter.has(item_name) or SaveGame.get_item_count(item_name) > 0:
+			update_visuals()  # Full refresh with fresh SaveGame data
 
-# Function to update the visual count in the UI
+# Update the visual count in the UI - completely rewritten to always use fresh SaveGame data
 func update_visuals():
-	# Loop through existing slots and update their visibility/count
-	# based on SaveGame state - similar logic to reload_slots but without recreating
+	# Get fresh inventory data
 	var inventory = SaveGame.get_inventory()
-	var items_shown = {}
-
+	
+	# Loop through existing slots and update their visibility/count directly from SaveGame
 	for slot in slot_list:
-		if is_instance_valid(slot) and "item_name" in slot:
+		if is_instance_valid(slot) and "item_name" in slot and slot.item_name != "":
 			var item_name = slot.item_name
-			var count = inventory.get(item_name, 0)
-			items_shown[item_name] = true # Mark item as handled
-
-			var amount_label = slot.get_node_or_null("amount") # Adjust path if needed
+			var count = inventory.get(item_name, 0)  # Get count directly from SaveGame
+			
+			var amount_label = slot.get_node_or_null("amount")
 			if amount_label is Label:
+				# ALWAYS update with fresh count from SaveGame
+				amount_label.text = str(count)
 				if count > 0:
-					amount_label.text = str(count)
 					amount_label.show()
 					slot.show()
 				else: # count is 0
-					amount_label.text = "0"
-					# Hide slot only if count is 0 AND item is not in active filter
 					if not current_filter.has(item_name):
 						slot.hide()
 					else:
-						slot.show() # Ensure visible if part of filter and count is 0
-			else:
-				# If amount label not found, maybe just hide/show slot
-				if count > 0:
-					slot.show()
-				else: # count is 0
-					if not current_filter.has(item_name):
-						slot.hide()
-					else:
-						slot.show()
-
-	# Add slots for items in inventory but not currently shown (if any)
-	# This handles cases where an item was added to inventory externally
-	for item in inventory:
-		if not items_shown.has(item) and inventory[item] > 0: # Only add if count > 0
-			var add_this_item = false
-			var is_filtered_item = false
-			
-			if current_filter.is_empty(): # No filter active, add it
-				add_this_item = true
-				is_filtered_item = false
-			elif item in current_filter: # Filter active, and this inventory item is part of it
-				add_this_item = true
-				is_filtered_item = true
-			
-			if add_this_item:
-				add_slot(item, inventory[item], is_filtered_item)
-				
+						slot.show()  # Show it anyway if part of filter
+	
+	# Check for any items in SaveGame that aren't shown but should be
+	var slots_to_add = []
+	for item_name in inventory:
+		if inventory[item_name] > 0 and not find_slot_by_item_name(item_name):
+			if current_filter.is_empty() or current_filter.has(item_name):
+				slots_to_add.append([item_name, inventory[item_name]])
+	
+	# Add any missing slots in a second pass
+	for item_data in slots_to_add:
+		add_slot(item_data[0], item_data[1], current_filter.has(item_data[0]))
+	
+	# Make sure the UI layout is updated
 	call_deferred("_ensure_scroll_updated")
 
 func _on_visibility_changed() -> void:
@@ -357,27 +380,30 @@ func _on_visibility_changed() -> void:
 		var scroll_container = $MarginContainer/ScrollContainer
 		scroll_container.vertical_scroll_mode = 3
 		
-		# Only store current_filter if it's not empty
+		# Save the current filter state
 		var current_filter_copy = current_filter.duplicate() if not current_filter.is_empty() else []
 		
-		# Only temporarily clear filter if we have one
-		var had_filter = not current_filter.is_empty()
-		if had_filter:
-			current_filter.clear()
+		# CRITICAL FIX: Always clear all slots when becoming visible to prevent duplicates
+		_clear_all_slots()
 		
-		# Clear existing slots and completely rebuild from SaveGame
-		slot_list.clear()
-		for slot in slots.get_children():
-			slot.queue_free()
+		# Wait a frame to ensure slots are fully removed
+		await get_tree().process_frame
 		
-		# Load fresh inventory data
-		load_slots()
-		
-		# Restore filter if needed
-		if had_filter and not current_filter_copy.is_empty():
+		if current_filter_copy.is_empty():
+			# No filter was active, just load all slots normally
+			load_slots()
+		else:
+			# Filter was active, restore it and load with filter applied
 			current_filter = current_filter_copy
-			reload_slots(true)
 			
+			# Get fresh inventory data
+			var inventory = SaveGame.get_inventory()
+			
+			# Add items from the filter, even if count is 0
+			for item_in_filter in current_filter:
+				var count = inventory.get(item_in_filter, 0)
+				add_slot(item_in_filter, count, true)
+		
 		# Always ensure scroll is updated after becoming visible
 		call_deferred("_ensure_scroll_updated")
 
@@ -474,8 +500,7 @@ func _ensure_scroll_updated() -> void:
 	# Get the scroll container and force it to update its minimum size
 	var scroll_container = $MarginContainer/ScrollContainer
 	
-	# Set scroll mode again to ensure it's correct
-	scroll_container.vertical_scroll_mode = 3
+	# Always update scroll mode
 	scroll_container.horizontal_scroll_mode = 0
 	
 	# Make sure the slots grid is set up for scrolling
@@ -483,25 +508,55 @@ func _ensure_scroll_updated() -> void:
 	slots.layout_mode = 2  # Very important! This must match the scene's layout_mode
 	slots.mouse_filter = Control.MOUSE_FILTER_PASS
 	
-	# CRITICAL: Keep minimum size LARGER than container to force scrolling
-	var rows = ceil(slots.get_child_count() / float(slots.columns))
-	var estimated_height = max(300, rows * 30.0)  # Ensure much larger minimum height
-	slots.custom_minimum_size = Vector2(0, estimated_height)
+	# DYNAMIC SCROLL: Check if we need scrolling based on item count
+	var visible_slot_count = slots.get_child_count()
+	var rows_needed = ceil(visible_slot_count / float(slots.columns))
 	
-	# Force scrollbar visibility
-	var v_scrollbar = scroll_container.get_v_scroll_bar()
-	if v_scrollbar:
-		v_scrollbar.visible = true
+	# Calculate how many rows can fit in the visible area
+	# We'll approximate each row as 26 pixels high (adjust if your UI differs)
+	var slot_height = 26
+	var visible_height = scroll_container.size.y
+	var max_visible_rows = floor(visible_height / slot_height)
+	
+	# Set scrollbar based on whether we need it
+	if rows_needed > max_visible_rows and visible_slot_count > slots.columns:
+		# Need scrolling - set vertical mode to always show
+		scroll_container.vertical_scroll_mode = 3 # ALWAYS
 		
-		# Debug testing - set size to ensure visibility
-		v_scrollbar.custom_minimum_size = Vector2(6, scroll_container.size.y)
-		v_scrollbar.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		# Set minimum size to ensure proper scrolling
+		var estimated_height = rows_needed * slot_height
+		slots.custom_minimum_size = Vector2(0, max(estimated_height, 300))
+		
+		# Make sure scrollbar is visible
+		var v_scrollbar = scroll_container.get_v_scroll_bar()
+		if v_scrollbar:
+			v_scrollbar.visible = true
+			v_scrollbar.custom_minimum_size = Vector2(6, scroll_container.size.y)
+			v_scrollbar.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	else:
+		# Don't need scrolling - completely disable it
+		scroll_container.vertical_scroll_mode = 0 # DISABLED
+		
+		# CRITICAL FIX: For non-scrollable content, set size to exact content size or LESS
+		# This ensures no scrolling is possible
+		var exact_content_height = rows_needed * slot_height
+		
+		# Ensure content doesn't exceed visible height
+		slots.custom_minimum_size = Vector2(0, min(exact_content_height, visible_height - 4))
+		
+		# Force scrollbar to be hidden
+		var v_scrollbar = scroll_container.get_v_scroll_bar()
+		if v_scrollbar:
+			v_scrollbar.visible = false
+		
+		# Set scroll position to 0 to prevent any residual scrolling
+		scroll_container.scroll_vertical = 0
 	
 	# Make sure slots have consistent sizes and proper filters
 	for slot in slots.get_children():
 		if slot is Control:
-			# Ensure consistent size for all slots - keep them small
-			slot.custom_minimum_size = Vector2(22, 23)  # Original slot size
+			# Ensure consistent size for all slots
+			slot.custom_minimum_size = Vector2(22, 23)
 			
 			# These ensure proper alignment in the grid
 			slot.size_flags_horizontal = Control.SIZE_FILL
@@ -514,8 +569,9 @@ func _ensure_scroll_updated() -> void:
 	scroll_container.queue_sort()
 	slots.queue_sort()
 	
-	# Reset scroll position to top
-	scroll_container.scroll_vertical = 0
+	# Reset scroll position to top if needed
+	if rows_needed > max_visible_rows:
+		scroll_container.scroll_vertical = 0
 	
 	# Delay a frame to allow the container to finish updating
 	await get_tree().process_frame
@@ -525,36 +581,63 @@ func _process(_delta):
 	if visible:
 		var scroll_container = $MarginContainer/ScrollContainer
 		
-		# Make sure vertical scrolling is always enabled
-		if scroll_container.vertical_scroll_mode != 3:  # Mode 3 = Always show scroll
-			scroll_container.vertical_scroll_mode = 3
+		# Calculate if we need scrolling
+		var visible_slot_count = slots.get_child_count()
+		if visible_slot_count == 0:
+			return  # Nothing to scroll
 			
-		# If we have more slots than can fit in the visible area, ensure they're scrollable
-		if slots.get_child_count() > 9:  # 3 columns x 3 rows would need scrolling
-			var first_slot_size = Vector2.ZERO
-			if slots.get_child_count() > 0:
-				first_slot_size = slots.get_child(0).size
+		var rows_needed = ceil(visible_slot_count / float(slots.columns))
+		var slot_height = 26  # Approximate slot height
+		var visible_height = scroll_container.size.y
+		var max_visible_rows = floor(visible_height / slot_height)
+		
+		# Only enable scrolling if we definitely need it
+		if rows_needed > max_visible_rows and visible_slot_count > slots.columns:
+			# Need scrolling
+			if scroll_container.vertical_scroll_mode != 3:
+				scroll_container.vertical_scroll_mode = 3  # Always show
 				
-			# Compute the total height needed for all slots
-			var rows = ceil(slots.get_child_count() / 3.0)  # 3 columns per row
-			var total_height_needed = rows * first_slot_size.y
-			
-			# If the slots need more space than available, ensure we can scroll
-			if total_height_needed > scroll_container.size.y and Engine.get_process_frames() % 30 == 0:
-				# Force the content to be larger than the scroll container
-				slots.custom_minimum_size.y = max(140, total_height_needed + 10)
+			# If we have more slots than can fit, ensure content is sized properly
+			if Engine.get_process_frames() % 30 == 0:  # Only update occasionally
+				var total_height_needed = rows_needed * slot_height
+				slots.custom_minimum_size.y = max(visible_height + 10, total_height_needed)
+				slots.queue_sort()
+				scroll_container.queue_sort()
+		else:
+			# Don't need scrolling
+			if scroll_container.vertical_scroll_mode != 0:
+				scroll_container.vertical_scroll_mode = 0  # Disable
 				
-				# Force the ScrollContainer to acknowledge its actual content size
+				# CRITICAL FIX: For non-scrollable content, set size to SMALLER than visible area
+				var exact_content_height = rows_needed * slot_height
+				slots.custom_minimum_size.y = min(exact_content_height, visible_height - 4)
+				
+				# Reset scroll position
+				scroll_container.scroll_vertical = 0
+				
+				# Update layout
 				slots.queue_sort()
 				scroll_container.queue_sort()
 
-# Handle ScrollContainer gui_input directly
+# Add a new method to completely prevent scroll events when not needed
 func _on_scroll_container_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and (event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN):
 		# Get the scroll container
 		var scroll_container = $MarginContainer/ScrollContainer
 		
-		# Get current and max scroll values
+		# Check if we need scrolling (similar logic to _ensure_scroll_updated)
+		var visible_slot_count = slots.get_child_count()
+		var rows_needed = ceil(visible_slot_count / float(slots.columns))
+		var slot_height = 26
+		var visible_height = scroll_container.size.y
+		var max_visible_rows = floor(visible_height / slot_height)
+		
+		# If we don't need scrolling, completely block the scroll event
+		if rows_needed <= max_visible_rows or visible_slot_count <= slots.columns:
+			get_viewport().set_input_as_handled()
+			return
+		
+		# If we do need scrolling, process the scroll as before
 		var current_scroll = scroll_container.scroll_vertical
 		var v_scrollbar = scroll_container.get_v_scroll_bar()
 		var max_scroll = v_scrollbar.max_value if v_scrollbar else 0
@@ -585,11 +668,7 @@ func _on_scroll_container_gui_input(event: InputEvent) -> void:
 		# Make sure we don't propagate the event further
 		get_viewport().set_input_as_handled()
 
-# Handle scrollbar value changes - simplified to use scroll_vertical
-func _on_scroll_value_changed(value: float) -> void:
-	pass
-
-# Override _input to ensure scroll wheel events are properly processed
+# Modify _input to also check if scrolling is needed
 func _input(event: InputEvent) -> void:
 	if not visible:
 		return
@@ -600,7 +679,20 @@ func _input(event: InputEvent) -> void:
 		var scroll_container = $MarginContainer/ScrollContainer
 		var scroll_container_rect = scroll_container.get_global_rect()
 		
-		# If mouse is over our scroll container, manually handle the scroll
+		# First check if we even need scrolling
+		var visible_slot_count = slots.get_child_count()
+		var rows_needed = ceil(visible_slot_count / float(slots.columns))
+		var slot_height = 26
+		var visible_height = scroll_container.size.y
+		var max_visible_rows = floor(visible_height / slot_height)
+		
+		# If we don't need scrolling, completely block the scroll event
+		if rows_needed <= max_visible_rows or visible_slot_count <= slots.columns:
+			if scroll_container_rect.has_point(get_global_mouse_position()):
+				get_viewport().set_input_as_handled()
+				return
+		
+		# If mouse is over our scroll container and we do need scrolling, manually handle the scroll
 		if scroll_container_rect.has_point(get_global_mouse_position()):
 			# Get current and max scroll values
 			var current_scroll = scroll_container.scroll_vertical
@@ -632,3 +724,37 @@ func _input(event: InputEvent) -> void:
 			
 			# Make sure we don't propagate the event further
 			get_viewport().set_input_as_handled()
+
+# Handle scrollbar value changes - simplified to use scroll_vertical
+func _on_scroll_value_changed(value: float) -> void:
+	pass
+
+# Function for production_ui to notify us that refresh is happening during production
+func set_refresh_during_production(active: bool) -> void:
+	_refresh_during_production = active
+
+# Helper function to get amount label from a slot
+func _get_amount_label(slot) -> Label:
+	if not slot:
+		return null
+		
+	# Try direct path first
+	if slot.has_node("amount"):
+		var label = slot.get_node("amount")
+		if label is Label:
+			return label
+		
+	# Try alternative paths
+	var possible_paths = ["MarginContainer/amount", "amount_label", "MarginContainer/amount_label"]
+	for path in possible_paths:
+		if slot.has_node(path):
+			var label = slot.get_node(path)
+			if label is Label:
+				return label
+				
+	# Try accessing the property directly if it exists
+	if "amount_label" in slot and slot.amount_label != null:
+		if slot.amount_label is Label:
+			return slot.amount_label
+			
+	return null
