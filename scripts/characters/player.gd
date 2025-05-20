@@ -70,7 +70,7 @@ func _ready() -> void:
 	
 	# Nur initialisieren, wenn das Inventar leer ist (neues Spiel)
 	await get_tree().process_frame
-	
+	"""
 	if SaveGame.get_inventory().size() == 0:
 		print("adding testing item")
 		SaveGame.add_to_inventory("wheat_seed", 80)
@@ -92,9 +92,9 @@ func _ready() -> void:
 		SaveGame.add_to_inventory("white_cloth", 20)
 		SaveGame.add_to_inventory("white_string", 20)
 		SaveGame.add_to_inventory("feed", 20)
-		
+		"""
 		#if SaveGame.get_money() <= 0:
-			#SaveGame.add_money(5000)
+			#SaveGame.add_money(100)
 
 
 # Überprüft die Position nach dem Verlassen eines Gebäudes
