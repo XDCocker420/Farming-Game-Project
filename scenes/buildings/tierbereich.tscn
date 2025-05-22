@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://diybuopnuo1hy" path="res://scripts/farming/tierbereich.gd" id="1_eee0d"]
 [ext_resource type="TileSet" uid="uid://ns2vki3n45m" path="res://assets/tilesets/terrain_tileset.tres" id="2_87pjd"]
-[ext_resource type="Texture2D" uid="uid://cyh1omxd2mptb" path="res://assets/farming/farming_tiles.png" id="3_t08ey"]
+[ext_resource type="Texture2D" uid="uid://c4jhj1os7w6kr" path="res://assets/farming/farming_tiles.png" id="3_t08ey"]
 [ext_resource type="PackedScene" uid="uid://db625opwfqpf8" path="res://scenes/animals/feeding_through.tscn" id="5_egvxt"]
 [ext_resource type="PackedScene" uid="uid://cvdn5s24b2gvr" path="res://scenes/ui/animals/feeding_ui.tscn" id="6_87pjd"]
 
@@ -1795,19 +1795,22 @@ offset_top = 126.0
 offset_right = 106.0
 offset_bottom = 139.0
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="FeedingUi" parent="CanvasLayer" instance=ExtResource("6_87pjd")]
+[node name="FeedingUi" parent="." instance=ExtResource("6_87pjd")]
 visible = false
+z_index = 6
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -41.5
-offset_top = -24.0
-offset_right = 41.5
-offset_bottom = 24.0
+offset_left = 53.0
+offset_top = 70.0
+offset_right = 126.0
+offset_bottom = 104.0
+size_flags_horizontal = 4
+size_flags_vertical = 4
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
