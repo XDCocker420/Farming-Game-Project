@@ -20,7 +20,7 @@ func _ready() -> void:
 		push_error("Crop type not set in editor!")
 		return
 		
-	default_time = ConfigReader.get_time(crop_type)
+	default_time = ConfigReader.get_time(crop_type)/4
 	
 	if is_watered:
 		animation = "grow_wet"
