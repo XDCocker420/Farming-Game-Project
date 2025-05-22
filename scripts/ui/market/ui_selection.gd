@@ -84,6 +84,14 @@ func _on_item_selected(item_name: String, price: int, item_texture: Texture2D) -
 	
 func _on_cancel() -> void:
 	reset_ui()
+	# Signalisiere dem Markt-UI, dass wir abbrechen
+	# Das Markt-UI kümmert sich um das Entfernen aus dem temporären CanvasLayer
+	if get_parent() is CanvasLayer:
+		# Suche das ui_markt in der Szene, um dort die cleanup-Methode aufzurufen
+		var ui_markt = get_tree().get_nodes_in_group("market_ui")
+		if ui_markt.size() > 0:
+			if ui_markt[0].has_method("_cleanup_temporary_canvas"):
+				ui_markt[0]._cleanup_temporary_canvas()
 	hide()
 	
 	

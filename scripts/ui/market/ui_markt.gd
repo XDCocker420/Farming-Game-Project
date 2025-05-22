@@ -11,6 +11,9 @@ signal select_item(slot: PanelContainer)
 # Annahme: ui_selection ist ein Geschwisterknoten oder hat einen bekannten relativen Pfad.
 @onready var ui_selection_node: PanelContainer = get_node("../ui_selection") if has_node("../ui_selection") else null
 
+# Variablen für die neue CanvasLayer-Lösung
+var temp_canvas_layer: CanvasLayer
+var selection_parent: Node
 
 var _currently_targeted_slot_for_selling: PanelContainer = null # WIEDER EINGEFÜHRT
 var current_buy_slot: PanelContainer
@@ -24,6 +27,9 @@ func _ready() -> void:
 	
 	# Critical: This ensures the UI is always clickable
 	process_mode = Node.PROCESS_MODE_ALWAYS
+	
+	# Füge dieses UI zur market_ui-Gruppe hinzu, damit es von ui_selection gefunden werden kann
+	add_to_group("market_ui")
 	
 	# Get UI elements
 	# slot_list = slots.get_children() # Wird diese Zuweisung noch so benötigt?
@@ -79,6 +85,7 @@ func _on_slot_gui_input(event: InputEvent, slot_node: PanelContainer):
 
 
 # WIEDERHERGESTELLT und angepasst: Diese Funktion wird jetzt verwendet, um einen Slot als Verkaufsziel zu markieren.
+# ANMERKUNG: In Godot 4 heißt die Methode zum Verschieben eines Nodes nach vorn "move_to_front()" (statt "raise()" in Godot 3)
 func _on_slot_selected(slot: PanelContainer) -> void:
 	var item_in_slot = slot.get("item_name")
 	var is_empty = (item_in_slot == null or item_in_slot == "")
@@ -91,14 +98,31 @@ func _on_slot_selected(slot: PanelContainer) -> void:
 		if ui_selection_node:
 			if ui_selection_node.has_method("reset_ui"): 
 				ui_selection_node.reset_ui()
+			
+			# NEUE RADIKALE LÖSUNG: ui_selection in einen eigenen temporären CanvasLayer setzen
+			# Speichere den aktuellen Parent für die spätere Wiederherstellung
+			selection_parent = ui_selection_node.get_parent()
+			
+			# Erstelle einen neuen temporären CanvasLayer mit hoher Layer-Nummer
+			temp_canvas_layer = CanvasLayer.new()
+			temp_canvas_layer.layer = 100  # Sehr hohe Ebene, garantiert über allem anderen
+			get_tree().root.add_child(temp_canvas_layer)
+			
+			# Entferne ui_selection vom aktuellen Parent
+			if selection_parent:
+				selection_parent.remove_child(ui_selection_node)
+			
+			# Füge ui_selection zum neuen CanvasLayer hinzu
+			temp_canvas_layer.add_child(ui_selection_node)
+			
+			# Position auf der Bildschirmmitte (oder an der gewünschten Position)
+			ui_selection_node.global_position = Vector2(
+				get_viewport_rect().size.x / 2 - ui_selection_node.size.x / 2,
+				get_viewport_rect().size.y / 2 - ui_selection_node.size.y / 2
+			)
+			
+			# Zeige das ui_selection-Panel
 			ui_selection_node.show()
-			# Stelle sicher, dass ui_selection ÜBER ui_markt gezeichnet wird.
-			# Wir verwenden z_index. Annahme: ui_markt hat z_index < 10.
-			ui_selection_node.z_index = 10 
-			# raise() kann zusätzlich verwendet werden, falls sie denselben Parent haben und z_index gleich wäre.
-			# Aber mit unterschiedlichem z_index ist es oft nicht mehr nötig.
-			if ui_selection_node.has_method("raise"):
-				ui_selection_node.raise()
 	else:
 		# Das alte `select_item.emit(slot)` wird hier nicht mehr benötigt, wenn der Klick nur für die Auswahl des Verkaufs-Slots ist.
 		# Wenn der Klick auf einen belegten Slot eine andere Aktion auslösen soll (z.B. Item kaufen), muss das separat gehandhabt werden.
@@ -206,12 +230,26 @@ func _on_ui_selection_accept(item_name: String, amount_to_sell: int, total_price
 	# 6. Erfolg - Aufräumen und UI-Feedback (Logik von vorheriger funktionierender Version)
 	if ui_selection_node and ui_selection_node.has_method("reload_slots"):
 		ui_selection_node.reload_slots()
-	if ui_selection_node and ui_selection_node.has_method("hide"):
-		ui_selection_node.hide()
-		# Wichtig: z_index zurücksetzen, wenn ui_selection versteckt wird
-		ui_selection_node.z_index = 0 # Oder der ursprüngliche z_index von ui_selection
+	if ui_selection_node:
+		# NEUE LÖSUNG: ui_selection vom temporären CanvasLayer zurück zum ursprünglichen Parent bewegen
+		if temp_canvas_layer and is_instance_valid(temp_canvas_layer):
+			# Entferne ui_selection vom temporären CanvasLayer
+			temp_canvas_layer.remove_child(ui_selection_node)
+			
+			# Füge ui_selection wieder zum ursprünglichen Parent hinzu
+			if selection_parent and is_instance_valid(selection_parent):
+				selection_parent.add_child(ui_selection_node)
+			
+			# Entferne den temporären CanvasLayer
+			temp_canvas_layer.queue_free()
+			temp_canvas_layer = null
+		
+		# Verstecke ui_selection
+		if ui_selection_node.has_method("hide"):
+			ui_selection_node.hide()
+	
 	print("Item '%s' (Menge: %d) in spezifischen Markt-Slot '%s' platziert." % [item_name, amount_to_sell, target_slot.name])
-	_currently_targeted_slot_for_selling = null 
+	_currently_targeted_slot_for_selling = null
 
 
 func clear_market_slot_for_item(item_name_sold: String, amount_sold: int, price_sold_total: int): # price_sold ist hier der Gesamtpreis vom Signal
@@ -281,5 +319,31 @@ func _buy_slot():
 # Handle UI control
 func _input(event: InputEvent):
 	if visible and event.is_action_pressed("ui_cancel"):
+		# Wenn ui_selection in einem temporären CanvasLayer aktiv ist, diesen zuerst aufräumen
+		if temp_canvas_layer and is_instance_valid(temp_canvas_layer):
+			_cleanup_temporary_canvas()
 		hide()
 		get_viewport().set_input_as_handled()
+
+
+# Cancel-Handler für den Fall, dass der Benutzer den Vorgang ohne Abschluss abbricht
+func _notification(what):
+	if what == NOTIFICATION_WM_CLOSE_REQUEST or what == NOTIFICATION_EXIT_TREE:
+		# Aufräumen, falls das Fenster geschlossen wird, während ui_selection im temporären CanvasLayer ist
+		_cleanup_temporary_canvas()
+		
+# Hilfsfunktion zum sicheren Aufräumen des temporären CanvasLayers
+func _cleanup_temporary_canvas():
+	if temp_canvas_layer and is_instance_valid(temp_canvas_layer):
+		if ui_selection_node and is_instance_valid(ui_selection_node) and ui_selection_node.get_parent() == temp_canvas_layer:
+			# Entferne ui_selection vom CanvasLayer
+			temp_canvas_layer.remove_child(ui_selection_node)
+			
+			# Füge es wieder zum ursprünglichen Parent hinzu
+			if selection_parent and is_instance_valid(selection_parent):
+				selection_parent.add_child(ui_selection_node)
+				ui_selection_node.hide()
+		
+		# Entferne den CanvasLayer
+		temp_canvas_layer.queue_free()
+		temp_canvas_layer = null
