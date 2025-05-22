@@ -1,7 +1,7 @@
 extends PanelContainer
 
-@onready var feed:Button = $MarginContainer/Feed
-@onready var collect:Button = $MarginContainer/Collect
+@onready var feed:Button = $MarginContainer/HBoxContainer/Feed
+@onready var collect:Button = $MarginContainer/HBoxContainer/Collect
 
 signal feeding_state
 signal collecting_state

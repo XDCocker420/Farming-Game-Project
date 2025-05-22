@@ -67,7 +67,6 @@ func save_game() -> void:
 	
 	save.saved_data = saved_data
 	save.inventory = inventory
-	print(save.inventory.data)
 	# Save workstation output states
 	save.workstation_output_states = workstation_output_states
 	# Save workstation production states
@@ -90,6 +89,7 @@ func load_game() -> void:
 		# For production
 		LevelingHandler.set_player_level(1)
 		inventory.money = 100
+		SaveGame.add_money(100)
 		new_game = true
 		if player:
 			player.do_set_level()
