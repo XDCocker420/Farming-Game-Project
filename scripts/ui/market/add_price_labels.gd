@@ -17,12 +17,10 @@ func _ready():
 		parent = parent.get_parent()
 	
 	if not ui_markt:
-		print("Could not find ui_markt")
 		return
 	
 	# Find all slots
 	if not ui_markt.has_node("MarginContainer/slots"):
-		print("Could not find slots container")
 		return
 		
 	var slots_container = ui_markt.get_node("MarginContainer/slots")
@@ -38,5 +36,3 @@ func _ready():
 				# Position the label at the top of the slot
 				price_label.position = Vector2(0, -10)
 				price_label.size.x = slot.size.x
-				
-	print("Added price labels to all market slots") 

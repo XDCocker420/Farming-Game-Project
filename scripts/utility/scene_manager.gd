@@ -13,6 +13,7 @@ const molkerei = preload("res://scenes/buildings/Molkerei_interior.tscn")
 const pub = preload("res://scenes/buildings/pub_interior.tscn")
 const start_screen = preload("res://scenes/maps/start_screen.tscn")
 const intro = preload("res://scenes/maps/intro.tscn")
+const end = preload("res://scenes/maps/end_screen.tscn")
 
 var next_name:String = ""
 
@@ -21,6 +22,7 @@ func _ready() -> void:
 	trans_screen.transitioned.connect(_on_transition_finished)
 	SceneSwitcher.transition_to_new_scene.connect(_on_transition_to_new_scene)
 	SceneSwitcher.transition_to_main.connect(_transiton_to_game_map)
+	SceneSwitcher.end_game.connect(_on_end_game)
 
 func _on_transition_to_new_scene(new_scene_name:String, global_player_pos:Vector2):
 	SceneSwitcher.player_position = global_player_pos
@@ -36,6 +38,11 @@ func _transiton_to_game_map():
 	if SceneSwitcher.current_scene not in ["intro", "start_screen"]:
 		SaveGame.save_exp_lvl()
 	SceneSwitcher.set_current_scene_name("game_map")
+	trans_screen.transition()
+	
+func _on_end_game():
+	next_name = "end"
+	SceneSwitcher.set_current_scene_name("end")
 	trans_screen.transition()
 	
 func _on_transition_finished():
@@ -54,3 +61,9 @@ func _on_transition_finished():
 			current_scene.add_child(start_screen.instantiate())
 		"intro":
 			current_scene.add_child(intro.instantiate())
+		"end":
+			current_scene.add_child(end.instantiate())
+			await get_tree().create_timer(8).timeout
+			next_name = "start_screen"
+			SceneSwitcher.set_current_scene_name("start_screen")
+			trans_screen.transition()

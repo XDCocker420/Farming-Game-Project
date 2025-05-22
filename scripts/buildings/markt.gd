@@ -140,7 +140,6 @@ func _on_player_exited(body: Node2D) -> void:
 
 # Neuer Signal-Handler: Entfernt das Item aus dem UI-Slot, wenn es verkauft wurde
 func _on_market_item_sold(item_name: String, count: int, total_price: int) -> void:
-	print("Markt: Verkauft - %d x %s für %d$" % [count, item_name, total_price])
 	
 	if not ui_markt or not ui_markt.has_node("MarginContainer/slots"):
 		return
@@ -153,7 +152,6 @@ func _on_market_item_sold(item_name: String, count: int, total_price: int) -> vo
 			
 		# Prüfe, ob der Slot das verkaufte Item enthält
 		if slot.get("item_name") == item_name:
-			print("Slot mit verkauftem Item gefunden - leere Slot %s" % slot.get("id"))
 			
 			# Direkte manuelle Leerung des Slots
 			if slot.has_node("MarginContainer/item"):

@@ -94,7 +94,7 @@ func _on_slot_selected(slot: PanelContainer) -> void:
 	if is_empty and not is_locked:
 		_currently_targeted_slot_for_selling = slot
 		# Highlight-Logik könnte hierhin (optional)
-		print("ui_markt.gd: Slot '%s' als Verkaufsziel ausgewählt." % slot.name)
+
 		if ui_selection_node:
 			if ui_selection_node.has_method("reset_ui"): 
 				ui_selection_node.reset_ui()
@@ -127,7 +127,6 @@ func _on_slot_selected(slot: PanelContainer) -> void:
 		# Das alte `select_item.emit(slot)` wird hier nicht mehr benötigt, wenn der Klick nur für die Auswahl des Verkaufs-Slots ist.
 		# Wenn der Klick auf einen belegten Slot eine andere Aktion auslösen soll (z.B. Item kaufen), muss das separat gehandhabt werden.
 		var reason = "nicht leer" if not is_empty else "gesperrt"
-		print("ui_markt.gd: Slot '%s' ist %s. Für Verkauf in Slot, bitte leeren, ungesperrten Slot wählen." % [slot.name, reason])
 
 
 # WIEDERHERGESTELLT und angepasst: Verwendet _currently_targeted_slot_for_selling
@@ -248,7 +247,6 @@ func _on_ui_selection_accept(item_name: String, amount_to_sell: int, total_price
 		if ui_selection_node.has_method("hide"):
 			ui_selection_node.hide()
 	
-	print("Item '%s' (Menge: %d) in spezifischen Markt-Slot '%s' platziert." % [item_name, amount_to_sell, target_slot.name])
 	_currently_targeted_slot_for_selling = null
 
 
@@ -280,7 +278,6 @@ func clear_market_slot_for_item(item_name_sold: String, amount_sold: int, price_
 				slot_node.set("amount_in_slot", 0) 
 				slot_node.set("save_game_market_id", 0) # Zurücksetzen
 				
-				print("ui_markt.gd: Markt-Slot (Name: %s) für verkauftes Item geleert: %s, Menge: %d" % [slot_node.name, item_name_sold, amount_sold])
 				return # Slot gefunden und geleert
 				
 	printerr("ui_markt.gd: Konnte passenden Markt-Slot zum Leeren nicht finden für: %s, Menge: %d, Gesamtpreis: %d" % [item_name_sold, amount_sold, price_sold_total])

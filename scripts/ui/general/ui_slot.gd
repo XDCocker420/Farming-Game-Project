@@ -187,7 +187,6 @@ func clear() -> void:
 
 
 func _on_buy(item:String):
-	print(item_name)
 	if item == item_name:
 		SaveGame.add_money(int(amount_label.text))
 		clear()

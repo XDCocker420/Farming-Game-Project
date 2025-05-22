@@ -52,7 +52,6 @@ func _on_dialogic_signal(argument:String):
 		#done_tut()
 		to_farm()
 	if argument == "done_tutorial":
-		print("transition to main scene")
 		SceneSwitcher.transition_to_new_scene.emit("game_map", player.global_position)
 	if argument == "show_farming":
 		current_target = global_position - Vector2(0, 20)
@@ -247,5 +246,4 @@ func _on_request_completed(result, response_code, headers, body):
 		json.parse(body.get_string_from_utf8())
 		var response = json.get_data()
 		var data = response.candidates[0].content.parts[0].text
-		print(data)
 		Dialogic.VAR.inputs.custom_answer = data

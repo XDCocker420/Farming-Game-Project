@@ -59,6 +59,9 @@ func _on_buy_pressed():
 			
 			# Print game end message
 			print("Game Over")
+			
+			SceneSwitcher.end_game.emit()
+			SaveGame.create_new_game()
 			hide()
 	
 

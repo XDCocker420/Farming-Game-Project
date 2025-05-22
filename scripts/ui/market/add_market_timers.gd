@@ -39,8 +39,7 @@ func _on_save_game_market_item_sold(item_name: String, amount_sold: int, total_p
 	# Dieses Signal wird von SaveGame.gd ausgelöst, NACHDEM das Geld hinzugefügt wurde und das Item
 	# aus der market_sav Liste entfernt wurde.
 	# Die Aufgabe hier ist nur, den visuellen Slot in der UI zu leeren.
-	
-	print("add_market_timers.gd: Signal SaveGame.market_item_sold empfangen für Item '%s', Menge: %d, Gesamtpreis: %d." % [item_name, amount_sold, total_price_for_stack])
+
 	
 	var ui_markt_instance = get_ui_markt_instance()
 	

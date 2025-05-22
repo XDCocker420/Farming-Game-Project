@@ -189,7 +189,6 @@ func _on_request_completed(result, response_code, headers, body):
 		json.parse(body.get_string_from_utf8())
 		var response = json.get_data()
 		var data = response.candidates[0].content.parts[0].text
-		print(data)
 		Dialogic.VAR.inputs.custom_answer = data
 		
 		
