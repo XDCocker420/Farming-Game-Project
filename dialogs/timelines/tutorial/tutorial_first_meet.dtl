@@ -7,11 +7,13 @@ martha: You're the new guy in town, right?
 	martha: Nice to meet you {global.player_name}
 	martha: You're here for the beer, aren't you?
 	- Yes
-		martha: You can find it in the pub in the center of the town
+		martha: You can find it in the pub in the center of the town for 100.000$
 		martha: Come with me, I'll show you your farm
 		[signal arg="start_moving"]
 - No (No Tutorial)
 	martha: Oh sorry, I completely forgot you
 	[text_input text="What's your name again?" var="global.player_name"]
 	set {global.done_tutorial} = true
+	martha: Ahh now I remember you {global.player_name}!!!
+	martha: Still searching for a way to buy your exquisite beer for 100.000$ aren't you?
 	[signal arg="done_tutorial"]
