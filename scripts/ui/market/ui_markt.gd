@@ -12,6 +12,7 @@ signal select_item(slot: PanelContainer)
 @onready var ui_selection_node: PanelContainer = get_node("../ui_selection") if has_node("../ui_selection") else null
 
 
+var _currently_targeted_slot_for_selling: PanelContainer = null # WIEDER EINGEFÜHRT
 var current_buy_slot: PanelContainer
 var slot_list: Array # Behältst du diese Variable für etwas bei? Sie wird im Original _ready initialisiert aber nicht überall verwendet.
 
@@ -42,6 +43,11 @@ func _ready() -> void:
 			if slot_node.slot_selection.is_connected(_on_slot_selected):
 				slot_node.slot_selection.disconnect(_on_slot_selected)
 			slot_node.slot_selection.connect(_on_slot_selected)
+		else:
+			# Fallback: Wenn kein "slot_selection" Signal da ist, verbinde mit "gui_input" und prüfe auf Klick.
+			# Dies ist weniger ideal als ein dediziertes Signal vom Slot selbst.
+			if not slot_node.is_connected("gui_input", Callable(self, "_on_slot_gui_input").bind(slot_node)):
+				slot_node.connect("gui_input", Callable(self, "_on_slot_gui_input").bind(slot_node))
 			
 		# Connect the slot unlock signal - for locked slots
 		if slot_node.has_signal("slot_unlock"):
@@ -66,15 +72,62 @@ func _ready() -> void:
 	visibility_changed.connect(_on_visibility_changed)
 
 
+# Fallback GUI Input Handler, falls Slots kein "slot_selection" Signal haben
+func _on_slot_gui_input(event: InputEvent, slot_node: PanelContainer):
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		_on_slot_selected(slot_node)
+
+
+# WIEDERHERGESTELLT und angepasst: Diese Funktion wird jetzt verwendet, um einen Slot als Verkaufsziel zu markieren.
+func _on_slot_selected(slot: PanelContainer) -> void:
+	var item_in_slot = slot.get("item_name")
+	var is_empty = (item_in_slot == null or item_in_slot == "")
+	var is_locked = slot.get("locked") if slot.has_meta("locked") else false
+
+	if is_empty and not is_locked:
+		_currently_targeted_slot_for_selling = slot
+		# Highlight-Logik könnte hierhin (optional)
+		print("ui_markt.gd: Slot '%s' als Verkaufsziel ausgewählt." % slot.name)
+		if ui_selection_node:
+			if ui_selection_node.has_method("reset_ui"): 
+				ui_selection_node.reset_ui()
+			ui_selection_node.show()
+			# Stelle sicher, dass ui_selection ÜBER ui_markt gezeichnet wird.
+			# Wir verwenden z_index. Annahme: ui_markt hat z_index < 10.
+			ui_selection_node.z_index = 10 
+			# raise() kann zusätzlich verwendet werden, falls sie denselben Parent haben und z_index gleich wäre.
+			# Aber mit unterschiedlichem z_index ist es oft nicht mehr nötig.
+			if ui_selection_node.has_method("raise"):
+				ui_selection_node.raise()
+	else:
+		# Das alte `select_item.emit(slot)` wird hier nicht mehr benötigt, wenn der Klick nur für die Auswahl des Verkaufs-Slots ist.
+		# Wenn der Klick auf einen belegten Slot eine andere Aktion auslösen soll (z.B. Item kaufen), muss das separat gehandhabt werden.
+		var reason = "nicht leer" if not is_empty else "gesperrt"
+		print("ui_markt.gd: Slot '%s' ist %s. Für Verkauf in Slot, bitte leeren, ungesperrten Slot wählen." % [slot.name, reason])
+
+
+# WIEDERHERGESTELLT und angepasst: Verwendet _currently_targeted_slot_for_selling
 func _on_ui_selection_accept(item_name: String, amount_to_sell: int, total_price: int):
-	# 1. Remove item from player inventory
+	# 1. Prüfen, ob ein Ziel-Slot für den Verkauf ausgewählt wurde
+	if not _currently_targeted_slot_for_selling:
+		printerr("ui_markt.gd: Kein Markt-Slot wurde für den Verkauf ausgewählt. Bitte zuerst einen leeren Slot im Markt anklicken.")
+		return
+
+	var target_slot: PanelContainer = _currently_targeted_slot_for_selling
+
+	# 2. Validieren des Ziel-Slots (ist er immer noch leer und ungesperrt?)
+	var target_slot_item_name = target_slot.get("item_name")
+	var target_slot_is_locked = target_slot.get("locked") if target_slot.has_meta("locked") else false
+	if not (target_slot_item_name == null or target_slot_item_name == "") or target_slot_is_locked:
+		var reason = "nicht mehr leer" if not (target_slot_item_name == null or target_slot_item_name == "") else "jetzt gesperrt"
+		printerr("ui_markt.gd: Der ausgewählte Ziel-Slot ('%s') ist %s. Bitte einen anderen leeren, ungesperrten Slot wählen." % [target_slot.name, reason])
+		_currently_targeted_slot_for_selling = null 
+		return
+
+	# 3. Item aus dem Spieler-Inventar entfernen (Logik von vorheriger funktionierender Version beibehalten)
 	var removed_successfully = false
-	# KORREKTUR: Funktionsname in SaveGame ist remove_from_inventory und gibt void zurück.
-	# Wir prüfen den Erfolg, indem wir die Item-Anzahl vor und nach dem Aufruf vergleichen.
 	if SaveGame.has_method("remove_from_inventory") and SaveGame.has_method("get_item_count"):
 		var count_before_removal = SaveGame.get_item_count(item_name)
-		
-		# Stelle sicher, dass genug Items vorhanden sind, bevor der Versuch unternommen wird.
 		if count_before_removal < amount_to_sell:
 			printerr("ui_markt.gd: Nicht genug Items von '%s' im Inventar (Benötigt: %d, Vorhanden: %d)." % [item_name, amount_to_sell, count_before_removal])
 			if ui_selection_node and ui_selection_node.has_method("reload_slots"): ui_selection_node.reload_slots()
@@ -82,153 +135,83 @@ func _on_ui_selection_accept(item_name: String, amount_to_sell: int, total_price
 
 		SaveGame.remove_from_inventory(item_name, amount_to_sell)
 		var count_after_removal = SaveGame.get_item_count(item_name)
-
-		# Erfolgsprüfung:
-		# 1. Wenn die vorherige Menge >= der zu entfernenden Menge war, dann muss die neue Menge (alt - entfernt) sein.
-		# 2. Wenn die vorherige Menge < der zu entfernenden Menge war (dieser Fall wird oben abgefangen, aber zur Sicherheit),
-		#    und remove_from_inventory das Item komplett entfernt, dann sollte die neue Menge 0 sein.
-		#    Da remove_from_inventory bei Fehlern abbricht oder das Item entfernt, wenn count <= 0 wird,
-		#    ist eine einfache Prüfung (alt - neu == verkauft) ausreichend, wenn alt >= verkauft war.
-		if count_before_removal >= amount_to_sell and count_after_removal == count_before_removal - amount_to_sell:
+		if (count_before_removal >= amount_to_sell and count_after_removal == count_before_removal - amount_to_sell) or \
+		   (count_before_removal == amount_to_sell and count_after_removal == 0 and not SaveGame.get_inventory().has(item_name)):
 			removed_successfully = true
-		# Fall: Item wurde komplett entfernt, weil count_before_removal == amount_to_sell
-		elif count_before_removal == amount_to_sell and count_after_removal == 0 and not SaveGame.get_inventory().has(item_name):
-			removed_successfully = true
-		# Fall: Weniger als amount_to_sell war da, aber remove_from_inventory hat alles entfernt was da war (bis zu amount_to_sell)
-		# Dies wird durch die Logik in remove_from_inventory abgedeckt, die das Item entfernt, wenn data[item] <= 0.
-		# Die obige Prüfung (count_before_removal < amount_to_sell) sollte dies aber schon verhindern.
-
+		
 		if not removed_successfully:
-			# Dies sollte nur passieren, wenn remove_from_inventory nicht wie erwartet funktioniert
-			# oder das Spiel nicht beendet hat, obwohl es sollte (laut push_error, get_tree().quit() in SaveGame).
-			printerr("ui_markt.gd: Item-Anzahl von '%s' nach remove_from_inventory inkonsistent. Vorher: %d, Nachher: %d, Versuch zu entfernen: %d" % [item_name, count_before_removal, count_after_removal, amount_to_sell])
-			# Item potenziell zurückgeben oder zumindest UI neu laden, um Diskrepanz zu zeigen
+			printerr("ui_markt.gd: Item-Anzahl von '%s' nach remove_from_inventory inkonsistent." % item_name)
 			if ui_selection_node and ui_selection_node.has_method("reload_slots"): ui_selection_node.reload_slots()
 			return
 	else:
 		printerr("ui_markt.gd: SaveGame.remove_from_inventory oder SaveGame.get_item_count Methode nicht gefunden.")
+		_currently_targeted_slot_for_selling = null 
 		return
 
-	# 2. Find an empty slot in ui_markt.gd's 'slots' GridContainer
-	var target_slot: PanelContainer = null
-	for slot_candidate in slots.get_children():
-		if slot_candidate is PanelContainer:
-			var current_slot_item_name = slot_candidate.get("item_name") 
-			if current_slot_item_name == null or current_slot_item_name == "":
-				target_slot = slot_candidate
-				break
-	
-	if not target_slot:
-		printerr("ui_markt.gd: Kein freier Markt-Slot verfügbar für Item %s." % item_name)
-		# Item zurückgeben, da kein Platz
-		if SaveGame.has_method("add_to_inventory"): # KORREKTUR: Funktionsname in SaveGame ist add_to_inventory
-			SaveGame.add_to_inventory(item_name, amount_to_sell)
-			printerr("ui_markt.gd: Item %s (Menge: %d) wurde dem Inventar zurückgegeben." % [item_name, amount_to_sell])
-		# Inventar-UI nach fehlgeschlagenem Verkauf neu laden, um den zurückgegebenen Artikel anzuzeigen
-		if ui_selection_node and ui_selection_node.has_method("reload_slots"):
-			ui_selection_node.reload_slots()
-		return
-
-	# 3. Populate this market slot (visuelle Darstellung)
+	# 4. Visuellen Slot befüllen (Logik von vorheriger funktionierender Version beibehalten)
 	var item_icon_path = "res://assets/ui/icons/" + item_name + ".png"
 	var item_texture = load(item_icon_path) if FileAccess.file_exists(item_icon_path) else null
-
-	if target_slot.has_node("MarginContainer/item"):
-		target_slot.get_node("MarginContainer/item").texture = item_texture
-	else:
-		printerr("ui_markt.gd: Ziel-Slot fehlt Node 'MarginContainer/item'.")
+	if not target_slot.has_node("MarginContainer/item"):
+		printerr("ui_markt.gd: Ziel-Slot '%s' fehlt Node 'MarginContainer/item'." % target_slot.name)
 		if SaveGame.has_method("add_to_inventory"): SaveGame.add_to_inventory(item_name, amount_to_sell)
 		if ui_selection_node and ui_selection_node.has_method("reload_slots"): ui_selection_node.reload_slots()
+		_currently_targeted_slot_for_selling = null 
 		return
-
-	if target_slot.has_node("amount"):
-		var amount_label = target_slot.get_node("amount")
-		amount_label.text = str(amount_to_sell)
-		amount_label.show()
-	else:
-		printerr("ui_markt.gd: Ziel-Slot fehlt Label-Node 'amount'.")
+	target_slot.get_node("MarginContainer/item").texture = item_texture
+	if not target_slot.has_node("amount"):
+		printerr("ui_markt.gd: Ziel-Slot '%s' fehlt Label-Node 'amount'." % target_slot.name)
 		if SaveGame.has_method("add_to_inventory"): SaveGame.add_to_inventory(item_name, amount_to_sell)
+		target_slot.get_node("MarginContainer/item").texture = null 
 		if ui_selection_node and ui_selection_node.has_method("reload_slots"): ui_selection_node.reload_slots()
+		_currently_targeted_slot_for_selling = null
 		return
-		
+	var amount_label = target_slot.get_node("amount")
+	amount_label.text = str(amount_to_sell)
+	amount_label.show()
 	target_slot.set("item_name", item_name)
-	target_slot.set("price", total_price) # Gesamtpreis für den Stapel
-	target_slot.set("amount_in_slot", amount_to_sell) # Menge im Slot für spätere Identifizierung durch clear_market_slot_for_item
+	target_slot.set("price", total_price) 
+	target_slot.set("amount_in_slot", amount_to_sell)
 
-	# 4. Add item to SaveGame's market tracking (this will handle timers and persistence)
-	# KORREKTUR: Verwende SaveGame.add_market_slot
-	# Die 'id' für add_market_slot muss eindeutig sein. Wir verwenden die Instance ID des UI-Slots.
-	# Beachte: SaveGame.add_market_slot erwartet 'price' als Preis pro Stück, wenn es intern zur Berechnung der Verkaufszeit verwendet wird.
-	# Das Signal 'accept' von ui_selection liefert aber 'total_price'.
-	# Wir müssen hier ggf. den Preis pro Stück berechnen, wenn SaveGame.add_market_slot dies für die Timer-Logik so erwartet.
-	# Laut SaveGame.add_market_slot(id:int, item:String, count:int=1, amount_to_sell:int=1), scheint 'amount_to_sell' der Preis zu sein (ggf. pro Stück).
-	# Das 'accept' Signal in ui_selection.gd wurde zu accept(item_name: String, amount: int, price: int) geändert,
-	# wobei 'price' der Gesamtpreis ist.
-	# Wir nehmen an, 'total_price' ist der Gesamtpreis des Stapels.
-	# SaveGame.add_market_slot erwartet 'amount_to_sell' als Parameter, der dem Preis entspricht.
-	# Wenn dies der Preis pro Stück sein soll, muss es hier berechnet werden.
-	# Die Implementierung in SaveGame.add_market_slot: temp.price = amount_to_sell
-	# Und in SaveGame.check_market_sales: var total_price_calculated = market_item.price * market_item.count
-	# Das bedeutet, der 'amount_to_sell' Parameter in add_market_slot MUSS der Preis PRO STÜCK sein.
-	
+	# 5. Item im SaveGame für den Markt registrieren (Logik von vorheriger funktionierender Version)
 	var price_per_item: int
 	if amount_to_sell > 0:
 		price_per_item = int(round(float(total_price) / amount_to_sell))
 	else:
-		# Wenn amount_to_sell 0 ist, kann price_per_item nicht sinnvoll berechnet werden.
-		# Wenn total_price auch 0 ist, ist price_per_item = 0 korrekt.
-		# Wenn total_price > 0 ist (ungewöhnlicher Fall), wird dies unten korrigiert.
-		price_per_item = 0
-		
-	# Sicherstellen, dass price_per_item mindestens 1 ist, wenn der Gesamtpreis positiv war,
-	# um Probleme mit Timer-Berechnungen in SaveGame zu vermeiden, die einen Preis > 0 erwarten könnten.
+		price_per_item = 0 
 	if price_per_item <= 0 and total_price > 0:
 		price_per_item = 1
-
-	var market_slot_id = target_slot.get_instance_id() # Eindeutige ID für den Markt-Slot
-
+	var market_slot_id = target_slot.get_instance_id()
 	if SaveGame.has_method("add_market_slot"):
-		# Parameter für add_market_slot: (id: int, item: String, count: int, price_per_item: int)
 		var saved_market_item_ref = SaveGame.add_market_slot(market_slot_id, item_name, amount_to_sell, price_per_item)
 		if saved_market_item_ref == null:
-			printerr("ui_markt.gd: SaveGame.add_market_slot hat null zurückgegeben. Fehler beim Hinzufügen zum Markt.")
-			# Item zurückgeben und UI-Slot leeren
+			printerr("ui_markt.gd: SaveGame.add_market_slot hat null zurückgegeben für Slot '%s'." % target_slot.name)
 			if SaveGame.has_method("add_to_inventory"): SaveGame.add_to_inventory(item_name, amount_to_sell)
-			if target_slot.has_node("MarginContainer/item"): target_slot.get_node("MarginContainer/item").texture = null
-			if target_slot.has_node("amount"): target_slot.get_node("amount").text = ""
-			target_slot.set("item_name", "")
-			target_slot.set("price", 0)
-			target_slot.set("amount_in_slot", 0)
+			target_slot.get_node("MarginContainer/item").texture = null
+			target_slot.get_node("amount").text = ""
+			target_slot.set("item_name", ""); target_slot.set("price", 0); target_slot.set("amount_in_slot", 0)
 			if ui_selection_node and ui_selection_node.has_method("reload_slots"): ui_selection_node.reload_slots()
+			_currently_targeted_slot_for_selling = null 
 			return
-		# Speichere die ID des SaveGame-Markt-Items im UI-Slot, falls wir sie später brauchen
 		target_slot.set("save_game_market_id", market_slot_id)
-
 	else:
 		printerr("ui_markt.gd: SaveGame hat keine Methode 'add_market_slot'.")
-		# Item zurückgeben und UI-Slot leeren etc. (wie oben)
 		if SaveGame.has_method("add_to_inventory"): SaveGame.add_to_inventory(item_name, amount_to_sell)
-		if target_slot.has_node("MarginContainer/item"): target_slot.get_node("MarginContainer/item").texture = null
-		if target_slot.has_node("amount"): target_slot.get_node("amount").text = ""
-		target_slot.set("item_name", "")
-		target_slot.set("price", 0)
-		target_slot.set("amount_in_slot", 0)
+		target_slot.get_node("MarginContainer/item").texture = null
+		target_slot.get_node("amount").text = ""
+		target_slot.set("item_name", ""); target_slot.set("price", 0); target_slot.set("amount_in_slot", 0)
 		if ui_selection_node and ui_selection_node.has_method("reload_slots"): ui_selection_node.reload_slots()
+		_currently_targeted_slot_for_selling = null 
 		return
 
-	# 5. Refresh ui_selection's player inventory display
+	# 6. Erfolg - Aufräumen und UI-Feedback (Logik von vorheriger funktionierender Version)
 	if ui_selection_node and ui_selection_node.has_method("reload_slots"):
 		ui_selection_node.reload_slots()
-
-	# NEU: Schließe die ui_selection Ansicht nach erfolgreicher Aktion
 	if ui_selection_node and ui_selection_node.has_method("hide"):
 		ui_selection_node.hide()
-		# Optional: Wenn die ui_selection auch input blockiert, könnte man hier set_process_input(false) aufrufen
-		# ui_selection_node.set_process_input(false) 
-	# Optional: Fokus zurück auf ui_markt geben, falls nötig
-	# self.grab_focus()
-		
-	print("Item %s (Menge: %d, Preis pro Stk.: %d, Gesamt: %d) in Markt-Slot %s (ID: %d) platziert. Verkauf durch SaveGame initiiert. UI Selection geschlossen." % [item_name, amount_to_sell, price_per_item, total_price, target_slot.name, market_slot_id])
+		# Wichtig: z_index zurücksetzen, wenn ui_selection versteckt wird
+		ui_selection_node.z_index = 0 # Oder der ursprüngliche z_index von ui_selection
+	print("Item '%s' (Menge: %d) in spezifischen Markt-Slot '%s' platziert." % [item_name, amount_to_sell, target_slot.name])
+	_currently_targeted_slot_for_selling = null 
 
 
 func clear_market_slot_for_item(item_name_sold: String, amount_sold: int, price_sold_total: int): # price_sold ist hier der Gesamtpreis vom Signal
@@ -272,10 +255,6 @@ func _on_visibility_changed() -> void:
 		# falls sie nicht ohnehin durch ihre eigene Logik aktuell gehalten wird.
 		# if ui_selection_node and ui_selection_node.has_method("reload_slots"):
 		#    ui_selection_node.reload_slots()
-
-
-func _on_slot_selected(slot: PanelContainer) -> void:
-	select_item.emit(slot)
 
 
 func _on_slot_unlock(slot: PanelContainer, price: int):
