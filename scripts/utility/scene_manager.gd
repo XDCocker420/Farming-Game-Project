@@ -25,6 +25,8 @@ func _ready() -> void:
 	SceneSwitcher.end_game.connect(_on_end_game)
 
 func _on_transition_to_new_scene(new_scene_name:String, global_player_pos:Vector2):
+	# Store the player's position before entering a building for use when exiting
+	SaveGame.last_exterior_position = global_player_pos
 	SceneSwitcher.player_position = global_player_pos
 	next_name = new_scene_name
 

@@ -11,6 +11,8 @@ extends Resource
 @export var done_tutorial:bool = false
 ## Position of the player
 @export var player_position:Vector2 = Vector2.ZERO
+## Position of the player before entering a building
+@export var last_exterior_position:Vector2 = Vector2.ZERO
 ## Saved data for all dynamic parts of the level
 @export var saved_data:Array[ItemSaves] = []
 ## Player inventory

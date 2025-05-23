@@ -57,7 +57,13 @@ func _on_field_clicked(field:Area2D) -> void:
 				player.do_water()
 			field.get_child(2).water()
 	else:
+		# Check if player has selected a seed and has at least 1 of that seed
 		if ui_farming.selection != '' && SaveGame.get_item_count(ui_farming.selection) > 0 && !state:
+			# First check the inventory count again to make sure we have seeds
+			var seed_count = SaveGame.get_item_count(ui_farming.selection)
+			if seed_count <= 0:
+				return
+				
 			SaveGame.remove_from_inventory(ui_farming.selection)
 			crop_used.emit()
 			if player:

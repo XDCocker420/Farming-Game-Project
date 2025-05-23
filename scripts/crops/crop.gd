@@ -59,7 +59,8 @@ func water() -> bool:
 	return false
 
 func can_water() -> bool:
-	return !is_watered
+	# Only allow watering if the crop is not already watered and is still in first growth stage
+	return !is_watered && frame == 0
 
 func can_harvest() -> bool:
 	return frame == 5

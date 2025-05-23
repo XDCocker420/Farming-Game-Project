@@ -497,9 +497,16 @@ func _process_single_item() -> void:
 	# by checking the SaveGame output state directly before incrementing visually.
 	var saved_output_state = SaveGame.get_workstation_output(current_workstation)
 	var target_visual_count = current_visual_output_count + 1
-	if not saved_output_state.is_empty() and saved_output_state.item == output_item:
+	
+	# Ensure the saved state is properly updated and synchronized
+	if saved_output_state.is_empty():
+		# If no saved state exists, create one with the proper count
+		SaveGame.set_workstation_output(current_workstation, {"item": output_item, "count": target_visual_count})
+	elif saved_output_state.item == output_item:
 		# If saved state exists and matches, use its count as the target visual
-		target_visual_count = saved_output_state.count
+		# Add 1 to the saved count to account for the newly produced item
+		target_visual_count = saved_output_state.count + 1
+		SaveGame.set_workstation_output(current_workstation, {"item": output_item, "count": target_visual_count})
 		
 	if output_slot.has_method("setup"):
 		output_slot.setup(output_item, "", true, target_visual_count)
@@ -507,6 +514,9 @@ func _process_single_item() -> void:
 	# Disable the produce button until more input is added VISUALLY
 	if produce_button:
 		produce_button.disabled = not _has_required_inputs_visual()
+	
+	# Save the game to ensure workstation output state is persisted
+	call_deferred("_save_game_deferred")
 	
 	# Emit signal that processing is complete
 	process_complete.emit()

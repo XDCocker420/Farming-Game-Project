@@ -13,6 +13,8 @@ var market_sav:Array[SavedMarket] = []
 var workstation_output_states: Dictionary = {}
 # Dictionary to hold the state of ongoing productions
 var workstation_production_states: Dictionary = {}
+# Store the player's position before entering a building
+var last_exterior_position: Vector2 = Vector2.ZERO
 
 var map = null
 @onready var player = get_tree().get_first_node_in_group("Player")
@@ -71,6 +73,8 @@ func save_game() -> void:
 	save.workstation_output_states = workstation_output_states
 	# Save workstation production states
 	save.workstation_production_states = workstation_production_states
+	# Save last exterior position
+	save.last_exterior_position = last_exterior_position
 	
 	ResourceSaver.save(save, SAVE_FILE_PATH)
 
@@ -109,6 +113,9 @@ func load_game() -> void:
 		workstation_output_states = saved_game.workstation_output_states
 		# Load workstation production states
 		workstation_production_states = saved_game.workstation_production_states
+		# Load last exterior position if available
+		if "last_exterior_position" in saved_game:
+			last_exterior_position = saved_game.last_exterior_position
 		
 		#await get_tree().process_frame
 		LevelingHandler.set_player_level(saved_game.player_level)

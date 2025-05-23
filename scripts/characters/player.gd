@@ -164,6 +164,7 @@ func set_position_from_exterior(pos: Vector2) -> void:
 	# Setze sowohl die globale als auch die lokale Position
 	global_position = pos
 	position = pos
+	# Clear SceneSwitcher's temporary position
 	SceneSwitcher.player_position = Vector2.ZERO
 	
 func _format_level(level:int) -> String:
