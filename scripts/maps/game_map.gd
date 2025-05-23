@@ -14,6 +14,9 @@ func _ready():
 	# Finde den Spieler, unabhängig vom Pfad
 	player = _find_player()
 	
+	# Set up automatic z-indexes for objects in the scene
+	_setup_z_indexes()
+	
 	# Erstelle einen Timer für wiederholtes Positionieren
 	position_retry_timer = Timer.new()
 	position_retry_timer.wait_time = 0.1  # 100ms
@@ -42,6 +45,39 @@ func _ready():
 		# Start the retry timer as a last resort
 		position_retry_count = 0
 		position_retry_timer.start()
+
+# Set up automatic z-indexes for all dynamic objects in the scene
+func _setup_z_indexes():
+	# Find all visible objects that should be sorted by y position
+	var sortable_nodes = []
+	
+	# Get all buildings and structures
+	var buildings = get_tree().get_nodes_in_group("buildings")
+	sortable_nodes.append_array(buildings)
+	
+	# Get all NPCs
+	var npcs = get_tree().get_nodes_in_group("npcs")
+	sortable_nodes.append_array(npcs)
+	
+	# Get all crops
+	var crops = get_tree().get_nodes_in_group("crops")
+	sortable_nodes.append_array(crops)
+	
+	# Get all animals
+	var animals = get_tree().get_nodes_in_group("animals")
+	sortable_nodes.append_array(animals)
+	
+	# Add z-index management to each node
+	for node in sortable_nodes:
+		if node.has_method("set_z_index"):
+			# Apply z-index manager script
+			var script = load("res://scripts/utility/z_index_manager.gd")
+			if script:
+				# Create instance if it doesn't exist already
+				if not node.has_node("ZIndexManager"):
+					var manager = script.new()
+					node.add_child(manager)
+					manager.name = "ZIndexManager"
 
 func _on_position_retry_timer():
 	position_retry_count += 1

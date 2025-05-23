@@ -124,7 +124,6 @@ func _physics_process(delta: float) -> void:
 	if !cant_move && body.animation in ["right", "left", "up", "down"] && Dialogic.current_timeline == null:
 		current_speed = sprint_speed if Input.is_action_pressed("sprint") else normal_speed
 		
-		
 		var direction = Vector2.ZERO
 		if !follow_mouse:
 			direction.x = Input.get_axis("move_left", "move_right")
@@ -136,17 +135,20 @@ func _physics_process(delta: float) -> void:
 		direction = direction.normalized()
 		
 		velocity = direction * current_speed
-
-		if direction.x > 0:
+		
+		# Update looking direction based on movement
+		if direction.x > 0.5:
 			looking_direction = "right"
-		elif direction.x < 0:
+		elif direction.x < -0.5:
 			looking_direction = "left"
-		elif direction.y > 0:
+		elif direction.y > 0.5:
 			looking_direction = "down"
-		elif direction.y < 0:
+		elif direction.y < -0.5:
 			looking_direction = "up"
 
 		update_animation(direction)
+		
+		# Use move_and_slide for better collision handling
 		move_and_slide()
 
 
@@ -317,3 +319,15 @@ func _on_loaded_game():
 		#if SaveGame.get_money() <= 0:
 			#SaveGame.add_money(5000)
 	"""
+
+
+# Update z-index based on y-position to handle depth properly
+func _process(_delta: float) -> void:
+	# Update z-index based on y-position (higher y values should appear in front)
+	z_index = int(global_position.y / 10)
+	
+	# If player is in a building with an interior view, always keep player on top
+	# This is a simplistic approach - for a real game you might want more sophisticated layering
+	var current_scene_name = SceneSwitcher.current_scene
+	if current_scene_name != "game_map" and current_scene_name != "intro":
+		z_index = 100  # Keep player on top in interior scenes
