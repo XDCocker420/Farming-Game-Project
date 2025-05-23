@@ -48,36 +48,11 @@ func _ready():
 
 # Set up automatic z-indexes for all dynamic objects in the scene
 func _setup_z_indexes():
-	# Find all visible objects that should be sorted by y position
-	var sortable_nodes = []
-	
-	# Get all buildings and structures
-	var buildings = get_tree().get_nodes_in_group("buildings")
-	sortable_nodes.append_array(buildings)
-	
-	# Get all NPCs
-	var npcs = get_tree().get_nodes_in_group("npcs")
-	sortable_nodes.append_array(npcs)
-	
-	# Get all crops
-	var crops = get_tree().get_nodes_in_group("crops")
-	sortable_nodes.append_array(crops)
-	
-	# Get all animals
-	var animals = get_tree().get_nodes_in_group("animals")
-	sortable_nodes.append_array(animals)
-	
-	# Add z-index management to each node
-	for node in sortable_nodes:
-		if node.has_method("set_z_index"):
-			# Apply z-index manager script
-			var script = load("res://scripts/utility/z_index_manager.gd")
-			if script:
-				# Create instance if it doesn't exist already
-				if not node.has_node("ZIndexManager"):
-					var manager = script.new()
-					node.add_child(manager)
-					manager.name = "ZIndexManager"
+	# Use the ZIndexManager helper to manage z-indexes for each group
+	var groups = ["buildings", "npcs", "crops", "animals"]
+	for group in groups:
+		var nodes = get_tree().get_nodes_in_group(group)
+		ZIndexManager.add_z_index_management(nodes)
 
 func _on_position_retry_timer():
 	position_retry_count += 1
