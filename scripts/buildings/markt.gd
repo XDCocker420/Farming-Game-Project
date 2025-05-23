@@ -146,29 +146,68 @@ func _on_market_item_sold(item_name: String, count: int, total_price: int) -> vo
 		
 	# Finde alle Slots, die das verkaufte Item enthalten könnten
 	var slots_container = ui_markt.get_node("MarginContainer/slots")
+	var found_slot = false
+	
 	for slot in slots_container.get_children():
 		if not (slot is PanelContainer):
 			continue
 			
 		# Prüfe, ob der Slot das verkaufte Item enthält
 		if slot.get("item_name") == item_name:
-			
-			# Direkte manuelle Leerung des Slots
-			if slot.has_node("MarginContainer/item"):
-				slot.get_node("MarginContainer/item").texture = null
+			var slot_amount = 0
 			if slot.has_node("amount"):
-				slot.get_node("amount").text = ""
-				slot.get_node("amount").hide()
+				var amount_label = slot.get_node("amount")
+				if amount_label.text.is_valid_int():
+					slot_amount = int(amount_label.text)
 			
-			# Setze Eigenschaften direkt zurück
-			slot.set("item_name", "")
-			slot.set("price", 0)
-			
-			# Falls der Slot eine clear() Methode hat, rufe sie zusätzlich auf
-			if slot.has_method("clear"):
-				slot.clear()
-			
+			# Check if this is the right slot by comparing count
+			if slot_amount == count:
+				found_slot = true
+				
+				# Direkte manuelle Leerung des Slots
+				if slot.has_node("MarginContainer/item"):
+					slot.get_node("MarginContainer/item").texture = null
+				if slot.has_node("amount"):
+					slot.get_node("amount").text = ""
+					slot.get_node("amount").hide()
+				
+				# Setze Eigenschaften direkt zurück
+				slot.set("item_name", "")
+				slot.set("price", 0)
+				
+				# Falls der Slot eine clear() Methode hat, rufe sie zusätzlich auf
+				if slot.has_method("clear"):
+					slot.clear()
+				
+				break
+	
+	# If we didn't find the exact slot by count, clear the first slot with matching item
+	if !found_slot:
+		for slot in slots_container.get_children():
+			if not (slot is PanelContainer):
+				continue
+				
+			# Prüfe, ob der Slot das verkaufte Item enthält
+			if slot.get("item_name") == item_name:
+				# Direkte manuelle Leerung des Slots
+				if slot.has_node("MarginContainer/item"):
+					slot.get_node("MarginContainer/item").texture = null
+				if slot.has_node("amount"):
+					slot.get_node("amount").text = ""
+					slot.get_node("amount").hide()
+				
+				# Setze Eigenschaften direkt zurück
+				slot.set("item_name", "")
+				slot.set("price", 0)
+				
+				# Falls der Slot eine clear() Methode hat, rufe sie zusätzlich auf
+				if slot.has_method("clear"):
+					slot.clear()
+				
+				break
+	
 	# Aktualisiere die UI nach dem Verkauf
 	if ui_markt.visible:
+		# Force redraw of UI
 		ui_markt.hide()
 		ui_markt.show()  # Erzwinge eine Neuzeichnung

@@ -28,11 +28,11 @@ func _ready() -> void:
 	# Critical: This ensures the UI is always clickable
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	
+	# Populate the slot_list
+	slot_list = slots.get_children()
+	
 	# Füge dieses UI zur market_ui-Gruppe hinzu, damit es von ui_selection gefunden werden kann
 	add_to_group("market_ui")
-	
-	# Get UI elements
-	# slot_list = slots.get_children() # Wird diese Zuweisung noch so benötigt?
 
 	# Connect buy button signal from ui_slot_buy (for purchasing market slots/unlocks)
 	if ui_slot_buy and ui_slot_buy.has_signal("buy"): # Check if ui_slot_buy is valid

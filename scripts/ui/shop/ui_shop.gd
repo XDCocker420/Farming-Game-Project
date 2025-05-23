@@ -31,9 +31,24 @@ func _ready() -> void:
 
 func _on_item_selected(item_name: String, price: int, texture: Texture2D) -> void:
 	selected_item = item_name
-	selected_price = price
-	price_label.text = str(price) + "$"
-	total_price = price
+	
+	// Ensure price is loaded from the config or use a reasonable default
+	var config_price = 0
+	if item_name.ends_with("_seed"):
+		var base_crop = item_name.substr(0, item_name.length() - 5)
+		config_price = ConfigReader.get_value(item_name)
+		if config_price <= 0:
+			config_price = ConfigReader.get_value(base_crop) / 3 # Seeds are cheaper than crops
+	else:
+		config_price = ConfigReader.get_value(item_name)
+	
+	// If we still have no price, use default
+	if config_price <= 0:
+		config_price = 2 # Default price for seeds
+	
+	selected_price = config_price
+	price_label.text = str(config_price) + "$"
+	total_price = config_price
 	amount_spinbox.value = 1
 	amount = 1
 	

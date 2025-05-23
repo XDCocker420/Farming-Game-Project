@@ -75,9 +75,22 @@ func _on_item_selected(item_name: String, price: int, item_texture: Texture2D) -
 	current_item = item_name
 	
 	var max_price = ConfigReader.get_max_price(item_name)
-	price_spinbox.max_value = max_price
 	
-	price_spinbox.value = 1
+	# Set the maximum price based on the config, with a fallback
+	if max_price > 0:
+		price_spinbox.max_value = max_price
+	else:
+		price_spinbox.max_value = 100 # Default max price if none specified
+	
+	# Set a reasonable minimum price based on item value
+	var base_value = ConfigReader.get_value(item_name)
+	if base_value > 0:
+		price_spinbox.min_value = base_value / 2 # Minimum price is half of base value
+	else:
+		price_spinbox.min_value = 1
+	
+	# Set a default suggested price
+	price_spinbox.value = base_value
 	
 	put_item.emit(item_name, item_texture)
 	
@@ -112,7 +125,35 @@ func _on_visibility_changed():
 		reload_slots()
 
 func _on_amount_changed(value:float) -> void:
-	price_spinbox.max_value = ConfigReader.get_max_price(current_item) * value
+	if current_item.is_empty():
+		return
+		
+	var amount = int(value)
+	if amount <= 0:
+		amount = 1
+	
+	# Get base value and max price from config
+	var base_value = ConfigReader.get_value(current_item)
+	var max_price = ConfigReader.get_max_price(current_item)
+	
+	# Default max price per item if not found
+	if max_price <= 0:
+		max_price = 100
+	
+	# Calculate the max total price for the selected amount
+	var max_total = max_price * amount
+	
+	# Update the max value of the price spinbox
+	price_spinbox.max_value = max_total
+	
+	# Update the min value of the price spinbox
+	var min_price = base_value / 2
+	if min_price < 1:
+		min_price = 1
+	price_spinbox.min_value = min_price * amount
+	
+	# Update the current price to be proportional to the amount while respecting base value
+	price_spinbox.value = base_value * amount
 
 func reset_ui() -> void:
 	amount_spinbox.value = 1
