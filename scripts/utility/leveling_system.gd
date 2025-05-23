@@ -30,6 +30,9 @@ func is_building_unlocked(building_name:String) -> bool:
 		return false
 	return true
 
+func get_building_level_needed(building_name: String) -> int:
+	return ConfigReader.get_level_needed_building(building_name)
+	
 func get_all_unlocked_buildings() -> Array[String]:
 	return ConfigReader.get_all_buildings_for_level()
 	

@@ -23,11 +23,16 @@ func _on_player_interact() -> void:
 		SceneSwitcher.transition_to_new_scene.emit(name.to_lower(), player.global_position)
 
 func _on_door_area_entered(body: Node2D) -> void:
-	if body.is_in_group("Player") && LevelingHandler.is_building_unlocked("weberei"):
-		in_door_area = true
-		door.play("door")
-		if building_label:
-			building_label.show()
+	if body.is_in_group("Player"):
+		if LevelingHandler.is_building_unlocked("weberei"):
+			in_door_area = true
+			door.play("door")
+			if building_label:
+				building_label.show()
+		else:
+			# Display level requirement message if player level is too low
+			var required_level = LevelingHandler.get_building_level_needed("weberei")
+			LevelingHandler.emit_signal("not_unlocked", required_level)
 
 func _on_door_area_exited(body: Node2D) -> void:
 	if body.is_in_group("Player"):

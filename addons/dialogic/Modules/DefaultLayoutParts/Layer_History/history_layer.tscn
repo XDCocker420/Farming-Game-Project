@@ -33,6 +33,7 @@ font_use_global_fonts = null
 font_custom_normal = null
 font_custom_bold = null
 font_custom_italics = null
+show_open_button = false
 HistoryItem = ExtResource("2_x1xgk")
 disabled = null
 
@@ -61,6 +62,7 @@ size_flags_horizontal = 3
 size_flags_vertical = 3
 
 [node name="ShowHistory" type="Button" parent="."]
+visible = false
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0

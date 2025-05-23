@@ -38,13 +38,15 @@ func _anim_finished(anim_name):
 		anim_pl.play("exit_car")
 		
 	if anim_name == "exit_car":
-		#player.add_child(new_camera)
+		# Fix screen shaking by ensuring proper camera transition
 		player_camera.enabled = true
 		player_camera.make_current()
-		camera.queue_free()
+		# Add a brief delay before freeing the old camera
+		await get_tree().create_timer(0.1).timeout
+		if camera:
+			camera.queue_free()
 		player_collison.disabled = false
 		player.cant_move = false
-		#controls_label.show()
 		_set_collision(false)
 		arrow.show()
 		anim_pl.play("text_fade_in")
