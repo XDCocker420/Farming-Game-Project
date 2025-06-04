@@ -25,6 +25,9 @@ Alle Variablen sollen mit Unterstrichen geschrieben werden z.B. foo_bar
 ###### Organisation
 Keep it simple! Godot hat für fast alles sehr leichte Funktionen. Wenn es zu komplex wird sollte nachgelesen werden.
 
+##### Tabs und Spaces
+In unserem Projekt verwenden wir TABS!!! Das ist wichtig, weil ansonsten wird Godot ein fehler werfen. Also bei Änderungen immer Tabs verwenden!
+
 ### Singeltons
 [Singeltons](https://docs.godotengine.org/en/stable/tutorials/scripting/singletons_autoload.html) wenn möglich nur für die Datenverarbeitung verwenden.
 
