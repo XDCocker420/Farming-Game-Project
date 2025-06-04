@@ -84,8 +84,8 @@ func save_exp_lvl() -> void:
 func load_game() -> void:
 	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
 	if saved_game == null:
-		# For testing
-               LevelingHandler.set_player_level(15)
+	# For testing
+		LevelingHandler.set_player_level(15)
 		inventory.money = 1000000
 		new_game = true
 		if player:
@@ -372,7 +372,7 @@ func create_new_game():
 	DirAccess.remove_absolute(SAVE_FILE_PATH)
 	inventory = Inventory.new()
 	inventory.money = 1000000
-       LevelingHandler.set_player_level(15)
+	LevelingHandler.set_player_level(15)
 	LevelingHandler.set_experience_in_current_level(0)
 
 
