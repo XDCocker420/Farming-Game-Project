@@ -25,6 +25,8 @@ var anbau_once:bool = false
 var water_once:bool = false
 var crop_growd:bool = false
 
+signal crop_used
+
 
 func _ready() -> void:
 	field_list = canvas_group.get_children()
@@ -78,8 +80,10 @@ func _on_field_clicked(field:Area2D) -> void:
 				label.text = "Great! Now press E and wait until the plant has grown"
 			
 	else:
-		if ui_farming.selection != '' && !anbau_once:
+		if ui_farming.selection != '' && !anbau_once && SaveGame.get_item_count(ui_farming.selection + "_seed") > 0:
 			anbau_once = true
+			SaveGame.remove_from_inventory(ui_farming.selection + "_seed")
+			crop_used.emit()
 			if player:
 				player.do_harvest()
 			var crop:AnimatedSprite2D = load("res://scenes/crops/tutorial_wheat.tscn").instantiate()
