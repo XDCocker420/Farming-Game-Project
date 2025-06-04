@@ -19,9 +19,13 @@ var new_camera:Camera2D = Camera2D.new()
 var once1:bool = false
 var farming_end:bool = false
 
+
 func _ready() -> void:
 	marth_meet.body_exited.connect(_on_to_meet_martha)
-	
+
+	# Give the player a wheat seed at the start of the tutorial
+	SaveGame.add_to_inventory("wheat_seed")
+
 	exit_farming.body_entered.connect(_on_farming_enter)
 	
 	TutorialHelper.farming_ended.connect(_on_farming_ended)
