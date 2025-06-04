@@ -227,31 +227,31 @@ func get_contract_by_id(id:int) -> SavedContracts:
 	return null
 
 func add_market_slot(id:int, item:String, count:int=1, amount_to_sell:int=1) -> SavedMarket:
-       items_added_to_market.emit(item)
-       var temp:SavedMarket = SavedMarket.new()
-       temp.id = id
-       temp.item = item
-       temp.count = count
-       temp.price = amount_to_sell
+	items_added_to_market.emit(item)
+	var temp:SavedMarket = SavedMarket.new()
+	temp.id = id
+	temp.item = item
+	temp.count = count
+	temp.price = amount_to_sell
 
-       # Verkaufszeit wird anhand des Gesamtpreises (Preis * Menge)
-       # linear zwischen 30 Sekunden und 30 Minuten berechnet.
-       var total_price = amount_to_sell * count
-       var MIN_PRICE = 1
-       var MAX_PRICE_TOTAL = 990
-       var MIN_TIME = 30    # Sekunden
-       var MAX_TIME = 1800  # 30 Minuten in Sekunden
+	# Verkaufszeit wird anhand des Gesamtpreises (Preis * Menge)
+	# linear zwischen 30 Sekunden und 30 Minuten berechnet.
+	var total_price = amount_to_sell * count
+	var MIN_PRICE = 1
+	var MAX_PRICE_TOTAL = 990
+	var MIN_TIME = 30    # Sekunden
+	var MAX_TIME = 1800  # 30 Minuten in Sekunden
 
-       var clamped_price = clamp(total_price, MIN_PRICE, MAX_PRICE_TOTAL)
-       var price_factor = float(clamped_price - MIN_PRICE) / float(MAX_PRICE_TOTAL - MIN_PRICE)
-       var sell_time = MIN_TIME + int(round((MAX_TIME - MIN_TIME) * price_factor))
+	var clamped_price = clamp(total_price, MIN_PRICE, MAX_PRICE_TOTAL)
+	var price_factor = float(clamped_price - MIN_PRICE) / float(MAX_PRICE_TOTAL - MIN_PRICE)
+	var sell_time = MIN_TIME + int(round((MAX_TIME - MIN_TIME) * price_factor))
 
-       temp.sell_time_seconds = sell_time
-       temp.start_time_ms = Time.get_ticks_msec()
-       temp.end_time_ms = temp.start_time_ms + (temp.sell_time_seconds * 1000)
+	temp.sell_time_seconds = sell_time
+	temp.start_time_ms = Time.get_ticks_msec()
+	temp.end_time_ms = temp.start_time_ms + (temp.sell_time_seconds * 1000)
 
-       market_sav.append(temp)
-       return temp
+	market_sav.append(temp)
+	return temp
 
 func remove_market_item(item:SavedMarket) -> SavedMarket:
 	market_sav.remove_at(market_sav.find(item))
