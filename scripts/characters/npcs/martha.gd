@@ -4,7 +4,7 @@ extends CharacterBody2D
 @onready var navigation_agent: NavigationAgent2D = $NavigationAgent2D
 @onready var interaction_area: Area2D = $InteractArea
 @onready var notification_anim:AnimatedSprite2D = $Notification
-@onready var player:CharacterBody2D = %CutPlayer
+@onready var player:CharacterBody2D = %Player
 @onready var http_request:HTTPRequest = $HTTPRequest
 
 # Bewegungsgeschwindigkeit

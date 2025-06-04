@@ -2,12 +2,12 @@ extends Node2D
 
 @onready var anim_pl:AnimationPlayer = $AnimationPlayer
 @onready var marth_meet:Area2D = $MarthaMeet
-@onready var player:CharacterBody2D = $CutPlayer
-@onready var player_collison:CollisionShape2D = $CutPlayer/CollisionShape2D
+@onready var player:CharacterBody2D = $Player
+@onready var player_collison:CollisionShape2D = $Player/CollisionShape2D
 @onready var camera:Camera2D = $Camera2D
 @onready var martha:CharacterBody2D = $Martha
 
-@onready var player_camera:Camera2D = %CutPlayer/Camera2D
+@onready var player_camera:Camera2D = %Player/Camera2D
 @onready var exit_farming:Area2D = $ExitFarming
 
 @onready var arrow:Sprite2D = $DirectionArrow

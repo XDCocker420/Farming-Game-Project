@@ -1,6 +1,6 @@
 extends Area2D
 
-@onready var player:CharacterBody2D = %CutPlayer
+@onready var player:CharacterBody2D = %Player
 @onready var canvas_group: CanvasGroup = $CanvasGroup
 @onready var ui_farming: PanelContainer = $CanvasLayer/tutorial_farming_ui
 @onready var camera:Camera2D = $Camera2D
