@@ -21,8 +21,15 @@ func _on_button_mouse_entered():
        if parent_slot.locked or parent_slot.item_name == "":
                return
 
-       # Der Slot speichert den Gesamtpreis bereits in der Property "price"
-       var total_price = parent_slot.price
+       var amount := 1
+       if parent_slot.has_node("amount") and parent_slot.get_node("amount").text != "":
+               amount = int(parent_slot.get_node("amount").text)
+
+       var price_value := parent_slot.price
+       if amount > 0:
+               price_value = int(round(float(parent_slot.price) / amount))
+
+       var total_price = price_value * amount
        if total_price > 0:
                text = str(total_price) + "$"
                visible = true
