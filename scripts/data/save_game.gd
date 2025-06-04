@@ -84,14 +84,14 @@ func save_exp_lvl() -> void:
 func load_game() -> void:
 	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
 	if saved_game == null:
-	       # For testing
-	       LevelingHandler.set_player_level(10)
-	       inventory.money = 1000000
-	       new_game = true
-	       if player:
-	               player.do_set_level()
-	               player.do_set_money()
-	       return
+		# For testing
+		LevelingHandler.set_player_level(10)
+		inventory.money = 1000000
+		new_game = true
+		if player:
+			player.do_set_level()
+			player.do_set_money()
+			return
 
 	if player:
 		get_tree().call_group("dynamic_elements", "on_before_load_game")
