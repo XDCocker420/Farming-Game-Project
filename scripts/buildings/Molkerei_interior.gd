@@ -4,12 +4,12 @@ extends StaticBody2D
 @onready var butterchurn_area = $butterchurn/butterchurnArea
 @onready var press_cheese_area = $press_cheese/press_cheeseArea
 @onready var mayomaker_area = $mayomaker/mayomakerArea
-@onready var butterchurn_ui = $production_ui_butterchurn
-@onready var press_cheese_ui = $production_ui_press_cheese
-@onready var mayomaker_ui = $production_ui_mayomaker
-@onready var inventory_ui_butterchurn = $inventory_ui_butterchurn
-@onready var inventory_ui_press_cheese = $inventory_ui_press_cheese
-@onready var inventory_ui_mayomaker = $inventory_ui_mayomaker
+@onready var butterchurn_ui = $CanvasLayer/HBoxContainer2/production_ui_butterchurn
+@onready var press_cheese_ui = $CanvasLayer/HBoxContainer3/production_ui_press_cheese
+@onready var mayomaker_ui = $CanvasLayer/HBoxContainer/production_ui_mayomaker
+@onready var inventory_ui_butterchurn = $CanvasLayer/HBoxContainer2/inventory_ui_butterchurn
+@onready var inventory_ui_press_cheese = $CanvasLayer/HBoxContainer3/inventory_ui_press_cheese
+@onready var inventory_ui_mayomaker = $CanvasLayer/HBoxContainer/inventory_ui_mayomaker
 # Animation references
 @onready var butterchurn_anim = $butterchurn
 @onready var press_cheese_anim = $press_cheese
