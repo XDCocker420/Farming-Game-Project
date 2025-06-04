@@ -1,6 +1,6 @@
 extends StaticBody2D
 
-@onready var player: CharacterBody2D = %Player
+@onready var player: CharacterBody2D = get_tree().get_first_node_in_group("Player")
 @onready var door_area: Area2D = $DoorArea
 @onready var door: AnimatedSprite2D = $Door
 @onready var building_label: Label = $MolkereiLabel # Reference to the label
