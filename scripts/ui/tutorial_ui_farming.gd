@@ -52,37 +52,37 @@ var selection:String = '':
 			current_btn.remove_child(selection_highlight)
 
 func _ready() -> void:
-        _setup_highlight()
+	_setup_highlight()
 
-        area.crop_used.connect(_on_show)
+	area.crop_used.connect(_on_show)
 
-        corelation = {
-        "wheat": panel1,
-        "corn": panel2,
-        "carrot": panel3,
-        "pumpkin": panel4,
-        "potatoe": panel5,
-        "tomatoe": panel6,
-        "lettuce": panel7,
-        "eggplant": panel8,
-        "melon": panel9
+	corelation = {
+	"wheat": panel1,
+	"corn": panel2,
+	"carrot": panel3,
+	"pumpkin": panel4,
+	"potatoe": panel5,
+	"tomatoe": panel6,
+	"lettuce": panel7,
+	"eggplant": panel8,
+	"melon": panel9
 }
 
-        corelation2 = {
-        "wheat": label1,
-        "corn": label2,
-        "carrot": label3,
-        "pumpkin": label4,
-        "potatoe": label5,
-        "tomatoe": label6,
-        "lettuce": label7,
-        "eggplant": label8,
-        "melon": label9
+	corelation2 = {
+	"wheat": label1,
+	"corn": label2,
+	"carrot": label3,
+	"pumpkin": label4,
+	"potatoe": label5,
+	"tomatoe": label6,
+	"lettuce": label7,
+	"eggplant": label8,
+	"melon": label9
 }
 
-        level_handling()
-        count_handeling()
-        visibility_changed.connect(_on_show)
+	level_handling()
+	count_handeling()
+	visibility_changed.connect(_on_show)
 
 	slot1.pressed.connect(_on_button_pressed)
 	slot2.pressed.connect(_on_button2_pressed)
@@ -94,7 +94,7 @@ func _ready() -> void:
 	slot8.pressed.connect(_on_button8_pressed)
 	slot9.pressed.connect(_on_button9_pressed)
 
-	
+
 func _setup_highlight() -> void:
 	selection_highlight = NinePatchRect.new()
 	selection_highlight.texture = preload("res://assets/ui/general/selected.png")
@@ -105,78 +105,78 @@ func _setup_highlight() -> void:
 	selection_highlight.z_index = 10
 
 func level_handling():
-        var unlocked:Array = LevelingHandler.get_all_unlocked_items()
-        for i in corelation.keys():
-                if i not in unlocked:
-                        corelation[i].modulate = Color(0.5,0.5,0.5)
-                        corelation[i].get_child(2).disabled = true
+	var unlocked:Array = LevelingHandler.get_all_unlocked_items()
+	for i in corelation.keys():
+		if i not in unlocked:
+			corelation[i].modulate = Color(0.5,0.5,0.5)
+			corelation[i].get_child(2).disabled = true
 
 func count_handeling():
-        for i in corelation2.keys():
-                corelation2[i].text = str(SaveGame.get_item_count(i + "_seed"))
-	
+	for i in corelation2.keys():
+		corelation2[i].text = str(SaveGame.get_item_count(i + "_seed"))
+
 func _on_button_pressed():
 	right_pressed.emit()
 	selection = 'wheat'
 	current_btn = slot1
 	selection_highlight.visible = true
 	slot1.add_child(selection_highlight)
-	
-	
+
+
 func _on_button2_pressed():
 	selection = 'corn'
 	current_btn = slot2
 	selection_highlight.visible = true
 	slot2.add_child(selection_highlight)
-	
-	
+
+
 func _on_button3_pressed():
 	selection = 'carrot'
 	current_btn = slot3
 	selection_highlight.visible = true
 	slot3.add_child(selection_highlight)
-	
-	
+
+
 func _on_button4_pressed():
 	selection = 'pumpkin'
 	current_btn = slot4
 	selection_highlight.visible = true
 	slot4.add_child(selection_highlight)
-	
-	
+
+
 func _on_button5_pressed():
 	selection = 'potatoe'
 	current_btn = slot5
 	selection_highlight.visible = true
 	slot5.add_child(selection_highlight)
-	
-	
+
+
 func _on_button6_pressed():
 	selection = 'tomatoe'
 	current_btn = slot6
 	selection_highlight.visible = true
 	slot6.add_child(selection_highlight)
-	
-	
+
+
 func _on_button7_pressed():
 	selection = 'lettuce'
 	current_btn = slot7
 	slot7.add_child(selection_highlight)
 	selection_highlight.visible = true
-	
+
 func _on_button8_pressed():
 	selection = 'eggplant'
 	current_btn = slot8
 	selection_highlight.visible = true
 	slot8.add_child(selection_highlight)
-	
-	
+
+
 func _on_button9_pressed():
 	selection = 'melon'
 	current_btn = slot9
 	selection_highlight.visible = true
 	slot9.add_child(selection_highlight)
-	
+
 func _on_show():
-        count_handeling()
-        level_handling()
+	count_handeling()
+	level_handling()
