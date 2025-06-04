@@ -1795,7 +1795,9 @@ offset_top = 126.0
 offset_right = 106.0
 offset_bottom = 139.0
 
-[node name="FeedingUi" parent="." instance=ExtResource("6_87pjd")]
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="FeedingUi" parent="CanvasLayer" instance=ExtResource("6_87pjd")]
 visible = false
 z_index = 6
 anchors_preset = 8
@@ -1809,8 +1811,6 @@ offset_right = 126.0
 offset_bottom = 104.0
 size_flags_horizontal = 4
 size_flags_vertical = 4
-
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
 [connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
