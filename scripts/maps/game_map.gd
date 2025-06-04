@@ -86,21 +86,16 @@ func _find_player():
 			if child.is_in_group("Player"):
 				return child
 	
-	# Methode 3: Unique Name
-	var unique_player = get_node_or_null("%Player")
-	if unique_player:
-		return unique_player
-		
-	# Methode 4: Gruppe
-	var players_in_group = get_tree().get_nodes_in_group("Player")
-	if players_in_group.size() > 0:
-		return players_in_group[0]
-	
-	# Methode 5: Rekursive Suche im Szenenbaum
-	var root = get_tree().root
-	var player_node = _find_player_recursive(root)
-	if player_node:
-		return player_node
+# Methode 3: Gruppe
+	var unique_player = get_tree().get_first_node_in_group("Player")
+       if unique_player:
+               return unique_player
+
+       # Methode 4: Rekursive Suche im Szenenbaum
+       var root = get_tree().root
+       var player_node = _find_player_recursive(root)
+       if player_node:
+               return player_node
 		
 	return null
 	
