@@ -1,6 +1,6 @@
 extends StaticBody2D
 
-@onready var player: CharacterBody2D = %Player
+var player: CharacterBody2D
 @onready var door_area: Area2D = $DoorArea
 @onready var garage_door_area: Area2D = $GarageDoorArea
 @onready var door: AnimatedSprite2D = $Door
@@ -16,11 +16,12 @@ var in_garage_door_area = false
 var player_in_feed_area: bool = false
 
 func _ready() -> void:
-	if building_label:
-		building_label.hide()
-	# Verbinde die Signale
-	if player:
-		player.interact.connect(_on_player_interact)
+        player = get_tree().get_first_node_in_group("Player")
+        if building_label:
+                building_label.hide()
+        # Verbinde die Signale
+        if player:
+                player.interact.connect(_on_player_interact)
 	
 	door_area.body_entered.connect(_on_door_area_entered)
 	door_area.body_exited.connect(_on_door_area_exited)

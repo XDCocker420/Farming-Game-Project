@@ -1,7 +1,7 @@
 extends StaticBody2D
 
 
-@onready var player: CharacterBody2D = %Player
+var player: CharacterBody2D
 @onready var ui_task_caravan: PanelContainer = $CanvasLayer/ui_task_caravan
 @onready var area: Area2D = $Area2D
 @onready var door: AnimatedSprite2D = $AnimatedSprite2D
@@ -10,8 +10,9 @@ var in_area: bool
 
 
 func _ready() -> void:
-	if player:
-		player.interact.connect(_on_player_interact)
+        player = get_tree().get_first_node_in_group("Player")
+        if player:
+                player.interact.connect(_on_player_interact)
 	area.body_entered.connect(_player_entered)
 	area.body_exited.connect(_player_exited)
 

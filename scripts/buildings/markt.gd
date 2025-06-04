@@ -1,7 +1,7 @@
 extends StaticBody2D
 
 
-@onready var player: CharacterBody2D = %Player
+var player: CharacterBody2D
 @onready var ui_markt: PanelContainer = $CanvasLayer/ui_markt
 @onready var ui_selection: PanelContainer = $CanvasLayer/ui_selection
 @onready var interact_area: Area2D = $interact_area
@@ -16,16 +16,17 @@ var player_in_area: bool = false
 
 
 func _ready() -> void:
-	# CRITICAL FIX: Set CanvasLayer to handle inputs properly
-	canvas_layer.layer = 100  # Put it on top of other layers
+        player = get_tree().get_first_node_in_group("Player")
+        # CRITICAL FIX: Set CanvasLayer to handle inputs properly
+        canvas_layer.layer = 100  # Put it on top of other layers
 	
 	# Ensure UI elements are hidden at start
 	ui_markt.hide()
 	ui_selection.hide()
 	
-	# Connect signals
-	if player:
-		player.interact.connect(_on_player_interact)
+        # Connect signals
+        if player:
+                player.interact.connect(_on_player_interact)
 	interact_area.body_entered.connect(_on_player_entered)
 	interact_area.body_exited.connect(_on_player_exited)
 	ui_markt.select_item.connect(_on_select)

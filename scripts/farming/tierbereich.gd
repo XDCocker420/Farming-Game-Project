@@ -1,6 +1,6 @@
 extends Area2D
 
-@onready var player: CharacterBody2D = %Player
+var player: CharacterBody2D
 @onready var door: AnimatedSprite2D = $Area2D/door
 @onready var door_area: Area2D = $Area2D
 @onready var door_collision:CollisionShape2D = $StaticBody2D/CollisionShape2D
@@ -15,8 +15,9 @@ signal feeding_state
 signal collecting_state
 
 func _ready() -> void:
-	if player:
-		player.interact.connect(_on_player_interact)
+        player = get_tree().get_first_node_in_group("Player")
+        if player:
+                player.interact.connect(_on_player_interact)
 	door_area.body_entered.connect(_on_door_entered)
 	door_area.body_exited.connect(_on_door_exited)
 	interact_range.body_entered.connect(_on_interact_entered)

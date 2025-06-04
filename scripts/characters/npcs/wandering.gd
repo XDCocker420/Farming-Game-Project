@@ -6,14 +6,15 @@ class_name NPCWander
 @export var navigation_agent: NavigationAgent2D
 @onready var interaction_area: Area2D = $"../../InteractArea"
 
-@onready var player = %Player
+var player: CharacterBody2D
 
 var move_speed:float = 3.0
 @onready var timer:Timer = $Timer
 
 func _ready() -> void:
-	timer.timeout.connect(make_path)
-	make_path()
+        player = get_tree().get_first_node_in_group("Player")
+        timer.timeout.connect(make_path)
+        make_path()
 
 func physics_update(delta:float) -> void:
 	var dir = npc.to_local(navigation_agent.get_next_path_position()).normalized()

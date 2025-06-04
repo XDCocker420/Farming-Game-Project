@@ -1,6 +1,6 @@
 extends Area2D
 
-@onready var player:CharacterBody2D = %Player
+var player: CharacterBody2D
 @onready var canvas_group: CanvasGroup = $CanvasGroup
 @onready var ui_farming: PanelContainer = $CanvasLayer/ui_farming
 @onready var camera:Camera2D = $Camera2D
@@ -19,7 +19,8 @@ signal crop_used
 
 
 func _ready() -> void:
-	field_list = canvas_group.get_children()
+        player = get_tree().get_first_node_in_group("Player")
+        field_list = canvas_group.get_children()
 	
 	body_entered.connect(_on_player_entered)
 	body_exited.connect(_on_player_exited)
