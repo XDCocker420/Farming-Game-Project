@@ -19,7 +19,7 @@ This is to avoid merge conflicts.
 ## Test Setup
 Run `./setup_environment.sh` to install the tools required for linting and running the project in headless mode. The script installs:
 - [gdtoolkit](https://github.com/Scony/godot-gdscript-toolkit) providing `gdlint`
-- Godot 4.2.1 engine (`godot4` command)
+- Godot 4.4 engine (`godot4` command)
 
 After running the script you can execute:
 ```bash
