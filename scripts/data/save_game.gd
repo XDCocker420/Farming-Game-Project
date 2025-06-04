@@ -36,7 +36,7 @@ func _ready() -> void:
 	# Attempt to load existing game data
 	if SceneSwitcher.get_current_scene_name() not in ["start_screen", "intro"]:
 		load_game()
-		
+
 	# Start global production check timer
 	var production_check_timer = Timer.new()
 	production_check_timer.name = "ProductionCheckTimer"
@@ -54,7 +54,7 @@ func save_game() -> void:
 			save.player_position = SceneSwitcher.player_position
 		else:
 			save.player_position = player.global_position
-	
+
 	save.player_name = Dialogic.VAR.global.player_name
 	save.done_tutorial = Dialogic.VAR.global.done_tutorial
 	save.player_level = LevelingHandler.get_current_level()
@@ -64,19 +64,19 @@ func save_game() -> void:
 
 	var saved_data:Array[ItemSaves] = []
 	get_tree().call_group("dynamic_elements", "on_save_game", saved_data)
-	
+
 	save.saved_data = saved_data
 	save.inventory = inventory
 	# Save workstation output states
 	save.workstation_output_states = workstation_output_states
 	# Save workstation production states
 	save.workstation_production_states = workstation_production_states
-	
+
 	ResourceSaver.save(save, SAVE_FILE_PATH)
 
 func save_exp_lvl() -> void:
 	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
-		
+
 	saved_game.player_level = LevelingHandler.get_current_level()
 	saved_game.player_experience_per_level = LevelingHandler.get_experience_in_current_level()
 	ResourceSaver.save(saved_game, SAVE_FILE_PATH)
@@ -94,10 +94,10 @@ func load_game() -> void:
                        player.do_set_level()
                        player.do_set_money()
                return
-	
+
 	if player:
 		get_tree().call_group("dynamic_elements", "on_before_load_game")
-		
+
 		# Sichern einer Kopie des alten Inventars zum Vergleich
 		var old_inventory = {}
 		if inventory and inventory.data:
@@ -108,7 +108,7 @@ func load_game() -> void:
 		workstation_output_states = saved_game.workstation_output_states
 		# Load workstation production states
 		workstation_production_states = saved_game.workstation_production_states
-		
+
 		#await get_tree().process_frame
 		LevelingHandler.set_player_level(saved_game.player_level)
 		LevelingHandler.set_experience_in_current_level(saved_game.player_experience_per_level)
@@ -118,17 +118,17 @@ func load_game() -> void:
 		if player.has_method("do_set_level"):
 			player.do_set_level()
 			player.do_set_money()
-	
+
 	await get_tree().process_frame
-	
+
 	Dialogic.VAR.global.player_name = saved_game.player_name
 	Dialogic.VAR.global.done_tutorial = saved_game.done_tutorial
-	
+
 	for item in saved_game.saved_data:
 		var scene := load(item.scene_path) as PackedScene
 		if not scene:
 			continue
-			
+
 		var restored_node = scene.instantiate()
 		if not restored_node:
 			continue
@@ -150,10 +150,10 @@ func add_to_inventory(item:String, count:int=1) -> void:
 	if count < 1:
 		push_error("count musst be bigger or equal 1")
 		get_tree().quit()
-	
+
 	if count > 99:
 		count = 99
-	
+
 	if inventory.data.has(item):
 		inventory.data[item] += count
 		if inventory.data[item] > 99:
@@ -169,7 +169,7 @@ func remove_from_inventory(item: String, count:int=1, remove_completly:bool=fals
 	if inventory == null or not inventory.data.has(item):
 		push_error("Item not found in Inventory. Add it first")
 		get_tree().quit()
-		
+
 	if remove_completly:
 		inventory.data.erase(item)
 		return
@@ -177,10 +177,10 @@ func remove_from_inventory(item: String, count:int=1, remove_completly:bool=fals
 	inventory.data[item] -= count
 	if inventory.data[item] <= 0:
 		inventory.data.erase(item)
-		
+
 func get_inventory() -> Dictionary:
 	return inventory.data
-	
+
 func get_item_count(item:String) -> int:
 	if inventory == null or not inventory.data.has(item):
 		return 0
@@ -205,7 +205,7 @@ func remove_money(count:int=1) -> bool:
 
 func get_money() -> int:
 	return inventory.money
-	
+
 func add_contract(id:int, exp_val:int, money:int, items:Dictionary) -> SavedContracts:
 	var temp:SavedContracts = SavedContracts.new()
 	temp.id = id
@@ -214,16 +214,16 @@ func add_contract(id:int, exp_val:int, money:int, items:Dictionary) -> SavedCont
 	temp.req_res = items
 	con_sav.append(temp)
 	return temp
-		
+
 func remove_contract(con:SavedContracts) -> SavedContracts:
 	con_sav.remove_at(con_sav.find(con))
 	return con
-	
+
 func get_contracts() -> Array[SavedContracts]:
 	return con_sav
-	
+
 func get_contract_by_id(id:int) -> SavedContracts:
-	for i:SavedContracts in con_sav: 
+	for i:SavedContracts in con_sav:
 		if i.id == id:
 			return i
 	return null
@@ -235,7 +235,7 @@ func add_market_slot(id:int, item:String, count:int=1, amount_to_sell:int=1) -> 
 	temp.item = item
 	temp.count = count
 	temp.price = amount_to_sell
-	
+
 	# Berechne die Verkaufszeit basierend auf Preis und Menge
 	# Wir verwenden MAX_PRICE (den höchstmöglichen Preis) und MAX_COUNT (maximale Stückzahl)
 	# um eine Skala zu erstellen, die von 1 Minute bis 1 Stunde reicht
@@ -243,43 +243,43 @@ func add_market_slot(id:int, item:String, count:int=1, amount_to_sell:int=1) -> 
 	var MAX_COUNT = 99  # Maximale Anzahl in einem Slot (aus dem Spiel-Code)
 	var MIN_TIME = 60   # 1 Minute in Sekunden
 	var MAX_TIME = 3600 # 1 Stunde in Sekunden
-	
+
 	# Preisfaktor: wie nahe ist der Preis am Maximum (0.0 bis 1.0)
 	var price_factor = float(amount_to_sell) / MAX_PRICE
 	price_factor = clamp(price_factor, 0.0, 1.0)
-	
+
 	# Mengenfaktor: wie nahe ist die Menge am Maximum (0.0 bis 1.0)
 	var count_factor = float(count) / MAX_COUNT
 	count_factor = clamp(count_factor, 0.0, 1.0)
-	
+
 	# Kombinierter Faktor (Beide Faktoren sind gleich wichtig)
 	var combined_factor = (price_factor + count_factor) / 2.0
-	
+
 	# Berechne die Zeit zwischen MIN_TIME und MAX_TIME basierend auf dem kombinierten Faktor
 	var time_range = MAX_TIME - MIN_TIME
 	var sell_time = MIN_TIME + (time_range * combined_factor)
-	
+
 	# Speichere Zeitinformationen
 	temp.sell_time_seconds = int(sell_time)
 	temp.start_time_ms = Time.get_ticks_msec()
 	temp.end_time_ms = temp.start_time_ms + (temp.sell_time_seconds * 1000) # Konvertierung zu ms
-	
+
 	market_sav.append(temp)
 	return temp
 
 func remove_market_item(item:SavedMarket) -> SavedMarket:
 	market_sav.remove_at(market_sav.find(item))
 	return item
-	
+
 func get_market_by_id(id:int) -> SavedMarket:
-	for i:SavedMarket in market_sav: 
+	for i:SavedMarket in market_sav:
 		if i.id == id:
 			return i
 	return null
 
 func get_market() -> Array[SavedMarket]:
 	return market_sav
-	
+
 func clear_inventory() -> void:
 	inventory.data = {}
 
@@ -327,31 +327,31 @@ func _check_finished_productions():
 	var needs_save = false
 	# Iterate over a copy of the keys, as we might modify the dictionary during iteration
 	var production_ids = workstation_production_states.keys()
-	
+
 	for id in production_ids:
 		# Ensure the state still exists (might have been cleared elsewhere)
 		if not workstation_production_states.has(id):
 			continue
-			
+
 		var state = workstation_production_states[id]
 		if current_time_ms >= state.end_time_ms:
 			# Production finished!
 			var output_item = state.output_item
-			
+
 			# Add to saved output slot state
 			var current_output_state = get_workstation_output(id)
 			var new_count = 1
 			if not current_output_state.is_empty() and current_output_state.item == output_item:
 				new_count = current_output_state.count + 1
-				
+
 			set_workstation_output(id, {"item": output_item, "count": new_count})
 			# print("[SaveGame] Production finished for ", id, ". Added ", output_item, " to output state.")
-			
+
 			# Clear the production state
 			clear_production_state(id)
-			
+
 			needs_save = true
-			
+
 	if needs_save:
 		save_game()
 # --- End Global Production Check ---
@@ -362,14 +362,14 @@ func start_auto_save_timer() -> void:
 	timer.autostart = true
 	timer.timeout.connect(_on_auto_save_timeout)
 	add_child(timer)
-	
+
 func update_player() -> void:
 	player = get_tree().get_first_node_in_group("Player")
 
-	
+
 func check_new_game():
 	return new_game
-	
+
 func create_new_game():
        DirAccess.remove_absolute(SAVE_FILE_PATH)
        inventory = Inventory.new()
@@ -395,30 +395,30 @@ func check_market_sales() -> bool:
 	var current_time_ms = Time.get_ticks_msec()
 	var sales_occurred = false
 	var items_to_remove = []
-	
+
 	# Überprüfe alle Markt-Items
 	for market_item in market_sav:
 		# Überprüfe, ob die Verkaufszeit abgelaufen ist
 		if market_item.end_time_ms > 0 && current_time_ms >= market_item.end_time_ms:
 			# Zeit abgelaufen - Verkauf durchführen
 			var total_price = market_item.price * market_item.count
-			
+
 			# Füge Geld zum Spieler-Inventar hinzu
 			add_money(total_price)
-			
+
 			# Wichtig: Zuerst das Signal senden, bevor das Item entfernt wird
 			# So können die UI-Handler noch auf die Daten zugreifen
 			market_item_sold.emit(market_item.item, market_item.count, total_price)
-			
+
 			# Markiere das Item zum Entfernen
 			items_to_remove.append(market_item)
-			
+
 			sales_occurred = true
-	
+
 	# Entferne verkaufte Items
 	for item in items_to_remove:
 		remove_market_item(item)
-	
+
 	return sales_occurred
 
 # Starte einen Timer für regelmäßige Überprüfung der Verkäufe
