@@ -3,10 +3,10 @@ extends StaticBody2D
 @onready var exit_area = $ExitArea
 @onready var clothmaker_area = $clothmaker/clothmakerArea
 @onready var spindle_area = $spindle/spindleArea
-@onready var clothmaker_ui = $production_ui_clothmaker
-@onready var spindle_ui = $production_ui_spindle
-@onready var inventory_ui_clothmaker = $inventory_ui_clothmaker
-@onready var inventory_ui_spindle = $inventory_ui_spindle
+@onready var clothmaker_ui = $CanvasLayer/HBoxContainer/production_ui_clothmaker
+@onready var spindle_ui = $CanvasLayer/HBoxContainer2/production_ui_spindle
+@onready var inventory_ui_clothmaker = $CanvasLayer/HBoxContainer/inventory_ui_clothmaker
+@onready var inventory_ui_spindle = $CanvasLayer/HBoxContainer2/inventory_ui_spindle
 # Animation references
 @onready var clothmaker_anim = $clothmaker
 @onready var spindle_anim = $spindle

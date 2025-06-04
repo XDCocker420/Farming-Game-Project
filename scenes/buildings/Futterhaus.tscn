@@ -1,8 +1,8 @@
 [gd_scene load_steps=20 format=4 uid="uid://bcqltpe3a1fi2"]
 
 [ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/tilesets/farm_buildings_tileset.tres" id="1_eqcnc"]
-[ext_resource type="Script" uid="uid://p27lk148qw54" path="res://scripts/buildings/Futterhaus.gd" id="1_s3g82"]
-[ext_resource type="Texture2D" uid="uid://cohn1pgu6ly3p" path="res://assets/buildings/farm_buildings_all.png" id="2_765h8"]
+[ext_resource type="Script" uid="uid://jemk6yphr7v5" path="res://scripts/buildings/Futterhaus.gd" id="1_s3g82"]
+[ext_resource type="Texture2D" uid="uid://cnv6enmtgp1dq" path="res://assets/buildings/farm_buildings_all.png" id="2_765h8"]
 [ext_resource type="PackedScene" uid="uid://cgv01xlihuvuq" path="res://scenes/ui/scheune/ui_scheune.tscn" id="4_ss63k"]
 [ext_resource type="PackedScene" uid="uid://b8j4k2m3n4o5p" path="res://scenes/ui/production/production_ui.tscn" id="5_2y3y5"]
 
@@ -155,21 +155,15 @@ mouse_filter = 2
 [node name="inventory_ui_feed" parent="CanvasLayer/HBoxContainer" instance=ExtResource("4_ss63k")]
 >>>>>>> Stashed changes
 z_index = 1
-offset_left = -96.0
-offset_top = -48.0
-offset_right = -36.0
-offset_bottom = -10.0
+layout_mode = 2
 
-[node name="production_ui_feed" parent="." instance=ExtResource("5_2y3y5")]
+[node name="production_ui_feed" parent="CanvasLayer/HBoxContainer" instance=ExtResource("5_2y3y5")]
 z_index = 1
-offset_left = -32.0
-offset_top = -64.0
-offset_right = 120.0
-offset_bottom = 1.0
+layout_mode = 2
 
 [node name="FutterhausLabel" type="Label" parent="."]
 offset_left = -40.0
 offset_top = -16.0
 offset_right = 43.0
 offset_bottom = -3.0
-text = "Futterhaus verwenden"
+text = "Use Feed House"

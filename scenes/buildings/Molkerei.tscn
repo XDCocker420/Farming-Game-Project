@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=4 uid="uid://r75uh477j4dy"]
 
 [ext_resource type="TileSet" uid="uid://cx31a5mrmu7ri" path="res://assets/tilesets/farm_buildings_tileset.tres" id="1_3njg8"]
-[ext_resource type="Script" uid="uid://b25kmlrl3v558" path="res://scripts/buildings/Molkerei.gd" id="1_8bkq5"]
-[ext_resource type="Texture2D" uid="uid://cohn1pgu6ly3p" path="res://assets/buildings/farm_buildings_all.png" id="2_fwgp6"]
+[ext_resource type="Script" uid="uid://m8xdfvpi2hin" path="res://scripts/buildings/Molkerei.gd" id="1_8bkq5"]
+[ext_resource type="Texture2D" uid="uid://cnv6enmtgp1dq" path="res://assets/buildings/farm_buildings_all.png" id="2_fwgp6"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_3njg8"]
 size = Vector2(130, 67)
@@ -77,4 +77,4 @@ offset_left = -38.0
 offset_top = -12.0
 offset_right = 30.0
 offset_bottom = 1.0
-text = "Molkerei betreten"
+text = "Enter Dairy"

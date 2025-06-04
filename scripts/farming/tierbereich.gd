@@ -5,7 +5,7 @@ extends Area2D
 @onready var door_area: Area2D = $Area2D
 @onready var door_collision:CollisionShape2D = $StaticBody2D/CollisionShape2D
 @onready var interact_range:Area2D = $InteractionArea
-@onready var ui:PanelContainer = $FeedingUi
+@onready var ui:PanelContainer = $CanvasLayer/FeedingUi
 @onready var text:Label = $Mode
 
 var in_interact_area:bool = false

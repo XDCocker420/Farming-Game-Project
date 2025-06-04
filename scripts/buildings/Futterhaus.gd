@@ -11,8 +11,8 @@ var in_door_area = false
 var in_garage_door_area = false
 
 @onready var feed_area: Area2D = $feedArea
-@onready var production_ui_feed = $production_ui_feed
-@onready var inventory_ui_feed = $inventory_ui_feed
+@onready var production_ui_feed = $CanvasLayer/HBoxContainer/production_ui_feed
+@onready var inventory_ui_feed = $CanvasLayer/HBoxContainer/inventory_ui_feed
 var player_in_feed_area: bool = false
 
 func _ready() -> void:

@@ -84,16 +84,14 @@ func save_exp_lvl() -> void:
 func load_game() -> void:
 	var saved_game:SavedData = ResourceLoader.load(SAVE_FILE_PATH)
 	if saved_game == null:
-		# For testing
-		#LevelingHandler.set_player_level(10)
-		# For production
-		LevelingHandler.set_player_level(1)
-		inventory.money = 100
+	# For testing
+		LevelingHandler.set_player_level(15)
+		inventory.money = 1000000
 		new_game = true
 		if player:
 			player.do_set_level()
 			player.do_set_money()
-		return
+			return
 
 	if player:
 		get_tree().call_group("dynamic_elements", "on_before_load_game")
@@ -373,8 +371,8 @@ func check_new_game():
 func create_new_game():
 	DirAccess.remove_absolute(SAVE_FILE_PATH)
 	inventory = Inventory.new()
-	inventory.money = 100
-	LevelingHandler.set_player_level(1)
+	inventory.money = 1000000
+	LevelingHandler.set_player_level(15)
 	LevelingHandler.set_experience_in_current_level(0)
 
 
