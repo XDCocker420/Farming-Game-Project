@@ -34,5 +34,5 @@ func _ready():
 				var price_label = price_label_scene.instantiate()
 				slot.add_child(price_label)
 				# Position the label at the top of the slot
-				price_label.position = Vector2(0, -10)
-				price_label.size.x = slot.size.x
+                               price_label.position = Vector2(0, -10)
+                               price_label.size.x = slot.size.x
