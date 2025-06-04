@@ -87,14 +87,13 @@ func load_game() -> void:
 		# For testing
 		#LevelingHandler.set_player_level(10)
 		# For production
-		LevelingHandler.set_player_level(1)
-		inventory.money = 100
-		SaveGame.add_money(100)
-		new_game = true
-		if player:
-			player.do_set_level()
-			player.do_set_money()
-		return
+               LevelingHandler.set_player_level(1)
+               inventory.money = 100
+               new_game = true
+               if player:
+                       player.do_set_level()
+                       player.do_set_money()
+               return
 	
 	if player:
 		get_tree().call_group("dynamic_elements", "on_before_load_game")
@@ -372,7 +371,11 @@ func check_new_game():
 	return new_game
 	
 func create_new_game():
-	DirAccess.remove_absolute(SAVE_FILE_PATH)
+       DirAccess.remove_absolute(SAVE_FILE_PATH)
+       inventory = Inventory.new()
+       inventory.money = 100
+       LevelingHandler.set_player_level(1)
+       LevelingHandler.set_experience_in_current_level(0)
 
 
 func _on_auto_save_timeout() -> void:
