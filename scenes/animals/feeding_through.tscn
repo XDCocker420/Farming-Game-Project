@@ -1,7 +1,7 @@
 [gd_scene load_steps=9 format=3 uid="uid://db625opwfqpf8"]
 
 [ext_resource type="Script" uid="uid://d01ddk4pxjnb6" path="res://scripts/animals/feeding_through.gd" id="1_euqs8"]
-[ext_resource type="Texture2D" uid="uid://dvfngkj6gf87v" path="res://assets/buildings/farm_buildings_all.png" id="2_75g8j"]
+[ext_resource type="Texture2D" uid="uid://cnv6enmtgp1dq" path="res://assets/buildings/farm_buildings_all.png" id="2_75g8j"]
 [ext_resource type="PackedScene" uid="uid://dp8tqjk2yeuf8" path="res://scenes/ui/ui_feeding_through.tscn" id="3_fru6v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_wvmfj"]
