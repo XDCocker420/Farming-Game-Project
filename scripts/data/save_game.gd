@@ -234,33 +234,21 @@ func add_market_slot(id:int, item:String, count:int=1, amount_to_sell:int=1) -> 
 	temp.count = count
 	temp.price = amount_to_sell
 
-	# Berechne die Verkaufszeit basierend auf Preis und Menge
-	# Wir verwenden MAX_PRICE (den höchstmöglichen Preis) und MAX_COUNT (maximale Stückzahl)
-	# um eine Skala zu erstellen, die von 1 Minute bis 1 Stunde reicht
-	var MAX_PRICE = 100 # Annahme: maximaler Preis ist 100
-	var MAX_COUNT = 99  # Maximale Anzahl in einem Slot (aus dem Spiel-Code)
-	var MIN_TIME = 60   # 1 Minute in Sekunden
-	var MAX_TIME = 3600 # 1 Stunde in Sekunden
+	# Verkaufszeit wird anhand des Gesamtpreises (Preis * Menge)
+	# linear zwischen 30 Sekunden und 30 Minuten berechnet.
+	var total_price = amount_to_sell * count
+	var MIN_PRICE = 1
+	var MAX_PRICE_TOTAL = 990
+	var MIN_TIME = 30    # Sekunden
+	var MAX_TIME = 1800  # 30 Minuten in Sekunden
 
-	# Preisfaktor: wie nahe ist der Preis am Maximum (0.0 bis 1.0)
-	var price_factor = float(amount_to_sell) / MAX_PRICE
-	price_factor = clamp(price_factor, 0.0, 1.0)
+	var clamped_price = clamp(total_price, MIN_PRICE, MAX_PRICE_TOTAL)
+	var price_factor = float(clamped_price - MIN_PRICE) / float(MAX_PRICE_TOTAL - MIN_PRICE)
+	var sell_time = MIN_TIME + int(round((MAX_TIME - MIN_TIME) * price_factor))
 
-	# Mengenfaktor: wie nahe ist die Menge am Maximum (0.0 bis 1.0)
-	var count_factor = float(count) / MAX_COUNT
-	count_factor = clamp(count_factor, 0.0, 1.0)
-
-	# Kombinierter Faktor (Beide Faktoren sind gleich wichtig)
-	var combined_factor = (price_factor + count_factor) / 2.0
-
-	# Berechne die Zeit zwischen MIN_TIME und MAX_TIME basierend auf dem kombinierten Faktor
-	var time_range = MAX_TIME - MIN_TIME
-	var sell_time = MIN_TIME + (time_range * combined_factor)
-
-	# Speichere Zeitinformationen
-	temp.sell_time_seconds = int(sell_time)
+	temp.sell_time_seconds = sell_time
 	temp.start_time_ms = Time.get_ticks_msec()
-	temp.end_time_ms = temp.start_time_ms + (temp.sell_time_seconds * 1000) # Konvertierung zu ms
+	temp.end_time_ms = temp.start_time_ms + (temp.sell_time_seconds * 1000)
 
 	market_sav.append(temp)
 	return temp

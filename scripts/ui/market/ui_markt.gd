@@ -130,7 +130,7 @@ func _on_slot_selected(slot: PanelContainer) -> void:
 
 
 # WIEDERHERGESTELLT und angepasst: Verwendet _currently_targeted_slot_for_selling
-func _on_ui_selection_accept(item_name: String, amount_to_sell: int, total_price: int):
+func _on_ui_selection_accept(item_name: String, amount_to_sell: int, price_per_item: int):
 	# 1. Prüfen, ob ein Ziel-Slot für den Verkauf ausgewählt wurde
 	if not _currently_targeted_slot_for_selling:
 		printerr("ui_markt.gd: Kein Markt-Slot wurde für den Verkauf ausgewählt. Bitte zuerst einen leeren Slot im Markt anklicken.")
@@ -188,21 +188,15 @@ func _on_ui_selection_accept(item_name: String, amount_to_sell: int, total_price
 		if ui_selection_node and ui_selection_node.has_method("reload_slots"): ui_selection_node.reload_slots()
 		_currently_targeted_slot_for_selling = null
 		return
-	var amount_label = target_slot.get_node("amount")
-	amount_label.text = str(amount_to_sell)
-	amount_label.show()
-	target_slot.set("item_name", item_name)
-	target_slot.set("price", total_price) 
-	target_slot.set("amount_in_slot", amount_to_sell)
+		var amount_label = target_slot.get_node("amount")
+		amount_label.text = str(amount_to_sell)
+		amount_label.show()
+		target_slot.set("item_name", item_name)
+		var total_price = price_per_item * amount_to_sell
+		target_slot.set("price", total_price)
+		target_slot.set("amount_in_slot", amount_to_sell)
 
-	# 5. Item im SaveGame für den Markt registrieren (Logik von vorheriger funktionierender Version)
-	var price_per_item: int
-	if amount_to_sell > 0:
-		price_per_item = int(round(float(total_price) / amount_to_sell))
-	else:
-		price_per_item = 0 
-	if price_per_item <= 0 and total_price > 0:
-		price_per_item = 1
+       # 5. Item im SaveGame für den Markt registrieren (Logik von vorheriger funktionierender Version)
 	var market_slot_id = target_slot.get_instance_id()
 	if SaveGame.has_method("add_market_slot"):
 		var saved_market_item_ref = SaveGame.add_market_slot(market_slot_id, item_name, amount_to_sell, price_per_item)
