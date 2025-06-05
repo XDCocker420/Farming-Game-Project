@@ -133,9 +133,6 @@ vertices = PackedVector2Array(-24, -32, 24, -32, 24, 8, -24, 8)
 position = Vector2(0, 16)
 shape = SubResource("RectangleShape2D_1g2wl")
 
-<<<<<<< Updated upstream
-[node name="inventory_ui_feed" parent="." instance=ExtResource("4_ss63k")]
-=======
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer"]
@@ -153,7 +150,6 @@ grow_vertical = 2
 mouse_filter = 2
 
 [node name="inventory_ui_feed" parent="CanvasLayer/HBoxContainer" instance=ExtResource("4_ss63k")]
->>>>>>> Stashed changes
 z_index = 1
 layout_mode = 2
 
